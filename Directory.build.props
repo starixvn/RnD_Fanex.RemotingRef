@@ -1,0 +1,28 @@
+<Project>
+    <PropertyGroup>
+        <Authors>R&amp;D Team</Authors>
+        <Company>Nexcel Solutions</Company>
+        <Copyright>2017 Nexdev</Copyright>
+        <PackageProjectUrl>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref</PackageProjectUrl>
+        <RepositoryUrl>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReleaseNotes>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref/milestones/1</PackageReleaseNotes>
+        <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
+        <DefaultLanguage>en-US</DefaultLanguage>
+        <IncludeSymbols>false</IncludeSymbols>
+        <Version>1.0.0-beta1</Version>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>AD0001</NoWarn>
+        <Features>IOperation</Features>
+        <CodeAnalysisRuleSet>$(SolutionDir)\Fanex.RemotingRef.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <Reference Include="System.Core" Pack="false" />
+    </ItemGroup>
+</Project>

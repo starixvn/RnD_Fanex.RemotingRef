@@ -1,0 +1,11 @@
+<Project>
+    <Import Project="..\Directory.Build.props" />
+    <ItemGroup>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="6.6.0.3969">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <Reference Include="System.Core" Pack="false" />
+    </ItemGroup>
+</Project>
