@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Ref\**" />
+    <Content Remove="Ref\**" />
+    <EmbeddedResource Remove="Ref\**" />
+    <None Remove="Ref\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BundlerMinifier.Core" Version="2.6.362" />
+    <PackageReference Include="MessagePack" Version="1.7.2" />
+    <PackageReference Include="MessagePackAnalyzer" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IBCFile">
+      <HintPath>Ref\IBCFile.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>Ref\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Targets.RabbitMQ">
+      <HintPath>Ref\NLog.Targets.RabbitMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="ONEbook.Common.Caching">
+      <HintPath>Ref\ONEbook.Common.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="ONEbook.Common.Caching.Redis">
+      <HintPath>Ref\ONEbook.Common.Caching.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ONEbook.Common.Caching.RedisLib">
+      <HintPath>Ref\ONEbook.Common.Caching.RedisLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ONEbook.Common.DataPlus">
+      <HintPath>Ref\ONEbook.Common.DataPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ONEbook.Product.Site.Common.LocalCache">
+      <HintPath>Ref\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
+    </Reference>
+    <Reference Include="RefDataModel">
+      <HintPath>Ref\RefDataModel.dll</HintPath>
+    </Reference>
+    <Reference Include="RefNewData">
+      <HintPath>Ref\RefNewData.dll</HintPath>
+    </Reference>
+    <Reference Include="RefRelayRemoteStation">
+      <HintPath>Ref\RefRelayRemoteStation.dll</HintPath>
+    </Reference>
+    <Reference Include="RemotingRef">
+      <HintPath>Ref\RemotingRef.dll</HintPath>
+    </Reference>
+    <Reference Include="SPSRemoting">
+      <HintPath>Ref\SPSRemoting.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>Ref\StackExchange.Redis.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
