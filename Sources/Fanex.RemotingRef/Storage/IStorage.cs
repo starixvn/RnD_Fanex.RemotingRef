@@ -1,15 +1,16 @@
 ﻿namespace Fanex.RemotingRef.Storage
 {
-    using System;
+    using System.Collections.Generic;
 
-    public interface IStorage
+    internal interface IStorage
     {
-        TimeSpan TimeToLive { get; }
+        bool TryGet(
+            string key,
+            out IDictionary<string, string> result,
+            out bool needToRenew);
 
-        bool Contain(string key);
+        void Set(string key, IDictionary<string, string> value);
 
-        bool TryGet(string key, out object value);
-
-        void Set(string key, object value);
+        IList<CacheEntry> FilterOutOfDateEntries();
     }
 }

@@ -1,55 +1,52 @@
-﻿namespace Fanex.RemotingRef
+﻿namespace Fanex.RemotingRef.Storage
 {
     using System;
+    using System.Collections.Generic;
 
-    public class CacheEntry
+    internal class CacheEntry
     {
         private bool _isExpired;
-        private bool _isUpdating;
-
-        private bool _isTimeToUpdate;
+        private bool _isRenewing;
 
         public CacheEntry(
             string key,
-            object value,
+            IDictionary<string, string> value,
             TimeSpan timeToLive,
             TimeSpan timeToRenew,
             DateTimeOffset createdTime)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));
-            Value = value ?? throw new ArgumentNullException(nameof(value));
+            Value = value;
             TimeToLive = timeToLive;
             TimeToRenew = timeToRenew;
             CreatedTime = createdTime;
-            LastTouch = createdTime;
+            LastAccess = createdTime;
         }
 
         public string Key { get; }
 
-        public object Value { get; }
+        public IDictionary<string, string> Value { get; }
+
+        public DateTimeOffset CreatedTime { get; private set; }
+
+        public DateTimeOffset LastAccess { get; private set; }
 
         public TimeSpan TimeToLive { get; }
 
         public TimeSpan TimeToRenew { get; }
 
-        public DateTimeOffset CreatedTime { get; private set; }
-
-        internal DateTimeOffset LastTouch { get; private set; }
-
-        internal CachePriority Priority { get; }
-
         public void Touch(DateTimeOffset now)
-            => LastTouch = now;
+            => LastAccess = now;
 
         public void Expire()
             => _isExpired = true;
 
         public bool IsExpired(DateTimeOffset now)
-            => _isExpired || CheckForExpiration(now);
+            => _isExpired || MeetExpirationTime(now);
 
-        private bool CheckForExpiration(DateTimeOffset now)
+        private bool MeetExpirationTime(DateTimeOffset now)
         {
-            if ((now - LastTouch) >= TimeToLive)
+            if (now - LastAccess > TimeToLive)
             {
                 Expire();
 
@@ -59,33 +56,22 @@
             return false;
         }
 
-        public bool IsTimeToUpdate(DateTimeOffset now)
-            => _isTimeToUpdate || CheckForUpdateTime(now);
+        public bool NeedToRenew(DateTimeOffset now)
+            => !_isRenewing && IsFirstRenewal(now);
 
-        private bool CheckForUpdateTime(DateTimeOffset now)
+        private bool IsFirstRenewal(DateTimeOffset now)
         {
-            TimeSpan livingTime = now - CreatedTime;
-
-            if (_isUpdating)
+            if (now - CreatedTime > TimeToRenew)
             {
-                if ((livingTime - TimeSpan.FromMinutes(1)) > TimeToRenew)
-                {
-                    _isUpdating = false;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (livingTime > TimeToRenew)
-            {
-                _isTimeToUpdate = true;
+                _isRenewing = true;
 
                 return true;
             }
 
             return false;
         }
+
+        public bool ReleaseRenewingLock()
+            => _isRenewing = false;
     }
 }
