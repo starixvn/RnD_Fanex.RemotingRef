@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Storage
+﻿namespace Fanex.RemotingRef.TranslationStorage
 {
     using System;
 

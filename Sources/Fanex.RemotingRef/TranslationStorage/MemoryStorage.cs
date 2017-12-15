@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Storage
+﻿namespace Fanex.RemotingRef.TranslationStorage
 {
     using System;
     using System.Collections.Concurrent;
@@ -7,23 +7,28 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal sealed class MemoryStorage : IStorage, IDisposable
+    public sealed class MemoryStorage : IStorage, IDisposable
     {
         private const TaskCreationOptions TaskCreationOption = TaskCreationOptions.DenyChildAttach;
 
         private readonly ConcurrentDictionary<string, CacheEntry> _entries;
-        private readonly ISystemClock _clock;
         private readonly MemoryStorageOptions _options;
 
+        private int _entriesCount;
         private DateTimeOffset _lastExpirationScan;
         private bool _disposed;
 
+        public MemoryStorage(MemoryStorageOptions options)
+            : this(options, new SystemClock())
+        {
+        }
+
         public MemoryStorage(MemoryStorageOptions options, ISystemClock clock)
         {
-            _clock = clock ?? new SystemClock();
+            Clock = clock ?? new SystemClock();
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _entries = new ConcurrentDictionary<string, CacheEntry>();
-            _lastExpirationScan = _clock.UtcNow;
+            _lastExpirationScan = Clock.UtcNow;
 
             if (options.CompactOnMemoryPressure)
             {
@@ -31,38 +36,50 @@
             }
         }
 
-        private ICollection<KeyValuePair<string, CacheEntry>> EntriesCollection => _entries;
+        public ISystemClock Clock { get; }
 
-        public CacheEntry CreateEntry(string key, IDictionary<string, string> value)
+        public CacheEntry CreateEntry(string key, TranslationSet value, ExtraDataSet extraData)
         {
             CheckDisposed();
 
             return new CacheEntry(
                 key,
                 value,
+                extraData,
                 _options.TimeToLive,
                 _options.TimeToRenew,
-                _clock.UtcNow);
+                Clock.UtcNow);
         }
 
-        public IList<CacheEntry> FilterOutOfDateEntries()
+        public IList<CacheEntry> FilterOutOfDateEntries(int batchSize)
         {
             var outOfDateEntries = new List<CacheEntry>();
+            DateTimeOffset now = Clock.UtcNow;
+            IEnumerator<CacheEntry> enumerableValues = _entries.Values.GetEnumerator();
 
-            DateTimeOffset now = _clock.UtcNow;
-
-            foreach (var entry in _entries.Values)
+            try
             {
-                if (entry.NeedToRenew(now))
+                CacheEntry entry;
+
+                while (enumerableValues.MoveNext() && batchSize > outOfDateEntries.Count)
                 {
-                    outOfDateEntries.Add(entry);
+                    entry = enumerableValues.Current;
+
+                    if (entry.NeedToRenew(now))
+                    {
+                        outOfDateEntries.Add(entry);
+                    }
                 }
+            }
+            finally
+            {
+                enumerableValues.Dispose();
             }
 
             return outOfDateEntries;
         }
 
-        public bool TryGet(string key, out IDictionary<string, string> result, out bool needToRenew)
+        public bool TryGet(string key, out CacheEntry result)
         {
             if (key == null)
             {
@@ -72,9 +89,8 @@
             CheckDisposed();
 
             result = null;
-            needToRenew = false;
 
-            var now = _clock.UtcNow;
+            var now = Clock.UtcNow;
             var found = false;
 
             if (_entries.TryGetValue(key, out CacheEntry entry))
@@ -86,8 +102,7 @@
                 else
                 {
                     entry.Touch(now);
-                    result = entry.Value;
-                    needToRenew = entry.NeedToRenew(now);
+                    result = entry;
                     found = true;
                 }
             }
@@ -97,7 +112,7 @@
             return found;
         }
 
-        public void Set(string key, IDictionary<string, string> value)
+        public void Add(string key, CacheEntry entry)
         {
             if (_disposed)
             {
@@ -105,16 +120,13 @@
                 return;
             }
 
-            DateTimeOffset now = _clock.UtcNow;
-            var entry = CreateEntry(key, value);
-
             _entries.TryGetValue(key, out CacheEntry previousEntry);
 
-            if (!entry.IsExpired(now))
+            if (!entry.IsExpired(Clock.UtcNow))
             {
                 TryAddOrUpdateEntry(entry, previousEntry);
 
-                if (_entries.Count == _options.EntriesLimit)
+                if (_entriesCount > _options.EntriesLimit)
                 {
                     TriggerOvercapacityCompaction();
                 }
@@ -130,17 +142,24 @@
             StartScanForExpiredEntries();
         }
 
+        public void TryUpdate(CacheEntry entry, CacheEntry previousEntry)
+            => _entries.TryUpdate(entry.Key, entry, previousEntry);
+
         internal void TryAddOrUpdateEntry(CacheEntry entry, CacheEntry previousEntry)
         {
             if (previousEntry == null)
             {
-                _entries.TryAdd(entry.Key, entry);
+                if (_entries.TryAdd(entry.Key, entry))
+                {
+                    Interlocked.Increment(ref _entriesCount);
+                }
             }
             else
             {
-                if (!_entries.TryUpdate(entry.Key, entry, previousEntry))
+                if (!_entries.TryUpdate(entry.Key, entry, previousEntry)
+                    && _entries.TryAdd(entry.Key, entry))
                 {
-                    _entries.TryAdd(entry.Key, entry);
+                    Interlocked.Increment(ref _entriesCount);
                 }
             }
         }
@@ -150,7 +169,7 @@
 
         private static void ScanForExpiredEntries(MemoryStorage storage)
         {
-            DateTimeOffset now = storage._clock.UtcNow;
+            DateTimeOffset now = storage.Clock.UtcNow;
 
             foreach (CacheEntry entry in storage._entries.Values)
             {
@@ -163,7 +182,7 @@
 
         private void StartScanForExpiredEntries()
         {
-            DateTimeOffset now = _clock.UtcNow;
+            DateTimeOffset now = Clock.UtcNow;
 
             if (_options.ExpirationScanFrequency < now - _lastExpirationScan)
             {
@@ -201,10 +220,8 @@
 
         internal void Compact(double percentage)
         {
-            var removalCountTarget = (int)(_entries.Count * percentage);
-            var entriesToRemove = CollectExpiredEntries();
-
-            ExpirePriorityBucket(removalCountTarget, ref entriesToRemove);
+            var removalCountTarget = (int)(_entriesCount * percentage);
+            var entriesToRemove = CollectRarelyAccessedBucket(removalCountTarget);
 
             foreach (CacheEntry entry in entriesToRemove)
             {
@@ -212,45 +229,40 @@
             }
         }
 
-        private void ExpirePriorityBucket(int removalCountTarget, ref List<CacheEntry> entriesToRemove)
+        private List<CacheEntry> CollectRarelyAccessedBucket(int removalCountTarget)
         {
-            if (removalCountTarget <= entriesToRemove.Count)
-            {
-                return;
-            }
-
+            var entriesToRemove = new List<CacheEntry>();
             IEnumerator<CacheEntry> rarelyAccessedEntries = _entries.Values.OrderBy(entry => entry.LastAccess).GetEnumerator();
 
-            while (rarelyAccessedEntries.MoveNext() && removalCountTarget > entriesToRemove.Count)
+            try
             {
-                CacheEntry entry = rarelyAccessedEntries.Current;
-                entry.Expire();
-                entriesToRemove.Add(entry);
-            }
-        }
+                CacheEntry entry;
 
-        private List<CacheEntry> CollectExpiredEntries()
-        {
-            var expiredEntries = new List<CacheEntry>();
-
-            DateTimeOffset now = _clock.UtcNow;
-
-            foreach (var entry in _entries.Values)
-            {
-                if (entry.IsExpired(now))
+                while (rarelyAccessedEntries.MoveNext() && removalCountTarget > entriesToRemove.Count)
                 {
-                    expiredEntries.Add(entry);
+                    entry = rarelyAccessedEntries.Current;
+                    entry.Expire();
+                    entriesToRemove.Add(entry);
                 }
             }
+            finally
+            {
+                rarelyAccessedEntries.Dispose();
+            }
 
-            return expiredEntries;
+            return entriesToRemove;
         }
 
         private void RemoveEntry(CacheEntry entry)
-            => EntriesCollection.Remove(new KeyValuePair<string, CacheEntry>(entry.Key, entry));
+        {
+            if (_entries.TryRemove(entry.Key, out _))
+            {
+                Interlocked.Decrement(ref _entriesCount);
+            }
+        }
 
         public void Dispose()
-        => _disposed = true;
+            => _disposed = true;
 
         private void CheckDisposed()
         {

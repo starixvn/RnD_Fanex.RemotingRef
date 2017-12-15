@@ -1,22 +1,23 @@
-﻿namespace Fanex.RemotingRef.Storage
+﻿namespace Fanex.RemotingRef.TranslationStorage
 {
     using System;
-    using System.Collections.Generic;
 
-    internal class CacheEntry
+    public class CacheEntry
     {
         private bool _isExpired;
         private bool _isRenewing;
 
-        public CacheEntry(
+        internal CacheEntry(
             string key,
-            IDictionary<string, string> value,
+            TranslationSet value,
+            ExtraDataSet extraData,
             TimeSpan timeToLive,
             TimeSpan timeToRenew,
             DateTimeOffset createdTime)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));
             Value = value;
+            ExtraData = extraData;
             TimeToLive = timeToLive;
             TimeToRenew = timeToRenew;
             CreatedTime = createdTime;
@@ -25,7 +26,7 @@
 
         public string Key { get; }
 
-        public IDictionary<string, string> Value { get; }
+        public TranslationSet Value { get; }
 
         public DateTimeOffset CreatedTime { get; private set; }
 
@@ -34,6 +35,8 @@
         public TimeSpan TimeToLive { get; }
 
         public TimeSpan TimeToRenew { get; }
+
+        internal ExtraDataSet ExtraData { get; }
 
         public void Touch(DateTimeOffset now)
             => LastAccess = now;
@@ -56,7 +59,7 @@
             return false;
         }
 
-        public bool NeedToRenew(DateTimeOffset now)
+        internal bool NeedToRenew(DateTimeOffset now)
             => !_isRenewing && IsFirstRenewal(now);
 
         private bool IsFirstRenewal(DateTimeOffset now)
@@ -71,7 +74,7 @@
             return false;
         }
 
-        public bool ReleaseRenewingLock()
+        internal bool ReleaseRenewingLock()
             => _isRenewing = false;
     }
 }

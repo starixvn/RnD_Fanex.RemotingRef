@@ -1,7 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Tests.Storage
 {
     using System;
-    using RemotingRef.Storage;
+    using RemotingRef.TranslationStorage;
 
     internal class SystemClockMock : ISystemClock
     {

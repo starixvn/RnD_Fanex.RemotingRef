@@ -1,18 +1,11 @@
 ﻿namespace Fanex.RemotingRef
 {
-    using System;
-    using System.Collections.Generic;
+    using TranslationStorage;
 
     public interface IDataTypeHandler
     {
-        TimeSpan SlidingTimeout { get; }
+        DataTypeHandlerOptions Options { get; }
 
-        TimeSpan RefreshInterval { get; }
-
-        Func<string, string> ValueFactory { get; }
-
-        Func<IList<string>, IDictionary<string, string>> UpdateByBatchHanlder { get; }
-
-        string Get(string key);
+        string Get(ExtraDataSet parameters, string languageCode, string defaultValue);
     }
 }

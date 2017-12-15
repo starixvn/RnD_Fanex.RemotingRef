@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Storage
+﻿namespace Fanex.RemotingRef.TranslationStorage
 {
     using System;
 
@@ -19,6 +19,6 @@
             = TimeSpan.FromMinutes(1);
 
         public double CompactPercentage { get; set; }
-            = 0.2;
+            = 0.1;
     }
 }
