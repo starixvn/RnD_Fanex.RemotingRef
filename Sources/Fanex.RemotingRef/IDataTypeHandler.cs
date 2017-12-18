@@ -6,6 +6,6 @@
     {
         DataTypeHandlerOptions Options { get; }
 
-        string Get(ExtraDataSet parameters, string languageCode, string defaultValue);
+        string Get(KeySet keySet, string languageCode);
     }
 }

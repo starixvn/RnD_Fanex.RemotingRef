@@ -2,15 +2,15 @@
 {
     using System;
 
-    public class MemoryStorageOptions
+    public class LocalStorageOptions
     {
-        public TimeSpan TimeToLive { get; set; }
+        public TimeSpan SlidingTimeout { get; set; }
             = TimeSpan.FromMinutes(10);
 
-        public TimeSpan TimeToRenew { get; set; }
+        public TimeSpan RecyclingInterval { get; set; }
             = TimeSpan.FromSeconds(40);
 
-        public int EntriesLimit { get; set; }
+        public int NumberOfEntriesLimit { get; set; }
             = 1000;
 
         public bool CompactOnMemoryPressure { get; set; }

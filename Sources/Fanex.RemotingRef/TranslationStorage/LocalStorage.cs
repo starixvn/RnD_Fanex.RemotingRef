@@ -7,23 +7,23 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class MemoryStorage : IStorage, IDisposable
+    public sealed class LocalStorage : IStorage, IDisposable
     {
         private const TaskCreationOptions TaskCreationOption = TaskCreationOptions.DenyChildAttach;
 
         private readonly ConcurrentDictionary<string, CacheEntry> _entries;
-        private readonly MemoryStorageOptions _options;
+        private readonly LocalStorageOptions _options;
 
         private int _entriesCount;
         private DateTimeOffset _lastExpirationScan;
         private bool _disposed;
 
-        public MemoryStorage(MemoryStorageOptions options)
+        public LocalStorage(LocalStorageOptions options)
             : this(options, new SystemClock())
         {
         }
 
-        public MemoryStorage(MemoryStorageOptions options, ISystemClock clock)
+        public LocalStorage(LocalStorageOptions options, ISystemClock clock)
         {
             Clock = clock ?? new SystemClock();
             _options = options ?? throw new ArgumentNullException(nameof(options));
@@ -38,16 +38,16 @@
 
         public ISystemClock Clock { get; }
 
-        public CacheEntry CreateEntry(string key, TranslationSet value, ExtraDataSet extraData)
+        public CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value)
         {
             CheckDisposed();
 
             return new CacheEntry(
                 key,
+                keySet,
                 value,
-                extraData,
-                _options.TimeToLive,
-                _options.TimeToRenew,
+                _options.SlidingTimeout,
+                _options.RecyclingInterval,
                 Clock.UtcNow);
         }
 
@@ -65,7 +65,7 @@
                 {
                     entry = enumerableValues.Current;
 
-                    if (entry.NeedToRenew(now))
+                    if (entry.NeedToRenew(now) && !entry.IsExpired(now))
                     {
                         outOfDateEntries.Add(entry);
                     }
@@ -112,21 +112,17 @@
             return found;
         }
 
-        public void Add(string key, CacheEntry entry)
+        public void Add(CacheEntry entry)
         {
-            if (_disposed)
-            {
-                // No-op instead of throwing since this is called during CacheEntry.Dispose
-                return;
-            }
+            CheckDisposed();
 
-            _entries.TryGetValue(key, out CacheEntry previousEntry);
+            _entries.TryGetValue(entry.Key, out CacheEntry previousEntry);
 
             if (!entry.IsExpired(Clock.UtcNow))
             {
                 TryAddOrUpdateEntry(entry, previousEntry);
 
-                if (_entriesCount > _options.EntriesLimit)
+                if (_entriesCount > _options.NumberOfEntriesLimit)
                 {
                     TriggerOvercapacityCompaction();
                 }
@@ -167,7 +163,7 @@
         private void TriggerOvercapacityCompaction()
             => ThreadPool.QueueUserWorkItem(state => DoMemoryPreassureCollection(state), this);
 
-        private static void ScanForExpiredEntries(MemoryStorage storage)
+        private static void ScanForExpiredEntries(LocalStorage storage)
         {
             DateTimeOffset now = storage.Clock.UtcNow;
 
@@ -189,7 +185,7 @@
                 _lastExpirationScan = now;
 
                 Task.Factory.StartNew(
-                    state => ScanForExpiredEntries(state as MemoryStorage),
+                    state => ScanForExpiredEntries(state as LocalStorage),
                     this,
                     CancellationToken.None,
                     TaskCreationOption,
@@ -206,7 +202,7 @@
                 return false;
             }
 
-            if (state is MemoryStorage storage)
+            if (state is LocalStorage storage)
             {
                 storage.Compact(_options.CompactPercentage);
 
@@ -255,7 +251,7 @@
 
         private void RemoveEntry(CacheEntry entry)
         {
-            if (_entries.TryRemove(entry.Key, out _))
+            if ((_entries as ICollection<KeyValuePair<string, CacheEntry>>).Remove(new KeyValuePair<string, CacheEntry>(entry.Key, entry)))
             {
                 Interlocked.Decrement(ref _entriesCount);
             }
@@ -268,7 +264,7 @@
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(typeof(MemoryStorage).FullName);
+                throw new ObjectDisposedException(typeof(LocalStorage).FullName);
             }
         }
     }

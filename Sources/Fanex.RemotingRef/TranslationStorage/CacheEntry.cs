@@ -7,36 +7,36 @@
         private bool _isExpired;
         private bool _isRenewing;
 
-        internal CacheEntry(
+        public CacheEntry(
             string key,
+            KeySet keySet,
             TranslationSet value,
-            ExtraDataSet extraData,
-            TimeSpan timeToLive,
-            TimeSpan timeToRenew,
+            TimeSpan slidingTimeout,
+            TimeSpan recyclingInterval,
             DateTimeOffset createdTime)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));
+            OriginalKeySet = keySet ?? throw new ArgumentNullException(nameof(keySet));
             Value = value;
-            ExtraData = extraData;
-            TimeToLive = timeToLive;
-            TimeToRenew = timeToRenew;
+            SlidingTimeout = slidingTimeout;
+            RecyclingInterval = recyclingInterval;
             CreatedTime = createdTime;
             LastAccess = createdTime;
         }
 
         public string Key { get; }
 
-        public TranslationSet Value { get; }
-
         public DateTimeOffset CreatedTime { get; private set; }
+
+        public TranslationSet Value { get; }
 
         public DateTimeOffset LastAccess { get; private set; }
 
-        public TimeSpan TimeToLive { get; }
+        public TimeSpan SlidingTimeout { get; }
 
-        public TimeSpan TimeToRenew { get; }
+        public TimeSpan RecyclingInterval { get; }
 
-        internal ExtraDataSet ExtraData { get; }
+        public KeySet OriginalKeySet { get; }
 
         public void Touch(DateTimeOffset now)
             => LastAccess = now;
@@ -49,7 +49,7 @@
 
         private bool MeetExpirationTime(DateTimeOffset now)
         {
-            if (now - LastAccess > TimeToLive)
+            if (now - LastAccess > SlidingTimeout)
             {
                 Expire();
 
@@ -59,12 +59,12 @@
             return false;
         }
 
-        internal bool NeedToRenew(DateTimeOffset now)
-            => !_isRenewing && IsFirstRenewal(now);
+        public bool NeedToRenew(DateTimeOffset now)
+            => !_isRenewing && MeetRenewalTime(now);
 
-        private bool IsFirstRenewal(DateTimeOffset now)
+        private bool MeetRenewalTime(DateTimeOffset now)
         {
-            if (now - CreatedTime > TimeToRenew)
+            if (now - CreatedTime > RecyclingInterval)
             {
                 _isRenewing = true;
 
@@ -74,7 +74,7 @@
             return false;
         }
 
-        internal bool ReleaseRenewingLock()
+        public bool ReleaseRenewingLock()
             => _isRenewing = false;
     }
 }

@@ -6,9 +6,9 @@
     {
         ISystemClock Clock { get; }
 
-        CacheEntry CreateEntry(string key, TranslationSet value, ExtraDataSet extraData);
+        CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value);
 
-        void Add(string key, CacheEntry entry);
+        void Add(CacheEntry entry);
 
         bool TryGet(string key, out CacheEntry result);
 

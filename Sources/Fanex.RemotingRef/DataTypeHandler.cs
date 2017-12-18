@@ -13,42 +13,48 @@
         public DataTypeHandler(DataTypeHandlerOptions options)
         {
             Options = options ?? throw new ArgumentNullException(nameof(options));
-            _localStorage = new MemoryStorage(options);
+            _localStorage = new LocalStorage(options);
+        }
+
+        internal DataTypeHandler(DataTypeHandlerOptions options, IStorage storage)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+            _localStorage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
         public DataTypeHandlerOptions Options { get; }
 
-        public string Get(ExtraDataSet parameters, string languageCode, string defaultValue)
+        public string Get(KeySet keySet, string languageCode)
         {
             string result = null;
-            string key = Options.KeyFactory(parameters);
+            string key = keySet.ToHashKey();
 
-            if (_localStorage.TryGet(key, out CacheEntry cachedEntry) && cachedEntry != null)
+            if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
                 result = cachedEntry.Value[languageCode] ?? cachedEntry.Value[DataTypeHandlerOptions.DefaultLanguage];
 
                 if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
                 {
-                    TriggerSyncCachedData(cachedEntry);
+                    TriggerSyncDataProcess(cachedEntry);
                 }
             }
             else
             {
-                TranslationSet newTranslationSet = Options.ValueFactory(parameters);
+                TranslationSet newTranslationSet = Options.ValueFactory(keySet);
 
                 if (newTranslationSet != null)
                 {
-                    CacheEntry newEntry = _localStorage.CreateEntry(key, newTranslationSet, parameters);
+                    CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
-                    _localStorage.Add(key, newEntry);
+                    _localStorage.Add(newEntry);
                     result = newTranslationSet[languageCode] ?? newTranslationSet[DataTypeHandlerOptions.DefaultLanguage];
                 }
             }
 
-            return result ?? defaultValue;
+            return result;
         }
 
-        private void TriggerSyncCachedData(CacheEntry rootEntry)
+        private void TriggerSyncDataProcess(CacheEntry rootEntry)
             => ThreadPool.QueueUserWorkItem(SyncCachedData, rootEntry);
 
         private void SyncCachedData(object state)
@@ -59,28 +65,44 @@
 
                 batch.Add(rootEntry);
 
-                IList<ExtraDataSet> parameterSets = batch.Select(item => item.ExtraData).ToList();
+                IList<KeySet> parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
                 IDictionary<string, TranslationSet> results = Options.SyncDataHandler(parameterSets);
 
                 if (results != null && results.Count > 0)
                 {
                     SyncDataInStorage(batch, results);
                 }
+                else
+                {
+                    ReleaseRenewingLocks(batch);
+                }
             }
         }
 
-        private void SyncDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newDataMaps)
+        private void SyncDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
         {
             foreach (CacheEntry entry in existingEntries)
             {
                 string key = entry.Key;
 
-                if (newDataMaps.ContainsKey(key))
+                if (newEntryMaps.ContainsKey(key))
                 {
-                    CacheEntry updatedEntry = _localStorage.CreateEntry(key, newDataMaps[key], entry.ExtraData);
+                    CacheEntry updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newEntryMaps[key]);
 
-                    _localStorage.TryUpdate(entry, updatedEntry);
+                    _localStorage.TryUpdate(updatedEntry, entry);
                 }
+                else
+                {
+                    entry.ReleaseRenewingLock();
+                }
+            }
+        }
+
+        private static void ReleaseRenewingLocks(IList<CacheEntry> lockedEntries)
+        {
+            foreach (CacheEntry lockedEntry in lockedEntries)
+            {
+                lockedEntry.ReleaseRenewingLock();
             }
         }
     }
