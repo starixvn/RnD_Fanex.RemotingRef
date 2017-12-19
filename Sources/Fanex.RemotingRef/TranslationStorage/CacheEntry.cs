@@ -26,6 +26,8 @@
 
         public string Key { get; }
 
+        public KeySet OriginalKeySet { get; }
+
         public DateTimeOffset CreatedTime { get; private set; }
 
         public TranslationSet Value { get; }
@@ -35,8 +37,6 @@
         public TimeSpan SlidingTimeout { get; }
 
         public TimeSpan RecyclingInterval { get; }
-
-        public KeySet OriginalKeySet { get; }
 
         public void Touch(DateTimeOffset now)
             => LastAccess = now;

@@ -6,6 +6,6 @@
     {
         DataTypeHandlerOptions Options { get; }
 
-        string Get(KeySet keySet, string languageCode);
+        object Get(KeySet keySet, string languageCode);
     }
 }

@@ -24,9 +24,9 @@
 
         public DataTypeHandlerOptions Options { get; }
 
-        public string Get(KeySet keySet, string languageCode)
+        public object Get(KeySet keySet, string languageCode)
         {
-            string result = null;
+            object result = null;
             string key = keySet.ToHashKey();
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
