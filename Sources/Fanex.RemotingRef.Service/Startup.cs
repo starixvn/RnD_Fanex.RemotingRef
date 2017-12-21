@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Service
 {
+    using Fanex.RemotingRef.Service.Utilities.Serialization;
     using global::RemotingRef;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IRefData>(new RefNewDataHandler());
+            services.AddSingleton<ISerializer>(new MessagePackSerializer());
             services.AddMvc();
         }
 
