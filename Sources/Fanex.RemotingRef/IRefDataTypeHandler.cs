@@ -2,9 +2,9 @@
 {
     using TranslationStorage;
 
-    public interface IDataTypeHandler
+    public interface IRefDataTypeHandler
     {
-        DataTypeHandlerOptions Options { get; }
+        RefDataTypeHandlerOptions Options { get; }
 
         object Get(KeySet keySet, string languageCode);
     }

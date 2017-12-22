@@ -3,26 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
+    using System.Threading.Tasks;
     using TranslationStorage;
 
-    public class DataTypeHandler : IDataTypeHandler
+    public class RefDataTypeHandler : IRefDataTypeHandler
     {
         private readonly IStorage _localStorage;
 
-        public DataTypeHandler(DataTypeHandlerOptions options)
-        {
-            Options = options ?? throw new ArgumentNullException(nameof(options));
-            _localStorage = new LocalStorage(options);
-        }
-
-        internal DataTypeHandler(DataTypeHandlerOptions options, IStorage storage)
+        public RefDataTypeHandler(RefDataTypeHandlerOptions options, IStorage storage)
         {
             Options = options ?? throw new ArgumentNullException(nameof(options));
             _localStorage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
-        public DataTypeHandlerOptions Options { get; }
+        public RefDataTypeHandlerOptions Options { get; }
 
         public object Get(KeySet keySet, string languageCode)
         {
@@ -31,7 +25,7 @@
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
-                result = cachedEntry.Value[languageCode] ?? cachedEntry.Value[DataTypeHandlerOptions.DefaultLanguage];
+                result = GetTranslationInSpecificLanguage(cachedEntry.Value, languageCode);
 
                 if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
                 {
@@ -47,17 +41,20 @@
                     CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
                     _localStorage.Add(newEntry);
-                    result = newTranslationSet[languageCode] ?? newTranslationSet[DataTypeHandlerOptions.DefaultLanguage];
+                    result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
                 }
             }
 
             return result;
         }
 
-        private void TriggerSyncDataProcess(CacheEntry rootEntry)
-            => ThreadPool.QueueUserWorkItem(SyncCachedData, rootEntry);
+        private static object GetTranslationInSpecificLanguage(TranslationSet translations, string languageCode)
+            => translations.ContainsKey(languageCode) ? translations[languageCode] : translations[RefDataTypeHandlerOptions.DefaultLanguage];
 
-        private void SyncCachedData(object state)
+        private void TriggerSyncDataProcess(CacheEntry rootEntry)
+            => Task.Run(() => SyncCachedDataAsync(rootEntry));
+
+        private async Task SyncCachedDataAsync(object state)
         {
             if (state is CacheEntry rootEntry)
             {
@@ -66,7 +63,7 @@
                 batch.Add(rootEntry);
 
                 IList<KeySet> parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
-                IDictionary<string, TranslationSet> results = Options.SyncDataHandler(parameterSets);
+                IDictionary<string, TranslationSet> results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
 
                 if (results != null && results.Count > 0)
                 {

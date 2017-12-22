@@ -9,19 +9,12 @@
 
     public sealed class LocalStorage : IStorage, IDisposable
     {
-        private const TaskCreationOptions TaskCreationOption = TaskCreationOptions.DenyChildAttach;
-
         private readonly ConcurrentDictionary<string, CacheEntry> _entries;
         private readonly LocalStorageOptions _options;
 
         private int _entriesCount;
         private DateTimeOffset _lastExpirationScan;
         private bool _disposed;
-
-        public LocalStorage(LocalStorageOptions options)
-            : this(options, new SystemClock())
-        {
-        }
 
         public LocalStorage(LocalStorageOptions options, ISystemClock clock)
         {
@@ -55,15 +48,15 @@
         {
             var outOfDateEntries = new List<CacheEntry>();
             DateTimeOffset now = Clock.UtcNow;
-            IEnumerator<CacheEntry> enumerableValues = _entries.Values.GetEnumerator();
+            IEnumerator<CacheEntry> enumerableEntries = _entries.Values.OrderByDescending(entry => entry.LastAccess).GetEnumerator();
 
             try
             {
                 CacheEntry entry;
 
-                while (enumerableValues.MoveNext() && batchSize > outOfDateEntries.Count)
+                while (enumerableEntries.MoveNext() && batchSize > outOfDateEntries.Count)
                 {
-                    entry = enumerableValues.Current;
+                    entry = enumerableEntries.Current;
 
                     if (entry.NeedToRenew(now) && !entry.IsExpired(now))
                     {
@@ -73,7 +66,7 @@
             }
             finally
             {
-                enumerableValues.Dispose();
+                enumerableEntries.Dispose();
             }
 
             return outOfDateEntries;
@@ -122,7 +115,7 @@
             {
                 TryAddOrUpdateEntry(entry, previousEntry);
 
-                if (_entriesCount > _options.NumberOfEntriesLimit)
+                if (_entriesCount >= _options.NumberOfEntriesLimit)
                 {
                     TriggerOvercapacityCompaction();
                 }
@@ -184,27 +177,17 @@
             {
                 _lastExpirationScan = now;
 
-                Task.Factory.StartNew(
-                    state => ScanForExpiredEntries(state as LocalStorage),
-                    this,
-                    CancellationToken.None,
-                    TaskCreationOption,
-                    TaskScheduler.Default);
+                Task.Run(() => ScanForExpiredEntries(this));
             }
         }
 
 #pragma warning disable S3241 // Methods should not return values that are never used
 
-        private bool DoMemoryPreassureCollection(object state)
+        private static bool DoMemoryPreassureCollection(object state)
         {
-            if (_disposed)
+            if (state is LocalStorage storage && !storage._disposed)
             {
-                return false;
-            }
-
-            if (state is LocalStorage storage)
-            {
-                storage.Compact(_options.CompactPercentage);
+                storage.Compact(storage._options.CompactPercentage);
 
                 return true;
             }

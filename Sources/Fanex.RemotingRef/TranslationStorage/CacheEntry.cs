@@ -28,15 +28,15 @@
 
         public KeySet OriginalKeySet { get; }
 
-        public DateTimeOffset CreatedTime { get; private set; }
-
         public TranslationSet Value { get; }
-
-        public DateTimeOffset LastAccess { get; private set; }
 
         public TimeSpan SlidingTimeout { get; }
 
         public TimeSpan RecyclingInterval { get; }
+
+        public DateTimeOffset CreatedTime { get; private set; }
+
+        public DateTimeOffset LastAccess { get; private set; }
 
         public void Touch(DateTimeOffset now)
             => LastAccess = now;
