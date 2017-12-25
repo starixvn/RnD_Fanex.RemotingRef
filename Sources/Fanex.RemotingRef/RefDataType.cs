@@ -3,13 +3,23 @@
     public enum RefDataType
     {
         BetTypeName,
-        ParentBetTypeId,
         SportName,
-        LeagueName,
         TeamName,
+        TeamName3rd,
+        LeagueName,
+        LeagueName3rd,
+        CountryName,
+        OddsTypeName,
+        ParentBetTypeId,
         RefResource,
+        FncIndexName,
+        CasinoBetItem,
+        RouletteBetItem,
         KenoBetType,
         KenoBetChoice,
-        CountryName
+        FastMarketsChoice,
+        FastMarkets225Result,
+        LotteryBetType,
+        LotteryBetChoice
     }
 }

@@ -21,7 +21,18 @@
 
         private static RefDataTypeContainer CurrentInstance { get; set; }
 
-        internal static Uri ServiceUri => CurrentInstance._remotingRefServiceUri;
+        public static Uri ServiceUri
+        {
+            get
+            {
+                if (CurrentInstance == null)
+                {
+                    throw new InvalidOperationException($"Method '{nameof(RefDataTypeContainer.ConnectTo)}' has not been called.");
+                }
+
+                return CurrentInstance._remotingRefServiceUri;
+            }
+        }
 
         private Dictionary<RefDataType, RefDataTypeHandlerOptions> PreRegisterSpecialDataTypes()
         {

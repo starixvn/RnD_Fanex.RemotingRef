@@ -8,13 +8,13 @@
         public const string DefaultLanguage = "en-US";
         private static string[] supportedLanguageCodes = { DefaultLanguage, "zh-TW", "zh-CN", "ja-JP", "th-TH", "ko-KR", "vi-VN", "zh-Hans" };
 
-        public static string[] SupportedLanguageCodes
+        internal static string[] SupportedLanguageCodes
         {
             get => IsMultiLanguagesSupported ? supportedLanguageCodes : new[] { DefaultLanguage };
-            internal set => supportedLanguageCodes = value;
+            set => supportedLanguageCodes = value;
         }
 
-        public static bool IsMultiLanguagesSupported { get; internal set; }
+        internal static bool IsMultiLanguagesSupported { get; set; }
             = true;
 
         internal RequestTranslationSetDelegate ValueFactory { get; set; }

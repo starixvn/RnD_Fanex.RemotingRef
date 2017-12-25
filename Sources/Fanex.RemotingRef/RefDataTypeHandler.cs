@@ -22,10 +22,11 @@
         {
             object result = null;
             string key = keySet.ToHashKey();
+            string expectedLanguageCode = languageCode ?? RefDataTypeHandlerOptions.DefaultLanguage;
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
-                result = GetTranslationInSpecificLanguage(cachedEntry.Value, languageCode);
+                result = GetTranslationInSpecificLanguage(cachedEntry.Value, expectedLanguageCode);
 
                 if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
                 {
@@ -41,7 +42,7 @@
                     CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
                     _localStorage.Add(newEntry);
-                    result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
+                    result = GetTranslationInSpecificLanguage(newEntry.Value, expectedLanguageCode);
                 }
             }
 
