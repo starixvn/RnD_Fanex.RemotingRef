@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class LocalStorage : IStorage, IDisposable
+    internal sealed class LocalStorage : IStorage, IDisposable
     {
         private readonly ConcurrentDictionary<string, CacheEntry> _entries;
         private readonly LocalStorageOptions _options;
@@ -134,7 +134,7 @@
         public void TryUpdate(CacheEntry entry, CacheEntry previousEntry)
             => _entries.TryUpdate(entry.Key, entry, previousEntry);
 
-        internal void TryAddOrUpdateEntry(CacheEntry entry, CacheEntry previousEntry)
+        public void TryAddOrUpdateEntry(CacheEntry entry, CacheEntry previousEntry)
         {
             if (previousEntry == null)
             {
@@ -156,6 +156,18 @@
         private void TriggerOvercapacityCompaction()
             => ThreadPool.QueueUserWorkItem(state => DoMemoryPreassureCollection(state), this);
 
+        private void StartScanForExpiredEntries()
+        {
+            DateTimeOffset now = Clock.UtcNow;
+
+            if (_options.ExpirationScanFrequency < now - _lastExpirationScan)
+            {
+                _lastExpirationScan = now;
+
+                Task.Run(() => ScanForExpiredEntries(this));
+            }
+        }
+
         private static void ScanForExpiredEntries(LocalStorage storage)
         {
             DateTimeOffset now = storage.Clock.UtcNow;
@@ -166,18 +178,6 @@
                 {
                     storage.RemoveEntry(entry);
                 }
-            }
-        }
-
-        private void StartScanForExpiredEntries()
-        {
-            DateTimeOffset now = Clock.UtcNow;
-
-            if (_options.ExpirationScanFrequency < now - _lastExpirationScan)
-            {
-                _lastExpirationScan = now;
-
-                Task.Run(() => ScanForExpiredEntries(this));
             }
         }
 
@@ -197,7 +197,7 @@
 
 #pragma warning restore S3241 // Methods should not return values that are never used
 
-        internal void Compact(double percentage)
+        public void Compact(double percentage)
         {
             var removalCountTarget = (int)(_entriesCount * percentage);
             var entriesToRemove = CollectRarelyAccessedBucket(removalCountTarget);

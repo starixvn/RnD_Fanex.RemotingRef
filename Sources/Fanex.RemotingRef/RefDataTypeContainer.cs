@@ -19,8 +19,6 @@
             _remotingRefServiceUri = remotingRefServiceUri;
         }
 
-        private static RefDataTypeContainer CurrentInstance { get; set; }
-
         public static Uri ServiceUri
         {
             get
@@ -33,6 +31,8 @@
                 return CurrentInstance._remotingRefServiceUri;
             }
         }
+
+        private static RefDataTypeContainer CurrentInstance { get; set; }
 
         private Dictionary<RefDataType, RefDataTypeHandlerOptions> PreRegisterSpecialDataTypes()
         {
@@ -71,34 +71,29 @@
             return CurrentInstance;
         }
 
-        public static IRefDataTypeHandler TryResolveDataTypeHandler(
+        internal static IRefDataTypeHandler TryResolveDataTypeHandler(
             RefDataType dataType,
             RequestTranslationSetDelegate valueFactory,
             SyncTranslationSetsDelegate syncDataHandler)
         {
-            if (CurrentInstance._registeredDataTypeHandlers.TryGetValue(dataType, out IRefDataTypeHandler existingHandler))
-            {
-                return existingHandler;
-            }
+            IRefDataTypeHandler handler = CurrentInstance._registeredDataTypeHandlers.GetOrAdd(
+                dataType,
+                checkingDataType => CreateRefDataHandler(checkingDataType, valueFactory, syncDataHandler));
 
+            return handler;
+        }
+
+        private static IRefDataTypeHandler CreateRefDataHandler(
+            RefDataType dataType,
+            RequestTranslationSetDelegate valueFactory,
+            SyncTranslationSetsDelegate syncDataHandler)
+        {
             RefDataTypeHandlerOptions options = TryResolveDataTypeHandlerOptions(dataType);
 
             options.ValueFactory = valueFactory ?? throw new ArgumentNullException(nameof(valueFactory));
             options.SyncHandler = syncDataHandler ?? throw new ArgumentNullException(nameof(syncDataHandler));
 
-            var newHandler = new RefDataTypeHandler(options, new LocalStorage(options, new SystemClock()));
-
-            if (CurrentInstance._registeredDataTypeHandlers.TryAdd(dataType, newHandler))
-            {
-                return newHandler;
-            }
-
-            if (CurrentInstance._registeredDataTypeHandlers.TryGetValue(dataType, out existingHandler))
-            {
-                return existingHandler;
-            }
-
-            return newHandler;
+            return new RefDataTypeHandler(options, new LocalStorage(options, new SystemClock()));
         }
 
         private static RefDataTypeHandlerOptions TryResolveDataTypeHandlerOptions(RefDataType dataType)

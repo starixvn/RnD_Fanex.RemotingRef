@@ -2,7 +2,7 @@
 {
     using TranslationStorage;
 
-    public interface IRefDataTypeHandler
+    internal interface IRefDataTypeHandler
     {
         RefDataTypeHandlerOptions Options { get; }
 

@@ -4,5 +4,5 @@
     using System.Threading.Tasks;
     using TranslationStorage;
 
-    public delegate Task<IDictionary<string, TranslationSet>> SyncTranslationSetsDelegate(IList<KeySet> parameterSets);
+    internal delegate Task<IDictionary<string, TranslationSet>> SyncTranslationSetsDelegate(IList<KeySet> parameterSets);
 }

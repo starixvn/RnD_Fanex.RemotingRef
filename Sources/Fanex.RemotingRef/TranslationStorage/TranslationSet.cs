@@ -5,14 +5,14 @@
 
 #pragma warning disable S3925 // "ISerializable" should be implemented correctly
 
-    public sealed class TranslationSet : Dictionary<string, object>
+    internal sealed class TranslationSet : Dictionary<string, object>
     {
         private TranslationSet(int capacity, IEqualityComparer<string> comparer)
             : base(capacity, comparer)
         {
         }
 
-        internal static TranslationSet FromDictionary<T>(IDictionary<string, T> dictionary)
+        public static TranslationSet FromDictionary<T>(IDictionary<string, T> dictionary)
         {
             if (dictionary == null)
             {

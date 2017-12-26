@@ -1,11 +1,11 @@
-﻿namespace Fanex.RemotingRef.Tests.Storage
+﻿namespace Fanex.RemotingRef.Tests.TranslationStorage
 {
     using System;
     using RemotingRef.TranslationStorage;
 
-    internal class SystemClockMock : ISystemClock
+    internal class TestClock : ISystemClock
     {
-        public SystemClockMock()
+        public TestClock()
             => UtcNow = new DateTimeOffset(2017, 12, 12, 12, 34, 56, 789, new TimeSpan(0, 0, 0));
 
         public DateTimeOffset UtcNow { get; private set; }

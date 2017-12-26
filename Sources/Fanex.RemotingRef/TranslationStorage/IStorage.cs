@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public interface IStorage
+    internal interface IStorage
     {
         ISystemClock Clock { get; }
 

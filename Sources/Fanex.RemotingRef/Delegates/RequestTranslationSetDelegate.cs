@@ -2,5 +2,5 @@
 {
     using TranslationStorage;
 
-    public delegate TranslationSet RequestTranslationSetDelegate(KeySet parameters);
+    internal delegate TranslationSet RequestTranslationSetDelegate(KeySet parameters);
 }

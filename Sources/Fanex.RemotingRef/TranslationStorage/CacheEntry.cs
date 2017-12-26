@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class CacheEntry
+    internal class CacheEntry
     {
         private bool _isExpired;
         private bool _isRenewing;

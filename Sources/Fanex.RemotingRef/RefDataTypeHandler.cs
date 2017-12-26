@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using TranslationStorage;
 
-    public class RefDataTypeHandler : IRefDataTypeHandler
+    internal class RefDataTypeHandler : IRefDataTypeHandler
     {
         private readonly IStorage _localStorage;
 
@@ -21,12 +21,12 @@
         public object Get(KeySet keySet, string languageCode)
         {
             object result = null;
-            string key = keySet.ToHashKey();
-            string expectedLanguageCode = languageCode ?? RefDataTypeHandlerOptions.DefaultLanguage;
+            string key = keySet.BuildKey();
+            string retrievingLanguageCode = languageCode ?? RefDataTypeHandlerOptions.DefaultLanguage;
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
-                result = GetTranslationInSpecificLanguage(cachedEntry.Value, expectedLanguageCode);
+                result = GetTranslationInSpecificLanguage(cachedEntry.Value, retrievingLanguageCode);
 
                 if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
                 {
@@ -42,7 +42,7 @@
                     CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
                     _localStorage.Add(newEntry);
-                    result = GetTranslationInSpecificLanguage(newEntry.Value, expectedLanguageCode);
+                    result = GetTranslationInSpecificLanguage(newEntry.Value, retrievingLanguageCode);
                 }
             }
 
@@ -55,25 +55,22 @@
         private void TriggerSyncDataProcess(CacheEntry rootEntry)
             => Task.Run(() => SyncCachedDataAsync(rootEntry));
 
-        private async Task SyncCachedDataAsync(object state)
+        private async Task SyncCachedDataAsync(CacheEntry rootEntry)
         {
-            if (state is CacheEntry rootEntry)
+            IList<CacheEntry> batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
+
+            batch.Add(rootEntry);
+
+            IList<KeySet> parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
+            IDictionary<string, TranslationSet> results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
+
+            if (results != null && results.Count > 0)
             {
-                IList<CacheEntry> batch = _localStorage.FilterOutOfDateEntries(Options.UpdatingBatchSize);
-
-                batch.Add(rootEntry);
-
-                IList<KeySet> parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
-                IDictionary<string, TranslationSet> results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
-
-                if (results != null && results.Count > 0)
-                {
-                    SyncDataInStorage(batch, results);
-                }
-                else
-                {
-                    ReleaseRenewingLocks(batch);
-                }
+                SyncDataInStorage(batch, results);
+            }
+            else
+            {
+                ReleaseRenewingLocks(batch);
             }
         }
 
