@@ -71,6 +71,9 @@
             return CurrentInstance;
         }
 
+        internal static void Reset()
+            => CurrentInstance = null;
+
         internal static IRefDataTypeHandler TryResolveDataTypeHandler(
             RefDataType dataType,
             RequestTranslationSetDelegate valueFactory,

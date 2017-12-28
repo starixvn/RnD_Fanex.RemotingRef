@@ -120,9 +120,9 @@
             TriggerGargabeCollectionInItsOwnScope();
 
             // Assert.
-            int expectedCount = (int)(compactPercentage * cachedKeys.Length);
+            int expectedCount = cachedKeys.Length - (int)(compactPercentage * cachedKeys.Length);
 
-            Assert.Equal(expectedCount, _storage.Count);
+            Assert.True(expectedCount >= _storage.Count);
         }
 
 #pragma warning disable S1215 // "GC.Collect" should not be called
