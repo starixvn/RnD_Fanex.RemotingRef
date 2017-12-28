@@ -31,8 +31,20 @@
 
         public ISystemClock Clock { get; }
 
+        public int Count => _entriesCount;
+
         public CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException("Key must not be null or empty", nameof(key));
+            }
+
+            if (keySet == null)
+            {
+                throw new ArgumentNullException(nameof(keySet));
+            }
+
             CheckDisposed();
 
             return new CacheEntry(
@@ -74,9 +86,9 @@
 
         public bool TryGet(string key, out CacheEntry result)
         {
-            if (key == null)
+            if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentException("Key must not be null or empty", nameof(key));
             }
 
             CheckDisposed();
@@ -109,16 +121,18 @@
         {
             CheckDisposed();
 
+            if (_entriesCount >= _options.NumberOfEntriesLimit)
+            {
+                TriggerOvercapacityCompaction();
+
+                return;
+            }
+
             _entries.TryGetValue(entry.Key, out CacheEntry previousEntry);
 
             if (!entry.IsExpired(Clock.UtcNow))
             {
                 TryAddOrUpdateEntry(entry, previousEntry);
-
-                if (_entriesCount >= _options.NumberOfEntriesLimit)
-                {
-                    TriggerOvercapacityCompaction();
-                }
             }
             else
             {
@@ -187,7 +201,7 @@
         {
             if (state is LocalStorage storage && !storage._disposed)
             {
-                storage.Compact(storage._options.CompactPercentage);
+                storage.Compact(storage._options.CompactionPercentage);
 
                 return true;
             }

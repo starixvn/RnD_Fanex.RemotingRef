@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using Delegates;
+    using Fanex.RemotingRef.Delegates;
     using Fanex.RemotingRef.TranslationStorage;
 
     public class RefDataTypeContainer

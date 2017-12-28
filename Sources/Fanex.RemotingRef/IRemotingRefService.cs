@@ -1,7 +1,5 @@
 ﻿namespace Fanex.RemotingRef
 {
-    using ExposedModels;
-
     public interface IRemotingRefService
     {
         string GetBetTypeName(string betTypeId, string languageCode);
@@ -64,15 +62,13 @@
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
-        string GetKenoBettype(string kenoBetTypeId, string languageCode);
+        string GetKenoBetType(string kenoBetTypeId, string languageCode);
 
-        string GetKenoBettype(string kenoBetTypeId, string languageCode, string defaultValue);
+        string GetKenoBetType(string kenoBetTypeId, string languageCode, string defaultValue);
 
         string GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode);
 
         string GetFastMarkets225Result(string resultId, string languageCode);
-
-        ExchangeData GetExchangeData(int exchangeId);
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
 
@@ -82,8 +78,8 @@
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
-        string GetLotteryBettype(string lotteryBetTypeId, string languageCode);
+        string GetLotteryBetType(string lotteryBetTypeId, string languageCode);
 
-        string GetLotteryBettype(string lotteryBetTypeId, string languageCode, string defaultValue);
+        string GetLotteryBetType(string lotteryBetTypeId, string languageCode, string defaultValue);
     }
 }

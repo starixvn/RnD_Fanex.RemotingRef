@@ -4,8 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using ExposedModels;
-    using TranslationStorage;
+    using Fanex.RemotingRef.TranslationStorage;
 
     public class RemotingRefService : IRemotingRefService
     {
@@ -307,7 +306,7 @@
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
-        public string GetKenoBettype(string kenoBetTypeId, string languageCode)
+        public string GetKenoBetType(string kenoBetTypeId, string languageCode)
         {
             var keySet = new KeySet
             {
@@ -317,9 +316,9 @@
             return GetTranslationText(RefDataType.KenoBetType, "kenoBetType", keySet, languageCode);
         }
 
-        public string GetKenoBettype(string kenoBetTypeId, string languageCode, string defaultValue)
+        public string GetKenoBetType(string kenoBetTypeId, string languageCode, string defaultValue)
         {
-            string kenoBetType = GetKenoBettype(kenoBetTypeId, languageCode);
+            string kenoBetType = GetKenoBetType(kenoBetTypeId, languageCode);
 
             return string.IsNullOrEmpty(kenoBetType) ? defaultValue : kenoBetType;
         }
@@ -345,21 +344,6 @@
             };
 
             return GetTranslationText(RefDataType.FastMarkets225Result, "fastMarkets225Result", keySet, languageCode);
-        }
-
-        public ExchangeData GetExchangeData(int exchangeId)
-        {
-            const string actionName = "exchangeData";
-            IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
-                RefDataType.LotteryBetChoice,
-                parameters => RequestTranslation<ExchangeData>(RefController + actionName, parameters),
-                parameterSets => SyncTranslationsAsync<ExchangeData>(RefSyncController + actionName, parameterSets));
-            var keySet = new KeySet
-            {
-                ["exchangeId"] = exchangeId
-            };
-
-            return handler.Get(keySet, null) as ExchangeData;
         }
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
@@ -397,7 +381,7 @@
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
-        public string GetLotteryBettype(string lotteryBetTypeId, string languageCode)
+        public string GetLotteryBetType(string lotteryBetTypeId, string languageCode)
         {
             var keySet = new KeySet
             {
@@ -407,9 +391,9 @@
             return GetTranslationText(RefDataType.LotteryBetType, "lotteryBetType", keySet, languageCode);
         }
 
-        public string GetLotteryBettype(string lotteryBetTypeId, string languageCode, string defaultValue)
+        public string GetLotteryBetType(string lotteryBetTypeId, string languageCode, string defaultValue)
         {
-            string lotteryBetType = GetLotteryBettype(lotteryBetTypeId, languageCode);
+            string lotteryBetType = GetLotteryBetType(lotteryBetTypeId, languageCode);
 
             return string.IsNullOrEmpty(lotteryBetType) ? defaultValue : lotteryBetType;
         }

@@ -1,6 +1,6 @@
 ﻿namespace Fanex.RemotingRef
 {
-    using TranslationStorage;
+    using Fanex.RemotingRef.TranslationStorage;
 
     internal interface IRefDataTypeHandler
     {

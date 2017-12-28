@@ -1,7 +1,7 @@
 ﻿namespace Fanex.RemotingRef
 {
-    using Delegates;
-    using TranslationStorage;
+    using Fanex.RemotingRef.Delegates;
+    using Fanex.RemotingRef.TranslationStorage;
 
     public class RefDataTypeHandlerOptions : LocalStorageOptions
     {

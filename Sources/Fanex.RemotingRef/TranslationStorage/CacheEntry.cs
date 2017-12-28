@@ -38,11 +38,33 @@
 
         public DateTimeOffset LastAccess { get; private set; }
 
+#if DEBUG
+
+        /// <summary>
+        /// Gets or sets action which is invoked once the entry is expired. Being used for unit testing purpose.
+        /// </summary>
+        public Action PostEvictionCallback { get; set; }
+
+#endif
+
         public void Touch(DateTimeOffset now)
             => LastAccess = now;
 
+#if DEBUG
+
+        public void Expire()
+        {
+            _isExpired = true;
+
+            PostEvictionCallback?.Invoke();
+        }
+
+#else
+
         public void Expire()
             => _isExpired = true;
+
+#endif
 
         public bool IsExpired(DateTimeOffset now)
             => _isExpired || MeetExpirationTime(now);
