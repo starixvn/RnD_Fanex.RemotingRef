@@ -20,54 +20,54 @@
 
         [Route("BetTypeName")]
         [HttpPost]
-        public IActionResult BetTypeName([FromBody] Dictionary<string, object>[] parameters, string[] languages)
+        public IActionResult BetTypeName([FromBody] Dictionary<string, object>[] parameterSets, string[] languages)
         {
-            var betTypeNamesList = new List<Dictionary<string, string>>();
+            var betTypeNamesList = new Dictionary<string, Dictionary<string, string>>();
 
-            foreach (var parameter in parameters)
+            foreach (var parameterSet in parameterSets)
             {
-                var betTypeNames = GetBetTypeNames(languages, parameter);
+                var betTypeNames = GetBetTypeNames(languages, parameterSet);
 
-                betTypeNamesList.Add(betTypeNames);
+                betTypeNamesList.Add(parameterSet["betTypeId"].ToString(), betTypeNames);
             }
 
             return new OkObjectResult(_serializer.Serialize(betTypeNamesList));
         }
 
-        private Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameter)
+        private Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
         {
             var betTypeNames = new Dictionary<string, string>();
 
             foreach (var language in languages)
             {
-                if (parameter.Keys.Count == 1)
+                if (parameterSet.Keys.Count == 1)
                 {
-                    betTypeNames.Add(language, _refData.GetBetTypeName(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    betTypeNames.Add(language, _refData.GetBetTypeName(parameterSet["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
                 }
-                else if (parameter.Keys.Count == 2 && parameter.ContainsKey("refNo"))
+                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("refNo"))
                 {
                     betTypeNames.Add(language, _refData.GetBetTypeName(
-                        parameter["betTypeId"].ToString(),
+                        parameterSet["betTypeId"].ToString(),
                         LanguageHelper.GenerateTaiwanLanguage(language),
-                        (long)parameter["refNo"],
+                        (long)parameterSet["refNo"],
                         string.Empty));
                 }
-                else if (parameter.Keys.Count == 2 && parameter.ContainsKey("resourceId"))
+                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("resourceId"))
                 {
                     betTypeNames.Add(language, _refData.GetBetTypeName(
-                        parameter["betTypeId"].ToString(),
+                        parameterSet["betTypeId"].ToString(),
                         LanguageHelper.GenerateTaiwanLanguage(language),
                         string.Empty,
-                        parameter["resourceId"].ToString()));
+                        parameterSet["resourceId"].ToString()));
                 }
                 else
                 {
                     betTypeNames.Add(language, _refData.GetBetTypeName(
-                       parameter["betTypeId"].ToString(),
+                       parameterSet["betTypeId"].ToString(),
                        LanguageHelper.GenerateTaiwanLanguage(language),
                        string.Empty,
-                       parameter["resourceId"].ToString(),
-                        (long)parameter["refNo"]));
+                       parameterSet["resourceId"].ToString(),
+                        (long)parameterSet["refNo"]));
                 }
             }
 

@@ -31,10 +31,23 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(betTypeNames));
+            return Ok(_serializer.Serialize(betTypeNames));
         }
 
-        [Route("BetTypeName")]
+        [Route("BetTypeNameWithRefNo")]
+        public IActionResult BetTypeName(string betTypeId, long refNo, string[] languages)
+        {
+            var betTypeNames = new Dictionary<string, string>();
+
+            foreach (var language in languages)
+            {
+                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), refNo, string.Empty));
+            }
+
+            return Ok(_serializer.Serialize(betTypeNames));
+        }
+
+        [Route("BetTypeNameWithResourceId")]
         public IActionResult BetTypeName(string betTypeId, string resourceId, string[] languages)
         {
             var betTypeNames = new Dictionary<string, string>();
@@ -44,10 +57,10 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, resourceId));
             }
 
-            return new OkObjectResult(_serializer.Serialize(betTypeNames));
+            return Ok(_serializer.Serialize(betTypeNames));
         }
 
-        [Route("BetTypeName")]
+        [Route("BetTypeNameWithRefNoAndResourceId")]
         public IActionResult BetTypeName(string betTypeId, string resourceId, long refNo, string[] languages)
         {
             var betTypeNames = new Dictionary<string, string>();
@@ -57,7 +70,7 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, resourceId, refNo));
             }
 
-            return new OkObjectResult(_serializer.Serialize(betTypeNames));
+            return Ok(_serializer.Serialize(betTypeNames));
         }
 
         [Route("SportName")]
@@ -70,7 +83,7 @@
                 sportNames.Add(language, _refData.GetSportName(sportTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(sportNames));
+            return Ok(_serializer.Serialize(sportNames));
         }
 
         [Route("TeamName")]
@@ -83,7 +96,7 @@
                 teamNames.Add(language, _refData.GetTeamName(teamId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(teamNames));
+            return Ok(_serializer.Serialize(teamNames));
         }
 
         [Route("TeamName3rd")]
@@ -96,7 +109,7 @@
                 // TODO: Update latest RemotingRef
             }
 
-            return new OkObjectResult(_serializer.Serialize(teamNames));
+            return Ok(_serializer.Serialize(teamNames));
         }
 
         [Route("LeagueName")]
@@ -109,7 +122,7 @@
                 leagueNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(leagueNames));
+            return Ok(_serializer.Serialize(leagueNames));
         }
 
         [Route("LeagueName3rd")]
@@ -122,7 +135,7 @@
                 // TODO: Update latest RemotingRef
             }
 
-            return new OkObjectResult(_serializer.Serialize(leagueNames));
+            return Ok(_serializer.Serialize(leagueNames));
         }
 
         [Route("CountryName")]
@@ -135,7 +148,7 @@
                 countryNames.Add(lang, _refData.GetCountryName(countryId, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(countryNames));
+            return Ok(_serializer.Serialize(countryNames));
         }
 
         [Route("OddTypeName")]
@@ -148,7 +161,7 @@
                 oddsTypeNames.Add(lang, _refData.GetOddsTypeName(oddsTypeId, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(oddsTypeNames));
+            return Ok(_serializer.Serialize(oddsTypeNames));
         }
 
         [Route("ResourceData")]
@@ -161,7 +174,7 @@
                 resourceData.Add(language, _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(resourceData));
+            return Ok(_serializer.Serialize(resourceData));
         }
 
         [Route("ParentIdByBetTypeId")]
@@ -172,7 +185,7 @@
                 { DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId, string.Empty) }
             };
 
-            return new OkObjectResult(_serializer.Serialize(parentId));
+            return Ok(_serializer.Serialize(parentId));
         }
 
         [Route("CombinationTypeCombo")]
@@ -185,20 +198,7 @@
                 combinationTypes.Add(language, _refData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return new OkObjectResult(_serializer.Serialize(combinationTypes));
-        }
-
-        [Route("FuncIndexName")]
-        public IActionResult FuncIndexName(string indexId, string[] languages)
-        {
-            var funcIndexNames = new Dictionary<string, string>();
-
-            foreach (var language in languages)
-            {
-                funcIndexNames.Add(language, _refData.GetFncIndexName(indexId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
-            }
-
-            return new OkObjectResult(_serializer.Serialize(funcIndexNames));
+            return Ok(_serializer.Serialize(combinationTypes));
         }
 
         [Route("HorseTeamName")]
@@ -211,7 +211,7 @@
                 horseTeamNames.Add(language, _refData.GetHorseTeamName(codeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(horseTeamNames));
+            return Ok(_serializer.Serialize(horseTeamNames));
         }
 
         [Route("CasinoBetItem")]
@@ -224,7 +224,7 @@
                 casinoBetItems.Add(language, _refData.GetCasinoBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(casinoBetItems));
+            return Ok(_serializer.Serialize(casinoBetItems));
         }
 
         [Route("RouletteBetItem")]
@@ -237,7 +237,7 @@
                 rouletteBetItems.Add(language, _refData.GetRouletteBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(rouletteBetItems));
+            return Ok(_serializer.Serialize(rouletteBetItems));
         }
 
         [Route("KenoBetChoice")]
@@ -253,7 +253,7 @@
                 kenoBetChoices.Item2.Add(betChoiceId, kenoBetTypeId);
             }
 
-            return new OkObjectResult(_serializer.Serialize(kenoBetChoices));
+            return Ok(_serializer.Serialize(kenoBetChoices));
         }
 
         [Route("KenoBetType")]
@@ -266,7 +266,7 @@
                 kenoBetTypes.Add(language, _refData.GetKenoBettype(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return new OkObjectResult(_serializer.Serialize(kenoBetTypes));
+            return Ok(_serializer.Serialize(kenoBetTypes));
         }
 
         [Route("FastMarketsChoice")]
@@ -279,7 +279,7 @@
                 fastMarketsChoices.Add(language, _refData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return new OkObjectResult(_serializer.Serialize(fastMarketsChoices));
+            return Ok(_serializer.Serialize(fastMarketsChoices));
         }
 
         [Route("FastMarkets225Result")]
@@ -292,18 +292,7 @@
                 fastMarkets225Results.Add(language, _refData.GetFastMarkets225Result(resultId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return new OkObjectResult(_serializer.Serialize(fastMarkets225Results));
-        }
-
-        [Route("ExchangeData")]
-        public IActionResult ExchangeData(int exchangeId)
-        {
-            var exchangeData = new Dictionary<string, ExchangeData>
-            {
-                { "en-US", _refData.GetExchangeData(exchangeId) }
-            };
-
-            return new OkObjectResult(_serializer.Serialize(exchangeData));
+            return Ok(_serializer.Serialize(fastMarkets225Results));
         }
 
         [Route("LotteryBetChoice")]
@@ -316,7 +305,7 @@
                 // TODO: Update latest RemotingRef
             }
 
-            return new OkObjectResult(_serializer.Serialize(lotteryBetChoices));
+            return Ok(_serializer.Serialize(lotteryBetChoices));
         }
 
         [Route("LotteryBetTypeName")]
@@ -329,7 +318,7 @@
                 // TODO: Update latest RemotingRef
             }
 
-            return new OkObjectResult(_serializer.Serialize(lotteryBetTypes));
+            return Ok(_serializer.Serialize(lotteryBetTypes));
         }
     }
 }

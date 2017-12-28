@@ -3,21 +3,27 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
     using Fanex.RemotingRef.TranslationStorage;
+    using Fanex.RemotingRef.Utilities.Serialization;
+    using Fanex.RemotingRef.Utilities.WebClient;
+
+#pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
 
     public class RemotingRefService : IRemotingRefService
     {
         private const string RefController = "api/ref/";
         private const string RefSyncController = "api/refsync/";
+        private readonly IHttpHandler _client;
+        private readonly ISerializer _serializer;
 
-        ////public RemotingRefService()
-        ////{
-        ////    _client = new HttpClient
-        ////    {
-        ////        BaseAddress = RefDataTypeContainer.ServiceUri
-        ////    };
-        ////}
+        public RemotingRefService(IHttpHandler client, ISerializer serializer)
+        {
+            _client = client ?? new Utilities.WebClient.HttpClientHandler(RefDataTypeContainer.ServiceUri);
+            _serializer = serializer ?? new MessagePackSerializer();
+        }
 
         public string GetBetTypeName(string betTypeId, string languageCode)
         {
@@ -37,7 +43,7 @@
                 ["refNo"] = refNo
             };
 
-            return GetBetTypeName(keySet, languageCode);
+            return GetBetTypeName(keySet, languageCode, "BetTypeNameWithRefNo");
         }
 
         public string GetBetTypeName(string betTypeId, string languageCode, long refNo, string defaultValue)
@@ -54,7 +60,7 @@
                 ["betTypeId"] = betTypeId,
                 ["resourceId"] = resourceId
             };
-            string betTypeName = GetBetTypeName(keySet, languageCode);
+            string betTypeName = GetBetTypeName(keySet, languageCode, "BetTypeNameWithResourceId");
 
             return string.IsNullOrEmpty(betTypeName) ? defaultValue : betTypeName;
         }
@@ -67,13 +73,13 @@
                 ["resourceId"] = resourceId,
                 ["refNo"] = refNo
             };
-            string betTypeName = GetBetTypeName(keySet, languageCode);
+            string betTypeName = GetBetTypeName(keySet, languageCode, "BetTypeNameWithRefNoAndResourceId");
 
             return string.IsNullOrEmpty(betTypeName) ? defaultValue : betTypeName;
         }
 
-        private string GetBetTypeName(KeySet keySet, string languageCode)
-            => GetTranslationText(RefDataType.BetTypeName, "betTypeName", keySet, languageCode);
+        private string GetBetTypeName(KeySet keySet, string languageCode, string actionName = "BetTypeName")
+            => GetTranslationText(RefDataType.BetTypeName, actionName, keySet, languageCode);
 
         public string GetSportName(string sportTypeId, string languageCode)
         {
@@ -415,8 +421,26 @@
         private TranslationSet RequestTranslation<T>(string path, KeySet parameters)
         {
             var result = new Dictionary<string, T>();
+            var requestUri = new StringBuilder($"{path}?");
 
-            //// TODO: Request service here, deserialize, then assign to result.
+            foreach (var parameter in parameters)
+            {
+                requestUri.Append($"{parameter.Key}={parameter.Value}&");
+            }
+
+            foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
+            {
+                requestUri.Append($"languages={language}&");
+            }
+
+            var response = _client.GetAsync(new Uri(requestUri.ToString())).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseResult = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
+
+                result = _serializer.Deserialize<Dictionary<string, T>>(Convert.FromBase64String(responseResult));
+            }
 
             return TranslationSet.FromDictionary(result);
         }
@@ -424,10 +448,26 @@
         private async Task<IDictionary<string, TranslationSet>> SyncTranslationsAsync<T>(string path, IList<KeySet> parameterSets)
         {
             var result = new Dictionary<string, Dictionary<string, T>>();
+            var formData = new MultipartFormDataContent
+            {
+                { new ByteArrayContent(_serializer.Serialize(parameterSets)), "parameterSets" },
+                { new ByteArrayContent(_serializer.Serialize(RefDataTypeHandlerOptions.SupportedLanguageCodes)), "languages" }
+            };
 
-            //// TODO: Request service here, deserialize, then assign to result.
+#pragma warning disable S3216 // "ConfigureAwait(false)" should be used
+            var response = await _client.PostAsync(new Uri(path), formData);
+#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseResult = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
+
+                result = _serializer.Deserialize<Dictionary<string, Dictionary<string, T>>>(Convert.FromBase64String(responseResult));
+            }
 
             return result.ToDictionary(pair => pair.Key, pair => TranslationSet.FromDictionary(pair.Value));
         }
     }
 }
+
+#pragma warning restore S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
