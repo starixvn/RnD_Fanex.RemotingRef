@@ -11,7 +11,6 @@
     [Route("api/[controller]")]
     public class RefController : Controller
     {
-        private const string DefaultLanguage = "en-US";
         private readonly IRefData _refData;
         private readonly ISerializer _serializer;
 
@@ -151,8 +150,8 @@
             return Ok(_serializer.Serialize(countryNames));
         }
 
-        [Route("OddTypeName")]
-        public IActionResult OddTypeName(string oddsTypeId, string[] languages)
+        [Route("OddsTypeName")]
+        public IActionResult OddsTypeName(string oddsTypeId, string[] languages)
         {
             var oddsTypeNames = new Dictionary<string, string>();
 
@@ -182,7 +181,7 @@
         {
             var parentId = new Dictionary<string, string>
             {
-                { DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId, string.Empty) }
+                { LanguageHelper.DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId, string.Empty) }
             };
 
             return Ok(_serializer.Serialize(parentId));
@@ -243,14 +242,13 @@
         [Route("KenoBetChoice")]
         public IActionResult KenoBetChoice(string betChoiceId, string[] languages)
         {
-            var kenoBetChoices = new Tuple<Dictionary<string, string>, Dictionary<string, string>>(new Dictionary<string, string>(), new Dictionary<string, string>());
+            var kenoBetChoices = new Dictionary<string, Tuple<string, string>>();
 
             foreach (var language in languages)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
 
-                kenoBetChoices.Item1.Add(language, kenoBetChoice);
-                kenoBetChoices.Item2.Add(betChoiceId, kenoBetTypeId);
+                kenoBetChoices.Add(language, new Tuple<string, string>(kenoBetChoice, kenoBetTypeId));
             }
 
             return Ok(_serializer.Serialize(kenoBetChoices));

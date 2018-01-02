@@ -2,6 +2,8 @@
 {
     public static class LanguageHelper
     {
+        public const string DefaultLanguage = "en-US";
+
         public static string GenerateTaiwanLanguage(string lang)
         {
             switch (lang)
