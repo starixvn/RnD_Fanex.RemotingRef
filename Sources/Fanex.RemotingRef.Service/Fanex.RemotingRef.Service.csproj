@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\**" />
     <Compile Remove="Ref\**" />
+    <Content Remove="Areas\**" />
     <Content Remove="Ref\**" />
+    <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Ref\**" />
+    <None Remove="Areas\**" />
     <None Remove="Ref\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,4 +73,7 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>
