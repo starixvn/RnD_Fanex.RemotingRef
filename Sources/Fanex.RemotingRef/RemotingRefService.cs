@@ -19,7 +19,7 @@
         private readonly IHttpHandler _client;
         private readonly ISerializer _serializer;
 
-        public RemotingRefService(IHttpHandler client, ISerializer serializer)
+        public RemotingRefService(IHttpHandler client = null, ISerializer serializer = null)
         {
             _client = client ?? new Utilities.WebClient.HttpClientHandler(RefDataTypeContainer.ServiceUri);
             _serializer = serializer ?? new MessagePackSerializer();
@@ -445,28 +445,30 @@
             return TranslationSet.FromDictionary(result);
         }
 
+#pragma warning disable S3216 // "ConfigureAwait(false)" should be used
+
         private async Task<IDictionary<string, TranslationSet>> SyncTranslationsAsync<T>(string path, IList<KeySet> parameterSets)
         {
-            var result = new Dictionary<string, Dictionary<string, T>>();
+            var result = new Dictionary<KeySet, Dictionary<string, T>>();
             var formData = new MultipartFormDataContent
             {
                 { new ByteArrayContent(_serializer.Serialize(parameterSets)), "parameterSets" },
                 { new ByteArrayContent(_serializer.Serialize(RefDataTypeHandlerOptions.SupportedLanguageCodes)), "languages" }
             };
 
-#pragma warning disable S3216 // "ConfigureAwait(false)" should be used
             var response = await _client.PostAsync(new Uri(path), formData);
-#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
 
             if (response.IsSuccessStatusCode)
             {
                 var responseResult = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
 
-                result = _serializer.Deserialize<Dictionary<string, Dictionary<string, T>>>(Convert.FromBase64String(responseResult));
+                result = _serializer.Deserialize<Dictionary<KeySet, Dictionary<string, T>>>(Convert.FromBase64String(responseResult));
             }
 
-            return result.ToDictionary(pair => pair.Key, pair => TranslationSet.FromDictionary(pair.Value));
+            return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
         }
+
+#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
     }
 }
 
