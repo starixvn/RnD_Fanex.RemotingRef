@@ -145,9 +145,6 @@
             StartScanForExpiredEntries();
         }
 
-        public void TryUpdate(CacheEntry entry, CacheEntry previousEntry)
-            => _entries.TryUpdate(entry.Key, entry, previousEntry);
-
         public void TryAddOrUpdateEntry(CacheEntry entry, CacheEntry previousEntry)
         {
             if (previousEntry == null)

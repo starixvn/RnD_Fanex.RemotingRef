@@ -84,7 +84,7 @@
                 {
                     CacheEntry updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newEntryMaps[key]);
 
-                    _localStorage.TryUpdate(updatedEntry, entry);
+                    _localStorage.Add(updatedEntry);
                 }
                 else
                 {

@@ -137,49 +137,21 @@
 
         private string[] InitializeCacheData()
         {
-            var keySets = new[]
-            {
-                new KeySet
-                {
-                    ["Key1"] = "Key1"
-                },
-                new KeySet
-                {
-                    ["Key2"] = "Key2"
-                },
-                new KeySet
-                {
-                    ["Key3"] = "Key3"
-                },
-                new KeySet
-                {
-                    ["Key4"] = "Key4"
-                }
-            };
-            var values = new[]
-            {
-                TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    ["Value1"] = "Value1"
-                }),
-                TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    ["Value2"] = "Value2"
-                }),
-                TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    ["Value3"] = "Value3"
-                }),
-                TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    ["Value4"] = "Value4"
-                })
-            };
-            var createdEntries = new CacheEntry[4];
+            int expectedLength = 4;
+            var createdEntries = new CacheEntry[expectedLength];
 
-            for (int index = 0; index < createdEntries.Length; index++)
+            for (int index = 0; index < expectedLength; index++)
             {
-                createdEntries[index] = _storage.CreateEntry(keySets[index].BuildKey(), keySets[index], values[index]);
+                var keySet = new KeySet
+                {
+                    ["Key" + index] = "Key" + index
+                };
+                var value = TranslationSet.FromDictionary(new Dictionary<string, string>
+                {
+                    ["Value" + index] = "Value" + index
+                });
+
+                createdEntries[index] = _storage.CreateEntry(keySet.BuildKey(), keySet, value);
                 _storage.Add(createdEntries[index]);
                 _clock.Add(TimeSpan.FromSeconds(1));
             }
