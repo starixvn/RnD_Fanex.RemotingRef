@@ -1,18 +1,20 @@
 ﻿namespace Fanex.RemotingRef.Tests
 {
+    using System;
     using System.Collections.Generic;
     using Fanex.RemotingRef.Tests.Mocks;
     using Fanex.RemotingRef.TranslationStorage;
     using Xunit;
 
-    public class RefDataTypeHandlerGetSetTests
+    public sealed class RefDataTypeHandlerGetSetTests : IDisposable
     {
         private const string TestingLanguageCode = "cn-TW";
 
         private readonly IRefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;
-        private readonly LocalStorage _storage;
         private readonly TranslationSet _predefinedTranslationSet;
+
+        private LocalStorage _storage;
 
         public RefDataTypeHandlerGetSetTests()
         {
@@ -24,6 +26,7 @@
                 [TestingLanguageCode] = "Chinese",
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
+            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
         }
 
         [Fact]
@@ -34,8 +37,6 @@
             {
                 ["Key"] = "Value"
             };
-
-            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
 
             // Act.
             var actualResult = _handler.Get(keySet, TestingLanguageCode);
@@ -73,8 +74,6 @@
                 ["Key"] = "Value"
             };
 
-            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
-
             // Act.
             var undefinedLanguageCode = "abc";
             var actualResult = _handler.Get(keySet, undefinedLanguageCode);
@@ -96,8 +95,6 @@
                 ["Key"] = "Value"
             };
 
-            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
-
             // Act.
             var actualResult = _handler.Get(keySet, languageCode);
 
@@ -115,8 +112,6 @@
             {
                 ["Key"] = "Value"
             };
-
-            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
 
             // Act.
             _handler.Get(keySet, null);
@@ -144,6 +139,12 @@
 
             // Assert.
             Assert.Null(actualResult);
+        }
+
+        public void Dispose()
+        {
+            _storage.Dispose();
+            _storage = null;
         }
     }
 }

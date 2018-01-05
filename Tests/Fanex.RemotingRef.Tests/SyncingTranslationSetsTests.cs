@@ -9,15 +9,16 @@
     using Fanex.RemotingRef.TranslationStorage;
     using Xunit;
 
-    public class SyncingTranslationSetsTests
+    public sealed class SyncingTranslationSetsTests : IDisposable
     {
         private readonly IRefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;
-        private readonly LocalStorage _storage;
         private readonly TestClock _clock;
         private readonly ManualResetEvent _callbackInvoked;
         private readonly TimeSpan _callbackWaitingTime;
         private readonly TimeSpan _timeToTriggerRenewal;
+
+        private LocalStorage _storage;
 
         public SyncingTranslationSetsTests()
         {
@@ -301,6 +302,12 @@
             _storage.Add(entry);
 
             return keySet;
+        }
+
+        public void Dispose()
+        {
+            _storage.Dispose();
+            _storage = null;
         }
     }
 }
