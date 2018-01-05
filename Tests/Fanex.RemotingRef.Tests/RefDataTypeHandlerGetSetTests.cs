@@ -12,6 +12,7 @@
 
         private readonly IRefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;
+        private readonly KeySet _keySet;
         private readonly TranslationSet _predefinedTranslationSet;
 
         private LocalStorage _storage;
@@ -27,19 +28,18 @@
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
             _options.ValueFactory = (parameters) => _predefinedTranslationSet;
+
+            _keySet = new KeySet
+            {
+                ["Key"] = "Value"
+            };
         }
 
         [Fact]
         public void GettingUnexistingReturnsValueCreatedByValueFactory()
         {
-            // Arrange.
-            var keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
-
             // Act.
-            var actualResult = _handler.Get(keySet, TestingLanguageCode);
+            var actualResult = _handler.Get(_keySet, TestingLanguageCode);
 
             // Assert.
             var expectedResult = _predefinedTranslationSet[TestingLanguageCode];
@@ -69,14 +69,10 @@
         public void RetrievingUndefinedLanguageCodeReturnsEnglish()
         {
             // Arrange.
-            var keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
+            var undefinedLanguageCode = "abc";
 
             // Act.
-            var undefinedLanguageCode = "abc";
-            var actualResult = _handler.Get(keySet, undefinedLanguageCode);
+            var actualResult = _handler.Get(_keySet, undefinedLanguageCode);
 
             // Assert.
             var expectedResult = _predefinedTranslationSet[RefDataTypeHandlerOptions.DefaultLanguage];
@@ -89,14 +85,8 @@
         [InlineData("")]
         public void NullOrEmptyLanguageCodeMakesGetReturnEnglish(string languageCode)
         {
-            // Arrange.
-            var keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
-
             // Act.
-            var actualResult = _handler.Get(keySet, languageCode);
+            var actualResult = _handler.Get(_keySet, languageCode);
 
             // Assert.
             var expectedResult = _predefinedTranslationSet[RefDataTypeHandlerOptions.DefaultLanguage];
@@ -107,17 +97,11 @@
         [Fact]
         public void TranslationSetCreatedByValueFactoryIsStoredInStorage()
         {
-            // Arrange.
-            var keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
-
             // Act.
-            _handler.Get(keySet, null);
+            _handler.Get(_keySet, null);
 
             // Assert.
-            var found = _storage.TryGet(keySet.BuildKey(), out _);
+            var found = _storage.TryGet(_keySet.BuildKey(), out _);
 
             Assert.True(found);
         }
@@ -126,16 +110,12 @@
         public void TranslationSetDoesNotContainAnyLanguageCodeMakesGetReturnNull()
         {
             // Arrange.
-            var keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             _options.ValueFactory = (parameters) => value;
 
             // Act.
-            var actualResult = _handler.Get(keySet, null);
+            var actualResult = _handler.Get(_keySet, null);
 
             // Assert.
             Assert.Null(actualResult);
