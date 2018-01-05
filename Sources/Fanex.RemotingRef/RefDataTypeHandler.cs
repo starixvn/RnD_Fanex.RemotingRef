@@ -22,11 +22,10 @@
         {
             object result = null;
             string key = keySet.BuildKey();
-            string retrievingLanguageCode = languageCode ?? RefDataTypeHandlerOptions.DefaultLanguage;
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
-                result = GetTranslationInSpecificLanguage(cachedEntry.Value, retrievingLanguageCode);
+                result = GetTranslationInSpecificLanguage(cachedEntry.Value, languageCode);
 
                 if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
                 {
@@ -42,7 +41,7 @@
                     CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
                     _localStorage.Add(newEntry);
-                    result = GetTranslationInSpecificLanguage(newEntry.Value, retrievingLanguageCode);
+                    result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
                 }
             }
 
@@ -50,7 +49,21 @@
         }
 
         private static object GetTranslationInSpecificLanguage(TranslationSet translations, string languageCode)
-            => translations.ContainsKey(languageCode) ? translations[languageCode] : translations[RefDataTypeHandlerOptions.DefaultLanguage];
+        {
+            string retrievingLanguageCode = string.IsNullOrEmpty(languageCode) ? RefDataTypeHandlerOptions.DefaultLanguage : languageCode;
+
+            if (translations.ContainsKey(retrievingLanguageCode))
+            {
+                return translations[retrievingLanguageCode];
+            }
+
+            if (translations.ContainsKey(RefDataTypeHandlerOptions.DefaultLanguage))
+            {
+                return translations[RefDataTypeHandlerOptions.DefaultLanguage];
+            }
+
+            return null;
+        }
 
         private void TriggerSyncDataProcess(CacheEntry rootEntry)
             => Task.Run(() => SyncCachedDataAsync(rootEntry));

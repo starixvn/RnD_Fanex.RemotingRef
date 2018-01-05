@@ -12,14 +12,14 @@
             KeySet keySet,
             TranslationSet value,
             TimeSpan slidingTimeout,
-            TimeSpan recyclingInterval,
+            TimeSpan renewalTime,
             DateTimeOffset createdTime)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));
             OriginalKeySet = keySet ?? throw new ArgumentNullException(nameof(keySet));
             Value = value;
             SlidingTimeout = slidingTimeout;
-            RecyclingInterval = recyclingInterval;
+            RenewalTime = renewalTime;
             CreatedTime = createdTime;
             LastAccess = createdTime;
         }
@@ -32,7 +32,7 @@
 
         public TimeSpan SlidingTimeout { get; }
 
-        public TimeSpan RecyclingInterval { get; }
+        public TimeSpan RenewalTime { get; }
 
         public DateTimeOffset CreatedTime { get; private set; }
 
@@ -86,7 +86,7 @@
 
         private bool MeetRenewalTime(DateTimeOffset now)
         {
-            if (now - CreatedTime > RecyclingInterval)
+            if (now - CreatedTime > RenewalTime)
             {
                 _isRenewing = true;
 

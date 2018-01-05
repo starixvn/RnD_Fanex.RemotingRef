@@ -52,7 +52,7 @@
                 keySet,
                 value,
                 _options.SlidingTimeout,
-                _options.RecyclingInterval,
+                _options.RenewalTime,
                 Clock.UtcNow);
         }
 

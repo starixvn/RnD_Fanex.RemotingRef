@@ -15,6 +15,9 @@
         private readonly RefDataTypeHandlerOptions _options;
         private readonly LocalStorage _storage;
         private readonly TestClock _clock;
+        private readonly ManualResetEvent _callbackInvoked;
+        private readonly TimeSpan _callbackWaitingTime;
+        private readonly TimeSpan _timeToTriggerRenewal;
 
         public SyncingTranslationSetsTests()
         {
@@ -23,18 +26,22 @@
             _storage = new LocalStorage(_options, _clock);
             _handler = new RefDataTypeHandler(_options, _storage);
 
-            _options.RecyclingInterval = TimeSpan.FromSeconds(1);
+            _options.RenewalTime = TimeSpan.FromSeconds(1);
             _options.SyncBatchSize = 2;
+
+            _callbackInvoked = new ManualResetEvent(false);
+            _callbackWaitingTime = TimeSpan.FromSeconds(30);
+            _timeToTriggerRenewal = _options.RenewalTime + TimeSpan.FromSeconds(1);
         }
 
         [Fact]
-        public void NegativeRecyclingIntervalThrowsArgumentOutOfRangeException()
+        public void NegativeRenewalTimeThrowsArgumentOutOfRangeException()
         {
             // Arrange.
-            var negativeRecyclingInterval = TimeSpan.FromSeconds(-1);
+            var negativeRenewalTime = TimeSpan.FromSeconds(-1);
 
             // Act.
-            Exception exception = Record.Exception(() => _options.RecyclingInterval = negativeRecyclingInterval);
+            Exception exception = Record.Exception(() => _options.RenewalTime = negativeRenewalTime);
 
             // Assert.
             Assert.IsType<ArgumentOutOfRangeException>(exception);
@@ -45,12 +52,11 @@
         {
             // Arrange.
             var existingKeySet = SetupStorageWithOnlyOneEntry();
-            var callbackInvoked = new ManualResetEvent(false);
 
-            _clock.Add(_options.RecyclingInterval + TimeSpan.FromSeconds(1));
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
-                callbackInvoked.Set();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
@@ -59,7 +65,7 @@
             _handler.Get(existingKeySet, null);
 
             // Assert.
-            Assert.True(callbackInvoked.WaitOne(TimeSpan.FromSeconds(30)));
+            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
         }
 
         [Fact]
@@ -68,18 +74,18 @@
             // Arrange.
             const int expectedEntries = 4;
             const int assumedCreationInterval = 2;
-            var callbackInvoked = new ManualResetEvent(false);
+
             var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
             IList<KeySet> sendingKeySets = null;
 
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                callbackInvoked.Set();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
-            _clock.Add(TimeSpan.FromSeconds(30));
 
             // Act.
             var lastKeySet = createdKeySets[expectedEntries - 1];
@@ -89,7 +95,7 @@
             // Assert.
             var firsKeySet = createdKeySets[0];
 
-            Assert.True(callbackInvoked.WaitOne(TimeSpan.FromSeconds(30)));
+            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
             Assert.DoesNotContain(firsKeySet, sendingKeySets);
         }
 
@@ -99,14 +105,15 @@
             // Arrange.
             const int expectedEntries = 5;
             const int assumedCreationInterval = 2;
-            var callbackInvoked = new ManualResetEvent(false);
+
             var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
             IList<KeySet> sendingKeySets = null;
 
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                callbackInvoked.Set();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
@@ -117,7 +124,7 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(callbackInvoked.WaitOne(TimeSpan.FromSeconds(30)));
+            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
             Assert.Equal(_options.SyncBatchSize + 1, sendingKeySets.Count);
         }
 
@@ -127,14 +134,15 @@
             // Arrange.
             const int expectedEntries = 5;
             const int assumedCreationInterval = 2;
-            var callbackInvoked = new ManualResetEvent(false);
+
             var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
             IList<KeySet> sendingKeySets = null;
 
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                callbackInvoked.Set();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
@@ -146,7 +154,7 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(callbackInvoked.WaitOne(TimeSpan.FromSeconds(30)));
+            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
             Assert.Equal(expectedEntries, sendingKeySets.Count);
         }
 
@@ -156,14 +164,23 @@
             // Arrange.
             var createdKeySet = SetupStorageWithOnlyOneEntry();
             var key = createdKeySet.BuildKey();
+            var emptyValue = new Dictionary<string, TranslationSet>();
 
-            _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(new Dictionary<string, TranslationSet>());
+            _clock.Add(_timeToTriggerRenewal);
+            _options.SyncHandler = (parameterSets) =>
+            {
+                _callbackInvoked.Set();
+
+                return Task.FromResult<IDictionary<string, TranslationSet>>(emptyValue);
+            };
             _storage.TryGet(key, out CacheEntry oldEntry);
 
             // Act.
             _handler.Get(createdKeySet, null);
 
             // Assert.
+            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+
             _storage.TryGet(key, out CacheEntry currentEntry);
 
             Assert.Same(oldEntry.Value, currentEntry.Value);
@@ -185,13 +202,13 @@
             };
             var sem = new SemaphoreSlim(0, 1);
 
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sem.Release();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
             };
-            _clock.Add(TimeSpan.FromSeconds(30));
 
             // Act.
             _handler.Get(createdKeySet, null);
@@ -210,6 +227,7 @@
             // Arrange.
             const int expectedEntries = 2;
             const int assumedCreationInterval = 2;
+
             var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
             var lastKeySet = createdKeySets[expectedEntries - 1];
             var key = lastKeySet.BuildKey();
@@ -224,6 +242,7 @@
             var sem = new SemaphoreSlim(0, 1);
             IList<KeySet> sendingKeySets = null;
 
+            _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
@@ -231,7 +250,6 @@
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
             };
-            _clock.Add(TimeSpan.FromSeconds(30));
 
             // Act.
             _handler.Get(lastKeySet, null);

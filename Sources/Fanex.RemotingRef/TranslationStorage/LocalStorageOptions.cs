@@ -7,7 +7,7 @@
         private int _numberOfEntriesLimit = 1000;
         private double _compactionPercentage = 0.1;
         private TimeSpan _slidingTimeout = TimeSpan.FromMinutes(10);
-        private TimeSpan _recyclingInterval = TimeSpan.FromSeconds(40);
+        private TimeSpan _renewalTime = TimeSpan.FromSeconds(40);
 
         public TimeSpan SlidingTimeout
         {
@@ -26,9 +26,9 @@
             }
         }
 
-        public TimeSpan RecyclingInterval
+        public TimeSpan RenewalTime
         {
-            get => _recyclingInterval;
+            get => _renewalTime;
             set
             {
                 if (value <= TimeSpan.Zero)
@@ -39,7 +39,7 @@
                         "The recycling interval value must be positive.");
                 }
 
-                _recyclingInterval = value;
+                _renewalTime = value;
             }
         }
 
