@@ -7,6 +7,7 @@
     using System.Text;
     using Fanex.RemotingRef.Utilities.Serialization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
@@ -16,12 +17,15 @@
     {
         private readonly ISerializer _serializer;
         private readonly HttpClient _client;
+        private readonly string _serviceUrl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RefServiceDemoController"/> class.
         /// </summary>
-        public RefServiceDemoController()
+        /// <param name="configuration">Configuration</param>
+        public RefServiceDemoController(IConfiguration configuration)
         {
+            _serviceUrl = configuration["RemotingRefService"];
             _client = new HttpClient();
             _serializer = new MessagePackSerializer();
         }
@@ -461,7 +465,7 @@
         private Dictionary<string, T> RequestTranslation<T>(string path, Dictionary<string, string> parameters, string[] languages)
         {
             var result = new Dictionary<string, T>();
-            var requestUri = new StringBuilder("http://localhost:65085/api/ref/").Append(path).Append("?");
+            var requestUri = new StringBuilder($"{_serviceUrl}/api/ref/").Append(path).Append("?");
             var defaultLanguages = (languages == null || languages.Length == 0) ? new[] { "en-US" } : languages;
 
             foreach (var parameter in parameters)

@@ -6,8 +6,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net461\Fanex.RemotingRef.Service.Demo.xml</DocumentationFile>
+    <DocumentationFile>App_Data\xml\Fanex.RemotingRef.Service.Demo.xml</DocumentationFile>
+    <OutputPath>bin\Debug\net461\</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Data\net461\**" />
+    <Content Remove="App_Data\net461\**" />
+    <EmbeddedResource Remove="App_Data\net461\**" />
+    <None Remove="App_Data\net461\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
@@ -30,4 +38,13 @@
     <ProjectReference Include="..\..\Sources\Fanex.RemotingRef\Fanex.RemotingRef.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="App_Data\xml\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\xml\Fanex.RemotingRef.Service.Demo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

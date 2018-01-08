@@ -17,7 +17,8 @@
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IRefData>(new RefNewDataHandler());
@@ -25,7 +26,6 @@
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -35,5 +35,7 @@
 
             app.UseMvc();
         }
+
+#pragma warning restore S2325 // Methods and properties that don't access instance data should be static
     }
 }
