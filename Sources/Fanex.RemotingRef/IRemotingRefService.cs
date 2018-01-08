@@ -44,8 +44,6 @@
 
         string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode);
 
-        string GetFncIndexName(string indexId, string languageCode, string defaultValue);
-
         string GetHorseTeamName(string codeId, string languageCode, string defaultValue);
 
         string GetCasinoBetItem(string itemId, string languageCode, string defaultValue);

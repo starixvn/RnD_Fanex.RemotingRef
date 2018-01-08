@@ -235,17 +235,6 @@
             return handler.Get(keySet, null) as string[];
         }
 
-        public string GetFncIndexName(string indexId, string languageCode, string defaultValue)
-        {
-            var keySet = new KeySet
-            {
-                ["indexId"] = indexId
-            };
-            string funcIndexName = GetTranslationText(RefDataType.FncIndexName, "funcIndexName", keySet, null);
-
-            return string.IsNullOrEmpty(funcIndexName) ? defaultValue : funcIndexName;
-        }
-
         public string GetHorseTeamName(string codeId, string languageCode, string defaultValue)
             => throw new NotSupportedException();
 
