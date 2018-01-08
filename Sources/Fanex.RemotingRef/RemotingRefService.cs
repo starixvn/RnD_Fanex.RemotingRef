@@ -14,8 +14,8 @@
 
     public class RemotingRefService : IRemotingRefService
     {
-        private const string RefController = "api/ref/";
-        private const string RefSyncController = "api/refsync/";
+        private const string RefController = "/api/ref/";
+        private const string RefSyncController = "/api/refsync/";
         private readonly IHttpHandler _client;
         private readonly ISerializer _serializer;
 
@@ -433,7 +433,7 @@
                 requestUri.Append($"languages={language}&");
             }
 
-            var response = _client.GetAsync(new Uri(requestUri.ToString())).Result;
+            var response = _client.GetAsync(requestUri.ToString()).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -456,7 +456,7 @@
                 { new ByteArrayContent(_serializer.Serialize(RefDataTypeHandlerOptions.SupportedLanguageCodes)), "languages" }
             };
 
-            var response = await _client.PostAsync(new Uri(path), formData);
+            var response = await _client.PostAsync(path, formData);
 
             if (response.IsSuccessStatusCode)
             {

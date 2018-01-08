@@ -6,12 +6,16 @@
 
     public interface IHttpHandler
     {
-        HttpResponseMessage Get(Uri url);
+#pragma warning disable S3994 // URI Parameters should not be strings
 
-        HttpResponseMessage Post(Uri url, HttpContent content);
+        HttpResponseMessage Get(string url);
 
-        Task<HttpResponseMessage> GetAsync(Uri url);
+        HttpResponseMessage Post(string url, HttpContent content);
 
-        Task<HttpResponseMessage> PostAsync(Uri url, HttpContent content);
+        Task<HttpResponseMessage> GetAsync(string url);
+
+        Task<HttpResponseMessage> PostAsync(string url, HttpContent content);
+
+#pragma warning restore S3994 // URI Parameters should not be strings
     }
 }

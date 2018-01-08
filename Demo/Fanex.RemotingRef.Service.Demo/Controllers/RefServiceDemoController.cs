@@ -10,17 +10,17 @@
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
-    /// Ref Data Controller
+    /// RemotingRef Service Demo
     /// </summary>
-    public class RefController : Controller
+    public class RefServiceDemoController : Controller
     {
         private readonly ISerializer _serializer;
         private readonly HttpClient _client;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RefController"/> class.
+        /// Initializes a new instance of the <see cref="RefServiceDemoController"/> class.
         /// </summary>
-        public RefController()
+        public RefServiceDemoController()
         {
             _client = new HttpClient();
             _serializer = new MessagePackSerializer();
@@ -74,7 +74,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("/api/ref/bettypenamewithresourceid")]
-        [SwaggerOperation("BetTypeName With RefNo")]
+        [SwaggerOperation("BetTypeName With ResourceId")]
         public IActionResult BetTypeNameWithResourceId([FromQuery]string betTypeId, [FromQuery]string resourceId, [FromQuery]string[] languages)
         {
             var result = RequestTranslation<string>(
@@ -167,7 +167,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("/api/ref/leaguename")]
-        [SwaggerOperation("TeamName")]
+        [SwaggerOperation("LeagueName")]
         public IActionResult LeagueName([FromQuery]string leagueId, [FromQuery]string[] languages)
         {
             var result = RequestTranslation<string>("leaguename", new Dictionary<string, string> { { "leagueId", leagueId } }, languages);

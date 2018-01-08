@@ -12,6 +12,8 @@
 
     public class Startup
     {
+        private const string SwaggerJsonPath = "/swagger/v1/swagger.json";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -19,35 +21,31 @@
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RefDataTypeContainer.ConnectTo(new Uri(Configuration["RemotingRefService"]));
             services.AddMvc();
+            services.AddSingleton<IRemotingRefService>(new RemotingRefService());
             services.AddSwaggerGen(c =>
               {
-                  c.SwaggerDoc("v1", new Info { Version = "v1", Title = "Fanex.RemotingRef.Service Supported Functions", Description = "anything" });
+                  c.SwaggerDoc("v1", new Info { Version = "v1", Title = "Fanex.RemotingRef Demo Site", Description = "Demo Site For RemotingRef Client and RemotingRef Service" });
                   c.CustomSchemaIds(type => type.FriendlyId(true));
                   c.DescribeAllEnumsAsStrings();
                   c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Process.GetCurrentProcess().ProcessName}.xml");
               });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseMvc().UseDefaultFiles()
                  .UseStaticFiles()
                  .UseSwagger()
-                 .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IO.Swagger"); });
+                 .UseSwaggerUI(c => { c.SwaggerEndpoint(SwaggerJsonPath, "IO.Swagger"); });
         }
     }
 }
