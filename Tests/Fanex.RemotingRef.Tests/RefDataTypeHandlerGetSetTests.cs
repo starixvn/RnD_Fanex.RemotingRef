@@ -8,7 +8,7 @@
 
     public sealed class RefDataTypeHandlerGetSetTests : IDisposable
     {
-        private const string TestingLanguageCode = "cn-TW";
+        private const string TestingLanguageCode = "zh-TW";
 
         private readonly IRefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;

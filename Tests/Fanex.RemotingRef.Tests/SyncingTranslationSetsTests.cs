@@ -15,7 +15,7 @@
         private readonly RefDataTypeHandlerOptions _options;
         private readonly TestClock _clock;
         private readonly ManualResetEvent _callbackInvoked;
-        private readonly TimeSpan _callbackWaitingTime;
+        private readonly TimeSpan _waitingTime;
         private readonly TimeSpan _timeToTriggerRenewal;
 
         private LocalStorage _storage;
@@ -31,7 +31,7 @@
             _options.SyncBatchSize = 2;
 
             _callbackInvoked = new ManualResetEvent(false);
-            _callbackWaitingTime = TimeSpan.FromSeconds(30);
+            _waitingTime = TimeSpan.FromSeconds(30);
             _timeToTriggerRenewal = _options.RenewalTime + TimeSpan.FromSeconds(1);
         }
 
@@ -66,7 +66,7 @@
             _handler.Get(existingKeySet, null);
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
         }
 
         [Fact]
@@ -96,7 +96,7 @@
             // Assert.
             var firsKeySet = createdKeySets[0];
 
-            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
             Assert.DoesNotContain(firsKeySet, sendingKeySets);
         }
 
@@ -125,8 +125,39 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
             Assert.Equal(_options.SyncBatchSize + 1, sendingKeySets.Count);
+        }
+
+        [Fact]
+        public void RenewalDoesNotCollectEntriesUnmetRenewalTime()
+        {
+            // Arrange.
+            const int expectedEntries = 4;
+            const int assumedCreationInterval = 1;
+
+            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            IList<KeySet> sendingKeySets = null;
+
+            _options.SyncHandler = (parameterSets) =>
+            {
+                sendingKeySets = parameterSets;
+                _callbackInvoked.Set();
+
+                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
+            };
+
+            // Act.
+            var firstKeySet = createdKeySets[0];
+
+            _handler.Get(firstKeySet, null);
+
+            // Assert.
+            _storage.TryGet(createdKeySets[expectedEntries - 1].BuildKey(), out CacheEntry unmetRenewalEntry);
+
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
+            Assert.False(unmetRenewalEntry.NeedToRenew(_clock.UtcNow));
+            Assert.DoesNotContain(unmetRenewalEntry.OriginalKeySet, sendingKeySets);
         }
 
         [Fact]
@@ -155,7 +186,7 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
             Assert.Equal(expectedEntries, sendingKeySets.Count);
         }
 
@@ -180,7 +211,7 @@
             _handler.Get(createdKeySet, null);
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(_callbackWaitingTime));
+            Assert.True(_callbackInvoked.WaitOne(_waitingTime));
 
             _storage.TryGet(key, out CacheEntry currentEntry);
 
@@ -215,7 +246,7 @@
             _handler.Get(createdKeySet, null);
 
             // Assert.
-            Assert.True(await sem.WaitAsync(TimeSpan.FromSeconds(10)));
+            Assert.True(await sem.WaitAsync(_waitingTime));
 
             _storage.TryGet(key, out CacheEntry currentEntry);
 
@@ -256,7 +287,7 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(await sem.WaitAsync(TimeSpan.FromSeconds(10)));
+            Assert.True(await sem.WaitAsync(_waitingTime));
 
             _storage.TryGet(createdKeySets[0].BuildKey(), out CacheEntry entry);
 

@@ -79,7 +79,7 @@
 
             if (results != null && results.Count > 0)
             {
-                SyncDataInStorage(batch, results);
+                UpdateDataInStorage(batch, results);
             }
             else
             {
@@ -87,7 +87,7 @@
             }
         }
 
-        private void SyncDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
+        private void UpdateDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
         {
             foreach (CacheEntry entry in existingEntries)
             {

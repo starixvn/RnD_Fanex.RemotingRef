@@ -132,8 +132,8 @@
         public void AddAndTryGetDoNotWorkWithCaseInsensitiveKeys()
         {
             // Arrange.
-            var cacheEntry = CreateCacheEntry();
-            var key = cacheEntry.Key;
+            var key = "uniqueKey";
+            var cacheEntry = CreateCacheEntry(key);
 
             // Act.
             _storage.Add(cacheEntry);
@@ -169,34 +169,42 @@
             var key = "uniqueKey";
             var cacheEntry = CreateCacheEntry(key);
             var newCacheEntry = CreateCacheEntry(key);
-            var cancellationToken = new CancellationTokenSource();
+            var cancellationTokenSource = new CancellationTokenSource();
 
             // Act.
-            _storage.Add(cacheEntry);
-
             var firstTask = Task.Run(() =>
             {
-                while (!cancellationToken.IsCancellationRequested)
+                while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    _storage.Add(newCacheEntry);
+                    _storage.Add(cacheEntry);
                 }
             });
 
             var secondTask = Task.Run(() =>
             {
-                while (!cancellationToken.IsCancellationRequested)
+                while (!cancellationTokenSource.IsCancellationRequested)
+                {
+                    _storage.Add(newCacheEntry);
+                }
+            });
+
+            var thirdTask = Task.Run(() =>
+            {
+                while (!cancellationTokenSource.IsCancellationRequested)
                 {
                     _storage.TryGet(key, out _);
                 }
             });
 
-            var thirdTask = Task.Run(async () =>
-            {
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                cancellationToken.Cancel();
-            });
+            cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
 
             Task.WaitAll(firstTask, secondTask, thirdTask);
+            cancellationTokenSource.Dispose();
+
+            // Assert.
+            Assert.Equal(TaskStatus.RanToCompletion, firstTask.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, secondTask.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, thirdTask.Status);
         }
 
         private CacheEntry CreateCacheEntry(string expectedKey = null)

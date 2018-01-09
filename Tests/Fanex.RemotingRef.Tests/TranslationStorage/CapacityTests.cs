@@ -34,6 +34,7 @@
             // Arrange.
             var negativeNumberOfEntriesLimit = -1;
 
+            // Act.
             Exception exception = Record.Exception(() => new LocalStorageOptions
             {
                 NumberOfEntriesLimit = negativeNumberOfEntriesLimit
@@ -82,7 +83,7 @@
             _storage.Add(secondEntry);
 
             // Assert.
-            Assert.True(await sem.WaitAsync(TimeSpan.FromSeconds(10)));
+            Assert.True(await sem.WaitAsync(TimeSpan.FromSeconds(30)));
             Assert.Equal(0, _storage.Count);
         }
 

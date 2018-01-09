@@ -12,7 +12,6 @@
         OddsTypeName,
         ParentBetTypeId,
         RefResource,
-        FncIndexName,
         CasinoBetItem,
         RouletteBetItem,
         KenoBetType,

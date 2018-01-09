@@ -27,6 +27,7 @@
             // Arrange.
             var negativeCompactionPercentage = -0.1;
 
+            // Act.
             Exception exception = Record.Exception(() => new LocalStorageOptions
             {
                 CompactionPercentage = negativeCompactionPercentage
@@ -42,6 +43,7 @@
             // Arrange.
             var outOfRangeCompactionPercentage = 1.1;
 
+            // Act.
             Exception exception = Record.Exception(() => new LocalStorageOptions
             {
                 CompactionPercentage = outOfRangeCompactionPercentage

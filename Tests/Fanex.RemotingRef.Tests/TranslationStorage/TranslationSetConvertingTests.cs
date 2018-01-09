@@ -31,7 +31,7 @@
                 ["Key2"] = "Value2"
             };
 
-            // Assert.
+            // Act.
             var actualResult = TranslationSet.FromDictionary(dictionary);
 
             // Assert.
@@ -47,7 +47,7 @@
                 ["Key"] = "Value"
             };
 
-            // Assert.
+            // Act.
             var actualResult = TranslationSet.FromDictionary(dictionary);
 
             // Assert.

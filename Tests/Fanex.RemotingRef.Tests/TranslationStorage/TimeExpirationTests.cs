@@ -30,6 +30,7 @@
             // Arrange.
             var negativeSlidingTimeout = TimeSpan.FromSeconds(-1);
 
+            // Act.
             Exception exception = Record.Exception(() => new LocalStorageOptions
             {
                 SlidingTimeout = negativeSlidingTimeout
@@ -45,6 +46,7 @@
             // Arrange.
             var zeroSlidingTimeout = TimeSpan.Zero;
 
+            // Act.
             Exception exception = Record.Exception(() => new LocalStorageOptions
             {
                 SlidingTimeout = zeroSlidingTimeout
