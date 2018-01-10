@@ -170,35 +170,48 @@
             var cacheEntry = CreateCacheEntry(key);
             var newCacheEntry = CreateCacheEntry(key);
             var cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSource.Token;
 
             // Act.
-            var firstTask = Task.Run(() =>
-            {
-                while (!cancellationTokenSource.IsCancellationRequested)
+            var firstTask = Task.Run(
+                () =>
                 {
-                    _storage.Add(cacheEntry);
-                }
-            });
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        _storage.Add(cacheEntry);
+                    }
+                },
+                cancellationToken);
 
-            var secondTask = Task.Run(() =>
-            {
-                while (!cancellationTokenSource.IsCancellationRequested)
+            var secondTask = Task.Run(
+                () =>
                 {
-                    _storage.Add(newCacheEntry);
-                }
-            });
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        _storage.Add(newCacheEntry);
+                    }
+                },
+                cancellationToken);
 
-            var thirdTask = Task.Run(() =>
-            {
-                while (!cancellationTokenSource.IsCancellationRequested)
+            var thirdTask = Task.Run(
+                () =>
                 {
-                    _storage.TryGet(key, out _);
-                }
-            });
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        _storage.TryGet(key, out _);
+                    }
+                },
+                cancellationToken);
 
-            cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
+            var forthTask = Task.Run(
+                async () =>
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    cancellationTokenSource.Cancel();
+                },
+                cancellationToken);
 
-            Task.WaitAll(firstTask, secondTask, thirdTask);
+            Task.WaitAll(firstTask, secondTask, thirdTask, forthTask);
             cancellationTokenSource.Dispose();
 
             // Assert.
