@@ -7,10 +7,10 @@
 
     public sealed class GcNotificationTests : IDisposable
     {
-        private ManualResetEvent _callbackInvoked;
+        private ManualResetEventSlim _callbackInvoked;
 
         public GcNotificationTests()
-            => _callbackInvoked = new ManualResetEvent(false);
+            => _callbackInvoked = new ManualResetEventSlim(false);
 
         [Fact]
         public void CallbackIsRegisteredAndInvoked()
@@ -32,7 +32,7 @@
             GcCollectAndWait();
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(0));
+            Assert.True(_callbackInvoked.Wait(0));
         }
 
         [Fact]
@@ -53,14 +53,14 @@
             GcCollectAndWait();
 
             // Make sure the callback is invoked at the first time.
-            Assert.True(_callbackInvoked.WaitOne(0));
+            Assert.True(_callbackInvoked.Wait(0));
 
             // Act.
             _callbackInvoked.Reset();
             GcCollectAndWait();
 
             // Assert.
-            Assert.False(_callbackInvoked.WaitOne(0));
+            Assert.False(_callbackInvoked.Wait(0));
         }
 
         [Fact]
@@ -81,14 +81,14 @@
             GcCollectAndWait();
 
             // Make sure the callback is invoked at the first time.
-            Assert.True(_callbackInvoked.WaitOne(0));
+            Assert.True(_callbackInvoked.Wait(0));
 
             // Act.
             _callbackInvoked.Reset();
             GcCollectAndWait();
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(0));
+            Assert.True(_callbackInvoked.Wait(0));
         }
 
         [Fact]
@@ -121,7 +121,7 @@
             GcCollectAndWait();
 
             // Assert.
-            Assert.True(_callbackInvoked.WaitOne(0));
+            Assert.True(_callbackInvoked.Wait(0));
         }
 
 #pragma warning disable S1215 // "GC.Collect" should not be called

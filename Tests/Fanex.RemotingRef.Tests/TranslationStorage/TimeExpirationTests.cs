@@ -62,12 +62,9 @@
             // Arrange.
             var key = "myKey";
             var entry = CreateCacheEntry(key);
-            var callbackInvoked = new ManualResetEvent(false);
+            var callbackInvoked = new ManualResetEventSlim(false);
 
-            entry.PostEvictionCallback = () =>
-            {
-                callbackInvoked.Set();
-            };
+            entry.PostEvictionCallback = callbackInvoked.Set;
             _storage.Add(entry);
 
             // Act.
@@ -76,7 +73,7 @@
             _storage.TryGet("otherKey", out _);
 
             // Assert.
-            Assert.True(callbackInvoked.WaitOne(TimeSpan.FromSeconds(30)));
+            Assert.True(callbackInvoked.Wait(TimeSpan.FromSeconds(30)));
             Assert.False(_storage.TryGet(key, out _));
         }
 

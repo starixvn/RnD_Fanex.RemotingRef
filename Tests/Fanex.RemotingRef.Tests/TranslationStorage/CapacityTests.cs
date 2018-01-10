@@ -70,12 +70,12 @@
             // Arrange.
             var firstEntry = CreateCacheEntry("myFirstStupidKey");
             var secondEntry = CreateCacheEntry("mySecondStupidKey");
-            var sem = new SemaphoreSlim(0, 1);
+            var semaphore = new SemaphoreSlim(0, 1);
 
             _storageOptions.CompactionPercentage = 1;
             firstEntry.PostEvictionCallback = () =>
             {
-                sem.Release();
+                semaphore.Release();
             };
 
             // Act.
@@ -83,7 +83,7 @@
             _storage.Add(secondEntry);
 
             // Assert.
-            Assert.True(await sem.WaitAsync(TimeSpan.FromSeconds(30)));
+            Assert.True(await semaphore.WaitAsync(TimeSpan.FromSeconds(30)));
             Assert.Equal(0, _storage.Count);
         }
 
