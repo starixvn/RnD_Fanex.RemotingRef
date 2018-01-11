@@ -102,6 +102,7 @@
             foreach (var language in languages)
             {
                 // TODO: Update latest RemotingRef
+                teamNames.Add(language, _refData.GetTeamName(team3rdId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return Ok(teamNames);
@@ -123,14 +124,15 @@
         [Route("LeagueName3rd")]
         public IActionResult LeagueName3rd(string leagueId, string[] languages)
         {
-            var leagueNames = new Dictionary<string, string>();
+            var league3rdNames = new Dictionary<string, string>();
 
             foreach (var language in languages)
             {
                 // TODO: Update latest RemotingRef
+                league3rdNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
-            return Ok(leagueNames);
+            return Ok(league3rdNames);
         }
 
         [Route("CountryName")]

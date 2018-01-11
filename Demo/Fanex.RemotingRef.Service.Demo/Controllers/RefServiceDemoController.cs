@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
-    using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
@@ -463,37 +461,7 @@
             return Ok(result);
         }
 
-#pragma warning restore SA1118 // Parameter must not span multiple lines
-
-        //[HttpGet]
-        //[Route("/api/ref/sync")]
-        //[SwaggerOperation("sync")]
-        //public IActionResult TestSync([FromQuery]string betTypeId, [FromQuery]string[] languages)
-        //{
-        //    var parameterSets = new List<Dictionary<string, object>>();
-        //    parameterSets.Add(new Dictionary<string, object> { { "betTypeId", betTypeId } });
-        //    parameterSets.Add(new Dictionary<string, object> { { "betTypeId", 2 } });
-        //    var result = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
-
-        //    var formdata = new ByteArrayContent(MessagePack.MessagePackSerializer.Serialize(data, MessagePack.Resolvers.ContractlessStandardResolver.Instance));
-
-        //    var requestUri = new StringBuilder($"{_serviceUrl}/api/refsync/bettypename");
-
-        //    var client = new HttpClient();
-        //    var request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
-        //    request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-msgpack"));
-        //    request.Content = formdata;
-        //    var response = client.SendAsync(request).Result;
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var responseResult = response.Content.ReadAsStreamAsync().Result;
-
-        //        result = _serializer.Deserialize<Dictionary<Ley, Dictionary<string, string>>>(responseResult);
-        //    }
-
-        //    return Ok(result.ToDictionary(pair => pair.Key., pair => pair.Value));
-        //}
+#pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
         private Dictionary<string, T> RequestTranslation<T>(string path, Dictionary<string, string> parameters, string[] languages)
         {
@@ -511,12 +479,10 @@
                 requestUri.Append($"languages={language}&");
             }
 
-            var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, requestUri.ToString());
-            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-msgpack"));
-            var response = client.SendAsync(request).Result;
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-msgpack"));
 
-            //var response = _client.GetAsync(new Uri(requestUri.ToString())).Result;
+            var response = _client.SendAsync(request).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -527,5 +493,7 @@
 
             return result;
         }
+
+#pragma warning restore S4005 // "System.Uri" arguments should be used instead of strings
     }
 }

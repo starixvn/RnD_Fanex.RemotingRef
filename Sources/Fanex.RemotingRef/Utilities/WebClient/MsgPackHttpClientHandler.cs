@@ -5,11 +5,10 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
-#pragma warning disable S3216 // "ConfigureAwait(false)" should be used
 #pragma warning disable S3994 // URI Parameters should not be strings
 #pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
-    public class MsgPackHttpClientHandler : IHttpHandler
+    public class MsgPackHttpClientHandler : IHttpHandler, IDisposable
     {
         private const string MimeType = "application/x-msgpack";
         private readonly HttpClient _client = new HttpClient();
@@ -22,7 +21,7 @@
 
         public HttpResponseMessage Get(string url)
         {
-            if (url == null)
+            if (string.IsNullOrEmpty(url))
             {
                 throw new ArgumentNullException(nameof(url));
             }
@@ -32,23 +31,49 @@
 
         public HttpResponseMessage Post(string url, HttpContent content)
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
             return PostAsync(url, content).Result;
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string url)
+        public Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await _client.GetAsync(url);
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            return _client.GetAsync(url);
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
+        public Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
         {
-            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
 
-            return await _client.PostAsync(url, content);
+            return _client.PostAsync(url, content);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_client != null)
+            {
+                _client.Dispose();
+            }
         }
     }
 
 #pragma warning restore S4005 // "System.Uri" arguments should be used instead of strings
 #pragma warning restore S3994 // URI Parameters should not be strings
-#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
 }
