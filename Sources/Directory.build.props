@@ -1,7 +1,7 @@
 <Project>
     <Import Project="..\Directory.Build.props" />
     <ItemGroup>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="6.6.0.3969">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>
