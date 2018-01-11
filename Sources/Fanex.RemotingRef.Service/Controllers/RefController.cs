@@ -3,15 +3,15 @@
     using System;
     using System.Collections.Generic;
     using Fanex.RemotingRef.Service.Utilities;
-    using global::RemotingRef;
+    using Fanex.RemotingRef.Service.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     public class RefController : Controller
     {
-        private readonly IRefData _refData;
+        private readonly IRefDataHelper _refData;
 
-        public RefController(IRefData refData)
+        public RefController(IRefDataHelper refData)
         {
             _refData = refData;
         }
@@ -257,7 +257,7 @@
 
             foreach (var language in languages)
             {
-                kenoBetTypes.Add(language, _refData.GetKenoBettype(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                kenoBetTypes.Add(language, _refData.GetKenoBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return Ok(kenoBetTypes);
@@ -270,7 +270,7 @@
 
             foreach (var language in languages)
             {
-                fastMarketsChoices.Add(language, _refData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
+                fastMarketsChoices.Add(language, _refData.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return Ok(fastMarketsChoices);
@@ -292,11 +292,13 @@
         [Route("LotteryBetChoice")]
         public IActionResult LotteryBetChoice(string betChoiceId, string[] languages)
         {
-            var lotteryBetChoices = new Dictionary<string, string>();
+            var lotteryBetChoices = new Dictionary<string, Tuple<string, string>>();
 
             foreach (var language in languages)
             {
-                // TODO: Update latest RemotingRef
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string lotteryBetTypeId);
+
+                lotteryBetChoices.Add(language, new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId));
             }
 
             return Ok(lotteryBetChoices);
@@ -307,9 +309,9 @@
         {
             var lotteryBetTypes = new Dictionary<string, string>();
 
-            foreach (var lang in languages)
+            foreach (var language in languages)
             {
-                // TODO: Update latest RemotingRef
+                lotteryBetTypes.Add(language, _refData.GetLotteryBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return Ok(lotteryBetTypes);

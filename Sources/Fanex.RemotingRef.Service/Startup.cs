@@ -1,12 +1,12 @@
 ﻿namespace Fanex.RemotingRef.Service
 {
-    using global::RemotingRef;
+    using Fanex.RemotingRef.Service.Utilities.RefData;
     using MessagePack.AspNetCoreMvcFormatter;
+    using MessagePack.Resolvers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using RefNewData;
 
     public class Startup
     {
@@ -21,11 +21,11 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IRefData>(new RefNewDataHandler());
+            services.AddSingleton<IRefDataHelper>(new RefDataHelper());
             services.AddMvc(option =>
             {
                 option.OutputFormatters.Add(new MessagePackOutputFormatter());
-                option.InputFormatters.Add(new MessagePackInputFormatter(MessagePack.Resolvers.ContractlessStandardResolver.Instance));
+                option.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Instance));
             });
         }
 

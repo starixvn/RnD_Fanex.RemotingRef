@@ -4,15 +4,15 @@
     using System.Collections.Generic;
     using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
-    using global::RemotingRef;
+    using Fanex.RemotingRef.Service.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     public class RefSyncController : Controller
     {
-        private readonly IRefData _refData;
+        private readonly IRefDataHelper _refData;
 
-        public RefSyncController(IRefData refData)
+        public RefSyncController(IRefDataHelper refData)
         {
             _refData = refData;
         }
@@ -216,7 +216,7 @@
             var kenoBetTypeSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => _refData.GetKenoBettype(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetKenoBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return Ok(kenoBetTypeSet);
         }
@@ -229,7 +229,11 @@
                 data,
                 (parameter, language) =>
                     {
-                        var kenoBetChoice = _refData.GetKenoBetChoice(parameter["betChoiceId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
+                        var kenoBetChoice = _refData.GetKenoBetChoice(
+                            parameter["betChoiceId"].ToString(),
+                            LanguageHelper.GenerateTaiwanLanguage(language),
+                            string.Empty,
+                            out string kenoBetTypeId);
 
                         return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
                     });
@@ -244,7 +248,7 @@
             var fastMarketChoiceSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => _refData.GetFastMarketsChoise(
+                    => _refData.GetFastMarketsChoice(
                         parameter["betTypeId"].ToString(),
                         parameter["betTeam"].ToString(),
                         (int)parameter["handicap1"],
@@ -271,8 +275,17 @@
         public IActionResult LotteryBetChoice([FromBody]RequestSyncFormData data)
         {
             var lotteryBetChoiceSet = GetResultSet(
-                data,
-                (parameter, language) => string.Empty); // TODO: Update latest RemotingRef
+                  data,
+                  (parameter, language) =>
+                  {
+                      var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                          parameter["betChoiceId"].ToString(),
+                          LanguageHelper.GenerateTaiwanLanguage(language),
+                          string.Empty,
+                          out string lotteryBetType);
+
+                      return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
+                  });
 
             return Ok(lotteryBetChoiceSet);
         }
@@ -281,11 +294,12 @@
         [HttpPost]
         public IActionResult LotteryBetTypeName([FromBody]RequestSyncFormData data)
         {
-            var lotteryBetTypeNameSet = GetResultSet(
+            var lotteryBetTypeSet = GetResultSet(
                 data,
-                (parameter, language) => string.Empty); // TODO: Update latest RemotingRef
+                (parameter, language)
+                    => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(lotteryBetTypeNameSet);
+            return Ok(lotteryBetTypeSet);
         }
 
         private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(

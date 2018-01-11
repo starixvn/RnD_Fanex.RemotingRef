@@ -11,12 +11,13 @@
 
     public class MsgPackHttpClientHandler : IHttpHandler
     {
+        private const string MimeType = "application/x-msgpack";
         private readonly HttpClient _client = new HttpClient();
 
         public MsgPackHttpClientHandler(Uri baseAddress)
         {
             _client.BaseAddress = baseAddress;
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-msgpack"));
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
         }
 
         public HttpResponseMessage Get(string url)
@@ -41,6 +42,8 @@
 
         public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
         {
+            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
+
             return await _client.PostAsync(url, content);
         }
     }

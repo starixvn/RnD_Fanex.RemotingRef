@@ -445,15 +445,13 @@
         {
             var result = new Dictionary<KeySet, Dictionary<string, T>>();
 
-            var formData = new RequestSyncFormData
+            var formData = new ByteArrayContent(_serializer.Serialize(new
             {
                 ParameterSets = parameterSets,
                 Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes
-            };
+            }));
 
-            var byteFormData = new ByteArrayContent(_serializer.Serialize(formData));
-
-            var response = await _client.PostAsync(path, byteFormData);
+            var response = await _client.PostAsync(path, formData);
 
             if (response.IsSuccessStatusCode)
             {
