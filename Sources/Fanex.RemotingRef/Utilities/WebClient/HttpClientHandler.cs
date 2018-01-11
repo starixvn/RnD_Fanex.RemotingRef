@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
 #pragma warning disable S3216 // "ConfigureAwait(false)" should be used
@@ -10,11 +11,12 @@
 
     public class HttpClientHandler : IHttpHandler
     {
-        private readonly Uri _baseAddress;
+        private readonly HttpClient _client = new HttpClient();
 
         public HttpClientHandler(Uri baseAddress)
         {
-            _baseAddress = baseAddress;
+            _client.BaseAddress = baseAddress;
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-msgpack"));
         }
 
         public HttpResponseMessage Get(string url)
@@ -34,18 +36,12 @@
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            using (var client = new HttpClient { BaseAddress = _baseAddress })
-            {
-                return await client.GetAsync(url);
-            }
+            return await _client.GetAsync(url);
         }
 
         public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
         {
-            using (var client = new HttpClient { BaseAddress = _baseAddress })
-            {
-                return await client.PostAsync(url, content);
-            }
+            return await _client.PostAsync(url, content);
         }
     }
 

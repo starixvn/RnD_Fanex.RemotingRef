@@ -1,7 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Service
 {
-    using Fanex.RemotingRef.Service.Utilities.Serialization;
     using global::RemotingRef;
+    using MessagePack.AspNetCoreMvcFormatter;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -22,8 +22,11 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IRefData>(new RefNewDataHandler());
-            services.AddSingleton<ISerializer>(new MessagePackSerializer());
-            services.AddMvc();
+            services.AddMvc(option =>
+            {
+                option.OutputFormatters.Add(new MessagePackOutputFormatter());
+                option.InputFormatters.Add(new MessagePackInputFormatter(MessagePack.Resolvers.ContractlessStandardResolver.Instance));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

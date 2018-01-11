@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
-    using Fanex.RemotingRef.Service.Utilities.Serialization;
     using global::RemotingRef;
     using Microsoft.AspNetCore.Mvc;
 
@@ -11,30 +11,26 @@
     public class RefSyncController : Controller
     {
         private readonly IRefData _refData;
-        private readonly ISerializer _serializer;
 
-        public RefSyncController(IRefData refData, ISerializer serializer)
+        public RefSyncController(IRefData refData)
         {
             _refData = refData;
-            _serializer = serializer;
         }
 
         [Route("BetTypeName")]
         [HttpPost]
-        public IActionResult BetTypeName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult BetTypeName([FromBody]RequestSyncFormData data)
         {
             var betTypeNameSet = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
-            var parsedParameterSets = _serializer.Deserialize<List<Dictionary<string, object>>>(parameterSets);
-            var parsedLanguages = _serializer.Deserialize<string[]>(languages);
 
-            foreach (var parameterSet in parsedParameterSets)
+            foreach (var parameterSet in data.ParameterSets)
             {
-                var betTypeNames = GetBetTypeNames(parsedLanguages, parameterSet);
+                var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
 
-                betTypeNameSet.Add(new Dictionary<string, object>(), betTypeNames);
+                betTypeNameSet.Add(parameterSet, betTypeNames);
             }
 
-            return new OkObjectResult(_serializer.Serialize(betTypeNameSet));
+            return Ok(betTypeNameSet);
         }
 
         private Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
@@ -79,101 +75,93 @@
 
         [Route("SportName")]
         [HttpPost]
-        public IActionResult SportName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult SportName([FromBody]RequestSyncFormData data)
         {
             var sportNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(sportNameSet));
+            return Ok(sportNameSet);
         }
 
         [Route("TeamName")]
         [HttpPost]
-        public IActionResult TeamName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult TeamName([FromBody]RequestSyncFormData data)
         {
             var teamNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(teamNameSet));
+            return Ok(teamNameSet);
         }
 
         [Route("LeagueName")]
         [HttpPost]
-        public IActionResult LeagueName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult LeagueName([FromBody]RequestSyncFormData data)
         {
             var leagueNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(leagueNameSet));
+            return Ok(leagueNameSet);
         }
 
         [Route("CountryName")]
         [HttpPost]
-        public IActionResult CountryName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult CountryName([FromBody]RequestSyncFormData data)
         {
             var countryNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetCountryName(parameter["countryId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(countryNameSet));
+            return Ok(countryNameSet);
         }
 
         [Route("OddsTypeName")]
         [HttpPost]
-        public IActionResult OddsTypeName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult OddsTypeName([FromBody]RequestSyncFormData data)
         {
             var oddsTypeNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(oddsTypeNameSet));
+            return Ok(oddsTypeNameSet);
         }
 
         [Route("ResourceData")]
         [HttpPost]
-        public IActionResult ResourceData([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult ResourceData([FromBody]RequestSyncFormData data)
         {
             var resourceDataSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetResourceDataByRefIdAndResourceId(parameter["refId"].ToString(), parameter["resourceId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(resourceDataSet));
+            return Ok(resourceDataSet);
         }
 
         [Route("ParentIdByBetTypeId")]
         [HttpPost]
-        public IActionResult ParentIdByBetTypeId([FromBody]byte[] parameterSets)
+        public IActionResult ParentIdByBetTypeId([FromBody]RequestSyncFormData data)
         {
             var parentIdSet = GetResultSet(
-                parameterSets,
-                null,
+                data,
                 (parameter, _) => _refData.GetParentIdByBetTypeId(parameter["betTypeId"].ToString(), string.Empty));
 
-            return Ok(_serializer.Serialize(parentIdSet));
+            return Ok(parentIdSet);
         }
 
         [Route("CombinationTypeComboParlay")]
         [HttpPost]
-        public IActionResult CombinationTypeComboParlay([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult CombinationTypeComboParlay([FromBody]RequestSyncFormData data)
         {
             var combinationTypeSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetCombinationTypeCombo(
                         parameter["betTeam"].ToString(),
@@ -182,68 +170,63 @@
                         (int)parameter["handicap2"],
                         LanguageHelper.GenerateTaiwanLanguage(language)));
 
-            return Ok(_serializer.Serialize(combinationTypeSet));
+            return Ok(combinationTypeSet);
         }
 
         [Route("HorseTeamName")]
         [HttpPost]
-        public IActionResult HorseTeamName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult HorseTeamName([FromBody]RequestSyncFormData data)
         {
             var horseTeamNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(horseTeamNameSet));
+            return Ok(horseTeamNameSet);
         }
 
         [Route("CasinoBetItem")]
         [HttpPost]
-        public IActionResult CasinoBetItem([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult CasinoBetItem([FromBody]RequestSyncFormData data)
         {
             var casinoBetItemSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(casinoBetItemSet));
+            return Ok(casinoBetItemSet);
         }
 
         [Route("RouletteBetItem")]
         [HttpPost]
-        public IActionResult RouletteBetItem([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult RouletteBetItem([FromBody]RequestSyncFormData data)
         {
             var rouletteBetItemSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(rouletteBetItemSet));
+            return Ok(rouletteBetItemSet);
         }
 
         [Route("KenoBetType")]
         [HttpPost]
-        public IActionResult KenoBetType([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult KenoBetType([FromBody]RequestSyncFormData data)
         {
             var kenoBetTypeSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetKenoBettype(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
-            return Ok(_serializer.Serialize(kenoBetTypeSet));
+            return Ok(kenoBetTypeSet);
         }
 
         [Route("KenoBetChoice")]
         [HttpPost]
-        public IActionResult KenoBetChoice([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult KenoBetChoice([FromBody]RequestSyncFormData data)
         {
             var kenoBetChoiceSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language) =>
                     {
                         var kenoBetChoice = _refData.GetKenoBetChoice(parameter["betChoiceId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
@@ -251,16 +234,15 @@
                         return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
                     });
 
-            return Ok(_serializer.Serialize(kenoBetChoiceSet));
+            return Ok(kenoBetChoiceSet);
         }
 
         [Route("FastMarketsChoice")]
         [HttpPost]
-        public IActionResult FastMarketsChoice([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult FastMarketsChoice([FromBody]RequestSyncFormData data)
         {
             var fastMarketChoiceSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetFastMarketsChoise(
                         parameter["betTypeId"].ToString(),
@@ -269,65 +251,59 @@
                         (int)parameter["handicap2"],
                         LanguageHelper.GenerateTaiwanLanguage(language)));
 
-            return Ok(_serializer.Serialize(fastMarketChoiceSet));
+            return Ok(fastMarketChoiceSet);
         }
 
         [Route("FastMarkets225Result")]
         [HttpPost]
-        public IActionResult FastMarkets225Result([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult FastMarkets225Result([FromBody]RequestSyncFormData data)
         {
             var fastMarkets225ResultSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language)
                     => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
-            return Ok(_serializer.Serialize(fastMarkets225ResultSet));
+            return Ok(fastMarkets225ResultSet);
         }
 
         [Route("LotteryBetChoice")]
         [HttpPost]
-        public IActionResult LotteryBetChoice([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult LotteryBetChoice([FromBody]RequestSyncFormData data)
         {
             var lotteryBetChoiceSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language) => string.Empty); // TODO: Update latest RemotingRef
 
-            return Ok(_serializer.Serialize(lotteryBetChoiceSet));
+            return Ok(lotteryBetChoiceSet);
         }
 
         [Route("LotteryBetTypeName")]
         [HttpPost]
-        public IActionResult LotteryBetTypeName([FromBody]byte[] parameterSets, [FromBody]byte[] languages)
+        public IActionResult LotteryBetTypeName([FromBody]RequestSyncFormData data)
         {
             var lotteryBetTypeNameSet = GetResultSet(
-                parameterSets,
-                languages,
+                data,
                 (parameter, language) => string.Empty); // TODO: Update latest RemotingRef
 
-            return Ok(_serializer.Serialize(lotteryBetTypeNameSet));
+            return Ok(lotteryBetTypeNameSet);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(
-            byte[] parameterSets,
-            byte[] languages,
+        private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(
+            RequestSyncFormData data,
             Func<Dictionary<string, object>, string, T> getRefData)
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
-            var parsedParameterSets = _serializer.Deserialize<List<Dictionary<string, object>>>(parameterSets);
-            var parsedLanguages = languages != null ? _serializer.Deserialize<string[]>(languages) : new[] { LanguageHelper.DefaultLanguage };
 
-            foreach (var parameterSet in parsedParameterSets)
+            foreach (var parameterSet in data.ParameterSets)
             {
                 var result = new Dictionary<string, T>();
 
-                foreach (var language in parsedLanguages)
+                foreach (var language in data.Languages)
                 {
                     result.Add(language, getRefData(parameterSet, language));
                 }
 
-                resultSet.Add(new Dictionary<string, object>(), result);
+                resultSet.Add(parameterSet, result);
             }
 
             return resultSet;

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
@@ -426,9 +427,9 @@
 
             if (response.IsSuccessStatusCode)
             {
-                var responseResult = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
+                var responseResult = response.Content.ReadAsStreamAsync().Result;
 
-                result = _serializer.Deserialize<Dictionary<string, T>>(Convert.FromBase64String(responseResult));
+                result = _serializer.Deserialize<Dictionary<string, T>>(responseResult);
             }
 
             return TranslationSet.FromDictionary(result);
@@ -439,19 +440,22 @@
         private async Task<IDictionary<string, TranslationSet>> SyncTranslationsAsync<T>(string path, IList<KeySet> parameterSets)
         {
             var result = new Dictionary<KeySet, Dictionary<string, T>>();
-            var formData = new MultipartFormDataContent
+
+            var formData = new RequestSyncFormData
             {
-                { new ByteArrayContent(_serializer.Serialize(parameterSets)), "parameterSets" },
-                { new ByteArrayContent(_serializer.Serialize(RefDataTypeHandlerOptions.SupportedLanguageCodes)), "languages" }
+                ParameterSets = parameterSets,
+                Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes
             };
 
-            var response = await _client.PostAsync(path, formData);
+            var byteFormData = new ByteArrayContent(_serializer.Serialize(formData));
+
+            var response = await _client.PostAsync(path, byteFormData);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseResult = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
+                var responseResult = response.Content.ReadAsStreamAsync().Result;
 
-                result = _serializer.Deserialize<Dictionary<KeySet, Dictionary<string, T>>>(Convert.FromBase64String(responseResult));
+                result = _serializer.Deserialize<Dictionary<KeySet, Dictionary<string, T>>>(responseResult);
             }
 
             return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
