@@ -9,11 +9,11 @@
 #pragma warning disable S3994 // URI Parameters should not be strings
 #pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
-    public class HttpClientHandler : IHttpHandler
+    public class MsgPackHttpClientHandler : IHttpHandler
     {
         private readonly HttpClient _client = new HttpClient();
 
-        public HttpClientHandler(Uri baseAddress)
+        public MsgPackHttpClientHandler(Uri baseAddress)
         {
             _client.BaseAddress = baseAddress;
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-msgpack"));

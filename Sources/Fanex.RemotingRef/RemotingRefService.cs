@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
@@ -20,9 +19,14 @@
         private readonly IHttpHandler _client;
         private readonly ISerializer _serializer;
 
-        public RemotingRefService(IHttpHandler client = null, ISerializer serializer = null)
+        public RemotingRefService()
+            : this(null, null)
         {
-            _client = client ?? new Utilities.WebClient.HttpClientHandler(RefDataTypeContainer.ServiceUri);
+        }
+
+        internal RemotingRefService(IHttpHandler client, ISerializer serializer)
+        {
+            _client = client ?? new MsgPackHttpClientHandler(RefDataTypeContainer.ServiceUri);
             _serializer = serializer ?? new MessagePackSerializer();
         }
 
