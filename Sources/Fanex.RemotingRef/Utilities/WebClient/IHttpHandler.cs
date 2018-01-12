@@ -4,7 +4,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
 
-    public interface IHttpHandler
+    public interface IHttpHandler : IDisposable
     {
 #pragma warning disable S3994 // URI Parameters should not be strings
 

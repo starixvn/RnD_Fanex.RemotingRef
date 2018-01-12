@@ -8,7 +8,7 @@
 #pragma warning disable S3994 // URI Parameters should not be strings
 #pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
-    public class MsgPackHttpClientHandler : IHttpHandler, IDisposable
+    public class MsgPackHttpClientHandler : IHttpHandler
     {
         private const string MimeType = "application/x-msgpack";
         private readonly HttpClient _client = new HttpClient();

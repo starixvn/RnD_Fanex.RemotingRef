@@ -4,8 +4,13 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>NU1605;</WarningsAsErrors>
+    <NoWarn>AD0001;NU1603</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="1.7.3.2" NoWarn="NU1603" />
+    <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="1.7.3.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />

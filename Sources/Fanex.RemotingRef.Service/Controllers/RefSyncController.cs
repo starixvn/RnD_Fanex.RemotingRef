@@ -307,6 +307,7 @@
             Func<Dictionary<string, object>, string, T> getRefData)
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
+            data.Languages = data.Languages ?? new[] { LanguageHelper.DefaultLanguage };
 
             foreach (var parameterSet in data.ParameterSets)
             {

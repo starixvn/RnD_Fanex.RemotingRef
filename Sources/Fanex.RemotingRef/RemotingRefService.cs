@@ -12,7 +12,7 @@
 
 #pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
 
-    public class RemotingRefService : IRemotingRefService
+    public class RemotingRefService : IRemotingRefService, IDisposable
     {
         private const string RefController = "/api/ref/";
         private const string RefSyncController = "/api/refsync/";
@@ -461,6 +461,20 @@
             }
 
             return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_client != null)
+            {
+                _client.Dispose();
+            }
         }
 
 #pragma warning restore S3216 // "ConfigureAwait(false)" should be used
