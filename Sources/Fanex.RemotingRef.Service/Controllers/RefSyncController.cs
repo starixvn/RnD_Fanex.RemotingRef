@@ -116,7 +116,7 @@
             var countryNameSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => _refData.GetCountryName(parameter["countryId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return Ok(countryNameSet);
         }
@@ -216,7 +216,7 @@
             var kenoBetTypeSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => _refData.GetKenoBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return Ok(kenoBetTypeSet);
         }
@@ -230,7 +230,7 @@
                 (parameter, language) =>
                     {
                         var kenoBetChoice = _refData.GetKenoBetChoice(
-                            parameter["betChoiceId"].ToString(),
+                            parameter["kenoBetChoiceId"].ToString(),
                             LanguageHelper.GenerateTaiwanLanguage(language),
                             string.Empty,
                             out string kenoBetTypeId);

@@ -431,7 +431,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                var responseResult = response.Content.ReadAsStreamAsync().Result;
+                var responseResult = response.Content?.ReadAsStreamAsync().Result;
 
                 result = _serializer.Deserialize<Dictionary<string, T>>(responseResult);
             }

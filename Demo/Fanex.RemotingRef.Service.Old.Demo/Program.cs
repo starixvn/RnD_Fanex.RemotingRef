@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Old.Demo
 {
+    using System.IO;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
 
@@ -13,9 +14,14 @@
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+             WebHost.CreateDefaultBuilder(args)
+               .UseKestrel()
+                 .UseSetting("detailedErrors", "true")
+                 .UseContentRoot(Directory.GetCurrentDirectory())
+                 .UseIISIntegration()
+                 .UseStartup<Startup>()
+                 .CaptureStartupErrors(true)
+                 .Build();
     }
 
 #pragma warning restore S1118 // Utility classes should not have public constructors

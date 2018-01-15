@@ -149,7 +149,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "countryId", "1" } },
+                    new Dictionary<string, object> { { "countryCode", "1" } },
                 },
                 Languages = new[] { "th-TH" }
             };
@@ -372,7 +372,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "betTypeId", "1" } },
+                    new Dictionary<string, object> { { "kenoBetTypeId", "1" } },
                 },
                 Languages = new[] { "en-US" }
             };
@@ -400,7 +400,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "betChoiceId", "1" } },
+                    new Dictionary<string, object> { { "kenoBetChoiceId", "1" } },
                 },
                 Languages = new[] { "en-US" }
             };

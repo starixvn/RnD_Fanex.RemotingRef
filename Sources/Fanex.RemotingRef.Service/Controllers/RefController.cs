@@ -136,13 +136,13 @@
         }
 
         [Route("CountryName")]
-        public IActionResult CountryName(string countryId, string[] languages)
+        public IActionResult CountryName(string countryCode, string[] languages)
         {
             var countryNames = new Dictionary<string, string>();
 
             foreach (var lang in languages)
             {
-                countryNames.Add(lang, _refData.GetCountryName(countryId, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
+                countryNames.Add(lang, _refData.GetCountryName(countryCode, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
             }
 
             return Ok(countryNames);
@@ -238,13 +238,13 @@
         }
 
         [Route("KenoBetChoice")]
-        public IActionResult KenoBetChoice(string betChoiceId, string[] languages)
+        public IActionResult KenoBetChoice(string kenoBetChoiceId, string[] languages)
         {
             var kenoBetChoices = new Dictionary<string, Tuple<string, string>>();
 
             foreach (var language in languages)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
+                var kenoBetChoice = _refData.GetKenoBetChoice(kenoBetChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
 
                 kenoBetChoices.Add(language, new Tuple<string, string>(kenoBetChoice, kenoBetTypeId));
             }
@@ -253,13 +253,13 @@
         }
 
         [Route("KenoBetType")]
-        public IActionResult KenoBetType(string betTypeId, string[] languages)
+        public IActionResult KenoBetType(string kenoBetTypeId, string[] languages)
         {
             var kenoBetTypes = new Dictionary<string, string>();
 
             foreach (var language in languages)
             {
-                kenoBetTypes.Add(language, _refData.GetKenoBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                kenoBetTypes.Add(language, _refData.GetKenoBetType(kenoBetTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return Ok(kenoBetTypes);
