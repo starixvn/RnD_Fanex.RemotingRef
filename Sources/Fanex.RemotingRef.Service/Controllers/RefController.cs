@@ -306,8 +306,8 @@
             return Ok(lotteryBetChoices);
         }
 
-        [Route("LotteryBetTypeName")]
-        public IActionResult LotteryBetTypeName(string betTypeId, string[] languages)
+        [Route("LotteryBetType")]
+        public IActionResult LotteryBetType(string betTypeId, string[] languages)
         {
             var lotteryBetTypes = new Dictionary<string, string>();
 

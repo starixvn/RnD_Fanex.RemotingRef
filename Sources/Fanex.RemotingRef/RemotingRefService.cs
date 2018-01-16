@@ -14,8 +14,8 @@
 
     public class RemotingRefService : IRemotingRefService, IDisposable
     {
-        private const string RefController = "/api/ref/";
-        private const string RefSyncController = "/api/refsync/";
+        private const string RefController = "api/ref/";
+        private const string RefSyncController = "api/refsync/";
         private readonly IHttpHandler _client;
         private readonly ISerializer _serializer;
 

@@ -15,13 +15,13 @@
 
         public static IWebHost BuildWebHost(string[] args) =>
              WebHost.CreateDefaultBuilder(args)
-               .UseKestrel()
-                 .UseSetting("detailedErrors", "true")
-                 .UseContentRoot(Directory.GetCurrentDirectory())
-                 .UseIISIntegration()
-                 .UseStartup<Startup>()
-                 .CaptureStartupErrors(true)
-                 .Build();
+                .UseKestrel()
+                .UseSetting("detailedErrors", "true")
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .CaptureStartupErrors(true)
+                .Build();
     }
 
 #pragma warning restore S1118 // Utility classes should not have public constructors

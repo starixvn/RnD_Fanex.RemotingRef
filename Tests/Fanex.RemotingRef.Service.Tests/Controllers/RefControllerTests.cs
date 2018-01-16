@@ -387,7 +387,7 @@
         }
 
         [Fact]
-        public void LotteryBetTypeName_Always_CallRefDataWithCorrectParameter()
+        public void LotteryBetType_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
             _refData.GetLotteryBetType("1", "en", string.Empty)
@@ -395,7 +395,7 @@
             var refController = new RefController(_refData);
 
             // Act
-            var actualResult = refController.LotteryBetTypeName("1", new[] { "en-US" });
+            var actualResult = refController.LotteryBetType("1", new[] { "en-US" });
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(actualResult);
