@@ -411,5 +411,15 @@
                 Arg.Is<string>(url => url == expectedUrl));
             Assert.Equal(expectedValue, lotteryBetType);
         }
+
+        [Fact]
+        public void SyncGetBetTypeName()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
     }
 }

@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.build.props = Directory.build.props
 		Fanex.RemotingRef.ruleset = Fanex.RemotingRef.ruleset
 		README.md = README.md
+		SonarQube.Analysis.xml = SonarQube.Analysis.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Tests", "Tests\Fanex.RemotingRef.Tests\Fanex.RemotingRef.Tests.csproj", "{31ED8DF3-58AC-480E-9B7C-CD50FC937491}"
@@ -27,6 +28,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service", "Sources\Fanex.RemotingRef.Service\Fanex.RemotingRef.Service.csproj", "{D57F7755-6B08-4DD2-B3F4-9DACC009A11F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}"
+	ProjectSection(SolutionItems) = preProject
+		Sources\Directory.build.props = Sources\Directory.build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Demo", "Demo\Fanex.RemotingRef.Service.Demo\Fanex.RemotingRef.Service.Demo.csproj", "{0937A803-B33B-4935-8DB3-7BD8F7868E69}"
 EndProject
@@ -35,6 +39,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Tests", "Tests\Fanex.RemotingRef.Service.Tests\Fanex.RemotingRef.Service.Tests.csproj", "{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Integration.Tests", "Tests\Fanex.RemotingRef.Integration.Tests\Fanex.RemotingRef.Integration.Tests.csproj", "{168B6C76-1135-4961-9DB2-0126AF91BED0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{0B7AB0BA-7D59-4C62-8922-EA5EC6862619}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\RemotingRefCSharp.ruleset = SonarQube\RemotingRefCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
