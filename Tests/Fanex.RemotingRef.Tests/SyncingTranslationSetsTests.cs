@@ -248,6 +248,7 @@
             // Assert.
             Assert.True(await semaphore.WaitAsync(_waitingTime));
 
+            semaphore.Dispose();
             _storage.TryGet(key, out CacheEntry currentEntry);
 
             Assert.Same(newValue, currentEntry.Value);
@@ -271,7 +272,7 @@
             {
                 [key] = newValue
             };
-            var semaphore = new SemaphoreSlim(0, 1);
+            var semaphore = new SemaphoreSlim(0, expectedEntries);
             IList<KeySet> sendingKeySets = null;
 
             _clock.Add(_timeToTriggerRenewal);
@@ -289,6 +290,7 @@
             // Assert.
             Assert.True(await semaphore.WaitAsync(_waitingTime));
 
+            semaphore.Dispose();
             _storage.TryGet(createdKeySets[0].BuildKey(), out CacheEntry entry);
 
             Assert.True(entry.NeedToRenew(_clock.UtcNow));
