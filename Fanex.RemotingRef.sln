@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{09417347-4309-456D-92C2-B720C5BB02BA}"
 EndProject
@@ -31,8 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{869C7A7E-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Demo", "Demo\Fanex.RemotingRef.Service.Demo\Fanex.RemotingRef.Service.Demo.csproj", "{0937A803-B33B-4935-8DB3-7BD8F7868E69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Old.Demo", "Demo\Fanex.RemotingRef.Service.Old.Demo\Fanex.RemotingRef.Service.Old.Demo.csproj", "{414E7424-0865-4192-9F41-184E2D842DE7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Tests", "Tests\Fanex.RemotingRef.Service.Tests\Fanex.RemotingRef.Service.Tests.csproj", "{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Integration.Tests", "Tests\Fanex.RemotingRef.Integration.Tests\Fanex.RemotingRef.Integration.Tests.csproj", "{168B6C76-1135-4961-9DB2-0126AF91BED0}"
@@ -42,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 		SonarQube\RemotingRefCSharp.ruleset = SonarQube\RemotingRefCSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service.Old.Demo", "Demo\Fanex.RemotingRef.Service.Old.Demo\Fanex.RemotingRef.Service.Old.Demo.csproj", "{B29840E8-DF48-40DE-A223-51BFCA658495}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +65,6 @@ Global
 		{0937A803-B33B-4935-8DB3-7BD8F7868E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0937A803-B33B-4935-8DB3-7BD8F7868E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0937A803-B33B-4935-8DB3-7BD8F7868E69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{414E7424-0865-4192-9F41-184E2D842DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{414E7424-0865-4192-9F41-184E2D842DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{414E7424-0865-4192-9F41-184E2D842DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{414E7424-0865-4192-9F41-184E2D842DE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,6 +73,10 @@ Global
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29840E8-DF48-40DE-A223-51BFCA658495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29840E8-DF48-40DE-A223-51BFCA658495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29840E8-DF48-40DE-A223-51BFCA658495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29840E8-DF48-40DE-A223-51BFCA658495}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,9 +86,9 @@ Global
 		{31ED8DF3-58AC-480E-9B7C-CD50FC937491} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{D57F7755-6B08-4DD2-B3F4-9DACC009A11F} = {09417347-4309-456D-92C2-B720C5BB02BA}
 		{0937A803-B33B-4935-8DB3-7BD8F7868E69} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
-		{414E7424-0865-4192-9F41-184E2D842DE7} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{168B6C76-1135-4961-9DB2-0126AF91BED0} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
+		{B29840E8-DF48-40DE-A223-51BFCA658495} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {949DBAC3-3A94-4139-814E-7FF3361D43A8}

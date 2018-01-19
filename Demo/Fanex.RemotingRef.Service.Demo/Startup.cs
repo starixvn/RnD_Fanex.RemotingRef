@@ -37,7 +37,7 @@
                   c.SwaggerDoc("v1", new Info { Version = "v1", Title = "Fanex.RemotingRef Demo Site", Description = "Demo Site For RemotingRef Client and RemotingRef Service 2.0" });
                   c.CustomSchemaIds(type => type.FriendlyId(true));
                   c.DescribeAllEnumsAsStrings();
-                  c.IncludeXmlComments($"{Directory.GetCurrentDirectory()}/App_Data/xml/{Process.GetCurrentProcess().ProcessName}.xml");
+                  c.IncludeXmlComments($"{Directory.GetCurrentDirectory()}/App_Data/xml/Fanex.RemotingRef.Service.Demo.xml");
               });
         }
 
