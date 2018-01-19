@@ -155,7 +155,7 @@
             {
                 ["StupidKey"] = "StupidValue"
             };
-            var key = expectedKey ?? keySet.BuildKey();
+            var key = expectedKey;
 
             return _storage.CreateEntry(key, keySet, TranslationSet.FromDictionary(new Dictionary<string, string>()));
         }
