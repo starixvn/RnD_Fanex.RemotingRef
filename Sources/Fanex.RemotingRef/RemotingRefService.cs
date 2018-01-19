@@ -14,7 +14,7 @@
 
     public class RemotingRefService : IRemotingRefService, IDisposable
     {
-        private const string RefController = "api/ref/";
+        private const string refController = "api/ref/";
         private const string RefSyncController = "api/refsync/";
         private readonly IHttpHandler _client;
         private readonly ISerializer _serializer;
@@ -227,7 +227,7 @@
             const string actionName = "combinationTypeCombo";
             IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
-                parameters => RequestTranslation<string[]>(RefController + actionName, parameters),
+                parameters => RequestTranslation<string[]>(refController + actionName, parameters),
                 parameterSets => SyncTranslationsAsync<string[]>(RefSyncController + actionName, parameterSets));
             var keySet = new KeySet
             {
@@ -295,7 +295,7 @@
             const string actionName = "kenoBetChoice";
             IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.KenoBetChoice,
-                parameters => RequestTranslation<Tuple<string, string>>(RefController + actionName, parameters),
+                parameters => RequestTranslation<Tuple<string, string>>(refController + actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(RefSyncController + actionName, parameterSets));
             var kenoChoicesAndBetTypes = handler.Get(keySet, languageCode) as Tuple<string, string>;
 
@@ -370,7 +370,7 @@
             const string actionName = "lotteryBetChoice";
             IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
-                parameters => RequestTranslation<Tuple<string, string>>(RefController + actionName, parameters),
+                parameters => RequestTranslation<Tuple<string, string>>(refController + actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(RefSyncController + actionName, parameterSets));
             var lotteryChoicesAndBetTypes = handler.Get(keySet, languageCode) as Tuple<string, string>;
 
@@ -405,7 +405,7 @@
         {
             IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 dataType,
-                parameters => RequestTranslation<T>(RefController + actionName, parameters),
+                parameters => RequestTranslation<T>(refController + actionName, parameters),
                 parameterSets => SyncTranslationsAsync<T>(RefSyncController + actionName, parameterSets));
             T result = (T)handler.Get(keySet, languageCode);
 
