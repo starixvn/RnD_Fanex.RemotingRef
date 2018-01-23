@@ -219,7 +219,7 @@
         }
 
         [Fact]
-        public async Task NonemptyResponseUpdatesDataInStorage()
+        public void NonemptyResponseUpdatesDataInStorage()
         {
             // Arrange.
             var createdKeySet = SetupStorageWithOnlyOneEntry();
@@ -232,12 +232,11 @@
             {
                 [key] = newValue
             };
-            var semaphore = new SemaphoreSlim(0, 1);
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
-                semaphore.Release();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
             };
@@ -246,7 +245,7 @@
             _handler.Get(createdKeySet, null);
 
             // Assert.
-            Assert.True(await semaphore.WaitAsync(_waitingTime));
+            Assert.True(_callbackInvoked.Wait(_waitingTime));
 
             _storage.TryGet(key, out CacheEntry currentEntry);
 
@@ -254,7 +253,7 @@
         }
 
         [Fact]
-        public async Task LockedEntryIsReleasedIfNotInResponse()
+        public void LockedEntryIsReleasedIfNotInResponse()
         {
             // Arrange.
             const int expectedEntries = 2;
@@ -271,14 +270,13 @@
             {
                 [key] = newValue
             };
-            var semaphore = new SemaphoreSlim(0, 1);
             IList<KeySet> sendingKeySets = null;
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                semaphore.Release();
+                _callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
             };
@@ -287,7 +285,7 @@
             _handler.Get(lastKeySet, null);
 
             // Assert.
-            Assert.True(await semaphore.WaitAsync(_waitingTime));
+            Assert.True(_callbackInvoked.Wait(_waitingTime));
 
             _storage.TryGet(createdKeySets[0].BuildKey(), out CacheEntry entry);
 
