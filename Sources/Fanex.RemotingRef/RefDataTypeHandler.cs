@@ -68,7 +68,7 @@
         private void TriggerSyncDataProcess(CacheEntry rootEntry)
             => Task.Run(() => SyncCachedDataAsync(rootEntry));
 
-        private async Task SyncCachedDataAsync(CacheEntry rootEntry)
+        internal async Task SyncCachedDataAsync(CacheEntry rootEntry)
         {
             IList<CacheEntry> batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
 

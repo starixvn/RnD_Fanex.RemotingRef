@@ -11,10 +11,9 @@
 
     public sealed class SyncingTranslationSetsTests : IDisposable
     {
-        private readonly IRefDataTypeHandler _handler;
+        private readonly RefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;
         private readonly TestClock _clock;
-        private readonly ManualResetEventSlim _callbackInvoked;
         private readonly TimeSpan _waitingTime;
         private readonly TimeSpan _timeToTriggerRenewal;
 
@@ -30,7 +29,6 @@
             _options.RenewalTime = TimeSpan.FromSeconds(1);
             _options.SyncBatchSize = 2;
 
-            _callbackInvoked = new ManualResetEventSlim(false);
             _waitingTime = TimeSpan.FromSeconds(30);
             _timeToTriggerRenewal = _options.RenewalTime + TimeSpan.FromSeconds(1);
         }
@@ -52,12 +50,13 @@
         public void RetrievedEntryMetRenewalTimeTriggersSyncProcess()
         {
             // Arrange.
-            var existingKeySet = SetupStorageWithOnlyOneEntry();
+            var callbackInvoked = new ManualResetEventSlim(false);
+            var existingKeySet = SetupStorageWithOnlyOneEntry().OriginalKeySet;
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
-                _callbackInvoked.Set();
+                callbackInvoked.Set();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
@@ -66,164 +65,173 @@
             _handler.Get(existingKeySet, null);
 
             // Assert.
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
+            Assert.True(callbackInvoked.Wait(_waitingTime));
         }
 
         [Fact]
-        public void RenewalPrioritizesLatestAccessEntries()
-        {
-            // Arrange.
-            const int expectedEntries = 4;
-            const int assumedCreationInterval = 2;
-
-            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
-            IList<KeySet> sendingKeySets = null;
-
-            _clock.Add(_timeToTriggerRenewal);
-            _options.SyncHandler = (parameterSets) =>
-            {
-                sendingKeySets = parameterSets;
-                _callbackInvoked.Set();
-
-                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
-            };
-
-            // Act.
-            var lastKeySet = createdKeySets[expectedEntries - 1];
-
-            _handler.Get(lastKeySet, null);
-
-            // Assert.
-            var firsKeySet = createdKeySets[0];
-
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
-            Assert.DoesNotContain(firsKeySet, sendingKeySets);
-        }
-
-        [Fact]
-        public void RenewalCollectsAtMostSyncBatchSizePlusOne()
-        {
-            // Arrange.
-            const int expectedEntries = 5;
-            const int assumedCreationInterval = 2;
-
-            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
-            IList<KeySet> sendingKeySets = null;
-
-            _clock.Add(_timeToTriggerRenewal);
-            _options.SyncHandler = (parameterSets) =>
-            {
-                sendingKeySets = parameterSets;
-                _callbackInvoked.Set();
-
-                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
-            };
-
-            // Act.
-            var lastKeySet = createdKeySets[expectedEntries - 1];
-
-            _handler.Get(lastKeySet, null);
-
-            // Assert.
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
-            Assert.Equal(_options.SyncBatchSize + 1, sendingKeySets.Count);
-        }
-
-        [Fact]
-        public void RenewalDoesNotCollectEntriesUnmetRenewalTime()
+        public async Task RenewalPrioritizesLatestAccessEntries()
         {
             // Arrange.
             const int expectedEntries = 4;
             const int assumedCreationInterval = 1;
 
-            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
-            IList<KeySet> sendingKeySets = null;
-
-            _options.SyncHandler = (parameterSets) =>
-            {
-                sendingKeySets = parameterSets;
-                _callbackInvoked.Set();
-
-                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
-            };
-
-            // Act.
-            var firstKeySet = createdKeySets[0];
-
-            _handler.Get(firstKeySet, null);
-
-            // Assert.
-            _storage.TryGet(createdKeySets[expectedEntries - 1].BuildKey(), out CacheEntry unmetRenewalEntry);
-
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
-            Assert.False(unmetRenewalEntry.NeedToRenew(_clock.UtcNow));
-            Assert.DoesNotContain(unmetRenewalEntry.OriginalKeySet, sendingKeySets);
-        }
-
-        [Fact]
-        public void AllEntriesMetRenewalTimeAreCollectedIfSyncBatchSizeIsNotSatisfied()
-        {
-            // Arrange.
-            const int expectedEntries = 5;
-            const int assumedCreationInterval = 2;
-
-            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var createdEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var firstCreatedEntry = createdEntries[0];
             IList<KeySet> sendingKeySets = null;
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                _callbackInvoked.Set();
+
+                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
+            };
+
+            // Act.
+            var randomEntry = createdEntries[expectedEntries - 2];
+
+            await _handler.SyncCachedDataAsync(randomEntry).ConfigureAwait(false);
+
+            // Assert.
+            var firstKeySet = firstCreatedEntry.OriginalKeySet;
+
+            Assert.DoesNotContain(firstKeySet, sendingKeySets);
+        }
+
+        [Fact]
+        public async Task RenewalCollectsAtMostSyncBatchSizePlusOne()
+        {
+            // Arrange.
+            const int expectedEntries = 5;
+            const int assumedCreationInterval = 1;
+
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            IList<KeySet> sendingKeySets = null;
+
+            _clock.Add(_timeToTriggerRenewal);
+            _options.SyncHandler = (parameterSets) =>
+            {
+                sendingKeySets = parameterSets;
+
+                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
+            };
+
+            // Act.
+            var randomEntry = createdCacheEntries[expectedEntries - 2];
+
+            await _handler.SyncCachedDataAsync(randomEntry).ConfigureAwait(false);
+
+            // Assert.
+            Assert.Equal(_options.SyncBatchSize + 1, sendingKeySets.Count);
+        }
+
+        [Fact]
+        public async Task RenewalDoesNotCollectEntriesUnmetRenewalTime()
+        {
+            // Arrange.
+            const int expectedEntries = 4;
+            const int assumedCreationInterval = 1;
+
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            IList<KeySet> sendingKeySets = null;
+
+            _options.SyncHandler = (parameterSets) =>
+            {
+                sendingKeySets = parameterSets;
+
+                return Task.FromResult<IDictionary<string, TranslationSet>>(null);
+            };
+
+            // Act.
+            var firstCreatedEntry = createdCacheEntries[0];
+
+            await _handler.SyncCachedDataAsync(firstCreatedEntry).ConfigureAwait(false);
+
+            // Assert.
+            var unmetRenewalEntry = createdCacheEntries[expectedEntries - 1];
+
+            Assert.False(unmetRenewalEntry.NeedToRenew(_clock.UtcNow));
+            Assert.DoesNotContain(unmetRenewalEntry.OriginalKeySet, sendingKeySets);
+        }
+
+        [Fact]
+        public async Task AllEntriesMetRenewalTimeAreCollectedIfSyncBatchSizeIsNotSatisfied()
+        {
+            // Arrange.
+            const int expectedEntries = 5;
+            const int assumedCreationInterval = 2;
+
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            IList<KeySet> sendingKeySets = null;
+
+            _clock.Add(_timeToTriggerRenewal);
+            _options.SyncHandler = (parameterSets) =>
+            {
+                sendingKeySets = parameterSets;
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(null);
             };
             _options.SyncBatchSize = 10;
 
             // Act.
-            var lastKeySet = createdKeySets[expectedEntries - 1];
+            var lastCreatedEntry = createdCacheEntries[expectedEntries - 1];
 
-            _handler.Get(lastKeySet, null);
+            Assert.True(lastCreatedEntry.NeedToRenew(_clock.UtcNow));
+            await _handler.SyncCachedDataAsync(lastCreatedEntry).ConfigureAwait(false);
 
             // Assert.
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
             Assert.Equal(expectedEntries, sendingKeySets.Count);
         }
 
         [Fact]
-        public void EmptyResponseLetsRenewingLocksBeReleased()
+        public async Task EmptyResponseDoesNotUpdateDataInStorage()
         {
             // Arrange.
-            var createdKeySet = SetupStorageWithOnlyOneEntry();
-            var key = createdKeySet.BuildKey();
+            var createdEntry = SetupStorageWithOnlyOneEntry();
+            var key = createdEntry.OriginalKeySet.BuildKey();
             var emptyValue = new Dictionary<string, TranslationSet>();
 
             _clock.Add(_timeToTriggerRenewal);
-            _options.SyncHandler = (parameterSets) =>
-            {
-                _callbackInvoked.Set();
-
-                return Task.FromResult<IDictionary<string, TranslationSet>>(emptyValue);
-            };
+            _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(emptyValue);
             _storage.TryGet(key, out CacheEntry oldEntry);
 
             // Act.
-            _handler.Get(createdKeySet, null);
+            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
 
             // Assert.
-            Assert.True(_callbackInvoked.Wait(_waitingTime));
-
             _storage.TryGet(key, out CacheEntry currentEntry);
 
             Assert.Same(oldEntry.Value, currentEntry.Value);
         }
 
         [Fact]
+        public async Task EmptyResponseLetsRenewingLocksBeReleased()
+        {
+            // Arrange.
+            var createdEntry = SetupStorageWithOnlyOneEntry();
+            var key = createdEntry.OriginalKeySet.BuildKey();
+            var emptyValue = new Dictionary<string, TranslationSet>();
+
+            _clock.Add(_timeToTriggerRenewal);
+            _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(emptyValue);
+            _storage.TryGet(key, out CacheEntry oldEntry);
+
+            // Act.
+            Assert.True(createdEntry.NeedToRenew(_clock.UtcNow));
+            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+
+            // Assert.
+            _storage.TryGet(key, out CacheEntry currentEntry);
+
+            Assert.True(createdEntry.NeedToRenew(_clock.UtcNow));
+        }
+
+        [Fact]
         public async Task NonemptyResponseUpdatesDataInStorage()
         {
             // Arrange.
-            var createdKeySet = SetupStorageWithOnlyOneEntry();
-            var key = createdKeySet.BuildKey();
+            var createdEntry = SetupStorageWithOnlyOneEntry();
+            var key = createdEntry.OriginalKeySet.BuildKey();
             var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
             {
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
@@ -232,23 +240,14 @@
             {
                 [key] = newValue
             };
-            var semaphore = new SemaphoreSlim(0, 1);
 
             _clock.Add(_timeToTriggerRenewal);
-            _options.SyncHandler = (parameterSets) =>
-            {
-                semaphore.Release();
-
-                return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
-            };
+            _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
 
             // Act.
-            _handler.Get(createdKeySet, null);
+            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
 
             // Assert.
-            Assert.True(await semaphore.WaitAsync(_waitingTime));
-
-            semaphore.Dispose();
             _storage.TryGet(key, out CacheEntry currentEntry);
 
             Assert.Same(newValue, currentEntry.Value);
@@ -261,42 +260,39 @@
             const int expectedEntries = 2;
             const int assumedCreationInterval = 2;
 
-            var createdKeySets = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
-            var lastKeySet = createdKeySets[expectedEntries - 1];
-            var key = lastKeySet.BuildKey();
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var lastEntry = createdCacheEntries[expectedEntries - 1];
+            var lastEntryKey = lastEntry.OriginalKeySet.BuildKey();
             var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
             {
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
             });
             var syncedData = new Dictionary<string, TranslationSet>
             {
-                [key] = newValue
+                [lastEntryKey] = newValue
             };
-            var semaphore = new SemaphoreSlim(0, expectedEntries);
             IList<KeySet> sendingKeySets = null;
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
             {
                 sendingKeySets = parameterSets;
-                semaphore.Release();
 
                 return Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
             };
 
             // Act.
-            _handler.Get(lastKeySet, null);
+            await _handler.SyncCachedDataAsync(lastEntry).ConfigureAwait(false);
 
             // Assert.
-            Assert.True(await semaphore.WaitAsync(_waitingTime));
+            var firstEntry = createdCacheEntries[0];
 
-            semaphore.Dispose();
-            _storage.TryGet(createdKeySets[0].BuildKey(), out CacheEntry entry);
+            _storage.TryGet(firstEntry.OriginalKeySet.BuildKey(), out CacheEntry entry);
 
             Assert.True(entry.NeedToRenew(_clock.UtcNow));
         }
 
-        private KeySet[] SetupStorageWithBatchOfData(int expectedLength, int creationInterval)
+        private CacheEntry[] SetupStorageWithBatchOfData(int expectedLength, int creationInterval)
         {
             var createdEntries = new CacheEntry[expectedLength];
 
@@ -316,10 +312,10 @@
                 _clock.Add(TimeSpan.FromSeconds(creationInterval));
             }
 
-            return createdEntries.Select(enrty => enrty.OriginalKeySet).ToArray();
+            return createdEntries.ToArray();
         }
 
-        private KeySet SetupStorageWithOnlyOneEntry()
+        private CacheEntry SetupStorageWithOnlyOneEntry()
         {
             var keySet = new KeySet
             {
@@ -334,7 +330,7 @@
 
             _storage.Add(entry);
 
-            return keySet;
+            return entry;
         }
 
         public void Dispose()
