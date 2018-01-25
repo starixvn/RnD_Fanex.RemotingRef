@@ -48,7 +48,7 @@
             var betTypeName = _remotingRefService.GetBetTypeName("606", "en-US", string.Empty, "10");
 
             // Assert
-            Assert.Equal("1H Race to 10", betTypeName);
+            Assert.Equal("1H Race To 10 Points", betTypeName);
         }
 
         [Fact]
@@ -58,7 +58,7 @@
             var betTypeName = _remotingRefService.GetBetTypeName("606", "en-US", string.Empty, "10", 13242354353453);
 
             // Assert
-            Assert.Equal("1H Race to 10 (Via Lucky)", betTypeName);
+            Assert.Equal("1H Race To 10 Points (Via Lucky)", betTypeName);
         }
 
         [Fact]
@@ -121,10 +121,10 @@
         public void GetResourceDataByRefIdAndResourceId_Always_ReturnExpectedResourceData()
         {
             // Act
-            var resourceData = _remotingRefService.GetResourceDataByRefIdAndResourceId("1", "2", "en-US", string.Empty);
+            var resourceData = _remotingRefService.GetResourceDataByRefIdAndResourceId("AG_SicBo", "41", "en-US", string.Empty);
 
             // Assert
-            Assert.Equal("Odd/Even", resourceData);
+            Assert.Equal("Big", resourceData);
         }
 
         [Fact]
@@ -144,7 +144,7 @@
             var combinationTypeList = _remotingRefService.GetCombinationTypeCombo("110", "2", 5, 10, string.Empty);
 
             // Assert
-            Assert.Equal(new[] { "Trixie (4 Bets)" }, combinationTypeList);
+            Assert.Equal(new[] { "Trixie" }, combinationTypeList);
         }
 
         [Fact]
@@ -216,7 +216,7 @@
 
             // Assert
             Assert.Equal("Green", lotteryBetChoice);
-            Assert.Equal("19", lotteryBetType);
+            Assert.Equal("16", lotteryBetType);
         }
 
         [Fact]

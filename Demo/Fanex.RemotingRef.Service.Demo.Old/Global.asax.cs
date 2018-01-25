@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Service.Demo.Old
 {
+    using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -7,7 +8,7 @@
 #pragma warning disable SA1649 // File name must match first type name
 #pragma warning disable S2325 // Methods and properties that don't access instance data should be static
 
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
