@@ -2,21 +2,22 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using Fanex.RemotingRef.Delegates;
     using Fanex.RemotingRef.TranslationStorage;
 
     public class RefDataTypeContainer
     {
-        private readonly Dictionary<RefDataType, RefDataTypeHandlerOptions> _registeredDataTypeHandlerOptions;
+        private readonly ConcurrentDictionary<RefDataType, RefDataTypeHandlerOptions> _registeredDataTypeHandlerOptions;
         private readonly ConcurrentDictionary<RefDataType, IRefDataTypeHandler> _registeredDataTypeHandlers;
         private readonly Uri _remotingRefServiceUri;
 
         private RefDataTypeContainer(Uri remotingRefServiceUri)
         {
-            _registeredDataTypeHandlerOptions = PreRegisterSpecialDataTypes();
+            _registeredDataTypeHandlerOptions = new ConcurrentDictionary<RefDataType, RefDataTypeHandlerOptions>();
             _registeredDataTypeHandlers = new ConcurrentDictionary<RefDataType, IRefDataTypeHandler>();
             _remotingRefServiceUri = remotingRefServiceUri;
+
+            PreRegisterSpecialDataTypes();
         }
 
         public static Uri ServiceUri
@@ -34,29 +35,15 @@
 
         private static RefDataTypeContainer CurrentInstance { get; set; }
 
-        private Dictionary<RefDataType, RefDataTypeHandlerOptions> PreRegisterSpecialDataTypes()
+        private void PreRegisterSpecialDataTypes()
         {
-            var registeredOptions = new Dictionary<RefDataType, RefDataTypeHandlerOptions>
-            {
-                {
-                    RefDataType.TeamName,
-                    new RefDataTypeHandlerOptions
-                    {
-                        CompactOnMemoryPressure = true,
-                        NumberOfEntriesLimit = 1000000,
-                    }
-                },
-                {
-                    RefDataType.LeagueName,
-                    new RefDataTypeHandlerOptions
-                    {
-                        CompactOnMemoryPressure = true,
-                        NumberOfEntriesLimit = 17000,
-                    }
-                }
-            };
+            _registeredDataTypeHandlerOptions.TryAdd(
+                RefDataType.TeamName,
+                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 1000000 });
 
-            return registeredOptions;
+            _registeredDataTypeHandlerOptions.TryAdd(
+                RefDataType.LeagueName,
+                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17000 });
         }
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
@@ -116,14 +103,10 @@
                 throw new ArgumentNullException(nameof(options));
             }
 
-            if (_registeredDataTypeHandlerOptions.ContainsKey(dataType))
-            {
-                _registeredDataTypeHandlerOptions[dataType] = options;
-            }
-            else
-            {
-                _registeredDataTypeHandlerOptions.Add(dataType, options);
-            }
+            _registeredDataTypeHandlerOptions.AddOrUpdate(
+                dataType,
+                options,
+                (updatingDataType, oldOptions) => options);
 
             return this;
         }
