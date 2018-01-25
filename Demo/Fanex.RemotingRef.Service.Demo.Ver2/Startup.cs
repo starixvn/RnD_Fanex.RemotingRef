@@ -52,7 +52,7 @@
 
                               if (ex != null)
                               {
-                                  var err = $"<h1>Error: {ex.Error.InnerException.Message}</h1>{ex.Error.StackTrace }";
+                                  var err = $"<h1>Error: {ex.Error.InnerException.Message}</h1>{ex.Error.StackTrace}";
                                   await context.Response.WriteAsync(err).ConfigureAwait(false);
                                   _logger.LogError(ex.Error.InnerException.Message);
                                   _logger.LogError(ex.Error.StackTrace);

@@ -427,11 +427,11 @@
                 requestUri.Append($"languages={language}&");
             }
 
-            var response = _client.GetAsync(requestUri.ToString()).Result;
+            var response = _client.GetAsync(requestUri.ToString()).GetAwaiter().GetResult();
 
             if (response.IsSuccessStatusCode)
             {
-                var responseResult = response.Content?.ReadAsStreamAsync().Result;
+                var responseResult = response.Content?.ReadAsStreamAsync().GetAwaiter().GetResult();
 
                 result = _serializer.Deserialize<Dictionary<string, T>>(responseResult);
             }
@@ -455,7 +455,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                var responseResult = response.Content.ReadAsStreamAsync().Result;
+                var responseResult = await response.Content.ReadAsStreamAsync();
 
                 result = _serializer.Deserialize<Dictionary<KeySet, Dictionary<string, T>>>(responseResult);
             }
