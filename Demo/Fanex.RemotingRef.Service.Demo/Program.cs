@@ -1,8 +1,10 @@
 ﻿namespace Fanex.RemotingRef.Service.Demo
 {
+    using System;
     using System.IO;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using NLog.Web;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1600 // Elements must be documented
@@ -22,6 +24,7 @@
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseNLog()
                 .CaptureStartupErrors(true)
                 .Build();
     }

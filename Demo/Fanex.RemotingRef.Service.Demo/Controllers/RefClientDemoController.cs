@@ -1,6 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Service.Demo.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
@@ -28,7 +29,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("BetTypeName")]
-        [SwaggerOperation("BetTypeName")]
+        //[SwaggerOperation("BetTypeName")]
         public IActionResult BetTypeName([FromQuery]string betTypeId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, languageCode);
@@ -46,7 +47,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("BetTypeNameWithRefNo")]
-        [SwaggerOperation("BetTypeNameWithRefNo")]
+        //[SwaggerOperation("BetTypeNameWithRefNo")]
         public IActionResult BetTypeNameWithRefNo([FromQuery]string betTypeId, [FromQuery]long refNo, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, languageCode, refNo);
@@ -64,7 +65,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("BetTypeNameWithResourceId")]
-        [SwaggerOperation("BetTypeName With ResourceId")]
+        //[SwaggerOperation("BetTypeName With ResourceId")]
         public IActionResult BetTypeNameWithResourceId([FromQuery]string betTypeId, [FromQuery]string resourceId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetBetTypeName(betTypeId, languageCode, string.Empty, resourceId);
@@ -83,7 +84,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("BetTypeNameWithRefNoAndResourceId")]
-        [SwaggerOperation("BetTypeNameWithRefNoAndResourceId")]
+        //[SwaggerOperation("BetTypeNameWithRefNoAndResourceId")]
         public IActionResult BetTypeNameWithRefNoAndResourceId(
             [FromQuery]string betTypeId, [FromQuery]string resourceId, [FromQuery]long refNo, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
@@ -101,7 +102,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("SportName")]
-        [SwaggerOperation("SportName")]
+        //[SwaggerOperation("SportName")]
         public IActionResult SportName([FromQuery]string sportTypeId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetSportName(sportTypeId, languageCode);
@@ -118,7 +119,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("TeamName")]
-        [SwaggerOperation("TeamName")]
+        //[SwaggerOperation("TeamName")]
         public IActionResult TeamName([FromQuery]string teamId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetTeamName(teamId, languageCode);
@@ -135,7 +136,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("TeamName3rd")]
-        [SwaggerOperation("TeamName3rd")]
+        //[SwaggerOperation("TeamName3rd")]
         public IActionResult TeamName3rd([FromQuery]string team3rdId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetTeamName3rd(team3rdId, languageCode);
@@ -152,7 +153,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("LeagueName")]
-        [SwaggerOperation("LeagueName")]
+        //[SwaggerOperation("LeagueName")]
         public IActionResult LeagueName([FromQuery]string leagueId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetLeagueName(leagueId, languageCode);
@@ -169,7 +170,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("LeagueName3rd")]
-        [SwaggerOperation("LeagueName3rd")]
+        //[SwaggerOperation("LeagueName3rd")]
         public IActionResult LeagueName3rd([FromQuery]string leagueId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetLeagueName3rd(leagueId, languageCode);
@@ -187,7 +188,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("CountryName")]
-        [SwaggerOperation("CountryName")]
+        //[SwaggerOperation("CountryName")]
         public IActionResult CountryName([FromQuery]string countryId, [FromQuery]string languageCode, string defaultValue = "")
         {
             var result = _remotingRefService.GetCountryName(countryId, languageCode, defaultValue);
@@ -204,7 +205,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("OddsTypeName")]
-        [SwaggerOperation("OddsTypeName")]
+        //[SwaggerOperation("OddsTypeName")]
         public IActionResult OddsTypeName([FromQuery]string oddsTypeId, [FromQuery]string languageCode)
         {
             var result = _remotingRefService.GetOddsTypeName(oddsTypeId, languageCode);
@@ -223,7 +224,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("ResourceDataByRefIdAndResourceId")]
-        [SwaggerOperation("ResourceDataByRefIdAndResourceId")]
+        //[SwaggerOperation("ResourceDataByRefIdAndResourceId")]
         public IActionResult ResourceDataByRefIdAndResourceId(
             [FromQuery]string refId,
             [FromQuery]string resourceId,
@@ -244,7 +245,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("ParentIdByBetTypeId")]
-        [SwaggerOperation("ParentIdByBetTypeId")]
+        //[SwaggerOperation("ParentIdByBetTypeId")]
         public IActionResult ParentIdByBetTypeId([FromQuery]string betTypeId, [FromQuery] string defaultValue = "")
         {
             var result = _remotingRefService.GetParentIdByBetTypeId(betTypeId, defaultValue);
@@ -264,7 +265,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("CombinationTypeCombo")]
-        [SwaggerOperation("CombinationTypeCombo")]
+        //[SwaggerOperation("CombinationTypeCombo")]
         public IActionResult CombinationTypeCombo([FromQuery]string betTeam, [FromQuery] string betCheck, [FromQuery] int handicap1, [FromQuery] int handicap2, [FromQuery] string languageCode)
         {
             var result = _remotingRefService.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, languageCode);
@@ -282,7 +283,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("HorseTeamName")]
-        [SwaggerOperation("HorseTeamName")]
+        //[SwaggerOperation("HorseTeamName")]
         public IActionResult HorseTeamName([FromQuery]string codeId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage, [FromQuery] string defaultValue = "")
         {
             var result = _remotingRefService.GetHorseTeamName(codeId, languageCode, defaultValue);
@@ -300,7 +301,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("CasinoBetItem")]
-        [SwaggerOperation("CasinoBetItem")]
+        //[SwaggerOperation("CasinoBetItem")]
         public IActionResult CasinoBetItem([FromQuery]string itemId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage, [FromQuery] string defaultValue = "")
         {
             var result = _remotingRefService.GetCasinoBetItem(itemId, languageCode, defaultValue);
@@ -318,7 +319,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("RouletteBetItem")]
-        [SwaggerOperation("RouletteBetItem")]
+        //[SwaggerOperation("RouletteBetItem")]
         public IActionResult RouletteBetItem([FromQuery]string itemId, [FromQuery]string languageCode, [FromQuery] string defaultValue = "")
         {
             var result = _remotingRefService.GetRouletteBetItem(itemId, languageCode, defaultValue);
@@ -335,7 +336,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("KenoBetChoice")]
-        [SwaggerOperation("KenoBetChoice")]
+        //[SwaggerOperation("KenoBetChoice")]
         public IActionResult KenoBetChoice([FromQuery]string betChoiceId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetKenoBetChoice(betChoiceId, languageCode, out string kenoBetTypeId);
@@ -352,7 +353,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("KenoBetType")]
-        [SwaggerOperation("KenoBetType")]
+        //[SwaggerOperation("KenoBetType")]
         public IActionResult KenoBetType([FromQuery]string betTypeId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetKenoBetType(betTypeId, languageCode);
@@ -372,7 +373,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("FastMarketsChoice")]
-        [SwaggerOperation("FastMarketsChoice")]
+        //[SwaggerOperation("FastMarketsChoice")]
         public IActionResult FastMarketsChoice(
             [FromQuery]string betTypeId,
             [FromQuery]string betTeam,
@@ -393,7 +394,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("FastMarkets225Result")]
-        [SwaggerOperation("FastMarkets225Result")]
+        //[SwaggerOperation("FastMarkets225Result")]
         public IActionResult FastMarkets225Result([FromQuery]string resultId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetFastMarkets225Result(resultId, languageCode);
@@ -410,7 +411,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("LotteryBetChoice")]
-        [SwaggerOperation("LotteryBetChoice")]
+        //[SwaggerOperation("LotteryBetChoice")]
         public IActionResult LotteryBetChoice([FromQuery]string betChoiceId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetLotteryBetChoice(betChoiceId, languageCode, out string betTypeId);
@@ -427,7 +428,7 @@
         /// <returns>Bet Type Name in multiple languages</returns>
         [HttpGet]
         [Route("LotteryBetTypeName")]
-        [SwaggerOperation("LotteryBetTypeName")]
+        //[SwaggerOperation("LotteryBetTypeName")]
         public IActionResult LotteryBetTypeName([FromQuery]string betTypeId, [FromQuery]string languageCode = RefDataTypeHandlerOptions.DefaultLanguage)
         {
             var result = _remotingRefService.GetLotteryBetType(betTypeId, languageCode);
