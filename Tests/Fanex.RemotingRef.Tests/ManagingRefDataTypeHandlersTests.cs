@@ -110,7 +110,7 @@
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler);
 
             // Assert.
-            Assert.Equal(1000000, handler.Options.NumberOfEntriesLimit);
+            Assert.Equal(100_000, handler.Options.NumberOfEntriesLimit);
             Assert.True(handler.Options.CompactOnMemoryPressure);
         }
 
@@ -145,7 +145,7 @@
             // Assert.
             var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler).Options;
 
-            Assert.NotEqual(1000000, currentAffectedOptions.NumberOfEntriesLimit);
+            Assert.NotEqual(100_000, currentAffectedOptions.NumberOfEntriesLimit);
         }
 
         [Fact]

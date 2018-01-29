@@ -39,11 +39,11 @@
         {
             _registeredDataTypeHandlerOptions.TryAdd(
                 RefDataType.TeamName,
-                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 1000000 });
+                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 100_000 });
 
             _registeredDataTypeHandlerOptions.TryAdd(
                 RefDataType.LeagueName,
-                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17000 });
+                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17_000 });
         }
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
