@@ -21,7 +21,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IRefDataHelper>(new RefDataHelper());
+            services.AddSingleton<IRefDataHelper, RefDataHelper>();
             services.AddMvc(option =>
             {
                 option.OutputFormatters.Add(new MessagePackOutputFormatter());

@@ -30,7 +30,7 @@
             RefDataTypeContainer.ConnectTo(new Uri(Configuration["RemotingRefService"]));
             services.AddMvc();
             services.Configure<IConfiguration>(Configuration);
-            services.AddSingleton<IRemotingRefService>(new RemotingRefService());
+            services.AddSingleton<IRemotingRefService, RemotingRefService>();
             services.AddSwaggerGen(c =>
               {
                   c.SwaggerDoc("v1", new Info { Version = "v1", Title = "Fanex.RemotingRef Demo Site", Description = "Demo Site For RemotingRef Client and RemotingRef Service 2.0" });
