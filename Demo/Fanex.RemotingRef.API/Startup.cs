@@ -16,7 +16,7 @@
     public class Startup
     {
 #pragma warning disable S1075 // URIs should not be hardcoded
-        private const string SwaggerJsonPath = "/swagger/v1/swagger.json";
+        private const string SwaggerJsonPath = "../swagger/v1/swagger.json";
 
         public Startup(IConfiguration configuration)
         {

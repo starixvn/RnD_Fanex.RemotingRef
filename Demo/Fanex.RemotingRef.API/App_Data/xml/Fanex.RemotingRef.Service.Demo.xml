@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Fanex.RemotingRef.Service.Demo</name>
+        <name>Fanex.RemotingRef.API</name>
     </assembly>
     <members>
         <member name="T:Fanex.RemotingRef.Service.Demo.Controllers.RefClientDemoController">
