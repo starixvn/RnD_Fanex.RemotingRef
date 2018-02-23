@@ -74,10 +74,14 @@
             return RefData.GetLeagueName(leagueId, languageCode, defaultValue);
         }
 
+#pragma warning disable S3717 // Track use of "NotImplementedException"
+
         public string GetLeagueName3rd(string league3rdId, string languageCode, string defaultValue)
         {
             throw new NotImplementedException(); // TODO: Update latest remoting ref
         }
+
+#pragma warning restore S3717 // Track use of "NotImplementedException"
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
 
@@ -123,9 +127,13 @@
             return RefData.GetTeamName(teamId, languageCode, defaultValue);
         }
 
+#pragma warning disable S3717 // Track use of "NotImplementedException"
+
         public string GetTeamName3rd(string team3rdId, string languageCode, string defaultValue)
         {
             throw new NotImplementedException(); // TODO: Update latest remoting ref
         }
+
+#pragma warning restore S3717 // Track use of "NotImplementedException"
     }
 }

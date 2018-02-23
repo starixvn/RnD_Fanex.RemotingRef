@@ -6,13 +6,6 @@
 
     public class RefController : ApiController
     {
-        private readonly IRefData _refData;
-
-        public RefController()
-        {
-            _refData = new RefNewData.RefNewDataHandler();
-        }
-
         [HttpGet]
         public Dictionary<string, string> BetTypeName(string betTypeId, [FromUri] string[] languages)
         {
@@ -20,7 +13,7 @@
 
             foreach (var language in languages)
             {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, GenerateTaiwanLanguage(language), string.Empty));
+                betTypeNames.Add(language, RefData.GetBetTypeName(betTypeId, GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return betTypeNames;
@@ -33,7 +26,7 @@
 
             foreach (var language in languages)
             {
-                sportNames.Add(language, _refData.GetSportName(sportTypeId, GenerateTaiwanLanguage(language), string.Empty));
+                sportNames.Add(language, RefData.GetSportName(sportTypeId, GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return sportNames;
@@ -46,7 +39,7 @@
 
             foreach (var language in languages)
             {
-                teamNames.Add(language, _refData.GetTeamName(teamId, GenerateTaiwanLanguage(language), string.Empty));
+                teamNames.Add(language, RefData.GetTeamName(teamId, GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return teamNames;
@@ -59,7 +52,7 @@
 
             foreach (var language in languages)
             {
-                leagueNames.Add(language, _refData.GetLeagueName(leagueId, GenerateTaiwanLanguage(language), string.Empty));
+                leagueNames.Add(language, RefData.GetLeagueName(leagueId, GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return leagueNames;
@@ -72,7 +65,7 @@
 
             foreach (var language in languages)
             {
-                resourceData.Add(language, _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, GenerateTaiwanLanguage(language), string.Empty));
+                resourceData.Add(language, RefData.GetResourceDataByRefIdAndResourceId(refId, resourceId, GenerateTaiwanLanguage(language), string.Empty));
             }
 
             return resourceData;

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-
-namespace Fanex.RemotingRef.Demo.Ver2.MVC
+﻿namespace Fanex.RemotingRef.Demo.Ver2.MVC
 {
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
+#pragma warning disable S1118 // Utility classes should not have public constructors
+
     public class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
@@ -16,8 +14,9 @@ namespace Fanex.RemotingRef.Demo.Ver2.MVC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
         }
     }
+
+#pragma warning restore S1118 // Utility classes should not have public constructors
 }

@@ -1,8 +1,9 @@
-﻿using System.Web;
-using System.Web.Mvc;
-
-namespace Fanex.RemotingRef.Service.MVC
+﻿namespace Fanex.RemotingRef.Service.MVC
 {
+    using System.Web.Mvc;
+
+#pragma warning disable S1118 // Utility classes should not have public constructors
+
     public class FilterConfig
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -10,4 +11,6 @@ namespace Fanex.RemotingRef.Service.MVC
             filters.Add(new HandleErrorAttribute());
         }
     }
+
+#pragma warning restore S1118 // Utility classes should not have public constructors
 }

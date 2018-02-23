@@ -8,10 +8,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors>NU1605;</WarningsAsErrors>
     <NoWarn>AD0001;NU1603</NoWarn>
+    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
