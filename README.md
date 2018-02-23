@@ -74,3 +74,36 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
     ```
     
 # Configuration & Customization
+
+- Fanex.RemotingRef allow you to customize cached data types and supported languages in your site. All customized methods are supported in class **RefDataTypeContainer**. For example
+
+    ```csharp
+         RefDataTypeContainer
+            .ConnectTo(new Uri(Configuration["RemotingRefService"]))
+            .RegisterSupportedLanguages(new[] { "en-US", "ja-JP" })
+            .Register(RefDataType.BetTypeName, new RefDataTypeHandlerOptions
+              {
+              	SlidingTimeout = TimeSpan.FromMilliseconds(40)
+              });
+    ```
+
+#### RefDataTypeContainer
+| **Method**        | **Description**  |
+| ------------- | -------------|
+| ConnectTo(**Uri** remotingRefServiceUri) | Connect to RemotingRef Service with Url |
+| SupportMultiLanguages()    | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-Hans) |
+| SupportOnlyDefaultLanguage() | Only support English (en-US) |
+| RegisterSupportedLanguages(**string[]** languageCodes) | Support optional languages |
+| Register(**RefDataType** dataType, **RefDataTypeHandlerOptions** options) | Register caching data type with customized *RefDataTypeHandlerOptions* |
+
+#### RefDataTypeHandlerOptions
+| **Options** | **Description**  | **Type** | **Default Value**  |
+|-------------|------------------|----------|--------------------|
+|SyncBatchSize| Number of item of DataType for each sync time|int| 100 |
+|SlidingTimeout| Cache sliding time out  |TimeSpan| 10 minutes |
+|RenewalTime| Time to sync data from Ref Service  | Timespan | 40 seconds |
+|NumberOfEntriesLimit| The limited number of cached items for each *DataType* in local storage. When cached items amount is greater than *NumberOfEntriesLimit*, Fanex.RemotingRef will remove rarely accessed items for adding new item to local cache. The number of removed items is based on **CompactionPercentage** value | int | 1000 |
+|CompactionPercentage| The percentage of item ammont that will be removed when high memory or reaching *NumberOfEntriesLimit* | double| 0.1 (10%)|
+|CompactOnMemoryPressure| Enable cleaning cached items when Gargabe Collector runs | bool| false |
+|ExpirationScanFrequency| Time to scan expired cached items | Timespan | 1 minute |
+
