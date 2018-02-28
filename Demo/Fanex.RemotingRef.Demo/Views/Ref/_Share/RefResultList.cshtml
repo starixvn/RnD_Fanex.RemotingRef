@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Fanex.RemotingRef.Demo.Models.RefDataViewModel>
+<br />
+<table class="table table-bordered row">
+    <thead>
+        <tr>
+            <td>@Model.First().DataType Id</td>
+            <td>Taiwan.RemotingRef 1.0</td>
+            <td>Taiwan.RemotingRef 2.0</td>
+            <td>Fanex.RemotingRef 2.0</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var viewModel in Model)
+        {
+           
+        <tr class="@(viewModel.RefDataResult.IsDataMatched()? "text-success" : "text-danger")">
+            <td>@viewModel.TypeId</td>
+            <td>@viewModel.RefDataResult.TaiwanRefOld</td>
+            <td>@viewModel.RefDataResult.TaiwanRefNew</td>
+            <td>@viewModel.RefDataResult.FanexRefNew</td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+
