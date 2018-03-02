@@ -15,7 +15,7 @@
     <PropertyGroup>
         <NoWarn>AD0001</NoWarn>
         <Features>IOperation</Features>
-        <CodeAnalysisRuleSet>$(SolutionDir)\Fanex.RemotingRef.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>$(SolutionDir)\SonarQube\RemotingRefCSharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347">
