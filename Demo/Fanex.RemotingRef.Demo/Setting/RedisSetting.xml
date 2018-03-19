@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Root>
-  <Redis Host="10.18.200.104:63799">
+  <Redis Host="10.19.10.145:6379">
     <Item Name="RefNewData" Prefix="RefTest"></Item>
   </Redis>
 </Root>
