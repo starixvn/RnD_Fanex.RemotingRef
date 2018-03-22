@@ -1,11 +1,9 @@
 ﻿namespace Fanex.RemotingRef.Demo
 {
     using System;
-    using System.Net;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using global::RemotingRef;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +12,8 @@
 
     public class Startup
     {
-        private readonly ILogger<Startup> _logger;
-
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration)
         {
-            _logger = logger;
             Configuration = configuration;
         }
 
@@ -34,32 +29,14 @@
             services.AddSingleton<IRemotingRefDataAccess, RemotingRefDataAccess>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler(
-                    options =>
-                    {
-                        options.Run(
-                        async context =>
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            context.Response.ContentType = "text/html";
-                            var ex = context.Features.Get<IExceptionHandlerFeature>();
-
-                            if (ex != null)
-                            {
-                                _logger.LogError(ex.Error.GetBaseException().Message + ex.Error.StackTrace);
-                            }
-                        });
-                    });
             }
 
             app.UseStaticFiles();
@@ -72,4 +49,6 @@
             });
         }
     }
+
+#pragma warning restore S2325 // Methods and properties that don't access instance data should be static
 }

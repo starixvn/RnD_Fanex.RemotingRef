@@ -3,7 +3,8 @@
     using System.IO;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-    using NLog.Web;
+
+#pragma warning disable S1118 // Utility classes should not have public constructors
 
     public class Program
     {
@@ -19,8 +20,9 @@
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                //.UseNLog()
                 .CaptureStartupErrors(true)
                 .Build();
     }
+
+#pragma warning restore S1118 // Utility classes should not have public constructors
 }

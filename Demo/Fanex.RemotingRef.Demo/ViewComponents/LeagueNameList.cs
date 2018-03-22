@@ -16,6 +16,8 @@
             _remotingRefDataAccess = remotingRefDataAccess;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var inputData = new[] { 3, 4, 5, 6, 7, 8, 10 };
@@ -36,4 +38,6 @@
             return View("~/Views/Ref/_Share/RefResultList.cshtml", viewModels);
         }
     }
+
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 }

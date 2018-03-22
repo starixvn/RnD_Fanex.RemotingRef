@@ -1,0 +1,340 @@
+﻿namespace Fanex.RemotingRef.Service.Controllers
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Http;
+    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.Service.Utilities;
+    using Fanex.RemotingRef.Service.Utilities.RefData;
+    using global::RemotingRef;
+
+    public class RefSyncController : ApiController
+    {
+        private readonly IRefDataHelper _refData = new RefDataHelper();
+
+        public RefSyncController()
+            : this(null)
+        {
+        }
+
+        public RefSyncController(IRefDataHelper refData)
+        {
+            _refData = refData ?? _refData;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> BetTypeName([FromBody]RequestSyncFormData data)
+        {
+            var betTypeNameSet = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+
+            foreach (var parameterSet in data.ParameterSets)
+            {
+                var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
+
+                betTypeNameSet.Add(parameterSet, betTypeNames);
+            }
+
+            return betTypeNameSet;
+        }
+
+        private static Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
+        {
+            var betTypeNames = new Dictionary<string, string>();
+
+            foreach (var language in languages)
+            {
+                if (parameterSet.Keys.Count == 1)
+                {
+                    betTypeNames.Add(language, RefData.GetBetTypeName(parameterSet["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                }
+                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("refNo"))
+                {
+                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                        parameterSet["betTypeId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        (long)parameterSet["refNo"],
+                        string.Empty));
+                }
+                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("resourceId"))
+                {
+                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                        parameterSet["betTypeId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        string.Empty,
+                        parameterSet["resourceId"].ToString()));
+                }
+                else
+                {
+                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                       parameterSet["betTypeId"].ToString(),
+                       LanguageHelper.GenerateTaiwanLanguage(language),
+                       string.Empty,
+                       parameterSet["resourceId"].ToString(),
+                        (long)parameterSet["refNo"]));
+                }
+            }
+
+            return betTypeNames;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> SportName([FromBody]RequestSyncFormData data)
+        {
+            var sportNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => RefData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return sportNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> TeamName([FromBody]RequestSyncFormData data)
+        {
+            var teamNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => RefData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return teamNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> TeamName3rd([FromBody]RequestSyncFormData data)
+        {
+            var teamName3rdSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetTeamName(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return teamName3rdSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LeagueName([FromBody]RequestSyncFormData data)
+        {
+            var leagueNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => RefData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return leagueNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LeagueName3rd([FromBody]RequestSyncFormData data)
+        {
+            var leagueName3rdSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => RefData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return leagueName3rdSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ResourceData([FromBody]RequestSyncFormData data)
+        {
+            var resourceDataSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => RefData.GetResourceDataByRefIdAndResourceId(
+                        parameter["refId"].ToString(),
+                        parameter["resourceId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        string.Empty));
+
+            return resourceDataSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> CountryName([FromBody]RequestSyncFormData data)
+        {
+            var countryNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return countryNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> OddsTypeName([FromBody]RequestSyncFormData data)
+        {
+            var oddsTypeNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return oddsTypeNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ParentIdByBetTypeId([FromBody]RequestSyncFormData data)
+        {
+            var parentIdSet = GetResultSet(
+                data,
+                (parameter, _) => _refData.GetParentIdByBetTypeId(parameter["betTypeId"].ToString(), string.Empty));
+
+            return parentIdSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> CombinationTypeComboParlay([FromBody]RequestSyncFormData data)
+        {
+            var combinationTypeSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetCombinationTypeCombo(
+                        parameter["betTeam"].ToString(),
+                        parameter["betCheck"].ToString(),
+                        (int)parameter["handicap1"],
+                        (int)parameter["handicap2"],
+                        LanguageHelper.GenerateTaiwanLanguage(language)));
+
+            return combinationTypeSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> HorseTeamName([FromBody]RequestSyncFormData data)
+        {
+            var horseTeamNameSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return horseTeamNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> CasinoBetItem([FromBody]RequestSyncFormData data)
+        {
+            var casinoBetItemSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return casinoBetItemSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> RouletteBetItem([FromBody]RequestSyncFormData data)
+        {
+            var rouletteBetItemSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return rouletteBetItemSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> KenoBetType([FromBody]RequestSyncFormData data)
+        {
+            var kenoBetTypeSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return kenoBetTypeSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> KenoBetChoice([FromBody] RequestSyncFormData data)
+        {
+            var kenoBetChoiceSet = GetResultSet(
+                data,
+                (parameter, language) =>
+                {
+                    var kenoBetChoice = _refData.GetKenoBetChoice(
+                        parameter["kenoBetChoiceId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        string.Empty,
+                        out string kenoBetTypeId);
+
+                    return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+                });
+
+            return kenoBetChoiceSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> FastMarketsChoice([FromBody]RequestSyncFormData data)
+        {
+            var fastMarketChoiceSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetFastMarketsChoice(
+                        parameter["betTypeId"].ToString(),
+                        parameter["betTeam"].ToString(),
+                        (int)parameter["handicap1"],
+                        (int)parameter["handicap2"],
+                        LanguageHelper.GenerateTaiwanLanguage(language)));
+
+            return fastMarketChoiceSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> FastMarkets225Result([FromBody]RequestSyncFormData data)
+        {
+            var fastMarkets225ResultSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+
+            return fastMarkets225ResultSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> LotteryBetChoice([FromBody]RequestSyncFormData data)
+        {
+            var lotteryBetChoiceSet = GetResultSet(
+                  data,
+                  (parameter, language) =>
+                  {
+                      var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                          parameter["betChoiceId"].ToString(),
+                          LanguageHelper.GenerateTaiwanLanguage(language),
+                          string.Empty,
+                          out string lotteryBetType);
+
+                      return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
+                  });
+
+            return lotteryBetChoiceSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LotteryBetTypeName([FromBody]RequestSyncFormData data)
+        {
+            var lotteryBetTypeSet = GetResultSet(
+                data,
+                (parameter, language)
+                    => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+
+            return lotteryBetTypeSet;
+        }
+
+        private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(
+            RequestSyncFormData data,
+            Func<Dictionary<string, object>, string, T> getRefData)
+        {
+            var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
+            data.Languages = data.Languages ?? new[] { "en-US" };
+
+            foreach (var parameterSet in data.ParameterSets)
+            {
+                var result = new Dictionary<string, T>();
+
+                foreach (var language in data.Languages)
+                {
+                    result.Add(language, getRefData(parameterSet, language));
+                }
+
+                resultSet.Add(parameterSet, result);
+            }
+
+            return resultSet;
+        }
+    }
+}
