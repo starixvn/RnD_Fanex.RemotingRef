@@ -419,7 +419,7 @@
 
             foreach (var parameter in parameters)
             {
-                requestUri.Append($"{parameter.Key}={parameter.Value}&");
+                requestUri.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
             }
 
             foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
