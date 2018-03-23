@@ -147,5 +147,17 @@
                 TaiwanRefNew = _taiwanRefNew.GetResourceDataByRefIdAndResourceId(refId, resourceId, twLanguage, DefaultValue)
             };
         }
+
+        public RefDataResult GetCountryName(string countryId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetCountryName(countryId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetCountryName(countryId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetCountryName(countryId, twLanguage, DefaultValue)
+            };
+        }
     }
 }

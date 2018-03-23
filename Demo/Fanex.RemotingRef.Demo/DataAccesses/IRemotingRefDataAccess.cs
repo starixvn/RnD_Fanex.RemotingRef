@@ -14,5 +14,7 @@
         RefDataResult GetTeamName(string teamId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetResourceData(string refId, string resourceId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetCountryName(string countryId, string languageCode = Common.DefaultLanguage);
     }
 }
