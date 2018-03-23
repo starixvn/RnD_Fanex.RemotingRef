@@ -21,10 +21,10 @@
         public void BetTypeName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetBetTypeName("1", "en", string.Empty).Returns("handicap");
-            _refData.GetBetTypeName("1", "en", 10000000000, string.Empty).Returns("handicap_refNo");
-            _refData.GetBetTypeName("1", "en", string.Empty, "12").Returns("handicap_resourceId");
-            _refData.GetBetTypeName("1", "en", string.Empty, "12", 10000000000).Returns("handicap_resourceId_refNo");
+            _refData.GetBetTypeName("1", "en").Returns("handicap");
+            _refData.GetBetTypeName("1", "en", 10000000000).Returns("handicap_refNo");
+            _refData.GetBetTypeName("1", "en", "12").Returns("handicap_resourceId");
+            _refData.GetBetTypeName("1", "en", "12", 10000000000).Returns("handicap_resourceId_refNo");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -57,7 +57,7 @@
         public void SportName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetSportName("1", "ch", string.Empty).Returns("sport");
+            _refData.GetSportName("1", "ch").Returns("sport");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -84,7 +84,7 @@
         public void TeamName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetTeamName("1", "cs", string.Empty).Returns("team");
+            _refData.GetTeamName("1", "cs").Returns("team");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -111,7 +111,7 @@
         public void LeagueName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetLeagueName("1", "jp", string.Empty).Returns("league");
+            _refData.GetLeagueName("1", "jp").Returns("league");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -138,7 +138,7 @@
         public void CountryName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetCountryName("1", "th", string.Empty).Returns("vietnam");
+            _refData.GetCountryName("1", "th").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -165,7 +165,7 @@
         public void OddsTypeName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetOddsTypeName("1", "ko", string.Empty).Returns("vietnam");
+            _refData.GetOddsTypeName("1", "ko").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -192,7 +192,7 @@
         public void ResourceData_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetResourceDataByRefIdAndResourceId("1", "12", "vn", string.Empty).Returns("vietnam");
+            _refData.GetResourceDataByRefIdAndResourceId("1", "12", "vn").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -219,7 +219,7 @@
         public void ParentIdByBetTypeId_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetParentIdByBetTypeId("1", string.Empty).Returns("vietnam");
+            _refData.GetParentIdByBetTypeId("1").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -272,7 +272,7 @@
         public void HorseTeamName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetHorseTeamName("1", "zhcn", string.Empty).Returns("vietnam");
+            _refData.GetHorseTeamName("1", "zhcn").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -299,7 +299,7 @@
         public void CasinoBetItem_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetCasinoBetItem("1", "en", string.Empty).Returns("vietnam");
+            _refData.GetCasinoBetItem("1", "en").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -326,7 +326,7 @@
         public void RouletteBetItem_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetRouletteBetItem("1", "en", string.Empty).Returns("vietnam");
+            _refData.GetRouletteBetItem("1", "en").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -353,7 +353,7 @@
         public void KenoBetType_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetKenoBetType("1", "en", string.Empty).Returns("vietnam");
+            _refData.GetKenoBetType("1", "en").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -380,7 +380,7 @@
         public void KenoBetChoice_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetKenoBetChoice("1", "en", string.Empty, out string kenoBetTypeId).Returns("vietnam");
+            _refData.GetKenoBetChoice("1", "en", out string kenoBetTypeId).Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -461,7 +461,7 @@
         public void LotteryBetChoice_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetLotteryBetChoice("1", "en", string.Empty, out string lotteryBetTypeId).Returns("vietnam");
+            _refData.GetLotteryBetChoice("1", "en", out string lotteryBetTypeId).Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -488,7 +488,7 @@
         public void LotteryBetTypeName_Always_CallRefDataWithCorrectParameters()
         {
             // Arrange
-            _refData.GetLotteryBetType("1", "en", string.Empty).Returns("vietnam");
+            _refData.GetLotteryBetType("1", "en").Returns("vietnam");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {

@@ -28,7 +28,7 @@
 
             foreach (var language in languages)
             {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return betTypeNames;
@@ -41,7 +41,7 @@
 
             foreach (var language in languages)
             {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), refNo, string.Empty));
+                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), refNo));
             }
 
             return betTypeNames;
@@ -54,7 +54,7 @@
 
             foreach (var language in languages)
             {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, resourceId));
+                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId));
             }
 
             return betTypeNames;
@@ -67,7 +67,7 @@
 
             foreach (var language in languages)
             {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, resourceId, refNo));
+                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId, refNo));
             }
 
             return betTypeNames;
@@ -80,7 +80,7 @@
 
             foreach (var language in languages)
             {
-                sportNames.Add(language, _refData.GetSportName(sportTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                sportNames.Add(language, _refData.GetSportName(sportTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return sportNames;
@@ -93,7 +93,7 @@
 
             foreach (var language in languages)
             {
-                teamNames.Add(language, _refData.GetTeamName(teamId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                teamNames.Add(language, _refData.GetTeamName(teamId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return teamNames;
@@ -106,7 +106,7 @@
 
             foreach (var language in languages)
             {
-                teamNames.Add(language, _refData.GetTeamName3rd(team3rdId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                teamNames.Add(language, _refData.GetTeamName3rd(team3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return teamNames;
@@ -119,7 +119,7 @@
 
             foreach (var language in languages)
             {
-                leagueNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                leagueNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return leagueNames;
@@ -132,7 +132,7 @@
             foreach (var language in languages)
             {
                 // TODO: Update latest RemotingRef
-                league3rdNames.Add(language, _refData.GetLeagueName3rd(league3rdId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                league3rdNames.Add(language, _refData.GetLeagueName3rd(league3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return league3rdNames;
@@ -147,7 +147,7 @@
             {
                 resourceData.Add(
                     language,
-                    _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return resourceData;
@@ -160,7 +160,7 @@
 
             foreach (var lang in languages)
             {
-                countryNames.Add(lang, _refData.GetCountryName(countryCode, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
+                countryNames.Add(lang, _refData.GetCountryName(countryCode, LanguageHelper.GenerateTaiwanLanguage(lang)));
             }
 
             return countryNames;
@@ -173,7 +173,7 @@
 
             foreach (var lang in languages)
             {
-                oddsTypeNames.Add(lang, _refData.GetOddsTypeName(oddsTypeId, LanguageHelper.GenerateTaiwanLanguage(lang), string.Empty));
+                oddsTypeNames.Add(lang, _refData.GetOddsTypeName(oddsTypeId, LanguageHelper.GenerateTaiwanLanguage(lang)));
             }
 
             return oddsTypeNames;
@@ -184,7 +184,7 @@
         {
             var parentId = new Dictionary<string, string>
             {
-                { LanguageHelper.DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId, string.Empty) }
+                { LanguageHelper.DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId) }
             };
 
             return parentId;
@@ -215,7 +215,7 @@
 
             foreach (var language in languages)
             {
-                horseTeamNames.Add(language, _refData.GetHorseTeamName(codeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                horseTeamNames.Add(language, _refData.GetHorseTeamName(codeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return horseTeamNames;
@@ -228,7 +228,7 @@
 
             foreach (var language in languages)
             {
-                casinoBetItems.Add(language, _refData.GetCasinoBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                casinoBetItems.Add(language, _refData.GetCasinoBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return casinoBetItems;
@@ -241,7 +241,7 @@
 
             foreach (var language in languages)
             {
-                rouletteBetItems.Add(language, _refData.GetRouletteBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                rouletteBetItems.Add(language, _refData.GetRouletteBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return rouletteBetItems;
@@ -254,7 +254,7 @@
 
             foreach (var language in languages)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(kenoBetChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string kenoBetTypeId);
+                var kenoBetChoice = _refData.GetKenoBetChoice(kenoBetChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), out string kenoBetTypeId);
 
                 kenoBetChoices.Add(language, new Tuple<string, string>(kenoBetChoice, kenoBetTypeId));
             }
@@ -269,7 +269,7 @@
 
             foreach (var language in languages)
             {
-                kenoBetTypes.Add(language, _refData.GetKenoBetType(kenoBetTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                kenoBetTypes.Add(language, _refData.GetKenoBetType(kenoBetTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return kenoBetTypes;
@@ -308,7 +308,7 @@
 
             foreach (var language in languages)
             {
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty, out string lotteryBetTypeId);
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), out string lotteryBetTypeId);
 
                 lotteryBetChoices.Add(language, new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId));
             }
@@ -323,7 +323,7 @@
 
             foreach (var language in languages)
             {
-                lotteryBetTypes.Add(language, _refData.GetLotteryBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                lotteryBetTypes.Add(language, _refData.GetLotteryBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return lotteryBetTypes;

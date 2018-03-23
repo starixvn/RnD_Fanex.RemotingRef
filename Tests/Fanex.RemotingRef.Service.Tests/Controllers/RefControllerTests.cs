@@ -20,7 +20,7 @@
         public void BetTypeName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetBetTypeName("1", "en", string.Empty).Returns("handicap");
+            _refData.GetBetTypeName("1", "en").Returns("handicap");
             var refController = new RefController(_refData);
 
             // Act
@@ -35,7 +35,7 @@
         public void BetTypeNameWithRefNo_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetBetTypeName("1", "en", 1000000000, string.Empty).Returns("handicap");
+            _refData.GetBetTypeName("1", "en", 1000000000).Returns("handicap");
             var refController = new RefController(_refData);
 
             // Act
@@ -50,8 +50,8 @@
         public void BetTypeNameWithResourceId_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetBetTypeName("1", "en", string.Empty, "123").Returns("handicap");
-            _refData.GetBetTypeName("1", "jp", string.Empty, "123").Returns("handicapJP");
+            _refData.GetBetTypeName("1", "en", "123").Returns("handicap");
+            _refData.GetBetTypeName("1", "jp", "123").Returns("handicapJP");
             var refController = new RefController(_refData);
 
             // Act
@@ -66,7 +66,7 @@
         public void BetTypeNameWithRefNoAndResourceId_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetBetTypeName("1", "en", string.Empty, "123", 1000000000).Returns("handicap");
+            _refData.GetBetTypeName("1", "en", "123", 1000000000).Returns("handicap");
             var refController = new RefController(_refData);
 
             // Act
@@ -81,7 +81,7 @@
         public void SportName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetSportName("1", "en", string.Empty).Returns("Soccer");
+            _refData.GetSportName("1", "en").Returns("Soccer");
             var refController = new RefController(_refData);
 
             // Act
@@ -96,7 +96,7 @@
         public void TeamName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetTeamName("1", "en", string.Empty)
+            _refData.GetTeamName("1", "en")
                 .Returns("Manchester");
             var refController = new RefController(_refData);
 
@@ -112,7 +112,7 @@
         public void TeamName3rd_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetTeamName3rd("1", "en", string.Empty).Returns("Manchester");
+            _refData.GetTeamName3rd("1", "en").Returns("Manchester");
             var refController = new RefController(_refData);
 
             // Act
@@ -127,7 +127,7 @@
         public void LeagueName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetLeagueName("1", "en", string.Empty)
+            _refData.GetLeagueName("1", "en")
                 .Returns("Champion League");
             var refController = new RefController(_refData);
 
@@ -143,7 +143,7 @@
         public void LeagueName3rd_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetLeagueName3rd("1", "en", string.Empty)
+            _refData.GetLeagueName3rd("1", "en")
                 .Returns("Champion League");
             var refController = new RefController(_refData);
 
@@ -159,7 +159,7 @@
         public void CountryName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetCountryName("1", "en", string.Empty)
+            _refData.GetCountryName("1", "en")
                 .Returns("USA");
             var refController = new RefController(_refData);
 
@@ -175,7 +175,7 @@
         public void OddsTypeName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetOddsTypeName("1", "en", string.Empty)
+            _refData.GetOddsTypeName("1", "en")
                 .Returns("DecimalOdds");
             var refController = new RefController(_refData);
 
@@ -191,7 +191,7 @@
         public void ResourceData_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetResourceDataByRefIdAndResourceId("1", "2", "en", string.Empty)
+            _refData.GetResourceDataByRefIdAndResourceId("1", "2", "en")
                 .Returns("RefData");
             var refController = new RefController(_refData);
 
@@ -207,7 +207,7 @@
         public void ParentIdByBetTypeId_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetParentIdByBetTypeId("1", string.Empty)
+            _refData.GetParentIdByBetTypeId("1")
                 .Returns("2");
             var refController = new RefController(_refData);
 
@@ -239,7 +239,7 @@
         public void HorseTeamName_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetHorseTeamName("1", "en", string.Empty)
+            _refData.GetHorseTeamName("1", "en")
                 .Returns("HorseTeam");
             var refController = new RefController(_refData);
 
@@ -255,7 +255,7 @@
         public void CasinoBetItem_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetCasinoBetItem("1", "en", string.Empty)
+            _refData.GetCasinoBetItem("1", "en")
                 .Returns("CasinoItem");
             var refController = new RefController(_refData);
 
@@ -271,7 +271,7 @@
         public void RouletteBetItem_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetRouletteBetItem("1", "en", string.Empty)
+            _refData.GetRouletteBetItem("1", "en")
                 .Returns("RouletteBetItem");
             var refController = new RefController(_refData);
 
@@ -287,7 +287,7 @@
         public void KenoBetChoice_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetKenoBetChoice("1", "en", string.Empty, out string kenoBetType)
+            _refData.GetKenoBetChoice("1", "en", out string kenoBetType)
                 .Returns("RouletteBetItem");
             var refController = new RefController(_refData);
 
@@ -303,7 +303,7 @@
         public void KenoBetType_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetKenoBetType("1", "en", string.Empty)
+            _refData.GetKenoBetType("1", "en")
                 .Returns("BetTypeName");
             var refController = new RefController(_refData);
 
@@ -351,7 +351,7 @@
         public void LotteryBetChoice_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetLotteryBetChoice("1", "en", string.Empty, out string lotteryBetType)
+            _refData.GetLotteryBetChoice("1", "en", out string lotteryBetType)
                 .Returns("LotteryChoice");
             var refController = new RefController(_refData);
 
@@ -367,7 +367,7 @@
         public void LotteryBetType_Always_CallRefDataWithCorrectParameter()
         {
             // Arrange
-            _refData.GetLotteryBetType("1", "en", string.Empty)
+            _refData.GetLotteryBetType("1", "en")
                 .Returns("BetTypeName");
             var refController = new RefController(_refData);
 
