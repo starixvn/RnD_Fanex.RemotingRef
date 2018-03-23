@@ -224,7 +224,7 @@
 
         public string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode)
         {
-            const string actionName = "combinationTypeCombo";
+            const string actionName = "CombinationTypeComboParlay";
             IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
                 parameters => RequestTranslation<string[]>(RefController + actionName, parameters),

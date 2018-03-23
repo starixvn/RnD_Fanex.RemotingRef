@@ -100,7 +100,7 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> TeamName3rd(string team3rdId, string[] languages)
+        public Dictionary<string, string> TeamName3rd(string team3rdId, [FromUri]string[] languages)
         {
             var teamNames = new Dictionary<string, string>();
 
@@ -125,7 +125,7 @@
             return leagueNames;
         }
 
-        public Dictionary<string, string> LeagueName3rd(string league3rdId, string[] languages)
+        public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
         {
             var league3rdNames = new Dictionary<string, string>();
 
@@ -222,7 +222,7 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> CasinoBetItem(string itemId, string[] languages)
+        public Dictionary<string, string> CasinoBetItem(string itemId, [FromUri]string[] languages)
         {
             var casinoBetItems = new Dictionary<string, string>();
 

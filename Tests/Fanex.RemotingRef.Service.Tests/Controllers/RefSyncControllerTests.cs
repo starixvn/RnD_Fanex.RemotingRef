@@ -5,7 +5,6 @@
     using Fanex.RemotingRef.Service.Controllers;
     using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities.RefData;
-    using Microsoft.AspNetCore.Mvc;
     using NSubstitute;
     using Xunit;
 
@@ -43,7 +42,6 @@
             var actualResult = refSyncController.BetTypeName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "handicap" } } },
@@ -52,7 +50,7 @@
                 { requestSyncData.ParameterSets[3], new Dictionary<string, string> { { "en-US", "handicap_resourceId_refNo" } } }
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -74,13 +72,12 @@
             var actualResult = refSyncController.SportName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-TW", "sport" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -102,13 +99,12 @@
             var actualResult = refSyncController.TeamName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-CN", "team" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -130,13 +126,12 @@
             var actualResult = refSyncController.LeagueName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ja-JP", "league" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -158,13 +153,12 @@
             var actualResult = refSyncController.CountryName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "th-TH", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -186,13 +180,12 @@
             var actualResult = refSyncController.OddsTypeName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ko-KR", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -214,13 +207,12 @@
             var actualResult = refSyncController.ResourceData(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "vi-VN", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -241,13 +233,12 @@
             var actualResult = refSyncController.ParentIdByBetTypeId(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -269,13 +260,12 @@
             var actualResult = refSyncController.CombinationTypeComboParlay(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string[]>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string[]> { { "vi-VN", new[] { "vietnam" } } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -297,13 +287,12 @@
             var actualResult = refSyncController.HorseTeamName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-Hans", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -325,13 +314,12 @@
             var actualResult = refSyncController.CasinoBetItem(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -353,13 +341,12 @@
             var actualResult = refSyncController.RouletteBetItem(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -381,13 +368,12 @@
             var actualResult = refSyncController.KenoBetType(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -409,13 +395,12 @@
             var actualResult = refSyncController.KenoBetChoice(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", kenoBetTypeId) } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -437,13 +422,12 @@
             var actualResult = refSyncController.FastMarketsChoice(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -465,13 +449,12 @@
             var actualResult = refSyncController.FastMarkets225Result(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -493,13 +476,12 @@
             var actualResult = refSyncController.LotteryBetChoice(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", lotteryBetTypeId) } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
@@ -521,13 +503,12 @@
             var actualResult = refSyncController.LotteryBetTypeName(requestSyncData);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(actualResult);
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
                 { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
             };
 
-            Assert.Equal(expectedData, objectResult.Value);
+            Assert.Equal(expectedData, actualResult);
         }
     }
 }

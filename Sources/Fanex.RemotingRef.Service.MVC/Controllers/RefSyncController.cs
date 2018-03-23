@@ -37,7 +37,7 @@
             return betTypeNameSet;
         }
 
-        private static Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
+        private Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
         {
             var betTypeNames = new Dictionary<string, string>();
 
@@ -45,11 +45,11 @@
             {
                 if (parameterSet.Keys.Count == 1)
                 {
-                    betTypeNames.Add(language, RefData.GetBetTypeName(parameterSet["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    betTypeNames.Add(language, _refData.GetBetTypeName(parameterSet["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
                 }
                 else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("refNo"))
                 {
-                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                    betTypeNames.Add(language, _refData.GetBetTypeName(
                         parameterSet["betTypeId"].ToString(),
                         LanguageHelper.GenerateTaiwanLanguage(language),
                         (long)parameterSet["refNo"],
@@ -57,7 +57,7 @@
                 }
                 else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("resourceId"))
                 {
-                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                    betTypeNames.Add(language, _refData.GetBetTypeName(
                         parameterSet["betTypeId"].ToString(),
                         LanguageHelper.GenerateTaiwanLanguage(language),
                         string.Empty,
@@ -65,7 +65,7 @@
                 }
                 else
                 {
-                    betTypeNames.Add(language, RefData.GetBetTypeName(
+                    betTypeNames.Add(language, _refData.GetBetTypeName(
                        parameterSet["betTypeId"].ToString(),
                        LanguageHelper.GenerateTaiwanLanguage(language),
                        string.Empty,
@@ -83,7 +83,7 @@
             var sportNameSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => RefData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return sportNameSet;
         }
@@ -94,7 +94,7 @@
             var teamNameSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => RefData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return teamNameSet;
         }
@@ -116,7 +116,7 @@
             var leagueNameSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => RefData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return leagueNameSet;
         }
@@ -127,7 +127,7 @@
             var leagueName3rdSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => RefData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
+                    => _refData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language), string.Empty));
 
             return leagueName3rdSet;
         }
@@ -138,7 +138,7 @@
             var resourceDataSet = GetResultSet(
                 data,
                 (parameter, language)
-                    => RefData.GetResourceDataByRefIdAndResourceId(
+                    => _refData.GetResourceDataByRefIdAndResourceId(
                         parameter["refId"].ToString(),
                         parameter["resourceId"].ToString(),
                         LanguageHelper.GenerateTaiwanLanguage(language),

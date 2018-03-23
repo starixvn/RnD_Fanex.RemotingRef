@@ -270,8 +270,8 @@
             _remotingRefService.GetCombinationTypeCombo("1", "2", 3, 4, "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/combinationTypeCombo?betTeam=1&betCheck=2&handicap1=3&handicap2=4&languages=en-US&";
-            _httpClient.Received().GetAsync(Arg.Is<string>(url => url == expectedUrl));
+            const string expectedUrl = "api/ref/combinationTypeComboParlay?betTeam=1&betCheck=2&handicap1=3&handicap2=4&languages=en-US&";
+            _httpClient.Received().GetAsync(Arg.Is<string>(url => url.ToLowerInvariant() == expectedUrl.ToLowerInvariant()));
         }
 
         [Fact]
