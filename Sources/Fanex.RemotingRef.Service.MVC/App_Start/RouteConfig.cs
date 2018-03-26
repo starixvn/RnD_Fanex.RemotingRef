@@ -3,9 +3,7 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
-#pragma warning disable S1118 // Utility classes should not have public constructors
-
-    public class RouteConfig
+    public static class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
@@ -17,6 +15,4 @@
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
         }
     }
-
-#pragma warning restore S1118 // Utility classes should not have public constructors
 }

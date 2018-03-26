@@ -25,6 +25,7 @@
             _refData.GetBetTypeName("1", "en", 10000000000).Returns("handicap_refNo");
             _refData.GetBetTypeName("1", "en", "12").Returns("handicap_resourceId");
             _refData.GetBetTypeName("1", "en", "12", 10000000000).Returns("handicap_resourceId_refNo");
+            _refData.GetBetTypeName("2", "en", "12", 10000000000).Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -33,7 +34,8 @@
                     new Dictionary<string, object> { { "betTypeId", "1" } },
                     new Dictionary<string, object> { { "betTypeId", "1" }, { "refNo", 10000000000 } },
                     new Dictionary<string, object> { { "betTypeId", "1" }, { "resourceId", "12" } },
-                    new Dictionary<string, object> { { "betTypeId", "1" }, { "resourceId", "12" }, { "refNo", 10000000000 } }
+                    new Dictionary<string, object> { { "betTypeId", "1" }, { "resourceId", "12" }, { "refNo", 10000000000 } },
+                    new Dictionary<string, object> { { "betTypeId", "2" }, { "resourceId", "12" }, { "refNo", 10000000000 } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -85,12 +87,14 @@
         {
             // Arrange
             _refData.GetTeamName("1", "cs").Returns("team");
+            _refData.GetTeamName("2", "cs").Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "teamId", "1" } },
+                    new Dictionary<string, object> { { "teamId", "2" } },
                 },
                 Languages = new[] { "zh-CN" }
             };
@@ -246,12 +250,16 @@
         {
             // Arrange
             _refData.GetCombinationTypeCombo("1", "2", 3, 4, "vn").Returns(new[] { "vietnam" });
+            _refData.GetCombinationTypeCombo("2", "2", 3, 4, "vn").Returns(new string[] { });
+            _refData.GetCombinationTypeCombo("3", "2", 3, 4, "vn").Returns(new[] { string.Empty });
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "betTeam", "1" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
+                    new Dictionary<string, object> { { "betTeam", "2" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
+                    new Dictionary<string, object> { { "betTeam", "3" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
                 },
                 Languages = new[] { "vi-VN" }
             };
@@ -381,12 +389,14 @@
         {
             // Arrange
             _refData.GetKenoBetChoice("1", "en", out string kenoBetTypeId).Returns("vietnam");
+            _refData.GetKenoBetChoice("2", "en", out string kenoBetTypeIdTwo).Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "kenoBetChoiceId", "1" } },
+                    new Dictionary<string, object> { { "kenoBetChoiceId", "2" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -462,12 +472,14 @@
         {
             // Arrange
             _refData.GetLotteryBetChoice("1", "en", out string lotteryBetTypeId).Returns("vietnam");
+            _refData.GetLotteryBetChoice("2", "en", out string lotteryBetTypeIdTwo).Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "betChoiceId", "1" } },
+                    new Dictionary<string, object> { { "betChoiceId", "2" } },
                 },
                 Languages = new[] { "en-US" }
             };

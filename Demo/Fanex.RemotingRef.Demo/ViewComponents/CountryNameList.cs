@@ -20,7 +20,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var inputData = new[] { 3, 4, 5, 6, 7, 8, 10 };
+            var inputData = new[] { "AFG", "AUT", "BEL", "CAN", "ENG", "ESP", "GER" };
             var viewModels = new List<RefDataViewModel>();
 
             foreach (var typeId in inputData)

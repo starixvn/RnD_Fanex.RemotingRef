@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
@@ -31,7 +32,10 @@
             {
                 var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
 
-                betTypeNameSet.Add(parameterSet, betTypeNames);
+                if (IsValidResultData<string>()(betTypeNames))
+                {
+                    betTypeNameSet.Add(parameterSet, betTypeNames);
+                }
             }
 
             return betTypeNameSet;
@@ -186,7 +190,8 @@
                         parameter["betCheck"].ToString(),
                         (int)parameter["handicap1"],
                         (int)parameter["handicap2"],
-                        LanguageHelper.GenerateTaiwanLanguage(language)));
+                        LanguageHelper.GenerateTaiwanLanguage(language)),
+                (result) => result.Any(item => item.Value.Any(type => !string.IsNullOrEmpty(type))));
 
             return combinationTypeSet;
         }
@@ -240,7 +245,7 @@
         {
             var kenoBetChoiceSet = GetResultSet(
                 data,
-                (parameter, language) =>
+                getRefData: (parameter, language) =>
                 {
                     var kenoBetChoice = _refData.GetKenoBetChoice(
                         parameter["kenoBetChoiceId"].ToString(),
@@ -248,7 +253,8 @@
                         out string kenoBetTypeId);
 
                     return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
-                });
+                },
+                isValidResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return kenoBetChoiceSet;
         }
@@ -285,7 +291,7 @@
         {
             var lotteryBetChoiceSet = GetResultSet(
                   data,
-                  (parameter, language) =>
+                  getRefData: (parameter, language) =>
                   {
                       var lotteryBetChoice = _refData.GetLotteryBetChoice(
                           parameter["betChoiceId"].ToString(),
@@ -293,7 +299,8 @@
                           out string lotteryBetType);
 
                       return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
-                  });
+                  },
+                  isValidResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return lotteryBetChoiceSet;
         }
@@ -311,7 +318,8 @@
 
         private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(
             RequestSyncFormData data,
-            Func<Dictionary<string, object>, string, T> getRefData)
+            Func<Dictionary<string, object>, string, T> getRefData,
+            Func<Dictionary<string, T>, bool> isValidResultData = null)
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
             data.Languages = data.Languages ?? new[] { "en-US" };
@@ -325,10 +333,16 @@
                     result.Add(language, getRefData(parameterSet, language));
                 }
 
-                resultSet.Add(parameterSet, result);
+                if (isValidResultData == null ? IsValidResultData<T>()(result) : isValidResultData(result))
+                {
+                    resultSet.Add(parameterSet, result);
+                }
             }
 
             return resultSet;
         }
+
+        private static Func<IDictionary<string, T>, bool> IsValidResultData<T>()
+          => (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
     }
 }
