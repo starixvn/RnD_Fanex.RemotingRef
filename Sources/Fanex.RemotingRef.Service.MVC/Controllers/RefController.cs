@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service.MVC.Controllers
+﻿namespace Fanex.RemotingRef.Service.Controllers
 {
     using System;
     using System.Collections.Generic;

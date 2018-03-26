@@ -7,7 +7,6 @@
     using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
     using Fanex.RemotingRef.Service.Utilities.RefData;
-    using global::RemotingRef;
 
     public class RefSyncController : ApiController
     {

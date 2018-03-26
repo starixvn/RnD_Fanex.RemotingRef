@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Fanex.RemotingRef.Service.MVC.Controllers;
+    using Fanex.RemotingRef.Service.Controllers;
     using Fanex.RemotingRef.Service.Utilities.RefData;
     using NSubstitute;
     using Xunit;

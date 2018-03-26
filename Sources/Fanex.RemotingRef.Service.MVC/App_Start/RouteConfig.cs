@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service.MVC
+﻿namespace Fanex.RemotingRef.Service
 {
     using System.Web.Mvc;
     using System.Web.Routing;
