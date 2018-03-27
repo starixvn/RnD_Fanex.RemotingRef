@@ -245,7 +245,7 @@
             var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
 
             // Act.
-            var returnedInstance = fluentInstance.RegisterSupportedLanguages(new[] { "first", "second" });
+            var returnedInstance = fluentInstance.RegisterSupportedLanguages("first", "second");
 
             // Assert.
             Assert.Same(fluentInstance, returnedInstance);

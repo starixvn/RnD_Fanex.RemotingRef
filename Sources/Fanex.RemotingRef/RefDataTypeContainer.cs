@@ -125,7 +125,7 @@
             return this;
         }
 
-        public RefDataTypeContainer RegisterSupportedLanguages(string[] languageCodes)
+        public RefDataTypeContainer RegisterSupportedLanguages(params string[] languageCodes)
         {
             RefDataTypeHandlerOptions.SupportedLanguageCodes = languageCodes;
 

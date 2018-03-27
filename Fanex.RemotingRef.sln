@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service", "Sources\Fanex.RemotingRef.Service.MVC\Fanex.RemotingRef.Service.csproj", "{24180F1D-0405-4122-ADA1-02C09413DFA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service", "Sources\Fanex.RemotingRef.Service\Fanex.RemotingRef.Service.csproj", "{24180F1D-0405-4122-ADA1-02C09413DFA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

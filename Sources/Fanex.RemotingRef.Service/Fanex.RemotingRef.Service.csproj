@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.MVC.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.MVC.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IBCFile, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -173,7 +173,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Fanex.RemotingRef.Service.MVC.ruleset" />
+    <Content Include="Fanex.RemotingRef.Service.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MessagePack">
