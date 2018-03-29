@@ -31,7 +31,7 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return betTypeNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? betTypeNames : null;
+            return ValidateResultData(betTypeNames);
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), refNo));
             }
 
-            return betTypeNames;
+            return ValidateResultData(betTypeNames);
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId));
             }
 
-            return betTypeNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? betTypeNames : null;
+            return ValidateResultData(betTypeNames);
         }
 
         [HttpGet]
@@ -70,7 +70,7 @@
                 betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId, refNo));
             }
 
-            return betTypeNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? betTypeNames : null;
+            return ValidateResultData(betTypeNames);
         }
 
         [HttpGet]
@@ -83,7 +83,7 @@
                 sportNames.Add(language, _refData.GetSportName(sportTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return sportNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? sportNames : null;
+            return ValidateResultData(sportNames);
         }
 
         [HttpGet]
@@ -96,7 +96,7 @@
                 teamNames.Add(language, _refData.GetTeamName(teamId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return teamNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? teamNames : null;
+            return ValidateResultData(teamNames);
         }
 
         [HttpGet]
@@ -109,7 +109,7 @@
                 teamNames.Add(language, _refData.GetTeamName3rd(team3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return teamNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? teamNames : null;
+            return ValidateResultData(teamNames);
         }
 
         [HttpGet]
@@ -122,7 +122,7 @@
                 leagueNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return leagueNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? leagueNames : null;
+            return ValidateResultData(leagueNames);
         }
 
         public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
@@ -135,7 +135,7 @@
                 league3rdNames.Add(language, _refData.GetLeagueName3rd(league3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return league3rdNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? league3rdNames : null;
+            return ValidateResultData(league3rdNames);
         }
 
         [HttpGet]
@@ -150,7 +150,7 @@
                     _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return resourceData.Any(item => !string.IsNullOrEmpty(item.Value)) ? resourceData : null;
+            return ValidateResultData(resourceData);
         }
 
         [HttpGet]
@@ -163,7 +163,7 @@
                 countryNames.Add(lang, _refData.GetCountryName(countryCode, LanguageHelper.GenerateTaiwanLanguage(lang)));
             }
 
-            return countryNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? countryNames : null;
+            return ValidateResultData(countryNames);
         }
 
         [HttpGet]
@@ -176,7 +176,7 @@
                 oddsTypeNames.Add(lang, _refData.GetOddsTypeName(oddsTypeId, LanguageHelper.GenerateTaiwanLanguage(lang)));
             }
 
-            return oddsTypeNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? oddsTypeNames : null;
+            return ValidateResultData(oddsTypeNames);
         }
 
         [HttpGet]
@@ -187,7 +187,7 @@
                 { LanguageHelper.DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId) }
             };
 
-            return parentId.Any(item => !string.IsNullOrEmpty(item.Value)) ? parentId : null;
+            return ValidateResultData(parentId);
         }
 
         [HttpGet]
@@ -205,7 +205,7 @@
                 combinationTypes.Add(language, _refData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return combinationTypes;
+            return ValidateResultData(combinationTypes, (result) => result.Any(item => !string.IsNullOrEmpty(item)));
         }
 
         [HttpGet]
@@ -218,7 +218,7 @@
                 horseTeamNames.Add(language, _refData.GetHorseTeamName(codeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return horseTeamNames.Any(item => !string.IsNullOrEmpty(item.Value)) ? horseTeamNames : null;
+            return ValidateResultData(horseTeamNames);
         }
 
         [HttpGet]
@@ -231,7 +231,7 @@
                 casinoBetItems.Add(language, _refData.GetCasinoBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return casinoBetItems.Any(item => !string.IsNullOrEmpty(item.Value)) ? casinoBetItems : null;
+            return ValidateResultData(casinoBetItems);
         }
 
         [HttpGet]
@@ -244,7 +244,7 @@
                 rouletteBetItems.Add(language, _refData.GetRouletteBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return rouletteBetItems.Any(item => !string.IsNullOrEmpty(item.Value)) ? rouletteBetItems : null;
+            return ValidateResultData(rouletteBetItems);
         }
 
         [HttpGet]
@@ -259,7 +259,7 @@
                 kenoBetChoices.Add(language, new Tuple<string, string>(kenoBetChoice, kenoBetTypeId));
             }
 
-            return kenoBetChoices.Any(item => !string.IsNullOrEmpty(item.Value.Item1)) ? kenoBetChoices : null;
+            return ValidateResultData(kenoBetChoices, (result) => !string.IsNullOrEmpty(result.Item1));
         }
 
         [HttpGet]
@@ -272,7 +272,7 @@
                 kenoBetTypes.Add(language, _refData.GetKenoBetType(kenoBetTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return kenoBetTypes.Any(item => !string.IsNullOrEmpty(item.Value)) ? kenoBetTypes : null;
+            return ValidateResultData(kenoBetTypes);
         }
 
         [HttpGet]
@@ -285,7 +285,7 @@
                 fastMarketsChoices.Add(language, _refData.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return fastMarketsChoices;
+            return ValidateResultData(fastMarketsChoices);
         }
 
         [HttpGet]
@@ -298,7 +298,7 @@
                 fastMarkets225Results.Add(language, _refData.GetFastMarkets225Result(resultId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return fastMarkets225Results;
+            return ValidateResultData(fastMarkets225Results);
         }
 
         [HttpGet]
@@ -313,7 +313,7 @@
                 lotteryBetChoices.Add(language, new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId));
             }
 
-            return lotteryBetChoices.Any(item => !string.IsNullOrEmpty(item.Value.Item1)) ? lotteryBetChoices : null;
+            return ValidateResultData(lotteryBetChoices, (result) => !string.IsNullOrEmpty(result.Item1));
         }
 
         [HttpGet]
@@ -326,7 +326,21 @@
                 lotteryBetTypes.Add(language, _refData.GetLotteryBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
-            return lotteryBetTypes.Any(item => !string.IsNullOrEmpty(item.Value)) ? lotteryBetTypes : null;
+            return ValidateResultData(lotteryBetTypes);
         }
+
+        private static Dictionary<string, T> ValidateResultData<T>(
+         Dictionary<string, T> resultData,
+         Func<T, bool> isValidResultData = null)
+        {
+            var filteredResultData = resultData
+                             .Where(item => (isValidResultData ?? IsValidResultDefault<T>())(item.Value))
+                             .ToDictionary(item => item.Key, item => item.Value);
+
+            return filteredResultData.Any() ? filteredResultData : null;
+        }
+
+        private static Func<T, bool> IsValidResultDefault<T>()
+            => (result) => !string.IsNullOrEmpty(result.ToString());
     }
 }

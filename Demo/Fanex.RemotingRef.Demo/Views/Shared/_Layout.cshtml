@@ -30,20 +30,29 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/blob/master/README.md"  target="_blank">Documentation</a></li>
+                    <li><a href="https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/blob/master/README.md" target="_blank">Documentation</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+   
     <div class="container body-content">
-        <ul class="nav nav-tabs">
-            <li><a asp-area="" asp-controller="BetTypeName" asp-action="BetTypeName">BetTypeName</a></li>
-            <li><a asp-area="" asp-controller="SportName" asp-action="SportName">SportName</a></li>
-            <li><a asp-area="" asp-controller="LeagueName" asp-action="LeagueName">LeagueName</a></li>
-            <li><a asp-area="" asp-controller="TeamName" asp-action="TeamName">TeamName</a></li>
-            <li><a asp-area="" asp-controller="ResourceData" asp-action="ResourceData">RefResourceData</a></li>
-            <li><a asp-area="" asp-controller="CountryName" asp-action="CountryName">CountryName</a></li>
-        </ul>
+        <div class="dropdown" style="margin-top: 20px">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                RemotingRef Methods
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a asp-area="" asp-controller="BetTypeName" asp-action="BetTypeName">BetTypeName</a></li>
+                <li><a asp-area="" asp-controller="SportName" asp-action="SportName">SportName</a></li>
+                <li><a asp-area="" asp-controller="LeagueName" asp-action="LeagueName">LeagueName</a></li>
+                <li><a asp-area="" asp-controller="TeamName" asp-action="TeamName">TeamName</a></li>
+                <li><a asp-area="" asp-controller="ResourceData" asp-action="ResourceData">RefResourceData</a></li>
+                <li><a asp-area="" asp-controller="CountryName" asp-action="CountryName">CountryName</a></li>
+                <li><a asp-area="" asp-controller="OddsTypeName" asp-action="OddsTypeName">OddsTypeName</a></li>
+            </ul>
+        </div>
+      
         @RenderBody()
         <hr />
         <footer>

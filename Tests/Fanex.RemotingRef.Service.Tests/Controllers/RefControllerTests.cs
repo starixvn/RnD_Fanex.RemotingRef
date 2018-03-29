@@ -21,13 +21,15 @@
         {
             // Arrange
             _refData.GetBetTypeName("1", "en").Returns("handicap");
+            _refData.GetBetTypeName("1", "jp").Returns("handicap");
+            _refData.GetBetTypeName("1", "vn").Returns(string.Empty);
             var refController = new RefController(_refData);
 
             // Act
-            var actualResult = refController.BetTypeName("1", new[] { "en-US" });
+            var actualResult = refController.BetTypeName("1", new[] { "en-US", "vi-VN", "ja-JP" });
 
             // Assert
-            var expectedData = new Dictionary<string, string> { { "en-US", "handicap" } };
+            var expectedData = new Dictionary<string, string> { { "en-US", "handicap" }, { "ja-JP", "handicap" } };
             Assert.Equal(expectedData, actualResult);
         }
 
@@ -59,7 +61,7 @@
 
             // Assert
             var expectedData = new Dictionary<string, string> { { "en-US", "handicap" }, { "ja-JP", "handicapJP" } };
-            Assert.Equal(expectedData, expectedData);
+            Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
