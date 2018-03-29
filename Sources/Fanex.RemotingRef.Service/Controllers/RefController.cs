@@ -337,7 +337,7 @@
                              .Where(item => (isValidResultData ?? IsValidResultDefault<T>())(item.Value))
                              .ToDictionary(item => item.Key, item => item.Value);
 
-            return filteredResultData.Any() ? filteredResultData : null;
+            return filteredResultData.Count > 0 ? filteredResultData : null;
         }
 
         private static Func<T, bool> IsValidResultDefault<T>()

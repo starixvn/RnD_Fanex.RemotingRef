@@ -1,6 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Service.MVC
 {
     using System;
+    using System.Globalization;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -23,7 +24,8 @@
         protected void Application_Error(object sender, EventArgs e)
         {
             Logger logger = LogManager.GetCurrentClassLogger();
-            logger.Error(Server.GetLastError());
+
+            logger.Error(CultureInfo.InvariantCulture, Server.GetLastError());
         }
     }
 
