@@ -57,7 +57,7 @@
         }
 
         [Fact]
-        public void ExpirationExpiresInBackground()
+        public void KeysExpireInBackground()
         {
             // Arrange.
             var key = "myKey";
@@ -78,7 +78,7 @@
         }
 
         [Fact]
-        public void KeyExpiresIfNotTouched()
+        public void KeyExpiresIfNotBeingTouched()
         {
             // Arrange.
             var key = "myKey";
@@ -91,10 +91,9 @@
             Assert.True(found);
             Assert.Same(entry, addedEntry);
 
-            // Act.
+            // Assert.
             _clock.Add(TimeSpan.FromMinutes(1));
 
-            // Assert.
             found = _storage.TryGet(key, out addedEntry);
 
             Assert.False(found);
@@ -102,38 +101,29 @@
         }
 
         [Fact]
-        public void KeyRenewesOnceTouched()
+        public void KeyIsRenewedOnceBeingTouched()
         {
             // Arrange.
             var key = "myKey";
             var entry = CreateCacheEntry(key);
-            bool found;
 
             _storage.Add(entry);
-            found = _storage.TryGet(key, out CacheEntry addedEntry);
+
+            // Act - touched after 5 seconds.
+            _clock.Add(TimeSpan.FromSeconds(5));
+            _storage.TryGet(key, out _);
+
+            // Assert - after 9 seconds from last touch.
+            _clock.Add(TimeSpan.FromSeconds(9));
+
+            var found = _storage.TryGet(key, out CacheEntry addedEntry);
 
             Assert.True(found);
             Assert.Same(entry, addedEntry);
-
-            // Touched after 5 seconds.
-            _clock.Add(TimeSpan.FromSeconds(5));
-            found = _storage.TryGet(key, out addedEntry);
-
-            Assert.True(found);
-            Assert.Equal(entry, addedEntry);
-
-            // Act - after 9 seconds from last touch.
-            _clock.Add(TimeSpan.FromSeconds(9));
-
-            // Assert.
-            found = _storage.TryGet(key, out addedEntry);
-
-            Assert.True(found);
-            Assert.Equal(entry, addedEntry);
         }
 
         [Fact]
-        public void AddExpiredCacheEntryWithExistingKeyRemovesTheExistingCacheEntry()
+        public void AddExpiredCacheEntryMatchingWithExistingKeyRemovesTheExistingCacheEntry()
         {
             // Arrange.
             var key = "uniqueKey";
@@ -149,7 +139,7 @@
             Assert.False(_storage.TryGet(key, out _));
         }
 
-        private CacheEntry CreateCacheEntry(string expectedKey = null)
+        private CacheEntry CreateCacheEntry(string expectedKey)
         {
             var keySet = new KeySet
             {

@@ -1,9 +1,9 @@
-﻿namespace Fanex.RemotingRef.TranslationStorage
+﻿#pragma warning disable S3925 // "ISerializable" should be implemented correctly
+
+namespace Fanex.RemotingRef.TranslationStorage
 {
     using System;
     using System.Collections.Generic;
-
-#pragma warning disable S3925 // "ISerializable" should be implemented correctly
 
     internal sealed class TranslationSet : Dictionary<string, object>
     {

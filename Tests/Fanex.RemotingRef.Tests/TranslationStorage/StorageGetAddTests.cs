@@ -27,8 +27,8 @@
         public void ArgumentExceptionIsThrownIfTCreateEntryTakesNullOrEmtyAsKey()
         {
             // Arrange.
-            var key = string.Empty;
             var keySet = new KeySet();
+            var key = string.Empty;
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.
@@ -42,8 +42,8 @@
         public void ArgumentExceptionIsThrownIfTCreateEntryTakesNullAsKeySet()
         {
             // Arrange.
-            var key = "anyKey";
             KeySet keySet = null;
+            var key = "anyKey";
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.

@@ -54,7 +54,7 @@
         }
 
         [Fact]
-        public void Compact100PercentClearsAlls()
+        public void Compact100PercentClearsAllEntries()
         {
             // Arrange.
             InitializeCacheData();

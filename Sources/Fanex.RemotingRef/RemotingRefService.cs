@@ -1,4 +1,6 @@
-﻿namespace Fanex.RemotingRef
+﻿#pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
+
+namespace Fanex.RemotingRef
 {
     using System;
     using System.Collections.Generic;
@@ -9,8 +11,6 @@
     using Fanex.RemotingRef.TranslationStorage;
     using Fanex.RemotingRef.Utilities.Serialization;
     using Fanex.RemotingRef.Utilities.WebClient;
-
-#pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
 
     public class RemotingRefService : IRemotingRefService, IDisposable
     {
@@ -480,5 +480,3 @@
 #pragma warning restore S3216 // "ConfigureAwait(false)" should be used
     }
 }
-
-#pragma warning restore S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
