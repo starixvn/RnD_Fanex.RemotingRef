@@ -1,12 +1,12 @@
-﻿namespace Fanex.RemotingRef.Utilities.WebClient
+﻿#pragma warning disable S3994 // URI Parameters should not be strings
+#pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
+
+namespace Fanex.RemotingRef.Utilities.WebClient
 {
     using System;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-
-#pragma warning disable S3994 // URI Parameters should not be strings
-#pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
     public class MsgPackHttpClientHandler : IHttpHandler
     {
@@ -73,7 +73,4 @@
             }
         }
     }
-
-#pragma warning restore S4005 // "System.Uri" arguments should be used instead of strings
-#pragma warning restore S3994 // URI Parameters should not be strings
 }

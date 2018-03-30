@@ -27,7 +27,7 @@
                 [TestingLanguageCode] = "Chinese",
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
-            _options.ValueFactory = (parameters) => _predefinedTranslationSet;
+            _options.RequestHandler = (parameters) => _predefinedTranslationSet;
 
             _keySet = new KeySet
             {
@@ -36,7 +36,7 @@
         }
 
         [Fact]
-        public void GettingUnexistingReturnsValueCreatedByValueFactory()
+        public void GettingUncachedTranslationSetReturnsValueCreatedByRequestHandler()
         {
             // Act.
             var actualResult = _handler.Get(_keySet, TestingLanguageCode);
@@ -48,7 +48,7 @@
         }
 
         [Fact]
-        public void ReturningNullValueFactoryMakesGetReturnNull()
+        public void ReturningNullRequestHandlerMakesGetReturnNull()
         {
             // Arrange.
             var unexistingKeySet = new KeySet
@@ -56,7 +56,7 @@
                 ["UnexistingTranslation"] = "UnexistingTranslation"
             };
 
-            _options.ValueFactory = (parameters) => null;
+            _options.RequestHandler = (parameters) => null;
 
             // Act.
             var actualResult = _handler.Get(unexistingKeySet, TestingLanguageCode);
@@ -95,7 +95,7 @@
         }
 
         [Fact]
-        public void TranslationSetCreatedByValueFactoryIsStoredInStorage()
+        public void TranslationSetReturnedByRequestHandlerIsStoredInStorage()
         {
             // Act.
             _handler.Get(_keySet, null);
@@ -112,7 +112,7 @@
             // Arrange.
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
-            _options.ValueFactory = (parameters) => value;
+            _options.RequestHandler = (parameters) => value;
 
             // Act.
             var actualResult = _handler.Get(_keySet, null);

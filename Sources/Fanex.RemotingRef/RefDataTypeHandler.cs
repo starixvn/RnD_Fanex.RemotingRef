@@ -34,7 +34,7 @@
             }
             else
             {
-                TranslationSet newTranslationSet = Options.ValueFactory(keySet);
+                TranslationSet newTranslationSet = Options.RequestHandler(keySet);
 
                 if (newTranslationSet != null)
                 {

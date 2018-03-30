@@ -9,13 +9,13 @@
 
     public class ManagingRefDataTypeHandlersTests
     {
-        private readonly RequestTranslationSetDelegate _valueFactory;
-        private readonly SyncTranslationSetsDelegate _syncDataHandler;
+        private readonly RequestTranslationSetDelegate _requestHandler;
+        private readonly SyncTranslationSetsDelegate _syncHandler;
 
         public ManagingRefDataTypeHandlersTests()
         {
-            _valueFactory = keySet => TranslationSet.FromDictionary(new Dictionary<string, string>());
-            _syncDataHandler = async (keySets) => await Task.FromResult(new Dictionary<string, TranslationSet>());
+            _requestHandler = keySet => TranslationSet.FromDictionary(new Dictionary<string, string>());
+            _syncHandler = async (keySets) => await Task.FromResult(new Dictionary<string, TranslationSet>());
         }
 
         [Fact]
@@ -79,7 +79,7 @@
             RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
 
             // Act.
-            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.CountryName, _valueFactory, _syncDataHandler);
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.CountryName, _requestHandler, _syncHandler);
 
             // Assert.
             Assert.NotNull(handler);
@@ -91,10 +91,10 @@
             // Arrange.
             RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
 
-            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler);
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
             // Act.
-            var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler);
+            var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
             // Assert.
             Assert.Same(handler, observingHandler);
@@ -107,7 +107,7 @@
             RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
 
             // Act.
-            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler);
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
             // Assert.
             Assert.Equal(100_000, handler.Options.NumberOfEntriesLimit);
@@ -143,7 +143,7 @@
             fluentInstance.Register(RefDataType.TeamName, newOptions);
 
             // Assert.
-            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _valueFactory, _syncDataHandler).Options;
+            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler).Options;
 
             Assert.NotEqual(100_000, currentAffectedOptions.NumberOfEntriesLimit);
         }
@@ -163,7 +163,7 @@
             fluentInstance.Register(RefDataType.SportName, newOptions);
 
             // Assert.
-            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.SportName, _valueFactory, _syncDataHandler).Options;
+            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.SportName, _requestHandler, _syncHandler).Options;
 
             Assert.Same(newOptions, currentAffectedOptions);
         }

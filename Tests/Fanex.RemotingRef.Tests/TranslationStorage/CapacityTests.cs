@@ -45,7 +45,7 @@
         }
 
         [Fact]
-        public void NewEntryIsDiscardedIfItExceedsCapacity()
+        public void NewEntryIsStillAcceptedIfItExceedsCapacity()
         {
             // Arrange.
             var entry = CreateCacheEntry("myStupidKey");
@@ -61,7 +61,7 @@
             // Assert.
             var found = _storage.TryGet(newKey, out _);
 
-            Assert.False(found);
+            Assert.True(found);
         }
 
         [Fact]

@@ -20,7 +20,7 @@
         internal static bool IsMultiLanguagesSupported { get; set; }
             = true;
 
-        internal RequestTranslationSetDelegate ValueFactory { get; set; }
+        internal RequestTranslationSetDelegate RequestHandler { get; set; }
 
         internal SyncTranslationSetsDelegate SyncHandler { get; set; }
     }

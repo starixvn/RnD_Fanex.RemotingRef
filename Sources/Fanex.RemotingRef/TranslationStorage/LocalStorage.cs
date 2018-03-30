@@ -33,6 +33,8 @@
 
         public int Count => _entriesCount;
 
+        private ICollection<KeyValuePair<string, CacheEntry>> EntryCollection => _entries as ICollection<KeyValuePair<string, CacheEntry>>;
+
         public CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value)
         {
             if (string.IsNullOrEmpty(key))
@@ -120,14 +122,6 @@
         public void Add(CacheEntry entry)
         {
             CheckDisposed();
-
-            if (_entriesCount >= _options.NumberOfEntriesLimit)
-            {
-                TriggerOvercapacityCompaction();
-
-                return;
-            }
-
             _entries.TryGetValue(entry.Key, out CacheEntry previousEntry);
 
             if (!entry.IsExpired(Clock.UtcNow))
@@ -142,7 +136,14 @@
                 }
             }
 
-            StartScanForExpiredEntries();
+            if (_entriesCount >= _options.NumberOfEntriesLimit)
+            {
+                TriggerOvercapacityCompaction();
+            }
+            else
+            {
+                StartScanForExpiredEntries();
+            }
         }
 
         public void TryAddOrUpdateEntry(CacheEntry entry, CacheEntry previousEntry)
@@ -156,8 +157,7 @@
             }
             else
             {
-                if (!_entries.TryUpdate(entry.Key, entry, previousEntry)
-                    && _entries.TryAdd(entry.Key, entry))
+                if (!_entries.TryUpdate(entry.Key, entry, previousEntry) && _entries.TryAdd(entry.Key, entry))
                 {
                     Interlocked.Increment(ref _entriesCount);
                 }
@@ -245,7 +245,7 @@
 
         private void RemoveEntry(CacheEntry entry)
         {
-            if ((_entries as ICollection<KeyValuePair<string, CacheEntry>>).Remove(new KeyValuePair<string, CacheEntry>(entry.Key, entry)))
+            if (EntryCollection.Remove(new KeyValuePair<string, CacheEntry>(entry.Key, entry)))
             {
                 Interlocked.Decrement(ref _entriesCount);
             }

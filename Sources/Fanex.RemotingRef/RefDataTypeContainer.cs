@@ -37,13 +37,8 @@
 
         private void PreRegisterSpecialDataTypes()
         {
-            _registeredDataTypeHandlerOptions.TryAdd(
-                RefDataType.TeamName,
-                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 100_000 });
-
-            _registeredDataTypeHandlerOptions.TryAdd(
-                RefDataType.LeagueName,
-                new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17_000 });
+            Register(RefDataType.TeamName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 100_000 });
+            Register(RefDataType.LeagueName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17_000 });
         }
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
@@ -63,25 +58,25 @@
 
         internal static IRefDataTypeHandler TryResolveDataTypeHandler(
             RefDataType dataType,
-            RequestTranslationSetDelegate valueFactory,
-            SyncTranslationSetsDelegate syncDataHandler)
+            RequestTranslationSetDelegate requestHandler,
+            SyncTranslationSetsDelegate syncHandler)
         {
             IRefDataTypeHandler handler = CurrentInstance._registeredDataTypeHandlers.GetOrAdd(
                 dataType,
-                checkingDataType => CreateRefDataHandler(checkingDataType, valueFactory, syncDataHandler));
+                checkingDataType => CreateRefDataHandler(checkingDataType, requestHandler, syncHandler));
 
             return handler;
         }
 
         private static IRefDataTypeHandler CreateRefDataHandler(
             RefDataType dataType,
-            RequestTranslationSetDelegate valueFactory,
-            SyncTranslationSetsDelegate syncDataHandler)
+            RequestTranslationSetDelegate requestHandler,
+            SyncTranslationSetsDelegate syncHandler)
         {
             RefDataTypeHandlerOptions options = TryResolveDataTypeHandlerOptions(dataType);
 
-            options.ValueFactory = valueFactory ?? throw new ArgumentNullException(nameof(valueFactory));
-            options.SyncHandler = syncDataHandler ?? throw new ArgumentNullException(nameof(syncDataHandler));
+            options.RequestHandler = requestHandler ?? throw new ArgumentNullException(nameof(requestHandler));
+            options.SyncHandler = syncHandler ?? throw new ArgumentNullException(nameof(syncHandler));
 
             return new RefDataTypeHandler(options, new LocalStorage(options, new SystemClock()));
         }
