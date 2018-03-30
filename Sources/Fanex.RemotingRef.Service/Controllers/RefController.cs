@@ -24,170 +24,161 @@
         [HttpGet]
         public Dictionary<string, string> BetTypeName(string betTypeId, [FromUri] string[] languages)
         {
-            var betTypeNames = new Dictionary<string, string>();
+            var betTypeNames = GetRefResult(
+                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                betTypeId);
 
-            foreach (var language in languages)
-            {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(betTypeNames);
+            return betTypeNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> BetTypeNameWithRefNo(string betTypeId, long refNo, [FromUri] string[] languages)
         {
-            var betTypeNames = new Dictionary<string, string>();
+            var betTypeNames = GetRefResult(
+               (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, (long)parameters[1]),
+               IsValidRefData<string>(),
+               languages,
+               betTypeId,
+               refNo);
 
-            foreach (var language in languages)
-            {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), refNo));
-            }
-
-            return ValidateResultData(betTypeNames);
+            return betTypeNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> BetTypeNameWithResourceId(string betTypeId, string resourceId, [FromUri]string[] languages)
         {
-            var betTypeNames = new Dictionary<string, string>();
+            var betTypeNames = GetRefResult(
+                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString()),
+                IsValidRefData<string>(),
+                languages,
+                betTypeId,
+                resourceId);
 
-            foreach (var language in languages)
-            {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId));
-            }
-
-            return ValidateResultData(betTypeNames);
+            return betTypeNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> BetTypeNameWithRefNoAndResourceId(string betTypeId, string resourceId, long refNo, [FromUri]string[] languages)
         {
-            var betTypeNames = new Dictionary<string, string>();
+            var betTypeNames = GetRefResult(
+                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString(), (long)parameters[2]),
+                IsValidRefData<string>(),
+                languages,
+                betTypeId,
+                resourceId,
+                refNo);
 
-            foreach (var language in languages)
-            {
-                betTypeNames.Add(language, _refData.GetBetTypeName(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language), resourceId, refNo));
-            }
-
-            return ValidateResultData(betTypeNames);
+            return betTypeNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> SportName(string sportTypeId, [FromUri]string[] languages)
         {
-            var sportNames = new Dictionary<string, string>();
+            var sportNames = GetRefResult(
+                (parameters, language) => _refData.GetSportName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                sportTypeId);
 
-            foreach (var language in languages)
-            {
-                sportNames.Add(language, _refData.GetSportName(sportTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(sportNames);
+            return sportNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> TeamName(string teamId, [FromUri]string[] languages)
         {
-            var teamNames = new Dictionary<string, string>();
+            var teamNames = GetRefResult(
+                (parameters, language) => _refData.GetTeamName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                teamId);
 
-            foreach (var language in languages)
-            {
-                teamNames.Add(language, _refData.GetTeamName(teamId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(teamNames);
+            return teamNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> TeamName3rd(string team3rdId, [FromUri]string[] languages)
         {
-            var teamNames = new Dictionary<string, string>();
+            var teamNames = GetRefResult(
+                (parameters, language) => _refData.GetTeamName3rd(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                team3rdId);
 
-            foreach (var language in languages)
-            {
-                teamNames.Add(language, _refData.GetTeamName3rd(team3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(teamNames);
+            return teamNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> LeagueName(string leagueId, [FromUri]string[] languages)
         {
-            var leagueNames = new Dictionary<string, string>();
+            var leagueNames = GetRefResult(
+                (parameters, language) => _refData.GetLeagueName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                leagueId);
 
-            foreach (var language in languages)
-            {
-                leagueNames.Add(language, _refData.GetLeagueName(leagueId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(leagueNames);
+            return leagueNames;
         }
 
         public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
         {
-            var league3rdNames = new Dictionary<string, string>();
+            var league3rdNames = GetRefResult(
+                (parameters, language) => _refData.GetLeagueName3rd(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                league3rdId);
 
-            foreach (var language in languages)
-            {
-                // TODO: Update latest RemotingRef
-                league3rdNames.Add(language, _refData.GetLeagueName3rd(league3rdId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(league3rdNames);
+            return league3rdNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> ResourceData(string refId, string resourceId, [FromUri]string[] languages)
         {
-            var resourceData = new Dictionary<string, string>();
+            var resourceData = GetRefResult(
+                (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0].ToString(), parameters[1].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                refId,
+                resourceId);
 
-            foreach (var language in languages)
-            {
-                resourceData.Add(
-                    language,
-                    _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(resourceData);
+            return resourceData;
         }
 
         [HttpGet]
         public Dictionary<string, string> CountryName(string countryCode, [FromUri]string[] languages)
         {
-            var countryNames = new Dictionary<string, string>();
+            var countryNames = GetRefResult(
+                (parameters, language) => _refData.GetCountryName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                countryCode);
 
-            foreach (var lang in languages)
-            {
-                countryNames.Add(lang, _refData.GetCountryName(countryCode, LanguageHelper.GenerateTaiwanLanguage(lang)));
-            }
-
-            return ValidateResultData(countryNames);
+            return countryNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> OddsTypeName(string oddsTypeId, [FromUri]string[] languages)
         {
-            var oddsTypeNames = new Dictionary<string, string>();
+            var oddsTypeNames = GetRefResult(
+                (parameters, language) => _refData.GetOddsTypeName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                oddsTypeId);
 
-            foreach (var lang in languages)
-            {
-                oddsTypeNames.Add(lang, _refData.GetOddsTypeName(oddsTypeId, LanguageHelper.GenerateTaiwanLanguage(lang)));
-            }
-
-            return ValidateResultData(oddsTypeNames);
+            return oddsTypeNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> ParentIdByBetTypeId(string betTypeId)
         {
-            var parentId = new Dictionary<string, string>
-            {
-                { LanguageHelper.DefaultLanguage, _refData.GetParentIdByBetTypeId(betTypeId) }
-            };
+            var parentId = GetRefResult(
+                (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0].ToString()),
+                IsValidRefData<string>(),
+                new[] { LanguageHelper.DefaultLanguage },
+                betTypeId);
 
-            return ValidateResultData(parentId);
+            return parentId;
         }
 
         [HttpGet]
@@ -198,149 +189,166 @@
             int handicap2,
             [FromUri]string[] languages)
         {
-            var combinationTypes = new Dictionary<string, string[]>();
+            var combinationTypes = GetRefResult(
+                (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0].ToString(), parameters[1].ToString(), (int)parameters[2], (int)parameters[3], language),
+                (refData) => refData.Any(item => !string.IsNullOrEmpty(item)),
+                languages,
+                betTeam,
+                betCheck,
+                handicap1,
+                handicap2);
 
-            foreach (var language in languages)
-            {
-                combinationTypes.Add(language, _refData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(combinationTypes, (result) => result.Any(item => !string.IsNullOrEmpty(item)));
+            return combinationTypes;
         }
 
         [HttpGet]
         public Dictionary<string, string> HorseTeamName(string codeId, [FromUri]string[] languages)
         {
-            var horseTeamNames = new Dictionary<string, string>();
+            var horseTeamNames = GetRefResult(
+                (parameters, language) => _refData.GetHorseTeamName(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                codeId);
 
-            foreach (var language in languages)
-            {
-                horseTeamNames.Add(language, _refData.GetHorseTeamName(codeId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(horseTeamNames);
+            return horseTeamNames;
         }
 
         [HttpGet]
         public Dictionary<string, string> CasinoBetItem(string itemId, [FromUri]string[] languages)
         {
-            var casinoBetItems = new Dictionary<string, string>();
+            var casinoBetItems = GetRefResult(
+                (parameters, language) => _refData.GetCasinoBetItem(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                itemId);
 
-            foreach (var language in languages)
-            {
-                casinoBetItems.Add(language, _refData.GetCasinoBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(casinoBetItems);
+            return casinoBetItems;
         }
 
         [HttpGet]
         public Dictionary<string, string> RouletteBetItem(string itemId, [FromUri]string[] languages)
         {
-            var rouletteBetItems = new Dictionary<string, string>();
+            var rouletteBetItems = GetRefResult(
+                (parameters, language) => _refData.GetRouletteBetItem(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                itemId);
 
-            foreach (var language in languages)
-            {
-                rouletteBetItems.Add(language, _refData.GetRouletteBetItem(itemId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(rouletteBetItems);
+            return rouletteBetItems;
         }
 
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId, [FromUri]string[] languages)
         {
-            var kenoBetChoices = new Dictionary<string, Tuple<string, string>>();
+            var kenoBetChoices = GetRefResult(
+                (parameters, language) =>
+                {
+                    var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
 
-            foreach (var language in languages)
-            {
-                var kenoBetChoice = _refData.GetKenoBetChoice(kenoBetChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), out string kenoBetTypeId);
+                    return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+                },
+                (refData) => !string.IsNullOrEmpty(refData.Item1),
+                languages,
+                kenoBetChoiceId);
 
-                kenoBetChoices.Add(language, new Tuple<string, string>(kenoBetChoice, kenoBetTypeId));
-            }
-
-            return ValidateResultData(kenoBetChoices, (result) => !string.IsNullOrEmpty(result.Item1));
+            return kenoBetChoices;
         }
 
         [HttpGet]
         public Dictionary<string, string> KenoBetType(string kenoBetTypeId, [FromUri]string[] languages)
         {
-            var kenoBetTypes = new Dictionary<string, string>();
+            var kenoBetTypes = GetRefResult(
+                (parameters, language) => _refData.GetKenoBetType(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                kenoBetTypeId);
 
-            foreach (var language in languages)
-            {
-                kenoBetTypes.Add(language, _refData.GetKenoBetType(kenoBetTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(kenoBetTypes);
+            return kenoBetTypes;
         }
 
         [HttpGet]
         public Dictionary<string, string> FastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, [FromUri]string[] languages)
         {
-            var fastMarketsChoices = new Dictionary<string, string>();
+            var fastMarketsChoices = GetRefResult(
+                (parameters, language) => _refData.GetFastMarketsChoice(
+                    parameters[0].ToString(),
+                    parameters[1].ToString(),
+                    (int)parameters[2],
+                    (int)parameters[3],
+                    language),
+                IsValidRefData<string>(),
+                languages,
+                betTypeId,
+                betTeam,
+                handicap1,
+                handicap2);
 
-            foreach (var language in languages)
-            {
-                fastMarketsChoices.Add(language, _refData.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(fastMarketsChoices);
+            return fastMarketsChoices;
         }
 
         [HttpGet]
         public Dictionary<string, string> FastMarkets225Result(string resultId, [FromUri]string[] languages)
         {
-            var fastMarkets225Results = new Dictionary<string, string>();
+            var fastMarkets225Results = GetRefResult(
+                (parameters, language) => _refData.GetFastMarkets225Result(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                resultId);
 
-            foreach (var language in languages)
-            {
-                fastMarkets225Results.Add(language, _refData.GetFastMarkets225Result(resultId, LanguageHelper.GenerateTaiwanLanguage(language)));
-            }
-
-            return ValidateResultData(fastMarkets225Results);
+            return fastMarkets225Results;
         }
 
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId, [FromUri]string[] languages)
         {
-            var lotteryBetChoices = new Dictionary<string, Tuple<string, string>>();
+            var lotteryBetChoices = GetRefResult(
+                (parameters, language) =>
+                {
+                    var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
 
-            foreach (var language in languages)
-            {
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(betChoiceId, LanguageHelper.GenerateTaiwanLanguage(language), out string lotteryBetTypeId);
+                    return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
+                },
+                (refData) => !string.IsNullOrEmpty(refData.Item1),
+                languages,
+                betChoiceId);
 
-                lotteryBetChoices.Add(language, new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId));
-            }
-
-            return ValidateResultData(lotteryBetChoices, (result) => !string.IsNullOrEmpty(result.Item1));
+            return lotteryBetChoices;
         }
 
         [HttpGet]
         public Dictionary<string, string> LotteryBetType(string betTypeId, [FromUri]string[] languages)
         {
-            var lotteryBetTypes = new Dictionary<string, string>();
+            var lotteryBetTypes = GetRefResult(
+                (parameters, language) => _refData.GetLotteryBetType(parameters[0].ToString(), language),
+                IsValidRefData<string>(),
+                languages,
+                betTypeId);
+
+            return lotteryBetTypes;
+        }
+
+        private static Dictionary<string, T> GetRefResult<T>(
+            Func<object[], string, T> getRefData,
+            Func<T, bool> isValidResultData,
+            string[] languages,
+            params object[] parameters)
+        {
+            var refResult = new Dictionary<string, T>();
 
             foreach (var language in languages)
             {
-                lotteryBetTypes.Add(language, _refData.GetLotteryBetType(betTypeId, LanguageHelper.GenerateTaiwanLanguage(language)));
+                var refData = getRefData(parameters, LanguageHelper.GenerateTaiwanLanguage(language));
+
+                if (isValidResultData(refData))
+                {
+                    refResult.Add(language, refData);
+                }
             }
 
-            return ValidateResultData(lotteryBetTypes);
+            return refResult.Count > 0 ? refResult : null;
         }
 
-        private static Dictionary<string, T> ValidateResultData<T>(
-         Dictionary<string, T> resultData,
-         Func<T, bool> isValidResultData = null)
-        {
-            var validResultData = resultData
-                             .Where(item => (isValidResultData ?? IsValidResult<T>())(item.Value))
-                             .ToDictionary(item => item.Key, item => item.Value);
-
-            return validResultData.Count > 0 ? validResultData : null;
-        }
-
-        private static Func<T, bool> IsValidResult<T>()
-            => (result) => !string.IsNullOrEmpty(result.ToString());
+        private static Func<T, bool> IsValidRefData<T>()
+            => (refData) => !string.IsNullOrEmpty(refData.ToString());
     }
 }

@@ -31,7 +31,7 @@
             {
                 var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
 
-                if (IsValidResultData<string>()(betTypeNames))
+                if (IsValidRefResultData<string>()(betTypeNames))
                 {
                     betTypeNameSet.Add(parameterSet, betTypeNames);
                 }
@@ -80,7 +80,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> SportName([FromBody]RequestSyncFormData data)
         {
-            var sportNameSet = GetResultSet(
+            var sportNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -91,7 +91,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> TeamName([FromBody]RequestSyncFormData data)
         {
-            var teamNameSet = GetResultSet(
+            var teamNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -102,7 +102,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> TeamName3rd([FromBody]RequestSyncFormData data)
         {
-            var teamName3rdSet = GetResultSet(
+            var teamName3rdSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetTeamName(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -113,7 +113,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LeagueName([FromBody]RequestSyncFormData data)
         {
-            var leagueNameSet = GetResultSet(
+            var leagueNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -124,7 +124,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LeagueName3rd([FromBody]RequestSyncFormData data)
         {
-            var leagueName3rdSet = GetResultSet(
+            var leagueName3rdSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -135,7 +135,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ResourceData([FromBody]RequestSyncFormData data)
         {
-            var resourceDataSet = GetResultSet(
+            var resourceDataSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetResourceDataByRefIdAndResourceId(
@@ -149,7 +149,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> CountryName([FromBody]RequestSyncFormData data)
         {
-            var countryNameSet = GetResultSet(
+            var countryNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -160,7 +160,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> OddsTypeName([FromBody]RequestSyncFormData data)
         {
-            var oddsTypeNameSet = GetResultSet(
+            var oddsTypeNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -171,7 +171,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ParentIdByBetTypeId([FromBody]RequestSyncFormData data)
         {
-            var parentIdSet = GetResultSet(
+            var parentIdSet = GetRefResultSet(
                 data,
                 (parameter, _) => _refData.GetParentIdByBetTypeId(parameter["betTypeId"].ToString()));
 
@@ -181,7 +181,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> CombinationTypeComboParlay([FromBody]RequestSyncFormData data)
         {
-            var combinationTypeSet = GetResultSet(
+            var combinationTypeSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetCombinationTypeCombo(
@@ -198,7 +198,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> HorseTeamName([FromBody]RequestSyncFormData data)
         {
-            var horseTeamNameSet = GetResultSet(
+            var horseTeamNameSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -209,7 +209,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> CasinoBetItem([FromBody]RequestSyncFormData data)
         {
-            var casinoBetItemSet = GetResultSet(
+            var casinoBetItemSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -220,7 +220,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> RouletteBetItem([FromBody]RequestSyncFormData data)
         {
-            var rouletteBetItemSet = GetResultSet(
+            var rouletteBetItemSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -231,7 +231,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> KenoBetType([FromBody]RequestSyncFormData data)
         {
-            var kenoBetTypeSet = GetResultSet(
+            var kenoBetTypeSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -242,7 +242,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> KenoBetChoice([FromBody] RequestSyncFormData data)
         {
-            var kenoBetChoiceSet = GetResultSet(
+            var kenoBetChoiceSet = GetRefResultSet(
                 data,
                 getRefData: (parameter, language) =>
                 {
@@ -253,7 +253,7 @@
 
                     return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
                 },
-                isValidResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
+                isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return kenoBetChoiceSet;
         }
@@ -261,7 +261,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> FastMarketsChoice([FromBody]RequestSyncFormData data)
         {
-            var fastMarketChoiceSet = GetResultSet(
+            var fastMarketChoiceSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetFastMarketsChoice(
@@ -277,7 +277,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> FastMarkets225Result([FromBody]RequestSyncFormData data)
         {
-            var fastMarkets225ResultSet = GetResultSet(
+            var fastMarkets225ResultSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -288,7 +288,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> LotteryBetChoice([FromBody]RequestSyncFormData data)
         {
-            var lotteryBetChoiceSet = GetResultSet(
+            var lotteryBetChoiceSet = GetRefResultSet(
                   data,
                   getRefData: (parameter, language) =>
                   {
@@ -299,7 +299,7 @@
 
                       return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
                   },
-                  isValidResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
+                  isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return lotteryBetChoiceSet;
         }
@@ -307,7 +307,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LotteryBetTypeName([FromBody]RequestSyncFormData data)
         {
-            var lotteryBetTypeSet = GetResultSet(
+            var lotteryBetTypeSet = GetRefResultSet(
                 data,
                 (parameter, language)
                     => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
@@ -315,10 +315,10 @@
             return lotteryBetTypeSet;
         }
 
-        private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetResultSet<T>(
+        private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetRefResultSet<T>(
             RequestSyncFormData data,
             Func<Dictionary<string, object>, string, T> getRefData,
-            Func<Dictionary<string, T>, bool> isValidResultData = null)
+            Func<Dictionary<string, T>, bool> isValidRefResultData = null)
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
             data.Languages = data.Languages ?? new[] { "en-US" };
@@ -332,7 +332,7 @@
                     result.Add(language, getRefData(parameterSet, language));
                 }
 
-                if (isValidResultData == null ? IsValidResultData<T>()(result) : isValidResultData(result))
+                if (isValidRefResultData == null ? IsValidRefResultData<T>()(result) : isValidRefResultData(result))
                 {
                     resultSet.Add(parameterSet, result);
                 }
@@ -341,7 +341,7 @@
             return resultSet;
         }
 
-        private static Func<IDictionary<string, T>, bool> IsValidResultData<T>()
+        private static Func<IDictionary<string, T>, bool> IsValidRefResultData<T>()
           => (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
     }
 }
