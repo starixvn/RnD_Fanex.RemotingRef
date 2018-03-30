@@ -65,7 +65,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "sportTypeId", "1" } },
+                    new Dictionary<string, object> { { "sportTypeId", "1" } }
                 },
                 Languages = new[] { "zh-TW" }
             };
@@ -76,7 +76,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-TW", "sport" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-TW", "sport" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -94,7 +94,7 @@
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "teamId", "1" } },
-                    new Dictionary<string, object> { { "teamId", "2" } },
+                    new Dictionary<string, object> { { "teamId", "2" } }
                 },
                 Languages = new[] { "zh-CN" }
             };
@@ -105,7 +105,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-CN", "team" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-CN", "team" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -121,7 +121,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "leagueId", "1" } },
+                    new Dictionary<string, object> { { "leagueId", "1" } }
                 },
                 Languages = new[] { "ja-JP" }
             };
@@ -132,7 +132,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ja-JP", "league" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ja-JP", "league" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -148,7 +148,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "countryCode", "1" } },
+                    new Dictionary<string, object> { { "countryCode", "1" } }
                 },
                 Languages = new[] { "th-TH" }
             };
@@ -159,7 +159,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "th-TH", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "th-TH", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -175,7 +175,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "oddsTypeId", "1" } },
+                    new Dictionary<string, object> { { "oddsTypeId", "1" } }
                 },
                 Languages = new[] { "ko-KR" }
             };
@@ -186,7 +186,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ko-KR", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ko-KR", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -202,7 +202,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "refId", "1" },  { "resourceId", "12" } },
+                    new Dictionary<string, object> { { "refId", "1" },  { "resourceId", "12" } }
                 },
                 Languages = new[] { "vi-VN" }
             };
@@ -213,7 +213,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "vi-VN", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "vi-VN", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -229,7 +229,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "betTypeId", "1" } },
+                    new Dictionary<string, object> { { "betTypeId", "1" } }
                 },
             };
 
@@ -239,7 +239,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -259,7 +259,7 @@
                 {
                     new Dictionary<string, object> { { "betTeam", "1" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
                     new Dictionary<string, object> { { "betTeam", "2" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
-                    new Dictionary<string, object> { { "betTeam", "3" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
+                    new Dictionary<string, object> { { "betTeam", "3" },  { "betCheck", "2" },  { "handicap1", 3 },  { "handicap2", 4 } }
                 },
                 Languages = new[] { "vi-VN" }
             };
@@ -286,7 +286,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "codeId", "1" } },
+                    new Dictionary<string, object> { { "codeId", "1" } }
                 },
                 Languages = new[] { "zh-Hans" }
             };
@@ -297,7 +297,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-Hans", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-Hans", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -313,7 +313,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "itemId", "1" } },
+                    new Dictionary<string, object> { { "itemId", "1" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -324,7 +324,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -340,7 +340,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "itemId", "1" } },
+                    new Dictionary<string, object> { { "itemId", "1" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -351,7 +351,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -367,7 +367,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "kenoBetTypeId", "1" } },
+                    new Dictionary<string, object> { { "kenoBetTypeId", "1" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -378,7 +378,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -423,7 +423,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "betTypeId", "1" },  { "betTeam", "2" },  { "handicap1", 3 },  { "handicap2", 4 } },
+                    new Dictionary<string, object> { { "betTypeId", "1" },  { "betTeam", "2" },  { "handicap1", 3 },  { "handicap2", 4 } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -434,7 +434,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -461,7 +461,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -479,7 +479,7 @@
                 ParameterSets = new List<Dictionary<string, object>>
                 {
                     new Dictionary<string, object> { { "betChoiceId", "1" } },
-                    new Dictionary<string, object> { { "betChoiceId", "2" } },
+                    new Dictionary<string, object> { { "betChoiceId", "2" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -490,7 +490,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", lotteryBetTypeId) } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", lotteryBetTypeId) } } }
             };
 
             Assert.Equal(expectedData, actualResult);
@@ -506,7 +506,7 @@
             {
                 ParameterSets = new List<Dictionary<string, object>>
                 {
-                    new Dictionary<string, object> { { "betTypeId", "1" } },
+                    new Dictionary<string, object> { { "betTypeId", "1" } }
                 },
                 Languages = new[] { "en-US" }
             };
@@ -517,7 +517,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
             };
 
             Assert.Equal(expectedData, actualResult);

@@ -31,7 +31,7 @@
             {
                 var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
 
-                if (IsValidResultDataDefault<string>()(betTypeNames))
+                if (IsValidResultData<string>()(betTypeNames))
                 {
                     betTypeNameSet.Add(parameterSet, betTypeNames);
                 }
@@ -332,7 +332,7 @@
                     result.Add(language, getRefData(parameterSet, language));
                 }
 
-                if (isValidResultData == null ? IsValidResultDataDefault<T>()(result) : isValidResultData(result))
+                if (isValidResultData == null ? IsValidResultData<T>()(result) : isValidResultData(result))
                 {
                     resultSet.Add(parameterSet, result);
                 }
@@ -341,7 +341,7 @@
             return resultSet;
         }
 
-        private static Func<IDictionary<string, T>, bool> IsValidResultDataDefault<T>()
+        private static Func<IDictionary<string, T>, bool> IsValidResultData<T>()
           => (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
     }
 }

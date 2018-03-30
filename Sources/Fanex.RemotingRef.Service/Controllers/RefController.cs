@@ -333,14 +333,14 @@
          Dictionary<string, T> resultData,
          Func<T, bool> isValidResultData = null)
         {
-            var filteredResultData = resultData
-                             .Where(item => (isValidResultData ?? IsValidResultDefault<T>())(item.Value))
+            var validResultData = resultData
+                             .Where(item => (isValidResultData ?? IsValidResult<T>())(item.Value))
                              .ToDictionary(item => item.Key, item => item.Value);
 
-            return filteredResultData.Count > 0 ? filteredResultData : null;
+            return validResultData.Count > 0 ? validResultData : null;
         }
 
-        private static Func<T, bool> IsValidResultDefault<T>()
+        private static Func<T, bool> IsValidResult<T>()
             => (result) => !string.IsNullOrEmpty(result.ToString());
     }
 }
