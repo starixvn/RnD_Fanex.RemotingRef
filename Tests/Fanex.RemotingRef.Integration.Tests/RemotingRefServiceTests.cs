@@ -11,14 +11,8 @@
 
         public RemotingRefServiceTests()
         {
-            InitRemotingRefService();
+            RefDataTypeContainer.ConnectTo(new Uri(_remotingRefServiceUrl)).SupportOnlyDefaultLanguage();
             _remotingRefService = new RemotingRefService();
-        }
-
-        private static void InitRemotingRefService()
-        {
-            RefDataTypeContainer.ConnectTo(new Uri(_remotingRefServiceUrl));
-            RefDataTypeHandlerOptions.SupportedLanguageCodes = new[] { RefDataTypeHandlerOptions.DefaultLanguage };
         }
 
         [Fact]

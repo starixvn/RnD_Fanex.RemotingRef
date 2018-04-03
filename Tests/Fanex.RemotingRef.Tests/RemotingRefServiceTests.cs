@@ -17,7 +17,7 @@
 
         public RemotingRefServiceTests()
         {
-            InitRemotingRefService();
+            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:10000")).SupportOnlyDefaultLanguage();
 
             _serializer = Substitute.For<ISerializer>();
             _serializer.Deserialize<Dictionary<string, string>>(Arg.Any<Stream>()).Returns(new Dictionary<string, string>());
@@ -33,12 +33,6 @@
             var httpResponseMessage = Substitute.For<HttpResponseMessage>();
             httpResponseMessage.Content = new StreamContent(new MemoryStream(new byte[] { }));
             return httpResponseMessage;
-        }
-
-        private static void InitRemotingRefService()
-        {
-            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:10000"));
-            RefDataTypeHandlerOptions.SupportedLanguageCodes = new[] { RefDataTypeHandlerOptions.DefaultLanguage };
         }
 
         [Fact]

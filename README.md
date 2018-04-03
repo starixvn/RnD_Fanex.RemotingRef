@@ -2,16 +2,15 @@
 
 Fanex.RemotingRef is a wrapper of TW RemotingRef 2.0. Its main purpose is to support .NET Standard and reduce the number of dependencies sticked with TW RemotingRef 2.0. The overview [can be found here](https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/overview)
 
-# Install
+## Install
 
 NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
-# Get Started
+## Get Started
 
-#### ASP.NET Core
+### ASP.NET Core
 
 1. After install NuGet package, in the *ConfigureServices* method of *Startup.cs*, connect to Service url and register the RemotingRefService
-
 
     ```csharp
         RefDataTypeContainer.ConnectTo(new Uri(Configuration["RemotingRefService"]));
@@ -19,7 +18,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
         services.Configure<IConfiguration>(Configuration);
         services.AddSingleton<IRemotingRefService, RemotingRefService>();
     ```
-    
+
 2. Configure RemotingRef Service url in *appsettings.json*
     ```json
         {
@@ -31,12 +30,12 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
     ```csharp
         private readonly IRemotingRefService _remotingRefService;
-    
+
         public AnonymousController(IRemotingRefService remotingRefService)
         {
             _remotingRefService = remotingRefService;
         }
-        
+
         public IActionResult BetTypeName([FromQuery]string betTypeId, [FromQuery]string languageCode)
         {
             var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, languageCode);
@@ -44,16 +43,15 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
             return Ok(betTypeName);
         }
     ```
-    
-#### ASP.NET MVC
+
+### ASP.NET MVC
 
 1. After install NuGet package, in the *Application_Start* method of *Global.asax.cs*, connect to Service url
-
 
     ```csharp
         RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]));
     ```
-    
+
 2. Configure RemotingRef Service url in *web.config*
     ```config
         <appSettings>
@@ -61,7 +59,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
         </appSettings>
 
     ```
-    
+
 3. Use *RemotingRefService* in where you want to use
 
     ```csharp
@@ -72,38 +70,41 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
             return betTypeName;
         }
     ```
-    
-# Configuration & Customization
+
+## Configuration & Customization
 
 - Fanex.RemotingRef allow you to customize cached data types and supported languages in your site. All customized methods are supported in class **RefDataTypeContainer**. For example
 
     ```csharp
          RefDataTypeContainer
             .ConnectTo(new Uri(Configuration["RemotingRefService"]))
-            .RegisterSupportedLanguages(new[] { "en-US", "ja-JP" })
-            .Register(RefDataType.BetTypeName, new RefDataTypeHandlerOptions
-              {
-              	SlidingTimeout = TimeSpan.FromMilliseconds(40)
-              });
+            .RegisterSupportedLanguages"en-US", "ja-JP")
+            .Register(
+                RefDataType.BetTypeName,
+                new RefDataTypeHandlerOptions
+                {
+                    SlidingTimeout = TimeSpan.FromMilliseconds(40)
+                });
     ```
 
-#### RefDataTypeContainer
-| **Method**        | **Description**  |
-| ------------- | -------------|
-| ConnectTo(**Uri** remotingRefServiceUri) | Connect to RemotingRef Service with Url |
-| SupportMultiLanguages()    | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-Hans) |
-| SupportOnlyDefaultLanguage() | Only support English (en-US) |
-| RegisterSupportedLanguages(**string[]** languageCodes) | Support optional languages |
-| Register(**RefDataType** dataType, **RefDataTypeHandlerOptions** options) | Register caching data type with customized *RefDataTypeHandlerOptions* |
+### RefDataTypeContainer
 
-#### RefDataTypeHandlerOptions
-| **Options** | **Description**  | **Type** | **Default Value**  |
-|-------------|------------------|----------|--------------------|
-|SyncBatchSize| Number of item of DataType for each sync time|int| 100 |
-|SlidingTimeout| Cache sliding time out  |TimeSpan| 10 minutes |
-|RenewalTime| Time to sync data from Ref Service  | Timespan | 40 seconds |
-|NumberOfEntriesLimit| The limited number of cached items for each *DataType* in local storage. When cached items amount is greater than *NumberOfEntriesLimit*, Fanex.RemotingRef will remove rarely accessed items for adding new item to local cache. The number of removed items is based on **CompactionPercentage** value | int | 1000 |
-|CompactionPercentage| The percentage of item ammont that will be removed when high memory or reaching *NumberOfEntriesLimit* | double| 0.1 (10%)|
-|CompactOnMemoryPressure| Enable cleaning cached items when Gargabe Collector runs | bool| false |
-|ExpirationScanFrequency| Time to scan expired cached items | Timespan | 1 minute |
+| **Method**                                                                | **Description**                                                                         |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| ConnectTo(**Uri** remotingRefServiceUri)                                  | Connect to RemotingRef Service with Url                                                 |
+| SupportMultiLanguages()                                                   | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-Hans) |
+| SupportOnlyDefaultLanguage()                                              | Only support English (en-US)                                                            |
+| RegisterSupportedLanguages(**string[]** languageCodes)                    | Support optional languages                                                              |
+| Register(**RefDataType** dataType, **RefDataTypeHandlerOptions** options) | Register caching data type with customized *RefDataTypeHandlerOptions*                  |
 
+### RefDataTypeHandlerOptions
+
+| **Options**             | **Description**                                                                                                                                                                                                                                                                                          | **Type** | **Default Value** |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------- |
+| SyncBatchSize           | Number of item of DataType for each sync time                                                                                                                                                                                                                                                            | int      | 100               |
+| SlidingTimeout          | Cache sliding time out                                                                                                                                                                                                                                                                                   | TimeSpan | 10 minutes        |
+| RenewalTime             | Time to sync data from Ref Service                                                                                                                                                                                                                                                                       | Timespan | 40 seconds        |
+| NumberOfEntriesLimit    | The limited number of cached items for each *DataType* in local storage. When cached items amount is greater than *NumberOfEntriesLimit*, Fanex.RemotingRef will remove rarely accessed items for adding new item to local cache. The number of removed items is based on **CompactionPercentage** value | int      | 1000              |
+| CompactionPercentage    | The percentage of item ammont that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
+| CompactOnMemoryPressure | Enable cleaning cached items when Gargabe Collector runs                                                                                                                                                                                                                                                 | bool     | false             |
+| ExpirationScanFrequency | Time to scan expired cached items                                                                                                                                                                                                                                                                        | Timespan | 1 minute          |
