@@ -4,9 +4,9 @@
     {
         public const string DefaultLanguage = "en-US";
 
-        public static string GenerateTaiwanLanguage(string lang)
+        public static string GenerateTaiwanLanguage(string language)
         {
-            switch (lang)
+            switch (language)
             {
                 case "en-US": return "en"; // English
                 case "zh-TW": return "ch"; // Traditional

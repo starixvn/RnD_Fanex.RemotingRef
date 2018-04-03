@@ -349,6 +349,6 @@
         }
 
         private static Func<T, bool> IsValidRefData<T>()
-            => (refData) => !string.IsNullOrEmpty(refData.ToString());
+            => (refData) => !string.IsNullOrEmpty(refData?.ToString());
     }
 }
