@@ -159,5 +159,111 @@
                 TaiwanRefNew = _taiwanRefNew.GetCountryName(countryId, twLanguage, DefaultValue)
             };
         }
+
+        public RefDataResult GetOddsTypeName(string oddsTypeId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetOddsTypeName(oddsTypeId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetOddsTypeName(oddsTypeId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetOddsTypeName(oddsTypeId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetParentIdByBetTypeId(string betTypeId, string languageCode = "en-US")
+        {
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue),
+                TaiwanRefOld = RefData.GetParentIdByBetTypeId(betTypeId, DefaultValue),
+                TaiwanRefNew = _taiwanRefNew.GetParentIdByBetTypeId(betTypeId, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetHorseTeamName(string codeId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetHorseTeamName(codeId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetHorseTeamName(codeId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetHorseTeamName(codeId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetCasinoBetItem(string itemId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetCasinoBetItem(itemId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetCasinoBetItem(itemId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetCasinoBetItem(itemId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetRouletteBetItem(string itemId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetRouletteBetItem(itemId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetRouletteBetItem(itemId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetRouletteBetItem(itemId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetKenoBetType(string kenoBetTypeId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetKenoBetType(kenoBetTypeId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetKenoBettype(kenoBetTypeId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetKenoBettype(kenoBetTypeId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, twLanguage),
+                TaiwanRefOld = RefData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, twLanguage)
+            };
+        }
+
+        public RefDataResult GetFastMarkets225Result(string resultId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetFastMarkets225Result(resultId, languageCode),
+                TaiwanRefOld = RefData.GetFastMarkets225Result(resultId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetFastMarkets225Result(resultId, twLanguage)
+            };
+        }
+
+        public RefDataResult GetLotteryBetType(string betTypeId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetLotteryBetType(betTypeId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetLotteryBettype(betTypeId, twLanguage, DefaultValue),
+                TaiwanRefNew = _taiwanRefNew.GetLotteryBettype(betTypeId, twLanguage, DefaultValue)
+            };
+        }
     }
 }

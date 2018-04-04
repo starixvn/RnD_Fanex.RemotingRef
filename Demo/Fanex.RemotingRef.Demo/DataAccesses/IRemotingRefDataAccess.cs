@@ -16,5 +16,23 @@
         RefDataResult GetResourceData(string refId, string resourceId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetCountryName(string countryId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetOddsTypeName(string oddsTypeId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetParentIdByBetTypeId(string betTypeId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetHorseTeamName(string codeId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetCasinoBetItem(string itemId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetRouletteBetItem(string itemId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetKenoBetType(string kenoBetTypeId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetFastMarkets225Result(string resultId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetLotteryBetType(string betTypeId, string languageCode = Common.DefaultLanguage);
     }
 }

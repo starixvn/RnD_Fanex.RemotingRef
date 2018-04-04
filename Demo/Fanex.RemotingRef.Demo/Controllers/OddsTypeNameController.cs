@@ -20,7 +20,7 @@
             var viewModel = new RefDataViewModel
             {
                 DataType = "OddsType",
-                TypeId = "3",
+                TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
             };
@@ -36,7 +36,7 @@
                 DataType = "OddsType",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetLeagueName(typeId, language)
+                RefDataResult = _remotingRefDataAccess.GetOddsTypeName(typeId, language)
             };
 
             return View("~/Views/Ref/OddsTypeName/OddsTypeName.cshtml", viewModel);
