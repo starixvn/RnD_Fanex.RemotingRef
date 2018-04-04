@@ -156,13 +156,13 @@
     <Content Include="Setting\RedisSetting.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Setting\RedisSetting.xml.pro">
+    <Content Include="Setting\RedisSetting.pro.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
-    <Content Include="Setting\RedisSetting.xml.sit">
+    <Content Include="Setting\RedisSetting.sit.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
-    <Content Include="Setting\RedisSetting.xml.uat">
+    <Content Include="Setting\RedisSetting.uat.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
     <Content Include="Web.config">
@@ -174,17 +174,15 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Web.AppSettings.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.AppSettings.config.pro">
+    <Content Include="Web.AppSettings.config" />
+    <Content Include="Web.AppSettings.pro.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
     </Content>
-    <Content Include="Web.AppSettings.config.sit">
+    <Content Include="Web.AppSettings.sit.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.AppSettings.config.uat">
+    <Content Include="Web.AppSettings.uat.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
     </Content>
     <Content Include="nlog.config" />

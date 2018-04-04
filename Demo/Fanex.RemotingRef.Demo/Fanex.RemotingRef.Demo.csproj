@@ -70,5 +70,17 @@
         <Content Include="Setting\RedisSetting.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Setting\RedisSetting.pro.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <DependentUpon>Setting\RedisSetting.xml</DependentUpon>
+        </Content>
+        <Content Include="Setting\RedisSetting.sit.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <DependentUpon>Setting\RedisSetting.xml</DependentUpon>
+        </Content>
+        <Content Include="Setting\RedisSetting.uat.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <DependentUpon>Setting\RedisSetting.xml</DependentUpon>
+        </Content>
     </ItemGroup>
 </Project>
