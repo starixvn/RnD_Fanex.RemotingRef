@@ -12,7 +12,7 @@
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
         public RefController()
-            : this(null)
+            : this(new RefDataHelper())
         {
         }
 

@@ -424,7 +424,7 @@ namespace Fanex.RemotingRef
 
             foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
             {
-                requestUri.Append($"languages={language}&");
+                requestUri.Append($"&languages={language}");
             }
 
             var response = _client.GetAsync(requestUri.ToString()).GetAwaiter().GetResult();

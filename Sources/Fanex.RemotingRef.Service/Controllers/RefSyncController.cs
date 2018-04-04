@@ -13,7 +13,7 @@
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
         public RefSyncController()
-            : this(null)
+            : this(new RefDataHelper())
         {
         }
 
@@ -52,25 +52,31 @@
                 }
                 else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("refNo"))
                 {
-                    betTypeNames.Add(language, _refData.GetBetTypeName(
-                        parameterSet["betTypeId"].ToString(),
-                        LanguageHelper.GenerateTaiwanLanguage(language),
-                        (long)parameterSet["refNo"]));
+                    betTypeNames.Add(
+                        language,
+                        _refData.GetBetTypeName(
+                            parameterSet["betTypeId"].ToString(),
+                            LanguageHelper.GenerateTaiwanLanguage(language),
+                            (long)parameterSet["refNo"]));
                 }
                 else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("resourceId"))
                 {
-                    betTypeNames.Add(language, _refData.GetBetTypeName(
-                        parameterSet["betTypeId"].ToString(),
-                        LanguageHelper.GenerateTaiwanLanguage(language),
-                        parameterSet["resourceId"].ToString()));
+                    betTypeNames.Add(
+                        language,
+                        _refData.GetBetTypeName(
+                            parameterSet["betTypeId"].ToString(),
+                            LanguageHelper.GenerateTaiwanLanguage(language),
+                            parameterSet["resourceId"].ToString()));
                 }
                 else
                 {
-                    betTypeNames.Add(language, _refData.GetBetTypeName(
-                       parameterSet["betTypeId"].ToString(),
-                       LanguageHelper.GenerateTaiwanLanguage(language),
-                       parameterSet["resourceId"].ToString(),
-                        (long)parameterSet["refNo"]));
+                    betTypeNames.Add(
+                        language,
+                        _refData.GetBetTypeName(
+                           parameterSet["betTypeId"].ToString(),
+                           LanguageHelper.GenerateTaiwanLanguage(language),
+                           parameterSet["resourceId"].ToString(),
+                            (long)parameterSet["refNo"]));
                 }
             }
 
@@ -82,8 +88,7 @@
         {
             var sportNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return sportNameSet;
         }
@@ -93,8 +98,7 @@
         {
             var teamNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return teamNameSet;
         }
@@ -104,8 +108,7 @@
         {
             var teamName3rdSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetTeamName(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetTeamName(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return teamName3rdSet;
         }
@@ -115,8 +118,7 @@
         {
             var leagueNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return leagueNameSet;
         }
@@ -126,8 +128,7 @@
         {
             var leagueName3rdSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return leagueName3rdSet;
         }
@@ -151,8 +152,7 @@
         {
             var countryNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return countryNameSet;
         }
@@ -162,8 +162,7 @@
         {
             var oddsTypeNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return oddsTypeNameSet;
         }
@@ -200,8 +199,7 @@
         {
             var horseTeamNameSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return horseTeamNameSet;
         }
@@ -211,8 +209,7 @@
         {
             var casinoBetItemSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return casinoBetItemSet;
         }
@@ -222,8 +219,7 @@
         {
             var rouletteBetItemSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return rouletteBetItemSet;
         }
@@ -233,8 +229,7 @@
         {
             var kenoBetTypeSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return kenoBetTypeSet;
         }
@@ -279,8 +274,7 @@
         {
             var fastMarkets225ResultSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return fastMarkets225ResultSet;
         }
@@ -309,8 +303,7 @@
         {
             var lotteryBetTypeSet = GetRefResultSet(
                 data,
-                (parameter, language)
-                    => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                (parameter, language) => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return lotteryBetTypeSet;
         }
@@ -322,6 +315,7 @@
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
             data.Languages = data.Languages ?? new[] { "en-US" };
+            var checkValidRefResultData = isValidRefResultData ?? IsValidRefResultData<T>();
 
             foreach (var parameterSet in data.ParameterSets)
             {
@@ -332,7 +326,7 @@
                     result.Add(language, getRefData(parameterSet, language));
                 }
 
-                if (isValidRefResultData == null ? IsValidRefResultData<T>()(result) : isValidRefResultData(result))
+                if (checkValidRefResultData(result))
                 {
                     resultSet.Add(parameterSet, result);
                 }

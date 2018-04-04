@@ -18,7 +18,7 @@
         }
 
         [Fact]
-        public void BetTypeName_Always_CallRefDataWithCorrectParameters()
+        public void BetTypeName_Always_GetExpectedRefResult()
         {
             // Arrange
             _refData.GetBetTypeName("1", "en").Returns("handicap");
@@ -56,7 +56,7 @@
         }
 
         [Fact]
-        public void SportName_Always_CallRefDataWithCorrectParameters()
+        public void SportName_Always_GetExpectedRefResult()
         {
             // Arrange
             _refData.GetSportName("1", "ch").Returns("sport");
@@ -83,7 +83,7 @@
         }
 
         [Fact]
-        public void TeamName_Always_CallRefDataWithCorrectParameters()
+        public void TeamName_Always_GetExpectedRefResult()
         {
             // Arrange
             _refData.GetTeamName("1", "cs").Returns("team");
@@ -112,7 +112,7 @@
         }
 
         [Fact]
-        public void LeagueName_Always_CallRefDataWithCorrectParameters()
+        public void LeagueName_Always_GetExpectedRefResult()
         {
             // Arrange
             _refData.GetLeagueName("1", "jp").Returns("league");
@@ -139,7 +139,7 @@
         }
 
         [Fact]
-        public void CountryName_Always_CallRefDataWithCorrectParameters()
+        public void CountryName_Always_GetExpectedRefResult()
         {
             // Arrange
             _refData.GetCountryName("1", "th").Returns("vietnam");
@@ -166,10 +166,10 @@
         }
 
         [Fact]
-        public void OddsTypeName_Always_CallRefDataWithCorrectParameters()
+        public void OddsTypeName_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetOddsTypeName("1", "ko").Returns("vietnam");
+            _refData.GetOddsTypeName("1", "ko").Returns("decimal");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -186,17 +186,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ko-KR", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "ko-KR", "decimal" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void ResourceData_Always_CallRefDataWithCorrectParameters()
+        public void ResourceData_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetResourceDataByRefIdAndResourceId("1", "12", "vn").Returns("vietnam");
+            _refData.GetResourceDataByRefIdAndResourceId("1", "12", "vn").Returns("casino");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -213,17 +213,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "vi-VN", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "vi-VN", "casino" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void ParentIdByBetTypeId_Always_CallRefDataWithCorrectParameters()
+        public void ParentIdByBetTypeId_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetParentIdByBetTypeId("1").Returns("vietnam");
+            _refData.GetParentIdByBetTypeId("1").Returns("2");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -239,17 +239,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "2" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void CombinationTypeComboParlay_Always_CallRefDataWithCorrectParameters()
+        public void CombinationTypeComboParlay_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetCombinationTypeCombo("1", "2", 3, 4, "vn").Returns(new[] { "vietnam" });
+            _refData.GetCombinationTypeCombo("1", "2", 3, 4, "vn").Returns(new[] { "trixie" });
             _refData.GetCombinationTypeCombo("2", "2", 3, 4, "vn").Returns(new string[] { });
             _refData.GetCombinationTypeCombo("3", "2", 3, 4, "vn").Returns(new[] { string.Empty });
             var refSyncController = new RefSyncController(_refData);
@@ -270,17 +270,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string[]>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string[]> { { "vi-VN", new[] { "vietnam" } } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string[]> { { "vi-VN", new[] { "trixie" } } } },
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void HorseTeamName_Always_CallRefDataWithCorrectParameters()
+        public void HorseTeamName_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetHorseTeamName("1", "zhcn").Returns("vietnam");
+            _refData.GetHorseTeamName("1", "zhcn").Returns("horse");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -297,17 +297,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-Hans", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "zh-Hans", "horse" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void CasinoBetItem_Always_CallRefDataWithCorrectParameters()
+        public void CasinoBetItem_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetCasinoBetItem("1", "en").Returns("vietnam");
+            _refData.GetCasinoBetItem("1", "en").Returns("casino");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -324,17 +324,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "casino" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void RouletteBetItem_Always_CallRefDataWithCorrectParameters()
+        public void RouletteBetItem_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetRouletteBetItem("1", "en").Returns("vietnam");
+            _refData.GetRouletteBetItem("1", "en").Returns("roulette");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -351,17 +351,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "roulette" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void KenoBetType_Always_CallRefDataWithCorrectParameters()
+        public void KenoBetType_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetKenoBetType("1", "en").Returns("vietnam");
+            _refData.GetKenoBetType("1", "en").Returns("keno");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -378,17 +378,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "keno" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void KenoBetChoice_Always_CallRefDataWithCorrectParameters()
+        public void KenoBetChoice_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetKenoBetChoice("1", "en", out string kenoBetTypeId).Returns("vietnam");
+            _refData.GetKenoBetChoice("1", "en", out string kenoBetTypeId).Returns("keno");
             _refData.GetKenoBetChoice("2", "en", out string kenoBetTypeIdTwo).Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
@@ -407,17 +407,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", kenoBetTypeId) } } },
+                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("keno", kenoBetTypeId) } } },
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void FastMarketsChoice_Always_CallRefDataWithCorrectParameters()
+        public void FastMarketsChoice_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetFastMarketsChoice("1", "2", 3, 4, "en").Returns("vietnam");
+            _refData.GetFastMarketsChoice("1", "2", 3, 4, "en").Returns("choice1");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -434,17 +434,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "choice1" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void FastMarkets225Result_Always_CallRefDataWithCorrectParameters()
+        public void FastMarkets225Result_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetFastMarkets225Result("1", "en").Returns("vietnam");
+            _refData.GetFastMarkets225Result("1", "en").Returns("goal");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -461,17 +461,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "goal" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void LotteryBetChoice_Always_CallRefDataWithCorrectParameters()
+        public void LotteryBetChoice_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetLotteryBetChoice("1", "en", out string lotteryBetTypeId).Returns("vietnam");
+            _refData.GetLotteryBetChoice("1", "en", out string lotteryBetTypeId).Returns("choice");
             _refData.GetLotteryBetChoice("2", "en", out string lotteryBetTypeIdTwo).Returns(string.Empty);
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
@@ -490,17 +490,17 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("vietnam", lotteryBetTypeId) } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, Tuple<string, string>> { { "en-US", new Tuple<string, string>("choice", lotteryBetTypeId) } } }
             };
 
             Assert.Equal(expectedData, actualResult);
         }
 
         [Fact]
-        public void LotteryBetTypeName_Always_CallRefDataWithCorrectParameters()
+        public void LotteryBetTypeName_Always_GetExpectedRefResult()
         {
             // Arrange
-            _refData.GetLotteryBetType("1", "en").Returns("vietnam");
+            _refData.GetLotteryBetType("1", "en").Returns("bettype");
             var refSyncController = new RefSyncController(_refData);
             var requestSyncData = new RequestSyncFormData
             {
@@ -517,7 +517,7 @@
             // Assert
             var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
             {
-                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "vietnam" } } }
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "bettype" } } }
             };
 
             Assert.Equal(expectedData, actualResult);
