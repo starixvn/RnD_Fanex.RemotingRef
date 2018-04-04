@@ -95,9 +95,14 @@
 
                 if (newEntryMaps.ContainsKey(key))
                 {
-                    CacheEntry updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newEntryMaps[key]);
+                    TranslationSet newTranslationSet = newEntryMaps[key];
 
-                    _localStorage.Add(updatedEntry);
+                    if (newTranslationSet != null)
+                    {
+                        CacheEntry updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newTranslationSet);
+
+                        _localStorage.Add(updatedEntry);
+                    }
                 }
                 else
                 {

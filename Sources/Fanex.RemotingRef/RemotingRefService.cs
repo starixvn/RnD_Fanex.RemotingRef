@@ -463,6 +463,8 @@ namespace Fanex.RemotingRef
             return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
         }
 
+#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
+
         public void Dispose()
         {
             Dispose(true);
@@ -476,7 +478,5 @@ namespace Fanex.RemotingRef
                 _client.Dispose();
             }
         }
-
-#pragma warning restore S3216 // "ConfigureAwait(false)" should be used
     }
 }
