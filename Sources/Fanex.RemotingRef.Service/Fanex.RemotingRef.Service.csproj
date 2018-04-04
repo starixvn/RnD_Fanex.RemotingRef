@@ -156,6 +156,15 @@
     <Content Include="Setting\RedisSetting.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Setting\RedisSetting.xml.pro">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
+    <Content Include="Setting\RedisSetting.xml.sit">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
+    <Content Include="Setting\RedisSetting.xml.uat">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -165,9 +174,23 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Web.AppSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.AppSettings.config.pro">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
+    <Content Include="Web.AppSettings.config.sit">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.AppSettings.config.uat">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
+    <Content Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Fanex.RemotingRef.Service.ruleset" />
+    <None Include="Fanex.RemotingRef.Service.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MessagePack">
@@ -191,12 +214,6 @@
     <PackageReference Include="Microsoft.Net.Compilers">
       <Version>2.7.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\PublishProfiles\144.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
