@@ -13,7 +13,7 @@
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
         public RefSyncController()
-            : this(new RefDataHelper())
+            : this(null)
         {
         }
 
@@ -140,9 +140,9 @@
                 data,
                 (parameter, language)
                     => _refData.GetResourceDataByRefIdAndResourceId(
-                        parameter["refId"].ToString(),
-                        parameter["resourceId"].ToString(),
-                        LanguageHelper.GenerateTaiwanLanguage(language)));
+                            parameter["refId"].ToString(),
+                            parameter["resourceId"].ToString(),
+                            LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return resourceDataSet;
         }
@@ -184,11 +184,11 @@
                 data,
                 (parameter, language)
                     => _refData.GetCombinationTypeCombo(
-                        parameter["betTeam"].ToString(),
-                        parameter["betCheck"].ToString(),
-                        (int)parameter["handicap1"],
-                        (int)parameter["handicap2"],
-                        LanguageHelper.GenerateTaiwanLanguage(language)),
+                            parameter["betTeam"].ToString(),
+                            parameter["betCheck"].ToString(),
+                            (int)parameter["handicap1"],
+                            (int)parameter["handicap2"],
+                            LanguageHelper.GenerateTaiwanLanguage(language)),
                 (result) => result.Any(item => item.Value.Any(type => !string.IsNullOrEmpty(type))));
 
             return combinationTypeSet;
@@ -242,9 +242,9 @@
                 getRefData: (parameter, language) =>
                 {
                     var kenoBetChoice = _refData.GetKenoBetChoice(
-                        parameter["kenoBetChoiceId"].ToString(),
-                        LanguageHelper.GenerateTaiwanLanguage(language),
-                        out string kenoBetTypeId);
+                            parameter["kenoBetChoiceId"].ToString(),
+                            LanguageHelper.GenerateTaiwanLanguage(language),
+                            out string kenoBetTypeId);
 
                     return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
                 },
@@ -260,11 +260,11 @@
                 data,
                 (parameter, language)
                     => _refData.GetFastMarketsChoice(
-                        parameter["betTypeId"].ToString(),
-                        parameter["betTeam"].ToString(),
-                        (int)parameter["handicap1"],
-                        (int)parameter["handicap2"],
-                        LanguageHelper.GenerateTaiwanLanguage(language)));
+                            parameter["betTypeId"].ToString(),
+                            parameter["betTeam"].ToString(),
+                            (int)parameter["handicap1"],
+                            (int)parameter["handicap2"],
+                            LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return fastMarketChoiceSet;
         }
@@ -287,9 +287,9 @@
                   getRefData: (parameter, language) =>
                   {
                       var lotteryBetChoice = _refData.GetLotteryBetChoice(
-                          parameter["betChoiceId"].ToString(),
-                          LanguageHelper.GenerateTaiwanLanguage(language),
-                          out string lotteryBetType);
+                              parameter["betChoiceId"].ToString(),
+                              LanguageHelper.GenerateTaiwanLanguage(language),
+                              out string lotteryBetType);
 
                       return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
                   },

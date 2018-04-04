@@ -12,7 +12,7 @@
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
         public RefController()
-            : this(new RefDataHelper())
+            : this(null)
         {
         }
 
@@ -25,10 +25,10 @@
         public Dictionary<string, string> BetTypeName(string betTypeId, [FromUri] string[] languages)
         {
             var betTypeNames = GetRefResult(
-                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                betTypeId);
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    betTypeId);
 
             return betTypeNames;
         }
@@ -37,11 +37,11 @@
         public Dictionary<string, string> BetTypeNameWithRefNo(string betTypeId, long refNo, [FromUri] string[] languages)
         {
             var betTypeNames = GetRefResult(
-               (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, (long)parameters[1]),
-               IsValidRefData<string>(),
-               languages,
-               betTypeId,
-               refNo);
+                   (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, (long)parameters[1]),
+                   IsValidRefData<string>(),
+                   languages,
+                   betTypeId,
+                   refNo);
 
             return betTypeNames;
         }
@@ -50,11 +50,11 @@
         public Dictionary<string, string> BetTypeNameWithResourceId(string betTypeId, string resourceId, [FromUri]string[] languages)
         {
             var betTypeNames = GetRefResult(
-                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString()),
-                IsValidRefData<string>(),
-                languages,
-                betTypeId,
-                resourceId);
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString()),
+                    IsValidRefData<string>(),
+                    languages,
+                    betTypeId,
+                    resourceId);
 
             return betTypeNames;
         }
@@ -63,12 +63,12 @@
         public Dictionary<string, string> BetTypeNameWithRefNoAndResourceId(string betTypeId, string resourceId, long refNo, [FromUri]string[] languages)
         {
             var betTypeNames = GetRefResult(
-                (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString(), (long)parameters[2]),
-                IsValidRefData<string>(),
-                languages,
-                betTypeId,
-                resourceId,
-                refNo);
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString(), (long)parameters[2]),
+                    IsValidRefData<string>(),
+                    languages,
+                    betTypeId,
+                    resourceId,
+                    refNo);
 
             return betTypeNames;
         }
@@ -77,10 +77,10 @@
         public Dictionary<string, string> SportName(string sportTypeId, [FromUri]string[] languages)
         {
             var sportNames = GetRefResult(
-                (parameters, language) => _refData.GetSportName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                sportTypeId);
+                    (parameters, language) => _refData.GetSportName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    sportTypeId);
 
             return sportNames;
         }
@@ -89,10 +89,10 @@
         public Dictionary<string, string> TeamName(string teamId, [FromUri]string[] languages)
         {
             var teamNames = GetRefResult(
-                (parameters, language) => _refData.GetTeamName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                teamId);
+                    (parameters, language) => _refData.GetTeamName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    teamId);
 
             return teamNames;
         }
@@ -101,10 +101,10 @@
         public Dictionary<string, string> TeamName3rd(string team3rdId, [FromUri]string[] languages)
         {
             var teamNames = GetRefResult(
-                (parameters, language) => _refData.GetTeamName3rd(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                team3rdId);
+                    (parameters, language) => _refData.GetTeamName3rd(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    team3rdId);
 
             return teamNames;
         }
@@ -113,10 +113,10 @@
         public Dictionary<string, string> LeagueName(string leagueId, [FromUri]string[] languages)
         {
             var leagueNames = GetRefResult(
-                (parameters, language) => _refData.GetLeagueName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                leagueId);
+                    (parameters, language) => _refData.GetLeagueName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    leagueId);
 
             return leagueNames;
         }
@@ -124,10 +124,10 @@
         public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
         {
             var league3rdNames = GetRefResult(
-                (parameters, language) => _refData.GetLeagueName3rd(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                league3rdId);
+                    (parameters, language) => _refData.GetLeagueName3rd(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    league3rdId);
 
             return league3rdNames;
         }
@@ -136,11 +136,11 @@
         public Dictionary<string, string> ResourceData(string refId, string resourceId, [FromUri]string[] languages)
         {
             var resourceData = GetRefResult(
-                (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0].ToString(), parameters[1].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                refId,
-                resourceId);
+                    (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0].ToString(), parameters[1].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    refId,
+                    resourceId);
 
             return resourceData;
         }
@@ -149,10 +149,10 @@
         public Dictionary<string, string> CountryName(string countryCode, [FromUri]string[] languages)
         {
             var countryNames = GetRefResult(
-                (parameters, language) => _refData.GetCountryName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                countryCode);
+                    (parameters, language) => _refData.GetCountryName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    countryCode);
 
             return countryNames;
         }
@@ -161,10 +161,10 @@
         public Dictionary<string, string> OddsTypeName(string oddsTypeId, [FromUri]string[] languages)
         {
             var oddsTypeNames = GetRefResult(
-                (parameters, language) => _refData.GetOddsTypeName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                oddsTypeId);
+                    (parameters, language) => _refData.GetOddsTypeName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    oddsTypeId);
 
             return oddsTypeNames;
         }
@@ -173,10 +173,10 @@
         public Dictionary<string, string> ParentIdByBetTypeId(string betTypeId)
         {
             var parentId = GetRefResult(
-                (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0].ToString()),
-                IsValidRefData<string>(),
-                new[] { LanguageHelper.DefaultLanguage },
-                betTypeId);
+                    (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0].ToString()),
+                    IsValidRefData<string>(),
+                    new[] { LanguageHelper.DefaultLanguage },
+                    betTypeId);
 
             return parentId;
         }
@@ -190,13 +190,13 @@
             [FromUri]string[] languages)
         {
             var combinationTypes = GetRefResult(
-                (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0].ToString(), parameters[1].ToString(), (int)parameters[2], (int)parameters[3], language),
-                (refData) => refData.Any(item => !string.IsNullOrEmpty(item)),
-                languages,
-                betTeam,
-                betCheck,
-                handicap1,
-                handicap2);
+                    (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0].ToString(), parameters[1].ToString(), (int)parameters[2], (int)parameters[3], language),
+                    (refData) => refData.Any(item => !string.IsNullOrEmpty(item)),
+                    languages,
+                    betTeam,
+                    betCheck,
+                    handicap1,
+                    handicap2);
 
             return combinationTypes;
         }
@@ -205,10 +205,10 @@
         public Dictionary<string, string> HorseTeamName(string codeId, [FromUri]string[] languages)
         {
             var horseTeamNames = GetRefResult(
-                (parameters, language) => _refData.GetHorseTeamName(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                codeId);
+                    (parameters, language) => _refData.GetHorseTeamName(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    codeId);
 
             return horseTeamNames;
         }
@@ -217,10 +217,10 @@
         public Dictionary<string, string> CasinoBetItem(string itemId, [FromUri]string[] languages)
         {
             var casinoBetItems = GetRefResult(
-                (parameters, language) => _refData.GetCasinoBetItem(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                itemId);
+                    (parameters, language) => _refData.GetCasinoBetItem(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    itemId);
 
             return casinoBetItems;
         }
@@ -229,10 +229,10 @@
         public Dictionary<string, string> RouletteBetItem(string itemId, [FromUri]string[] languages)
         {
             var rouletteBetItems = GetRefResult(
-                (parameters, language) => _refData.GetRouletteBetItem(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                itemId);
+                    (parameters, language) => _refData.GetRouletteBetItem(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    itemId);
 
             return rouletteBetItems;
         }
@@ -241,15 +241,15 @@
         public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId, [FromUri]string[] languages)
         {
             var kenoBetChoices = GetRefResult(
-                (parameters, language) =>
-                {
-                    var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
+                    (parameters, language) =>
+                    {
+                        var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
 
-                    return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
-                },
-                (refData) => !string.IsNullOrEmpty(refData.Item1),
-                languages,
-                kenoBetChoiceId);
+                        return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+                    },
+                    (refData) => !string.IsNullOrEmpty(refData.Item1),
+                    languages,
+                    kenoBetChoiceId);
 
             return kenoBetChoices;
         }
@@ -258,10 +258,10 @@
         public Dictionary<string, string> KenoBetType(string kenoBetTypeId, [FromUri]string[] languages)
         {
             var kenoBetTypes = GetRefResult(
-                (parameters, language) => _refData.GetKenoBetType(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                kenoBetTypeId);
+                    (parameters, language) => _refData.GetKenoBetType(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    kenoBetTypeId);
 
             return kenoBetTypes;
         }
@@ -270,18 +270,18 @@
         public Dictionary<string, string> FastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, [FromUri]string[] languages)
         {
             var fastMarketsChoices = GetRefResult(
-                (parameters, language) => _refData.GetFastMarketsChoice(
-                    parameters[0].ToString(),
-                    parameters[1].ToString(),
-                    (int)parameters[2],
-                    (int)parameters[3],
-                    language),
-                IsValidRefData<string>(),
-                languages,
-                betTypeId,
-                betTeam,
-                handicap1,
-                handicap2);
+                    (parameters, language) => _refData.GetFastMarketsChoice(
+                        parameters[0].ToString(),
+                        parameters[1].ToString(),
+                        (int)parameters[2],
+                        (int)parameters[3],
+                        language),
+                    IsValidRefData<string>(),
+                    languages,
+                    betTypeId,
+                    betTeam,
+                    handicap1,
+                    handicap2);
 
             return fastMarketsChoices;
         }
@@ -290,10 +290,10 @@
         public Dictionary<string, string> FastMarkets225Result(string resultId, [FromUri]string[] languages)
         {
             var fastMarkets225Results = GetRefResult(
-                (parameters, language) => _refData.GetFastMarkets225Result(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                resultId);
+                    (parameters, language) => _refData.GetFastMarkets225Result(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    resultId);
 
             return fastMarkets225Results;
         }
@@ -302,15 +302,15 @@
         public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId, [FromUri]string[] languages)
         {
             var lotteryBetChoices = GetRefResult(
-                (parameters, language) =>
-                {
-                    var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
+                    (parameters, language) =>
+                    {
+                        var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
 
-                    return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
-                },
-                (refData) => !string.IsNullOrEmpty(refData.Item1),
-                languages,
-                betChoiceId);
+                        return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
+                    },
+                    (refData) => !string.IsNullOrEmpty(refData.Item1),
+                    languages,
+                    betChoiceId);
 
             return lotteryBetChoices;
         }
@@ -319,10 +319,10 @@
         public Dictionary<string, string> LotteryBetType(string betTypeId, [FromUri]string[] languages)
         {
             var lotteryBetTypes = GetRefResult(
-                (parameters, language) => _refData.GetLotteryBetType(parameters[0].ToString(), language),
-                IsValidRefData<string>(),
-                languages,
-                betTypeId);
+                    (parameters, language) => _refData.GetLotteryBetType(parameters[0].ToString(), language),
+                    IsValidRefData<string>(),
+                    languages,
+                    betTypeId);
 
             return lotteryBetTypes;
         }
