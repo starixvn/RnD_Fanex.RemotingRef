@@ -237,18 +237,20 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> KenoBetChoice([FromBody] RequestSyncFormData data)
         {
-            var kenoBetChoiceSet = GetRefResultSet(
-                    data,
-                    getRefData: (parameter, language) =>
-                    {
-                        var kenoBetChoice = _refData.GetKenoBetChoice(
-                                parameter["kenoBetChoiceId"].ToString(),
-                                LanguageHelper.GenerateTaiwanLanguage(language),
-                                out string kenoBetTypeId);
+            Tuple<string, string> getKenoBetChoice(Dictionary<string, object> parameter, string language)
+            {
+                var kenoBetChoice = _refData.GetKenoBetChoice(
+                        parameter["kenoBetChoiceId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        out string kenoBetTypeId);
 
-                        return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
-                    },
-                    isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
+                return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+            }
+
+            var kenoBetChoiceSet = GetRefResultSet(
+                 data,
+                 getRefData: getKenoBetChoice,
+                 isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return kenoBetChoiceSet;
         }
@@ -282,17 +284,19 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> LotteryBetChoice([FromBody]RequestSyncFormData data)
         {
+            Tuple<string, string> getLotteryBetChoice(Dictionary<string, object> parameter, string language)
+            {
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                        parameter["betChoiceId"].ToString(),
+                        LanguageHelper.GenerateTaiwanLanguage(language),
+                        out string lotteryBetType);
+
+                return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
+            }
+
             var lotteryBetChoiceSet = GetRefResultSet(
                   data,
-                  getRefData: (parameter, language) =>
-                  {
-                      var lotteryBetChoice = _refData.GetLotteryBetChoice(
-                              parameter["betChoiceId"].ToString(),
-                              LanguageHelper.GenerateTaiwanLanguage(language),
-                              out string lotteryBetType);
-
-                      return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
-                  },
+                  getRefData: getLotteryBetChoice,
                   isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return lotteryBetChoiceSet;

@@ -240,13 +240,15 @@
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId, [FromUri]string[] languages)
         {
-            var kenoBetChoices = GetRefResult(
-                    (parameters, language) =>
-                    {
-                        var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
+            Tuple<string, string> getKenoBetChoice(object[] parameters, string language)
+            {
+                var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
 
-                        return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
-                    },
+                return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+            }
+
+            var kenoBetChoices = GetRefResult(
+                    getKenoBetChoice,
                     (refData) => !string.IsNullOrEmpty(refData.Item1),
                     languages,
                     kenoBetChoiceId);
@@ -301,13 +303,15 @@
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId, [FromUri]string[] languages)
         {
-            var lotteryBetChoices = GetRefResult(
-                    (parameters, language) =>
-                    {
-                        var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
+            Tuple<string, string> getLotteryBetChoice(object[] parameters, string language)
+            {
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
 
-                        return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
-                    },
+                return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
+            }
+
+            var lotteryBetChoices = GetRefResult(
+                    getLotteryBetChoice,
                     (refData) => !string.IsNullOrEmpty(refData.Item1),
                     languages,
                     betChoiceId);
