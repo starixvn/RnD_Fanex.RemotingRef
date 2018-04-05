@@ -19,13 +19,13 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "Sport Type",
+                DataType = "SportName",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
             };
 
-            return View("~/Views/Ref/SportName/SportName.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -33,13 +33,13 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "Sport Type",
+                DataType = "SportName",
                 TypeId = typeId ?? "1",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetSportName(typeId, language)
             };
 
-            return View("~/Views/Ref/SportName/SportName.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
     }
 }

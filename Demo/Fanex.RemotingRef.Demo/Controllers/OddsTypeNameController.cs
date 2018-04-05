@@ -19,13 +19,13 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "OddsType",
+                DataType = "OddsTypeName",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
             };
 
-            return View("~/Views/Ref/OddsTypeName/OddsTypeName.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -33,13 +33,13 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "OddsType",
+                DataType = "OddsTypeName",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetOddsTypeName(typeId, language)
             };
 
-            return View("~/Views/Ref/OddsTypeName/OddsTypeName.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
     }
 }

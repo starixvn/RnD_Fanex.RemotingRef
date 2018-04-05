@@ -25,7 +25,7 @@
                 RefDataResult = new RefDataResult()
             };
 
-            return View("~/Views/Ref/CasinoBetItem/CasinoBetItem.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -39,7 +39,7 @@
                 RefDataResult = _remotingRefDataAccess.GetCasinoBetItem(typeId, language)
             };
 
-            return View("~/Views/Ref/CasinoBetItem/CasinoBetItem.cshtml", viewModel);
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
     }
 }
