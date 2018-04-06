@@ -232,7 +232,7 @@
             var supportLanguages = new[] { "first", "second" };
 
             // Act.
-            fluentInstance.RegisterSupportedLanguages(supportLanguages);
+            fluentInstance.SupportMultiLanguages().RegisterSupportedLanguages(supportLanguages);
 
             // Assert.
             Assert.Equal(supportLanguages, RefDataTypeHandlerOptions.SupportedLanguageCodes);
