@@ -1,0 +1,41 @@
+﻿@model Fanex.RemotingRef.Demo.BetTypeName.FastMarketChoiceViewModel
+@{
+    ViewData["Title"] = Model.DataType;
+}
+
+<h3>FastMarkets Choice</h3>
+<div class="container-fluid">
+    <form class="form-inline row" asp-action="@Model.DataType">
+        <div class="form-group">
+            <label asp-for="TypeId" class="control-label">Bet Type Id</label>
+            <input asp-for="TypeId" class="form-control" />
+            <span asp-validation-for="TypeId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BetTeam" class="control-label"></label>
+            <input asp-for="BetTeam" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Handicap1" class="control-label"></label>
+            <input asp-for="Handicap1" class="form-control" />
+            <span asp-validation-for="Handicap1" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Handicap2" class="control-label"></label>
+            <input asp-for="Handicap2" class="form-control" />
+            <span asp-validation-for="Handicap2" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Language" class="control-label"></label>
+            <input asp-for="Language" class="form-control" />
+            <span asp-validation-for="Language" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
+        </div>
+    </form>
+    @await Component.InvokeAsync("RefResult", Model)
+    <hr />
+    <h4>FastMarkets Choice List </h4>
+    @*@await Component.InvokeAsync(Model.DataType + "List")*@
+</div>

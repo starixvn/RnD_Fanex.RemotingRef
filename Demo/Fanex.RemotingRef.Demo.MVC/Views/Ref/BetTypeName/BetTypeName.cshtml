@@ -1,0 +1,52 @@
+﻿@model Fanex.RemotingRef.Demo.BetTypeName.BetTypeNameViewModel
+@{
+    ViewData["Title"] = "BetTypeName";
+}
+
+<h3>Bet Type Name</h3>
+<div class="container-fluid">
+    @using (Html.BeginForm("BetTypeName", "BetTypeName", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.TypeId)
+            @Html.TextBoxFor(m => m.TypeId)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RefNo)
+            @Html.TextBoxFor(m => m.RefNo)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ResourceId)
+            @Html.TextBoxFor(m => m.ResourceId)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Language)
+            @Html.TextBoxFor(m => m.Language)
+        </div>
+        <div class="form-group">
+            <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
+        </div>
+    }
+    <table class="table table-bordered row">
+        <thead>
+            <tr>
+                <td>ONElab.RemotingRef 1.0</td>
+                <td>ONElab.RemotingRef 2.0</td>
+                <td>Fanex.RemotingRef 2.0</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.RefDataResult.TaiwanRefOld</td>
+                <td>@Model.RefDataResult.TaiwanRefNew</td>
+                <td>@Model.RefDataResult.FanexRefNew</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    @*@await Component.InvokeAsync("RefResult", Model)*@
+    <hr />
+    <h4>Bet Type Name List </h4>
+    @*@await Component.InvokeAsync("BetTypeNameList")*@
+</div>
