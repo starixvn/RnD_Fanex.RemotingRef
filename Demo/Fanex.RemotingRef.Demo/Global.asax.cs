@@ -5,6 +5,9 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Fanex.NAP.Core.Service.Impl;
+    using Fanex.NAP.Core.Service.Interface;
+    using Fanex.NAP.Core.Web.Session;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using global::RemotingRef;
     using RefNewData;
@@ -28,6 +31,9 @@
             container.Register<IRemotingRefService, RemotingRefService>(Lifestyle.Singleton);
             container.Register<IRefData, RefNewDataHandler>(Lifestyle.Singleton);
             container.Register<IRemotingRefDataAccess, RemotingRefDataAccess>(Lifestyle.Singleton);
+
+            container.Register<IUserService, UserService>(Lifestyle.Singleton);
+            container.Register<ISecurityService, SecurityService>(Lifestyle.Singleton);
 
             container.Verify();
 

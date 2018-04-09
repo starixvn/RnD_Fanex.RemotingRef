@@ -1,13 +1,12 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    background-color: #F9F9F9;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    margin: 0 !important;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists
