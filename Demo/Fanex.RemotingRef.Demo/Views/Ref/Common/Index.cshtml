@@ -22,14 +22,7 @@
         </div>
     }
         <div class="col-sm-8">
-            @if (Model.IsFirstLoad)
-            {
-                @Html.Action(Model.DataType + "List")
-            }
-            else
-            {
-                @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
-            }
+            @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
         </div>
 </div>
 

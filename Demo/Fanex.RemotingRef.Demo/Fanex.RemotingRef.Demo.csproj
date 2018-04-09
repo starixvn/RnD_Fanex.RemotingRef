@@ -115,7 +115,6 @@
     <Compile Include="Controllers\CountryNameController.cs" />
     <Compile Include="Controllers\FastMarkets225ResultController.cs" />
     <Compile Include="Controllers\FastMarketsChoiceController.cs" />
-    <Compile Include="Controllers\SSOController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KenoBetTypeController.cs" />
     <Compile Include="Controllers\LeagueNameController.cs" />
@@ -173,9 +172,6 @@
     <Content Include="Web.pro.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fanex.NAP.Core.Client">
-      <Version>1.2.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>
     </PackageReference>

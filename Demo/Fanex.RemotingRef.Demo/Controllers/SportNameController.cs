@@ -48,7 +48,7 @@
         [HttpGet]
         public ActionResult SportNameList()
         {
-            var sportTypeInputData = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var sportTypeInputData = new[] { 1 };
             var viewModels = new List<RefDataViewModel>();
 
             foreach (var sportTypeId in sportTypeInputData)

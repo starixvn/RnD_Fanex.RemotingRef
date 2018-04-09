@@ -6,7 +6,7 @@
 
     public class RemotingRefDataAccess : IRemotingRefDataAccess
     {
-        private const string DefaultValue = "exception has been thrown";
+        private const string DefaultValue = "No Data";
         private readonly IRemotingRefService _remotingRefService;
         private readonly IRefData _taiwanRefNew;
 
@@ -106,8 +106,8 @@
 
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetSportName(sportTypeId, languageCode),
-                TaiwanRefOld = RefData.GetSportName(sportTypeId, twLanguage),
+                FanexRefNew = _remotingRefService.GetSportName(sportTypeId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetSportName(sportTypeId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetSportName(sportTypeId, twLanguage, DefaultValue)
             };
         }
@@ -118,8 +118,8 @@
 
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetLeagueName(leagueId, languageCode),
-                TaiwanRefOld = RefData.GetLeagueName(leagueId, twLanguage),
+                FanexRefNew = _remotingRefService.GetLeagueName(leagueId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetLeagueName(leagueId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetLeagueName(leagueId, twLanguage, DefaultValue)
             };
         }
@@ -130,8 +130,8 @@
 
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetTeamName(teamId, languageCode),
-                TaiwanRefOld = RefData.GetTeamName(teamId, twLanguage),
+                FanexRefNew = _remotingRefService.GetTeamName(teamId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetTeamName(teamId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetTeamName(teamId, twLanguage, DefaultValue)
             };
         }
@@ -155,7 +155,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCountryName(countryId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetCountryName(countryId, twLanguage),
+                TaiwanRefOld = RefData.GetCountryName(countryId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetCountryName(countryId, twLanguage, DefaultValue)
             };
         }
@@ -167,7 +167,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetOddsTypeName(oddsTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetOddsTypeName(oddsTypeId, twLanguage),
+                TaiwanRefOld = RefData.GetOddsTypeName(oddsTypeId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetOddsTypeName(oddsTypeId, twLanguage, DefaultValue)
             };
         }
@@ -189,7 +189,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetHorseTeamName(codeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetHorseTeamName(codeId, twLanguage),
+                TaiwanRefOld = RefData.GetHorseTeamName(codeId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetHorseTeamName(codeId, twLanguage, DefaultValue)
             };
         }
@@ -201,7 +201,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCasinoBetItem(itemId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetCasinoBetItem(itemId, twLanguage),
+                TaiwanRefOld = RefData.GetCasinoBetItem(itemId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetCasinoBetItem(itemId, twLanguage, DefaultValue)
             };
         }
@@ -213,7 +213,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetRouletteBetItem(itemId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetRouletteBetItem(itemId, twLanguage),
+                TaiwanRefOld = RefData.GetRouletteBetItem(itemId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetRouletteBetItem(itemId, twLanguage, DefaultValue)
             };
         }
@@ -225,7 +225,7 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetKenoBetType(kenoBetTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetKenoBettype(kenoBetTypeId, twLanguage),
+                TaiwanRefOld = RefData.GetKenoBettype(kenoBetTypeId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetKenoBettype(kenoBetTypeId, twLanguage, DefaultValue)
             };
         }

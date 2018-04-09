@@ -24,14 +24,6 @@
         </div>
     }
         <div class="col-sm-8">
-            @if (Model.IsFirstLoad)
-            {
-                @Html.Action("ResourceDataList")
-            }
-            else
-            {
-                @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
-            }
-
+            @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
         </div>
 </div>
