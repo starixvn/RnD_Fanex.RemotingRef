@@ -9,16 +9,16 @@
     public class TranslationSetConvertingTests
     {
         [Fact]
-        public void ArgumentNullExceptionIsThrownWhenInputIsNull()
+        public void NullIsReturnedWhenInputIsNull()
         {
             // Arrange.
             IDictionary<string, object> dictionary = null;
 
             // Act.
-            Exception exception = Record.Exception(() => TranslationSet.FromDictionary(dictionary));
+            var actualResult = TranslationSet.FromDictionary(dictionary);
 
             // Assert.
-            Assert.IsType<ArgumentNullException>(exception);
+            Assert.Null(actualResult);
         }
 
         [Fact]

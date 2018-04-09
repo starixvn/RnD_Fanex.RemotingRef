@@ -16,7 +16,7 @@ namespace Fanex.RemotingRef.TranslationStorage
         {
             if (dictionary == null)
             {
-                throw new ArgumentNullException(nameof(dictionary));
+                return null;
             }
 
             var translationSet = new TranslationSet(dictionary.Count, null);
