@@ -1,13 +1,25 @@
 ﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Diagnostics;
-    using Fanex.RemotingRef.Demo.Models;
-    using Microsoft.AspNetCore.Mvc;
+    using System.Web.Mvc;
 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
             return View();
         }
     }

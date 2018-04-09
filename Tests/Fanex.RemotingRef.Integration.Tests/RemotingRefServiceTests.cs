@@ -195,7 +195,7 @@
             var fastMarketsChoice = _remotingRefService.GetFastMarketsChoice("222", "2", 3, 4, "en-US");
 
             // Assert
-            Assert.Equal("Corner-Yes (03:00-07:59)", fastMarketsChoice);
+            Assert.Equal("Corner - Yes (03:00-07:59)", fastMarketsChoice);
         }
 
         [Fact]

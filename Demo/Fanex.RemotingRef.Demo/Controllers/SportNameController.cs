@@ -1,9 +1,11 @@
-﻿namespace Fanex.RemotingRef.Demo.BetTypeName
+﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
-    using Microsoft.AspNetCore.Mvc;
 
     public class SportNameController : Controller
     {
@@ -15,7 +17,7 @@
         }
 
         [HttpGet]
-        public IActionResult SportName()
+        public ActionResult SportName()
         {
             var viewModel = new RefDataViewModel
             {
@@ -29,10 +31,11 @@
         }
 
         [HttpPost]
-        public IActionResult SportName(string typeId, string language)
+        public ActionResult SportName(string typeId, string language)
         {
             var viewModel = new RefDataViewModel
             {
+                IsFirstLoad = false,
                 DataType = "SportName",
                 TypeId = typeId ?? "1",
                 Language = language,
@@ -40,6 +43,27 @@
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult SportNameList()
+        {
+            var sportTypeInputData = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var viewModels = new List<RefDataViewModel>();
+
+            foreach (var sportTypeId in sportTypeInputData)
+            {
+                var refDataViewModel = new RefDataViewModel
+                {
+                    DataType = "Sport Type",
+                    TypeId = sportTypeId.ToString(CultureInfo.InvariantCulture),
+                    RefDataResult = _remotingRefDataAccess.GetSportName(sportTypeId.ToString(CultureInfo.InvariantCulture))
+                };
+
+                viewModels.Add(refDataViewModel);
+            }
+
+            return PartialView("~/Views/Ref/_Share/RefResultList.cshtml", viewModels);
         }
     }
 }

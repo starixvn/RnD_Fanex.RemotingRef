@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Fanex.RemotingRef.Demo</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/Content/Site.css" />
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -37,29 +31,28 @@
     </nav>
    
     <div class="container body-content">
-        <div class="dropdown" style="margin-top: 20px">
+        <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                 RemotingRef Methods
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a asp-area="" asp-controller="BetTypeName" asp-action="BetTypeName">Bet Type Name</a></li>
-                <li><a asp-area="" asp-controller="SportName" asp-action="SportName">Sport Name</a></li>
-                <li><a asp-area="" asp-controller="LeagueName" asp-action="LeagueName">League Name</a></li>
-                <li><a asp-area="" asp-controller="TeamName" asp-action="TeamName">Team Name</a></li>
-                <li><a asp-area="" asp-controller="ResourceData" asp-action="ResourceData">RefResource Data</a></li>
-                <li><a asp-area="" asp-controller="CountryName" asp-action="CountryName">Country Name</a></li>
-                <li><a asp-area="" asp-controller="OddsTypeName" asp-action="OddsTypeName">Odds Type Name</a></li>
-                <li><a asp-area="" asp-controller="ParentBetTypeId" asp-action="ParentBetTypeId">Parent Bet Type Id</a></li>
-                <li><a asp-area="" asp-controller="CasinoBetItem" asp-action="CasinoBetItem">Casino Bet Item</a></li>
-                <li><a asp-area="" asp-controller="RouletteBetItem" asp-action="RouletteBetItem">Roulette Bet Item</a></li>
-                <li><a asp-area="" asp-controller="KenoBetType" asp-action="KenoBetType">Keno Bet Type</a></li>
-                <li><a asp-area="" asp-controller="KenoBetType" asp-action="LotteryBetType">Lottery Bet Type</a></li>
-                <li><a asp-area="" asp-controller="FastMarkets" asp-action="FastMarketsChoice">FastMarkets Choice</a></li>
-                <li><a asp-area="" asp-controller="FastMarkets" asp-action="FastMarkets225Result">FastMarkets 255 Result</a></li>
+                <li><a href="@Url.Action("BetTypeName", "BetTypeName")">Bet Type Name</a></li>
+                <li><a href="@Url.Action("SportName", "SportName")">Sport Name</a></li>
+                <li><a href="@Url.Action("TeamName", "TeamName")">Team Name</a></li>
+                <li><a href="@Url.Action("LeagueName", "LeagueName")">League Name</a></li>
+                <li><a href="@Url.Action("ResourceData", "ResourceData")">Ref Resource Data</a></li>
+                <li><a href="@Url.Action("CountryName", "CountryName")">Country Name</a></li>
+                <li><a href="@Url.Action("OddsTypeName", "OddsTypeName")">Odds Type Name</a></li>
+                <li><a href="@Url.Action("ParentBetTypeId", "ParentBetTypeId")">Parent Bet Type Id</a></li>
+                <li><a href="@Url.Action("KenoBetType", "KenoBetType")">Keno Bet Type Name</a></li>
+                <li><a href="@Url.Action("LotteryBetType", "LotteryBetType")">Lottery Bet Type Name</a></li>
+                <li><a href="@Url.Action("RouletteBetItem", "RouletteBetItem")">Roulette Bet Item</a></li>
+                <li><a href="@Url.Action("CasinoBetItem", "CasinoBetItem")">Casino Bet Item</a></li>
+                <li><a href="@Url.Action("FastMarketsChoice", "FastMarketsChoice")">FastMarkets Choice</a></li>
+                <li><a href="@Url.Action("FastMarkets225Result", "FastMarkets225Result")">FastMarkets 225 Result</a></li>
             </ul>
         </div>
-      
         @RenderBody()
         <hr />
         <footer>
@@ -67,12 +60,6 @@
         </footer>
     </div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
@@ -85,8 +72,6 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>

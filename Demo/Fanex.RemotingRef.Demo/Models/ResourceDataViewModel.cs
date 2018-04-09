@@ -1,7 +1,5 @@
-﻿namespace Fanex.RemotingRef.Demo.BetTypeName
+﻿namespace Fanex.RemotingRef.Demo.Models
 {
-    using Fanex.RemotingRef.Demo.Models;
-
     public class ResourceDataViewModel : RefDataViewModel
     {
         public string ResourceId { get; set; }

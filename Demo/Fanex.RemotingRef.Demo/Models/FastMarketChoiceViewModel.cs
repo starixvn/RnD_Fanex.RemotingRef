@@ -1,7 +1,5 @@
-﻿namespace Fanex.RemotingRef.Demo.BetTypeName
+﻿namespace Fanex.RemotingRef.Demo.Models
 {
-    using Fanex.RemotingRef.Demo.Models;
-
     public class FastMarketChoiceViewModel : RefDataViewModel
     {
         public string BetTeam { get; set; }

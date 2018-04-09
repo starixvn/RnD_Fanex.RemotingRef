@@ -1,9 +1,11 @@
-﻿namespace Fanex.RemotingRef.Demo.BetTypeName
+﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
-    using Microsoft.AspNetCore.Mvc;
 
     public class KenoBetTypeController : Controller
     {
@@ -15,7 +17,7 @@
         }
 
         [HttpGet]
-        public IActionResult KenoBetType()
+        public ActionResult KenoBetType()
         {
             var viewModel = new RefDataViewModel
             {
@@ -29,10 +31,11 @@
         }
 
         [HttpPost]
-        public IActionResult KenoBetType(string typeId, string language)
+        public ActionResult KenoBetType(string typeId, string language)
         {
             var viewModel = new RefDataViewModel
             {
+                IsFirstLoad = false,
                 DataType = "KenoBetType",
                 TypeId = typeId ?? "3",
                 Language = language,
@@ -43,31 +46,24 @@
         }
 
         [HttpGet]
-        public IActionResult LotteryBetType()
+        public ActionResult KenoBetTypeList()
         {
-            var viewModel = new RefDataViewModel
+            var inputData = new[] { "1", "2", "3", "4", "5" };
+            var viewModels = new List<RefDataViewModel>();
+
+            foreach (var typeId in inputData)
             {
-                DataType = "LotteryBetType",
-                TypeId = "1",
-                Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
-            };
+                var refDataViewModel = new RefDataViewModel
+                {
+                    DataType = "KenoBetType",
+                    TypeId = typeId.ToString(CultureInfo.InvariantCulture),
+                    RefDataResult = _remotingRefDataAccess.GetKenoBetType(typeId.ToString(CultureInfo.InvariantCulture))
+                };
 
-            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
-        }
+                viewModels.Add(refDataViewModel);
+            }
 
-        [HttpPost]
-        public IActionResult LotteryBetType(string typeId, string language)
-        {
-            var viewModel = new RefDataViewModel
-            {
-                DataType = "LotteryBetType",
-                TypeId = typeId ?? "3",
-                Language = language,
-                RefDataResult = _remotingRefDataAccess.GetLotteryBetType(typeId, language)
-            };
-
-            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
+            return PartialView("~/Views/Ref/_Share/RefResultList.cshtml", viewModels);
         }
     }
 }

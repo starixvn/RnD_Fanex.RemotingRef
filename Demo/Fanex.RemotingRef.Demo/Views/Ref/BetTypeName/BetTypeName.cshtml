@@ -1,36 +1,41 @@
-﻿@model Fanex.RemotingRef.Demo.BetTypeName.BetTypeNameViewModel
+﻿@model Fanex.RemotingRef.Demo.Models.BetTypeNameViewModel
 @{
     ViewData["Title"] = "BetTypeName";
 }
 
 <h3>Bet Type Name</h3>
-<div class="container-fluid">
-    <form class="form-inline row" asp-action="BetTypeName">
-        <div class="form-group">
-            <label asp-for="TypeId" class="control-label">Bet Type Id</label>
-            <input asp-for="TypeId" class="form-control" />
-            <span asp-validation-for="TypeId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="RefNo" class="control-label"></label>
-            <input asp-for="RefNo" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="ResourceId" class="control-label"></label>
-            <input asp-for="ResourceId" class="form-control" />
-            <span asp-validation-for="ResourceId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Language" class="control-label"></label>
-            <input asp-for="Language" class="form-control" />
-            <span asp-validation-for="Language" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
-        </div>
-    </form>
-    @await Component.InvokeAsync("RefResult", Model)
-    <hr />
-    <h4>Bet Type Name List </h4>
-    @await Component.InvokeAsync("BetTypeNameList")
+<div class="row">
+        @using (Html.BeginForm("BetTypeName", "BetTypeName", FormMethod.Post, new { @class = "col-sm-4" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.TypeId)
+                @Html.TextBoxFor(m => m.TypeId, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.RefNo)
+                @Html.TextBoxFor(m => m.RefNo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ResourceId)
+                @Html.TextBoxFor(m => m.ResourceId, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Language)
+                @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
+            </div>
+        }
+            <div class="col-sm-8">
+            @if (Model.IsFirstLoad)
+            {
+                @Html.Action("BetTypeNameList")
+            }
+            else
+            {
+                @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
+            }
+
+            </div>
 </div>

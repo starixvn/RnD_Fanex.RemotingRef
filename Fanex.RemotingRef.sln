@@ -33,11 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service", "Sources\Fanex.RemotingRef.Service\Fanex.RemotingRef.Service.csproj", "{24180F1D-0405-4122-ADA1-02C09413DFA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Demo.MVC", "Demo\Fanex.RemotingRef.Demo.MVC\Fanex.RemotingRef.Demo.MVC.csproj", "{E320842C-0B7E-4A49-B71C-23369AC753B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{C56E8B40-6415-4D28-BE88-65A07CBD76F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,18 +59,14 @@ Global
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{168B6C76-1135-4961-9DB2-0126AF91BED0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B1E3F77-4908-43A7-823F-37CAD0EEACF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24180F1D-0405-4122-ADA1-02C09413DFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24180F1D-0405-4122-ADA1-02C09413DFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24180F1D-0405-4122-ADA1-02C09413DFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24180F1D-0405-4122-ADA1-02C09413DFA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E320842C-0B7E-4A49-B71C-23369AC753B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E320842C-0B7E-4A49-B71C-23369AC753B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E320842C-0B7E-4A49-B71C-23369AC753B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E320842C-0B7E-4A49-B71C-23369AC753B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,9 +76,8 @@ Global
 		{31ED8DF3-58AC-480E-9B7C-CD50FC937491} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{168B6C76-1135-4961-9DB2-0126AF91BED0} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
-		{4B1E3F77-4908-43A7-823F-37CAD0EEACF3} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 		{24180F1D-0405-4122-ADA1-02C09413DFA5} = {09417347-4309-456D-92C2-B720C5BB02BA}
-		{E320842C-0B7E-4A49-B71C-23369AC753B5} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
+		{C56E8B40-6415-4D28-BE88-65A07CBD76F2} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {949DBAC3-3A94-4139-814E-7FF3361D43A8}

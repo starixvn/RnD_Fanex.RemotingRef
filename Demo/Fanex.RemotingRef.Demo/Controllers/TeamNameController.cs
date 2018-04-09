@@ -1,9 +1,11 @@
-﻿namespace Fanex.RemotingRef.Demo.BetTypeName
+﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
-    using Microsoft.AspNetCore.Mvc;
 
     public class TeamNameController : Controller
     {
@@ -15,7 +17,7 @@
         }
 
         [HttpGet]
-        public IActionResult TeamName()
+        public ActionResult TeamName()
         {
             var viewModel = new RefDataViewModel
             {
@@ -29,10 +31,11 @@
         }
 
         [HttpPost]
-        public IActionResult TeamName(string typeId, string language)
+        public ActionResult TeamName(string typeId, string language)
         {
             var viewModel = new RefDataViewModel
             {
+                IsFirstLoad = false,
                 DataType = "TeamName",
                 TypeId = typeId ?? "5",
                 Language = language,
@@ -40,6 +43,27 @@
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult TeamNameList()
+        {
+            var inputData = new[] { 5, 6, 7, 8, 10, 11, 12, 13, 14 };
+            var viewModels = new List<RefDataViewModel>();
+
+            foreach (var typeId in inputData)
+            {
+                var refDataViewModel = new RefDataViewModel
+                {
+                    DataType = "Team",
+                    TypeId = typeId.ToString(CultureInfo.InvariantCulture),
+                    RefDataResult = _remotingRefDataAccess.GetTeamName(typeId.ToString(CultureInfo.InvariantCulture))
+                };
+
+                viewModels.Add(refDataViewModel);
+            }
+
+            return PartialView("~/Views/Ref/_Share/RefResultList.cshtml", viewModels);
         }
     }
 }
