@@ -2,11 +2,13 @@
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using global::RemotingRef;
+    using NLog;
     using RefNewData;
     using SimpleInjector;
     using SimpleInjector.Integration.Web.Mvc;
@@ -32,6 +34,13 @@
             container.Verify();
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var logger = LogManager.GetCurrentClassLogger();
+
+            logger.Error(CultureInfo.InvariantCulture, Server.GetLastError());
         }
 
 #pragma warning restore S2325 // Methods and properties that don't access instance data should be static

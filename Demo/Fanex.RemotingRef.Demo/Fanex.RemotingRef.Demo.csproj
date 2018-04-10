@@ -115,6 +115,7 @@
     <Compile Include="Controllers\CountryNameController.cs" />
     <Compile Include="Controllers\FastMarkets225ResultController.cs" />
     <Compile Include="Controllers\FastMarketsChoiceController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KenoBetTypeController.cs" />
     <Compile Include="Controllers\LeagueNameController.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Controllers\TeamNameController.cs" />
     <Compile Include="DataAccesses\IRemotingRefDataAccess.cs" />
     <Compile Include="DataAccesses\RemotingRefDataAccess.cs" />
+    <Compile Include="Filters\RefAuthAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +174,9 @@
     <Content Include="Web.pro.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Fanex.Common">
+      <Version>1.1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>
     </PackageReference>
@@ -222,6 +227,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.uat.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="nlog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Unauthorized.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
