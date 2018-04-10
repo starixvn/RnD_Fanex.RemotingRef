@@ -4,26 +4,30 @@
     ViewData["Title"] = Model.DataType;
 }
 
-<h3>@Model.DataType</h3>
-
-<div class="row">
-    @using (Html.BeginForm(Model.DataType, Model.DataType, FormMethod.Post, new { @class = "col-sm-4" }))
-    {
-        <div class="form-group">
-            @Html.LabelFor(m => m.TypeId)
-            @Html.TextBoxFor(m => m.TypeId, new { @class = "form-control" })
+@using (Html.BeginForm(Model.DataType, Model.DataType, FormMethod.Post))
+{
+    <section id="filter-bar">
+        <div class="filter-form">
+            <div class="filter-row">
+                <div class="lbl-field width-80">
+                    @Html.LabelFor(m => m.TypeId, Model.DataType)
+                </div>
+                <div class="edit-field width-120">
+                    @Html.TextBoxFor(m => m.TypeId)
+                </div>
+                <div class="lbl-field width-60">
+                    @Html.LabelFor(m => m.Language)
+                </div>
+                <div class="edit-field width-120">
+                    @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages))
+                </div>
+                <div class="lbl-field width-60 submit">
+                    <input id="submit"  type="submit" name="resourceId" value="Submit" />
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Language)
-            @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages), new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
-        </div>
-    }
-        <div class="col-sm-8">
-            @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
-        </div>
-</div>
-
+    </section>
+}
+@Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
+       
 
