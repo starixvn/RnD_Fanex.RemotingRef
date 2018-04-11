@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "CasinoBetItem",
+                DataType = "Casino Bet Item",
+                TypeIdLabel = "Item Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -37,8 +38,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                IsFirstLoad = false,
-                DataType = "CasinoBetItem",
+                DataType = "Casino Bet Item",
+                TypeIdLabel = "Item Id",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetCasinoBetItem(typeId, language)
@@ -57,7 +58,8 @@
             {
                 var refDataViewModel = new RefDataViewModel
                 {
-                    DataType = "CasinoBetItem",
+                    DataType = "Casino Bet Item",
+                    TypeIdLabel = "Item Id",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
                     RefDataResult = _remotingRefDataAccess.GetCasinoBetItem(typeId.ToString(CultureInfo.InvariantCulture))
                 };

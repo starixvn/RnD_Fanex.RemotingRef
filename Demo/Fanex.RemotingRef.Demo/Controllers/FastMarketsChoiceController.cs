@@ -23,7 +23,7 @@
         {
             var viewModel = new FastMarketChoiceViewModel
             {
-                DataType = "FastMarketsChoice",
+                DataType = "FastMarkets Choice",
                 TypeId = "1",
                 BetTeam = "1",
                 Handicap1 = 1,
@@ -41,7 +41,7 @@
             var viewModel = new FastMarketChoiceViewModel
             {
                 IsFirstLoad = false,
-                DataType = "FastMarketsChoice",
+                DataType = "FastMarkets Choice",
                 TypeId = typeId ?? "1",
                 BetTeam = betTeam,
                 Handicap1 = handicap1,

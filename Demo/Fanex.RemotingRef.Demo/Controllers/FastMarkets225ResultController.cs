@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "FastMarkets225Result",
+                DataType = "Fast Markets 225 Result",
+                TypeIdLabel = "Result Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -37,8 +38,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                IsFirstLoad = false,
-                DataType = "FastMarkets225Result",
+                DataType = "Fast Markets 225 Result",
+                TypeIdLabel = "Result Id",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetFastMarkets225Result(typeId, language)

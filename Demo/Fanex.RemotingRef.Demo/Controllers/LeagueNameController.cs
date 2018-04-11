@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "LeagueName",
+                DataType = "League Name",
+                TypeIdLabel = "League Id",
                 TypeId = "3",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -38,7 +39,8 @@
             var viewModel = new RefDataViewModel
             {
                 IsFirstLoad = false,
-                DataType = "LeagueName",
+                DataType = "League Name",
+                TypeIdLabel = "League Id",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetLeagueName(typeId, language)

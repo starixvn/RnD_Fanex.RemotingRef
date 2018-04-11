@@ -2,15 +2,16 @@
 
 @{
     ViewData["Title"] = Model.DataType;
+    var controllerName = Model.DataType.Replace(" ", string.Empty);
 }
 
-@using (Html.BeginForm(Model.DataType, Model.DataType, FormMethod.Post))
+@using (Html.BeginForm(controllerName, controllerName, FormMethod.Post))
 {
     <section id="filter-bar">
         <div class="filter-form">
             <div class="filter-row">
-                <div class="lbl-field width-80">
-                    @Html.LabelFor(m => m.TypeId, Model.DataType)
+                <div class="lbl-field width-100">
+                    @Html.LabelFor(m => m.TypeId, Model.TypeIdLabel)
                 </div>
                 <div class="edit-field width-120">
                     @Html.TextBoxFor(m => m.TypeId)

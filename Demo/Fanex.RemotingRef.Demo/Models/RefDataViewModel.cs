@@ -12,6 +12,8 @@
 
         public string DataType { get; set; }
 
+        public string TypeIdLabel { get; set; }
+
         public string[] Languages { get; set; } = new[]
         {
             "en-US",

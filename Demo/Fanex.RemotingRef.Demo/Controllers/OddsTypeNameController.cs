@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "OddsTypeName",
+                DataType = "Odds Type Name",
+                TypeIdLabel = "Odds Type Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -38,7 +39,8 @@
             var viewModel = new RefDataViewModel
             {
                 IsFirstLoad = false,
-                DataType = "OddsTypeName",
+                DataType = "Odds Type Name",
+                TypeIdLabel = "Odds Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetOddsTypeName(typeId, language)

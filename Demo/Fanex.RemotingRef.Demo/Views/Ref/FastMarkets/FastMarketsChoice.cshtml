@@ -3,36 +3,50 @@
     ViewData["Title"] = Model.DataType;
 }
 
-<h3>FastMarkets Choice</h3>
-<div class="row">
-    @using (Html.BeginForm("FastMarketsChoice", "FastMarketsChoice", FormMethod.Post, new { @class = "col-sm-4" }))
+    @using (Html.BeginForm("FastMarketsChoice", "FastMarketsChoice", FormMethod.Post))
     {
-        <div class="form-group">
-            @Html.LabelFor(m => m.TypeId)
-            @Html.TextBoxFor(m => m.TypeId, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.BetTeam)
-            @Html.TextBoxFor(m => m.BetTeam, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Handicap1)
-            @Html.TextBoxFor(m => m.Handicap1, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Handicap2)
-            @Html.TextBoxFor(m => m.Handicap2, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Language)
-            @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages), new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            <input class="btn btn-default" type="submit" name="resourceId" value="Submit" />
-        </div>
+        <section id="filter-bar">
+            <div class="filter-form">
+                <div class="filter-row">
+                    <div class="form-group">
+                        <div class="lbl-field width-80">
+                            @Html.LabelFor(m => m.TypeId, "Bet Type Id")
+                        </div>
+                        <div class="edit-field width-80">
+                            @Html.TextBoxFor(m => m.TypeId, new { @class= "width-80" })
+                        </div>
+                        <div class="lbl-field width-80">
+                            @Html.LabelFor(m => m.BetTeam, "Bet Team")
+                        </div>
+                        <div class="edit-field width-80">
+                            @Html.TextBoxFor(m => m.BetTeam, new { @class = "width-80" })
+                        </div>
+                        <div class="lbl-field width-80">
+                            @Html.LabelFor(m => m.Handicap1)
+                        </div>
+                        <div class="edit-field width-80">
+                            @Html.TextBoxFor(m => m.Handicap1, new { @class = "width-80" })
+                        </div>
+                        <div class="lbl-field width-80">
+                            @Html.LabelFor(m => m.Handicap2)
+                        </div>
+                        <div class="edit-field width-80">
+                            @Html.TextBoxFor(m => m.Handicap2, new { @class = "width-80" })
+                        </div>
+                        <div class="lbl-field width-80">
+                            @Html.LabelFor(m => m.Language)
+                        </div>
+                        <div class="edit-field width-80">
+                            @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages), new { @class = "width-80" })
+                        </div>
+                        <div class="lbl-field width-60 submit">
+                            <input id="submit" type="submit" name="resourceId" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     }
-        <div class="col-sm-8">
-            @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
-        </div>
 
-</div>
+    @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
+

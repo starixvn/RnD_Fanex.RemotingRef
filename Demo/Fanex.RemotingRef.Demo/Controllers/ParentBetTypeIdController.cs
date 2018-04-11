@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "ParentBetTypeId",
+                DataType = "Parent Bet Type Id",
+                TypeIdLabel = "Bet Type Id",
                 TypeId = "3",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -38,7 +39,8 @@
             var viewModel = new RefDataViewModel
             {
                 IsFirstLoad = false,
-                DataType = "ParentBetTypeId",
+                DataType = "Parent Bet Type Id",
+                TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetParentIdByBetTypeId(typeId, language)

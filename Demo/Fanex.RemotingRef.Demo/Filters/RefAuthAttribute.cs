@@ -11,18 +11,29 @@
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            var token = filterContext.HttpContext.Request.QueryString["token"];
+            var request = filterContext.HttpContext.Request;
+            var token = request.QueryString["token"];
+
+            if (request.IsLocal)
+            {
+                StoreCookie(filterContext, "allow");
+                return;
+            }
 
             if (!string.IsNullOrEmpty(token) && IsValidToken(token))
             {
-                var ticket = new FormsAuthenticationTicket(1, token, DateTime.Now, DateTime.Now.AddMinutes(10), true, token);
-                var cookieData = FormsAuthentication.Encrypt(ticket);
-                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, cookieData));
-
+                StoreCookie(filterContext, token);
                 return;
             }
 
             filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl ?? "~/Error/Unauthorized");
+        }
+
+        private static void StoreCookie(AuthorizationContext filterContext, string token)
+        {
+            var ticket = new FormsAuthenticationTicket(1, token, DateTime.Now, DateTime.Now.AddMinutes(10), true, token);
+            var cookieData = FormsAuthentication.Encrypt(ticket);
+            filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, cookieData));
         }
 
         private static bool IsValidToken(string token)

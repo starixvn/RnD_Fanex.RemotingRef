@@ -1,6 +1,6 @@
 ﻿@model Fanex.RemotingRef.Demo.Models.BetTypeNameViewModel
 @{
-    ViewData["Title"] = "BetTypeName";
+    ViewData["Title"] = "Bet Type Name";
 }
 
 @using (Html.BeginForm("BetTypeName", "BetTypeName", FormMethod.Post))
@@ -15,13 +15,13 @@
                     @Html.TextBoxFor(m => m.TypeId)
                 </div>
                 <div class="lbl-field width-60">
-                    @Html.LabelFor(m => m.RefNo)
+                    @Html.LabelFor(m => m.RefNo, "Ref No")
                 </div>
                 <div class="edit-field width-120">
                     @Html.TextBoxFor(m => m.RefNo)
                 </div>
                 <div class="lbl-field width-80">
-                    @Html.LabelFor(m => m.ResourceId)
+                    @Html.LabelFor(m => m.ResourceId, "Resource Id")
                 </div>
                 <div class="edit-field width-120">
                     @Html.TextBoxFor(m => m.ResourceId)

@@ -5,7 +5,9 @@
     using System.Globalization;
     using System.Web;
     using System.Web.Mvc;
+    using System.Web.Optimization;
     using System.Web.Routing;
+    using Fanex.RemotingRef.Demo.App_Start;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using global::RemotingRef;
     using NLog;
@@ -24,6 +26,7 @@
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new Container();
             RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]));

@@ -23,7 +23,8 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "RouletteBetItem",
+                DataType = "Roulette Bet Item",
+                TypeIdLabel = "Item Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
@@ -38,7 +39,8 @@
             var viewModel = new RefDataViewModel
             {
                 IsFirstLoad = false,
-                DataType = "RouletteBetItem",
+                TypeIdLabel = "Item Id",
+                DataType = "Roulette Bet Item",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetRouletteBetItem(typeId, language)

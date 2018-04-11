@@ -23,8 +23,9 @@
         {
             var viewModel = new RefDataViewModel
             {
-                DataType = "CountryName",
+                DataType = "Country Name",
                 TypeId = "3",
+                TypeIdLabel = "Country Code",
                 Language = Common.DefaultLanguage,
                 RefDataResult = new RefDataResult()
             };
@@ -38,7 +39,8 @@
             var viewModel = new RefDataViewModel
             {
                 IsFirstLoad = false,
-                DataType = "CountryName",
+                DataType = "Country Name",
+                TypeIdLabel = "Country Code",
                 TypeId = typeId ?? "3",
                 Language = language,
                 RefDataResult = _remotingRefDataAccess.GetCountryName(typeId, language)

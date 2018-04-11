@@ -1,6 +1,5 @@
-﻿body {
-    background-color: #F9F9F9;
-}
+﻿@main-background-color: #549cba;
+@second-background-color: #5ca4c2;
 
 .body-content {
     margin: 0 !important;
@@ -48,27 +47,17 @@ body {
     background-color: #f9f9f9;
     width: 100%;
     *zoom: 1;
+
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
 }
-
-    body:before,
-    body:after {
-        content: "";
-        display: table;
-    }
-
-    body:after {
-        clear: both;
-    }
-
-    body:before,
-    body:after {
-        content: "";
-        display: table;
-    }
-
-    body:after {
-        clear: both;
-    }
 
 body,
 button,
@@ -85,47 +74,44 @@ textarea {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-}
 
-    .grid tr {
+    tr {
         background-color: #fafafa;
-    }
 
-        .grid tr:hover {
+        &:hover {
             background-color: #d8d8d8;
         }
+    }
 
-    .grid th,
-    .grid td {
+    th, td {
         border: solid 1px #c7c7c7;
         height: 20px;
         padding: 4px;
         vertical-align: middle;
     }
 
-    .grid th {
-        background: #549cba;
-        background: -moz-linear-gradient(#59a1bf, #549cba) #549cba;
-        background: -webkit-linear-gradient(#59a1bf, #549cba) #549cba;
-        border: 1px solid #4f97b5;
+    th {
+        background: @main-background-color;
+        border: 1px solid @main-background-color;
         border-bottom: 0;
         padding: 8px 4px;
         font-weight: normal;
         text-align: center;
         color: #eeeeee;
+
+        .first {
+            border-left: 1px solid @main-background-color;
+        }
+
+        .last {
+            border-right: 1px solid @main-background-color;
+        }
     }
 
-        .grid th.first {
-            border-left: 1px solid #549cba;
-        }
-
-        .grid th.last {
-            border-right: 1px solid #549cba;
-        }
-
-    .grid td {
+    td {
         font-size: .9em;
     }
+}
 
 .ico-loading {
     background: url(../Images/loading-ico.gif) no-repeat;
@@ -147,68 +133,88 @@ textarea {
     padding: 15px 10px;
     width: 70%;
     margin-bottom: 15px;
-}
 
-    #filter-bar .filter-form {
+    .filter-form {
         padding: 10px 0;
         float: left;
         color: #666666;
-    }
 
-        #filter-bar .filter-form .filter-row {
+        .filter-row {
             display: inline;
             float: left;
             clear: left;
             margin-bottom: 10px;
         }
 
-        #filter-bar .filter-form .lbl-field {
+        .lbl-field {
             display: inline;
             float: left;
             font-family: Tahoma;
             font-weight: bold;
             margin: 0 20px;
             padding: 2px 0;
-            text-align: left;
+            text-align: center;
             width: 46px;
         }
 
-        #filter-bar .filter-form .edit-field {
+        .edit-field {
             display: inline;
             float: left;
             margin: 0 3px;
             width: 140px;
-        }
 
-            #filter-bar .filter-form .edit-field input,
-            #filter-bar .filter-form .edit-field select {
+            input, select {
                 padding: 3px 5px 4px;
-                border: 1px solid #549cba;
+                border: 1px solid @main-background-color;
                 font-size: .9em;
                 color: #666666;
                 width: 120px;
             }
-
-        #filter-bar .filter-form .submit input[type=submit],
-        #filter-bar .filter-form .submit .btn-submit,
-        .dropdown-toggle {
-            background-color: #549cba;
-            border: 1px solid #549cba;
-            color: #fff;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-decoration: none !important;
-            font-family: Tahoma;
-            height: 25px;
-            min-width: 80px;
-            padding: 0 16px;
-            font-size: .85em;
-            text-shadow: 0 1px rgba(0, 0, 0, 0.5);
         }
 
-            #filter-bar .filter-form .submit input[type=submit]:hover,
-            #filter-bar .filter-form .submit .btn-submit:hover {
-                background-color: #5ca4c2;
-                cursor: pointer;
-                text-decoration: none;
+        .submit {
+            input[type=submit],
+            .btn-submit {
+                background-color: @main-background-color;
+                border: 1px solid @main-background-color;
+                color: #fff;
+                font-weight: bold;
+                text-transform: uppercase;
+                text-decoration: none !important;
+                font-family: Tahoma;
+                height: 25px;
+                min-width: 80px;
+                padding: 0 16px;
+                font-size: .85em;
+                text-shadow: 0 1px rgba(0, 0, 0, 0.5);
+
+                &:hover {
+                    background-color: @second-background-color;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
             }
+        }
+    }
+}
+
+.dropdown-toggle {
+    background-color: @main-background-color;
+    border: 1px solid @main-background-color;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    font-family: Tahoma;
+    height: 25px;
+    min-width: 80px;
+    padding: 0 16px;
+    font-size: .85em;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+        background-color: @second-background-color;
+        cursor: pointer;
+        text-decoration: none;
+    }
+}
