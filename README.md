@@ -108,3 +108,14 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 | CompactionPercentage    | The percentage of item ammont that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
 | CompactOnMemoryPressure | Enable cleaning cached items when Gargabe Collector runs                                                                                                                                                                                                                                                 | bool     | false             |
 | ExpirationScanFrequency | Time to scan expired cached items                                                                                                                                                                                                                                                                        | Timespan | 1 minute          |
+
+
+## Special Notes
+
+### There is some functions have been renamed
+
+| **Old**                                                                | **New**                                                                         |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+|  GetKenoBettype                       | GetKenoBetType                                                 |
+| GetFastMarketsChoise | GetFastMarketsChoice |
+| GetLotteryBettype| GetLotteryBetType |
