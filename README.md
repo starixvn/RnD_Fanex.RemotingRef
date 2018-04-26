@@ -13,7 +13,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 1. After install NuGet package, in the *ConfigureServices* method of *Startup.cs*, connect to Service url and register the RemotingRefService
 
     ```csharp
-        RefDataTypeContainer.ConnectTo(new Uri(Configuration["RemotingRefService"]));
+        RefDataTypeContainer.ConnectTo(new Uri(Configuration["Fanex.RemotingRef.Service.Url"]));
         services.AddMvc();
         services.Configure<IConfiguration>(Configuration);
         services.AddSingleton<IRemotingRefService, RemotingRefService>();
@@ -22,7 +22,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 2. Configure RemotingRef Service url in *appsettings.json*
     ```json
         {
-            "RemotingRefService": "http://10.19.10.144:9999/"
+            "Fanex.RemotingRef.Service.Url": "http://10.19.10.144:9999/"
         }
     ```
 
@@ -49,13 +49,13 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 1. After install NuGet package, in the *Application_Start* method of *Global.asax.cs*, connect to Service url
 
     ```csharp
-        RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]));
+        RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["Fanex.RemotingRef.Service.Url"]));
     ```
 
 2. Configure RemotingRef Service url in *web.config*
     ```config
         <appSettings>
-            <add key="RemotingRefService" value="http://10.18.200.103:7258/Main/" />
+            <add key="Fanex.RemotingRef.Service.Url" value="http://ha.nexdev.net:7258/Main/" />
         </appSettings>
 
     ```
@@ -105,7 +105,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 | SlidingTimeout          | Cache sliding time out                                                                                                                                                                                                                                                                                   | TimeSpan | 10 minutes        |
 | RenewalTime             | Time to sync data from Ref Service                                                                                                                                                                                                                                                                       | Timespan | 40 seconds        |
 | NumberOfEntriesLimit    | The limited number of cached items for each *DataType* in local storage. When cached items amount is greater than *NumberOfEntriesLimit*, Fanex.RemotingRef will remove rarely accessed items for adding new item to local cache. The number of removed items is based on **CompactionPercentage** value | int      | 1000              |
-| CompactionPercentage    | The percentage of item ammont that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
+| CompactionPercentage    | The percentage of item amount that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
 | CompactOnMemoryPressure | Enable cleaning cached items when Gargabe Collector runs                                                                                                                                                                                                                                                 | bool     | false             |
 | ExpirationScanFrequency | Time to scan expired cached items                                                                                                                                                                                                                                                                        | Timespan | 1 minute          |
 
