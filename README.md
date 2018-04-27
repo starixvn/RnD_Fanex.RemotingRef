@@ -119,3 +119,5 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 |  GetKenoBettype                       | GetKenoBetType                                                 |
 | GetFastMarketsChoise | GetFastMarketsChoice |
 | GetLotteryBettype| GetLotteryBetType |
+
+### The Language Code parameter, which is passed to Fanex.RemotingRef, is standard language code (en-US, zh-TW, zh-CN, ja-JP, ...)
