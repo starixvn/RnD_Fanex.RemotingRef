@@ -54,7 +54,7 @@
                     IsValidRefData<string>(),
                     languages,
                     betTypeId,
-                    resourceId);
+                    resourceId ?? string.Empty);
 
             return betTypeNames;
         }
@@ -67,7 +67,7 @@
                     IsValidRefData<string>(),
                     languages,
                     betTypeId,
-                    resourceId,
+                    resourceId ?? string.Empty,
                     refNo);
 
             return betTypeNames;
