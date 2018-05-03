@@ -31,7 +31,7 @@
 
         private static void StoreCookie(AuthorizationContext filterContext, string token)
         {
-            var ticket = new FormsAuthenticationTicket(1, token, DateTime.Now, DateTime.Now.AddMinutes(10), true, token);
+            var ticket = new FormsAuthenticationTicket(1, token, DateTime.Now, DateTime.Now.AddHours(24), true, token);
             var cookieData = FormsAuthentication.Encrypt(ticket);
             filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, cookieData));
         }
