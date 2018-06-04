@@ -398,6 +398,35 @@ namespace Fanex.RemotingRef
             return string.IsNullOrEmpty(lotteryBetType) ? defaultValue : lotteryBetType;
         }
 
+        public string GetBetRadarMatchCodeFormat(string matchCode, string languageCode)
+        {
+            var keySet = new KeySet
+            {
+                ["matchCode"] = matchCode
+            };
+
+            return GetTranslationText(RefDataType.BetRadarMatchCodeFormat, "betRadarMatchCodeFormat", keySet, languageCode);
+        }
+
+        public string GetBetRadarMatchCodeFormat(string matchCode, string languageCode, string defaultValue)
+        {
+            string betRadarMatchCodeFormat = GetBetRadarMatchCodeFormat(matchCode, languageCode);
+
+            return string.IsNullOrEmpty(betRadarMatchCodeFormat) ? defaultValue : betRadarMatchCodeFormat;
+        }
+
+        public string GetDisplayedTypeId(string betTypeId, string defaultValue)
+        {
+            var keySet = new KeySet
+            {
+                ["betTypeId"] = betTypeId
+            };
+
+            string displayedTypeId = GetTranslationText(RefDataType.GetDisplayedTypeId, "displayedTypeId", keySet, null);
+
+            return string.IsNullOrEmpty(displayedTypeId) ? defaultValue : displayedTypeId;
+        }
+
         private string GetTranslationText(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
             => GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
 
@@ -424,10 +453,10 @@ namespace Fanex.RemotingRef
 
             foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
             {
-                requestUri.Append($"&languages={language}");
+                requestUri.Append($"languages={language}&");
             }
 
-            var response = _client.GetAsync(requestUri.ToString()).GetAwaiter().GetResult();
+            var response = _client.GetAsync(requestUri.ToString().TrimEnd('&')).GetAwaiter().GetResult();
 
             if (response.IsSuccessStatusCode)
             {

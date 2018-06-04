@@ -1,139 +1,97 @@
 ﻿namespace Fanex.RemotingRef.Service.Utilities.RefData
 {
-    using System;
     using global::RemotingRef;
 
     public class RefDataHelper : IRefDataHelper
     {
+        /// <summary>
+        /// We use NULL for default value cannot get from ONElab RemotingRef,
+        /// because if we don't specific default name ONElab RemotingRef will return empty string,
+        /// and client will cache empty string, so we use NULL to make client dont cache it
+        /// </summary>
+        private const string DefaultName = null;
+
         public string GetBetTypeName(string betTypeId, string language)
-        {
-            return RefData.GetBetTypeName(betTypeId, language, null);
-        }
+            => RefData.GetBetTypeName(betTypeId, language, DefaultName);
 
         public string GetBetTypeName(string betTypeId, string language, long refNo)
-        {
-            return RefData.GetBetTypeName(betTypeId, language, refNo, null);
-        }
+            => RefData.GetBetTypeName(betTypeId, language, refNo, DefaultName);
 
         public string GetBetTypeName(string betTypeId, string language, string resourceId)
-        {
-            return RefData.GetBetTypeName(betTypeId, language, null, ResourceId: resourceId);
-        }
+            => RefData.GetBetTypeName(betTypeId, language, DefaultName, ResourceId: resourceId);
 
         public string GetBetTypeName(string betTypeId, string language, string resourceId, long refNo)
-        {
-            return RefData.GetBetTypeName(betTypeId, language, null, resourceId, refNo);
-        }
+            => RefData.GetBetTypeName(betTypeId, language, DefaultName, resourceId, refNo);
 
         public string GetCasinoBetItem(string itemId, string language)
-        {
-            return RefData.GetCasinoBetItem(itemId, language, null);
-        }
+            => RefData.GetCasinoBetItem(itemId, language, DefaultName);
 
         public string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string language)
-        {
-            return RefData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, language);
-        }
+            => RefData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, language);
 
         public string GetCountryName(string countryCode, string language)
-        {
-            return RefData.GetCountryName(countryCode, language, null);
-        }
+            => RefData.GetCountryName(countryCode, language, DefaultName);
 
         public string GetFastMarkets225Result(string resultId, string language)
-        {
-            return RefData.GetFastMarkets225Result(resultId, language);
-        }
+            => RefData.GetFastMarkets225Result(resultId, language);
 
         public string GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string language)
-        {
-            return RefData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, language);
-        }
+            => RefData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, language);
 
         public string GetHorseTeamName(string codeId, string language)
-        {
-            return RefData.GetHorseTeamName(codeId, language, null);
-        }
+            => RefData.GetHorseTeamName(codeId, language, DefaultName);
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
 
         public string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId)
-        {
-            return RefData.GetKenoBetChoice(kenoBetChoiceId, language, null, out kenoBetTypeId);
-        }
+            => RefData.GetKenoBetChoice(kenoBetChoiceId, language, DefaultName, out kenoBetTypeId);
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
         public string GetKenoBetType(string kenoBetTypeId, string language)
-        {
-            return RefData.GetKenoBettype(kenoBetTypeId, language, null);
-        }
+            => RefData.GetKenoBettype(kenoBetTypeId, language, DefaultName);
 
         public string GetLeagueName(string leagueId, string language)
-        {
-            return RefData.GetLeagueName(leagueId, language, null);
-        }
-
-#pragma warning disable S3717 // Track use of "NotImplementedException"
+            => RefData.GetLeagueName(leagueId, language, DefaultName);
 
         public string GetLeagueName3rd(string league3rdId, string language)
-        {
-            throw new NotImplementedException(); // TODO: Update latest remoting ref
-        }
-
-#pragma warning restore S3717 // Track use of "NotImplementedException"
+            => RefData.GetLeagueName3rd(league3rdId, language, DefaultName);
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
 
         public string GetLotteryBetChoice(string lotteryBetChoiceId, string language, out string lotteryBetTypeId)
-        {
-            return RefData.GetLotteryBetChoice(lotteryBetChoiceId, language, null, out lotteryBetTypeId);
-        }
+            => RefData.GetLotteryBetChoice(lotteryBetChoiceId, language, DefaultName, out lotteryBetTypeId);
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
         public string GetLotteryBetType(string lotteryBetTypeId, string language)
-        {
-            return RefData.GetLotteryBettype(lotteryBetTypeId, language, null);
-        }
+            => RefData.GetLotteryBettype(lotteryBetTypeId, language, DefaultName);
 
         public string GetOddsTypeName(string oddsTypeId, string language)
-        {
-            return RefData.GetOddsTypeName(oddsTypeId, language, null);
-        }
+            => RefData.GetOddsTypeName(oddsTypeId, language, DefaultName);
 
         public string GetParentIdByBetTypeId(string betTypeId)
-        {
-            return RefData.GetParentIdByBetTypeId(betTypeId, null);
-        }
+            => RefData.GetParentIdByBetTypeId(betTypeId, DefaultName);
 
         public string GetResourceDataByRefIdAndResourceId(string refId, string resourceId, string language)
-        {
-            return RefData.GetResourceDataByRefIdAndResourceId(refId, resourceId, language, null);
-        }
+            => RefData.GetResourceDataByRefIdAndResourceId(refId, resourceId, language, DefaultName);
 
         public string GetRouletteBetItem(string itemId, string language)
-        {
-            return RefData.GetRouletteBetItem(itemId, language, null);
-        }
+            => RefData.GetRouletteBetItem(itemId, language, DefaultName);
 
         public string GetSportName(string sportTypeId, string language)
-        {
-            return RefData.GetSportName(sportTypeId, language, null);
-        }
+            => RefData.GetSportName(sportTypeId, language, DefaultName);
 
         public string GetTeamName(string teamId, string language)
-        {
-            return RefData.GetTeamName(teamId, language, null);
-        }
-
-#pragma warning disable S3717 // Track use of "NotImplementedException"
+            => RefData.GetTeamName(teamId, language, DefaultName);
 
         public string GetTeamName3rd(string team3rdId, string language)
-        {
-            throw new NotImplementedException(); // TODO: Update latest remoting ref
-        }
+            => RefData.GetTeamName3rd(team3rdId, language, DefaultName);
 
-#pragma warning restore S3717 // Track use of "NotImplementedException"
+        public string GetBetRadarMatchCodeFormat(string matchCode, string language)
+            => RefData.GetBetRadarMatchCodeFormat(matchCode, language);
+
+        public string GetDisplayedTypeId(string betTypeId)
+            => RefData.GetDisplayedTypeId(betTypeId);
     }
 }

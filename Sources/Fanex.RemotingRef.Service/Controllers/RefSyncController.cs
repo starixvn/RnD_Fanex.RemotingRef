@@ -31,7 +31,7 @@
             {
                 var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
 
-                if (IsValidRefResultData<string>()(betTypeNames))
+                if (IsValidRefResultData(betTypeNames))
                 {
                     betTypeNameSet.Add(parameterSet, betTypeNames);
                 }
@@ -312,6 +312,26 @@
             return lotteryBetTypeSet;
         }
 
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> BetRadarMatchCodeFormat([FromBody]RequestSyncFormData data)
+        {
+            var refResultSet = GetRefResultSet(
+                    data,
+                    (parameter, language) => _refData.GetBetRadarMatchCodeFormat(parameter["matchCode"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+
+            return refResultSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> DisplayedTypeId([FromBody]RequestSyncFormData data)
+        {
+            var refResultSet = GetRefResultSet(
+                    data,
+                    (parameter, _) => _refData.GetDisplayedTypeId(parameter["betTypeId"].ToString()));
+
+            return refResultSet;
+        }
+
         private static Dictionary<Dictionary<string, object>, Dictionary<string, T>> GetRefResultSet<T>(
             RequestSyncFormData data,
             Func<Dictionary<string, object>, string, T> getRefData,
@@ -319,7 +339,7 @@
         {
             var resultSet = new Dictionary<Dictionary<string, object>, Dictionary<string, T>>();
             data.Languages = data.Languages ?? new[] { "en-US" };
-            var checkValidRefResultData = isValidRefResultData ?? IsValidRefResultData<T>();
+            var checkValidRefResultData = isValidRefResultData ?? IsValidRefResultData;
 
             foreach (var parameterSet in data.ParameterSets)
             {
@@ -339,7 +359,7 @@
             return resultSet;
         }
 
-        private static Func<IDictionary<string, T>, bool> IsValidRefResultData<T>()
-          => (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
+        private static bool IsValidRefResultData<T>(IDictionary<string, T> result)
+            => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
     }
 }

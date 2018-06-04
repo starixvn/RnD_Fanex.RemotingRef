@@ -55,5 +55,9 @@
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
         string GetLotteryBetType(string lotteryBetTypeId, string language);
+
+        string GetBetRadarMatchCodeFormat(string matchCode, string language);
+
+        string GetDisplayedTypeId(string betTypeId);
     }
 }

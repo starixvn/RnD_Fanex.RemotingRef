@@ -78,7 +78,11 @@
         [Fact]
         public void GetTeamName3rd_Always_ReturnExpectedTeamName()
         {
-            // TODO: implement later
+            // Act
+            var teamName = _remotingRefService.GetTeamName3rd("1", "en-US");
+
+            // Assert
+            Assert.Equal("LangKaoJomPiChit(AiJamPen)", teamName);
         }
 
         [Fact]
@@ -94,7 +98,11 @@
         [Fact]
         public void GetLeagueName3rd_Always_ReturnExpectedTeamName()
         {
-            // TODO: implement later
+            // Act
+            var leagueName = _remotingRefService.GetLeagueName3rd("1", "en-US");
+
+            // Assert
+            Assert.Equal("New Antipolo Coliseum", leagueName);
         }
 
         [Fact]

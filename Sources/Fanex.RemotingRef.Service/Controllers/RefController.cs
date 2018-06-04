@@ -26,7 +26,7 @@
         {
             var betTypeNames = GetRefResult(
                     (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     betTypeId);
 
@@ -38,7 +38,7 @@
         {
             var betTypeNames = GetRefResult(
                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, (long)parameters[1]),
-                   IsValidRefData<string>(),
+                   IsValidRefData,
                    languages,
                    betTypeId,
                    refNo);
@@ -51,7 +51,7 @@
         {
             var betTypeNames = GetRefResult(
                     (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString()),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     betTypeId,
                     resourceId ?? string.Empty);
@@ -64,7 +64,7 @@
         {
             var betTypeNames = GetRefResult(
                     (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString(), (long)parameters[2]),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     betTypeId,
                     resourceId ?? string.Empty,
@@ -78,7 +78,7 @@
         {
             var sportNames = GetRefResult(
                     (parameters, language) => _refData.GetSportName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     sportTypeId);
 
@@ -90,7 +90,7 @@
         {
             var teamNames = GetRefResult(
                     (parameters, language) => _refData.GetTeamName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     teamId);
 
@@ -102,7 +102,7 @@
         {
             var teamNames = GetRefResult(
                     (parameters, language) => _refData.GetTeamName3rd(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     team3rdId);
 
@@ -114,18 +114,19 @@
         {
             var leagueNames = GetRefResult(
                     (parameters, language) => _refData.GetLeagueName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     leagueId);
 
             return leagueNames;
         }
 
+        [HttpGet]
         public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
         {
             var league3rdNames = GetRefResult(
                     (parameters, language) => _refData.GetLeagueName3rd(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     league3rdId);
 
@@ -137,7 +138,7 @@
         {
             var resourceData = GetRefResult(
                     (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0].ToString(), parameters[1].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     refId,
                     resourceId);
@@ -150,7 +151,7 @@
         {
             var countryNames = GetRefResult(
                     (parameters, language) => _refData.GetCountryName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     countryCode);
 
@@ -162,7 +163,7 @@
         {
             var oddsTypeNames = GetRefResult(
                     (parameters, language) => _refData.GetOddsTypeName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     oddsTypeId);
 
@@ -174,7 +175,7 @@
         {
             var parentId = GetRefResult(
                     (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0].ToString()),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     new[] { LanguageHelper.DefaultLanguage },
                     betTypeId);
 
@@ -206,7 +207,7 @@
         {
             var horseTeamNames = GetRefResult(
                     (parameters, language) => _refData.GetHorseTeamName(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     codeId);
 
@@ -218,7 +219,7 @@
         {
             var casinoBetItems = GetRefResult(
                     (parameters, language) => _refData.GetCasinoBetItem(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     itemId);
 
@@ -230,7 +231,7 @@
         {
             var rouletteBetItems = GetRefResult(
                     (parameters, language) => _refData.GetRouletteBetItem(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     itemId);
 
@@ -261,7 +262,7 @@
         {
             var kenoBetTypes = GetRefResult(
                     (parameters, language) => _refData.GetKenoBetType(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     kenoBetTypeId);
 
@@ -278,7 +279,7 @@
                         (int)parameters[2],
                         (int)parameters[3],
                         language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     betTypeId,
                     betTeam,
@@ -293,7 +294,7 @@
         {
             var fastMarkets225Results = GetRefResult(
                     (parameters, language) => _refData.GetFastMarkets225Result(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     resultId);
 
@@ -324,11 +325,35 @@
         {
             var lotteryBetTypes = GetRefResult(
                     (parameters, language) => _refData.GetLotteryBetType(parameters[0].ToString(), language),
-                    IsValidRefData<string>(),
+                    IsValidRefData,
                     languages,
                     betTypeId);
 
             return lotteryBetTypes;
+        }
+
+        [HttpGet]
+        public Dictionary<string, string> BetRadarMatchCodeFormat(string matchCode, [FromUri]string[] languages)
+        {
+            var refResult = GetRefResult(
+                    (parameters, language) => _refData.GetBetRadarMatchCodeFormat(parameters[0].ToString(), language),
+                    IsValidRefData,
+                    languages,
+                    matchCode);
+
+            return refResult;
+        }
+
+        [HttpGet]
+        public Dictionary<string, string> DisplayedTypeId(string betTypeId)
+        {
+            var refResult = GetRefResult(
+                    (parameters, _) => _refData.GetDisplayedTypeId(parameters[0].ToString()),
+                    IsValidRefData,
+                    new[] { LanguageHelper.DefaultLanguage },
+                    betTypeId);
+
+            return refResult;
         }
 
         private static Dictionary<string, T> GetRefResult<T>(
@@ -352,7 +377,6 @@
             return refResult.Count > 0 ? refResult : null;
         }
 
-        private static Func<T, bool> IsValidRefData<T>()
-            => (refData) => !string.IsNullOrEmpty(refData?.ToString());
+        private static bool IsValidRefData(string refData) => !string.IsNullOrEmpty(refData);
     }
 }

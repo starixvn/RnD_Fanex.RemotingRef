@@ -11,7 +11,11 @@
 
         RefDataResult GetLeagueName(string leagueId, string languageCode = Common.DefaultLanguage);
 
+        RefDataResult GetLeagueName3rd(string leagueId, string languageCode = Common.DefaultLanguage);
+
         RefDataResult GetTeamName(string teamId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetTeamName3rd(string teamId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetResourceData(string refId, string resourceId, string languageCode = Common.DefaultLanguage);
 
@@ -34,5 +38,9 @@
         RefDataResult GetFastMarkets225Result(string resultId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetLotteryBetType(string betTypeId, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetBetRadarMatchCodeFormat(string matchCode, string languageCode = Common.DefaultLanguage);
+
+        RefDataResult GetDisplayedTypeId(string betTypeId, string languageCode = Common.DefaultLanguage);
     }
 }

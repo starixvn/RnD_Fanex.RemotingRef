@@ -9,6 +9,7 @@
     using NSubstitute;
     using Xunit;
 
+    [Collection("Run with Single RefDataTypeContainer due to conflicting set up RefDataTypeContainer")]
     public class RemotingRefServiceTests
     {
         private readonly IHttpHandler _httpClient;
@@ -17,10 +18,14 @@
 
         public RemotingRefServiceTests()
         {
-            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:10000")).SupportOnlyDefaultLanguage();
+            RefDataTypeContainer
+                .ConnectTo(new Uri("http://localhost:10000"))
+                .SupportOnlyDefaultLanguage();
 
             _serializer = Substitute.For<ISerializer>();
-            _serializer.Deserialize<Dictionary<string, string>>(Arg.Any<Stream>()).Returns(new Dictionary<string, string>());
+            _serializer
+                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
+                .Returns(new Dictionary<string, string>());
 
             _httpClient = Substitute.For<IHttpHandler>();
             _httpClient.GetAsync(Arg.Any<string>()).Returns(FakeHttpResponseMessage());
@@ -42,7 +47,7 @@
             _remotingRefService.GetBetTypeName("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/BetTypeName?betTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/BetTypeName?betTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -53,7 +58,7 @@
             _remotingRefService.GetBetTypeName("1", "en-US", 100000000000);
 
             // Assert
-            const string expectedUrl = "api/ref/BetTypeNameWithRefNo?betTypeId=1&refNo=100000000000&&languages=en-US";
+            const string expectedUrl = "api/ref/BetTypeNameWithRefNo?betTypeId=1&refNo=100000000000&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -64,7 +69,7 @@
             var betTypeName = _remotingRefService.GetBetTypeName("1", "en-US", 100000000000, "betType");
 
             // Assert
-            const string expectedUrl = "api/ref/BetTypeNameWithRefNo?betTypeId=1&refNo=100000000000&&languages=en-US";
+            const string expectedUrl = "api/ref/BetTypeNameWithRefNo?betTypeId=1&refNo=100000000000&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("betType", betTypeName);
         }
@@ -76,7 +81,7 @@
             _remotingRefService.GetBetTypeName("1", "en-US", string.Empty, "2");
 
             // Assert
-            const string expectedUrl = "api/ref/BetTypeNameWithResourceId?betTypeId=1&resourceId=2&&languages=en-US";
+            const string expectedUrl = "api/ref/BetTypeNameWithResourceId?betTypeId=1&resourceId=2&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -87,7 +92,7 @@
             _remotingRefService.GetBetTypeName("1", "en-US", string.Empty, "2", 100000000000);
 
             // Assert
-            const string expectedUrl = "api/ref/BetTypeNameWithRefNoAndResourceId?betTypeId=1&resourceId=2&refNo=100000000000&&languages=en-US";
+            const string expectedUrl = "api/ref/BetTypeNameWithRefNoAndResourceId?betTypeId=1&resourceId=2&refNo=100000000000&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -98,7 +103,7 @@
             _remotingRefService.GetSportName("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/sportName?sportTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/sportName?sportTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -109,7 +114,7 @@
             var sportName = _remotingRefService.GetSportName("1", "en-US", "sportName");
 
             // Assert
-            const string expectedUrl = "api/ref/sportName?sportTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/sportName?sportTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("sportName", sportName);
         }
@@ -121,7 +126,7 @@
             _remotingRefService.GetTeamName("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/teamName?teamId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/teamName?teamId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -132,7 +137,7 @@
             var teamName = _remotingRefService.GetTeamName("1", "en-US", "teamName");
 
             // Assert
-            const string expectedUrl = "api/ref/teamName?teamId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/teamName?teamId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("teamName", teamName);
         }
@@ -144,7 +149,7 @@
             _remotingRefService.GetTeamName3rd("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/teamName3rd?team3rdId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/teamName3rd?team3rdId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -155,7 +160,7 @@
             var teamName3rd = _remotingRefService.GetTeamName3rd("1", "en-US", "teamName3rd");
 
             // Assert
-            const string expectedUrl = "api/ref/teamName3rd?team3rdId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/teamName3rd?team3rdId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("teamName3rd", teamName3rd);
         }
@@ -167,7 +172,7 @@
             _remotingRefService.GetLeagueName("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/leagueName?leagueId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/leagueName?leagueId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -178,7 +183,7 @@
             var leagueName = _remotingRefService.GetLeagueName("1", "en-US", "leagueName");
 
             // Assert
-            const string expectedUrl = "api/ref/leagueName?leagueId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/leagueName?leagueId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("leagueName", leagueName);
         }
@@ -190,7 +195,7 @@
             _remotingRefService.GetLeagueName3rd("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/leagueName3rd?league3rdId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/leagueName3rd?league3rdId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -201,7 +206,7 @@
             var leagueName3rd = _remotingRefService.GetLeagueName3rd("1", "en-US", "leagueName3rd");
 
             // Assert
-            const string expectedUrl = "api/ref/leagueName3rd?league3rdId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/leagueName3rd?league3rdId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("leagueName3rd", leagueName3rd);
         }
@@ -213,7 +218,7 @@
             var countryName = _remotingRefService.GetCountryName("1", "en-US", "countryName");
 
             // Assert
-            const string expectedUrl = "api/ref/countryName?countryCode=1&&languages=en-US";
+            const string expectedUrl = "api/ref/countryName?countryCode=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("countryName", countryName);
         }
@@ -225,7 +230,7 @@
             var oddsTypeName = _remotingRefService.GetOddsTypeName("1", "en-US", "oddsTypeName");
 
             // Assert
-            const string expectedUrl = "api/ref/oddsTypeName?oddsTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/oddsTypeName?oddsTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("oddsTypeName", oddsTypeName);
         }
@@ -237,7 +242,7 @@
             var resourceData = _remotingRefService.GetResourceDataByRefIdAndResourceId("1", "2", "en-US", "resourceData");
 
             // Assert
-            const string expectedUrl = "api/ref/resourceData?refId=1&resourceId=2&&languages=en-US";
+            const string expectedUrl = "api/ref/resourceData?refId=1&resourceId=2&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("resourceData", resourceData);
         }
@@ -249,7 +254,7 @@
             var betType = _remotingRefService.GetParentIdByBetTypeId("1", "betType");
 
             // Assert
-            const string expectedUrl = "api/ref/parentIdByBetTypeId?betTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/parentIdByBetTypeId?betTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("betType", betType);
         }
@@ -264,7 +269,7 @@
             _remotingRefService.GetCombinationTypeCombo("1", "2", 3, 4, "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/CombinationTypeComboParlay?betTeam=1&betCheck=2&handicap1=3&handicap2=4&&languages=en-US";
+            const string expectedUrl = "api/ref/CombinationTypeComboParlay?betTeam=1&betCheck=2&handicap1=3&handicap2=4&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
@@ -285,7 +290,7 @@
             var casinoBetItem = _remotingRefService.GetCasinoBetItem("1", "en-US", "casinoBetItem");
 
             // Assert
-            const string expectedUrl = "api/ref/casinoBetItem?itemId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/casinoBetItem?itemId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("casinoBetItem", casinoBetItem);
         }
@@ -297,7 +302,7 @@
             var rouletteBetItem = _remotingRefService.GetRouletteBetItem("1", "en-US", "rouletteBetItem");
 
             // Assert
-            const string expectedUrl = "api/ref/rouletteBetItem?itemId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/rouletteBetItem?itemId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("rouletteBetItem", rouletteBetItem);
         }
@@ -314,7 +319,7 @@
             var kenoBetChoice = _remotingRefService.GetKenoBetChoice("1", "en-US", "kenoBetChoice", out string kenoBetTypeId);
 
             // Assert
-            const string expectedUrl = "api/ref/kenoBetChoice?kenoBetChoiceId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/kenoBetChoice?kenoBetChoiceId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("1", kenoBetChoice);
             Assert.Equal("2", kenoBetTypeId);
@@ -335,7 +340,7 @@
             var kenoBetType = _remotingRefService.GetKenoBetType("1", "en-US", "kenoBetType");
 
             // Assert
-            const string expectedUrl = "api/ref/kenoBetType?kenoBetTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/kenoBetType?kenoBetTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal(expectedValue, kenoBetType);
         }
@@ -352,7 +357,7 @@
             var fastMarketsChoice = _remotingRefService.GetFastMarketsChoice("1", "2", 3, 4, "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/fastMarketsChoice?betTypeId=1&betTeam=2&handicap1=3&handicap2=4&&languages=en-US";
+            const string expectedUrl = "api/ref/fastMarketsChoice?betTypeId=1&betTeam=2&handicap1=3&handicap2=4&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("fastMarketsChoice", fastMarketsChoice);
         }
@@ -369,7 +374,7 @@
             var fastMarkets225Result = _remotingRefService.GetFastMarkets225Result("1", "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/fastMarkets225Result?resultId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/fastMarkets225Result?resultId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("fastMarkets225Result", fastMarkets225Result);
         }
@@ -386,7 +391,7 @@
             var lotteryBetChoice = _remotingRefService.GetLotteryBetChoice("1", "en-US", "lotteryBetChoice", out string lotteryBetType);
 
             // Assert
-            const string expectedUrl = "api/ref/lotteryBetChoice?betChoiceId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/lotteryBetChoice?betChoiceId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("1", lotteryBetChoice);
             Assert.Equal("2", lotteryBetType);
@@ -407,9 +412,41 @@
             var lotteryBetType = _remotingRefService.GetLotteryBetType("1", "en-US", "lotteryBetType");
 
             // Assert
-            const string expectedUrl = "api/ref/lotteryBetType?betTypeId=1&&languages=en-US";
+            const string expectedUrl = "api/ref/lotteryBetType?betTypeId=1&languages=en-US";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal(expectedValue, lotteryBetType);
+        }
+
+        [Theory]
+        [InlineData("matchCodeFormat", "matchCodeFormat")]
+        [InlineData("", "defaultMatchCode")]
+        [InlineData(null, "defaultMatchCode")]
+        public void GetBetRadarMatchCodeFormat_WithDefaultValue_GetFormatWithCorrectParamters(string returnValue, string expectedMatchCodeFormat)
+        {
+            // Arrange
+            _serializer
+                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
+                .Returns(new Dictionary<string, string> { { "en-US", returnValue } });
+
+            // Act
+            var actualMatchCodeFormat = _remotingRefService.GetBetRadarMatchCodeFormat("1", "en-US", "defaultMatchCode");
+
+            // Assert
+            const string expectedUrl = "api/ref/betRadarMatchCodeFormat?matchCode=1&languages=en-US";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            Assert.Equal(expectedMatchCodeFormat, actualMatchCodeFormat);
+        }
+
+        [Fact]
+        public void GetDisplayedTypeId_WithDefaultValue_GetTypeIdWithCorrectParamters()
+        {
+            // Act
+            var betType = _remotingRefService.GetDisplayedTypeId("1", "betType");
+
+            // Assert
+            const string expectedUrl = "api/ref/displayedTypeId?betTypeId=1&languages=en-US";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            Assert.Equal("betType", betType);
         }
     }
 }

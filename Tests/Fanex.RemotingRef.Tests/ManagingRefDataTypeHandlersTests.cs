@@ -7,6 +7,7 @@
     using Fanex.RemotingRef.TranslationStorage;
     using Xunit;
 
+    [Collection("Run with Single RefDataTypeContainer due to conflicting set up RefDataTypeContainer")]
     public class ManagingRefDataTypeHandlersTests
     {
         private readonly RequestTranslationSetDelegate _requestHandler;

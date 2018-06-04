@@ -363,5 +363,35 @@
             var expectedData = new Dictionary<string, string> { { "en-US", "BetTypeName" } };
             Assert.Equal(expectedData, actualResult);
         }
+
+        [Fact]
+        public void BetRadarMatchCodeFormat_Always_GetExpectedRefResult()
+        {
+            // Arrange
+            _refData.GetBetRadarMatchCodeFormat("1", "en").Returns("BetRadarMatchCodeFormat");
+            var refController = new RefController(_refData);
+
+            // Act
+            var actualResult = refController.BetRadarMatchCodeFormat("1", new[] { "en-US" });
+
+            // Assert
+            var expectedData = new Dictionary<string, string> { { "en-US", "BetRadarMatchCodeFormat" } };
+            Assert.Equal(expectedData, actualResult);
+        }
+
+        [Fact]
+        public void DisplayedTypeId_Always_GetExpectedRefResult()
+        {
+            // Arrange
+            _refData.GetDisplayedTypeId("1").Returns("2");
+            var refController = new RefController(_refData);
+
+            // Act
+            var actualResult = refController.DisplayedTypeId("1");
+
+            // Assert
+            var expectedData = new Dictionary<string, string> { { "en-US", "2" } };
+            Assert.Equal(expectedData, actualResult);
+        }
     }
 }

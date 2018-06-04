@@ -79,5 +79,11 @@
         string GetLotteryBetType(string lotteryBetTypeId, string languageCode);
 
         string GetLotteryBetType(string lotteryBetTypeId, string languageCode, string defaultValue);
+
+        string GetBetRadarMatchCodeFormat(string matchCode, string languageCode);
+
+        string GetBetRadarMatchCodeFormat(string matchCode, string languageCode, string defaultValue);
+
+        string GetDisplayedTypeId(string betTypeId, string defaultValue);
     }
 }

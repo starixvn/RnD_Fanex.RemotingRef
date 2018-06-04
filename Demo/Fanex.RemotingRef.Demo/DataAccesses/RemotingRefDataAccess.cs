@@ -124,6 +124,18 @@
             };
         }
 
+        public RefDataResult GetLeagueName3rd(string leagueId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetLeagueName3rd(leagueId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetLeagueName3rd(leagueId, twLanguage, DefaultValue),
+                TaiwanRefNew = _taiwanRefNew.GetLeagueName3rd(leagueId, twLanguage, DefaultValue)
+            };
+        }
+
         public RefDataResult GetTeamName(string teamId, string languageCode = "en-US")
         {
             var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
@@ -133,6 +145,18 @@
                 FanexRefNew = _remotingRefService.GetTeamName(teamId, languageCode, DefaultValue),
                 TaiwanRefOld = RefData.GetTeamName(teamId, twLanguage, DefaultValue),
                 TaiwanRefNew = _taiwanRefNew.GetTeamName(teamId, twLanguage, DefaultValue)
+            };
+        }
+
+        public RefDataResult GetTeamName3rd(string teamId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetTeamName3rd(teamId, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetTeamName3rd(teamId, twLanguage, DefaultValue),
+                TaiwanRefNew = _taiwanRefNew.GetTeamName3rd(teamId, twLanguage, DefaultValue)
             };
         }
 
@@ -265,5 +289,25 @@
                 TaiwanRefNew = _taiwanRefNew.GetLotteryBettype(betTypeId, twLanguage, DefaultValue)
             };
         }
+
+        public RefDataResult GetBetRadarMatchCodeFormat(string matchCode, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetBetRadarMatchCodeFormat(matchCode, languageCode, DefaultValue),
+                TaiwanRefOld = RefData.GetBetRadarMatchCodeFormat(matchCode, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetBetRadarMatchCodeFormat(matchCode, twLanguage)
+            };
+        }
+
+        public RefDataResult GetDisplayedTypeId(string betTypeId, string languageCode = "en-US")
+            => new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetDisplayedTypeId(betTypeId, DefaultValue),
+                TaiwanRefOld = RefData.GetDisplayedTypeId(betTypeId),
+                TaiwanRefNew = _taiwanRefNew.GetDisplayedTypeId(betTypeId)
+            };
     }
 }

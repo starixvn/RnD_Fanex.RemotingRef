@@ -19,6 +19,8 @@
         FastMarketsChoice,
         FastMarkets225Result,
         LotteryBetType,
-        LotteryBetChoice
+        LotteryBetChoice,
+        BetRadarMatchCodeFormat,
+        GetDisplayedTypeId
     }
 }

@@ -45,60 +45,60 @@
   <ItemGroup>
     <Reference Include="IBCFile, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\IBCFile.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\IBCFile.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\NLog.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Targets.RabbitMQ, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\NLog.Targets.RabbitMQ.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\NLog.Targets.RabbitMQ.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\ONEbook.Common.Caching.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.Redis.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\ONEbook.Common.Caching.Redis.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching.RedisLib, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.RedisLib.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\ONEbook.Common.Caching.RedisLib.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.DataPlus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.DataPlus.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\ONEbook.Common.DataPlus.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Product.Site.Common.LocalCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
     </Reference>
     <Reference Include="RefDataModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RefDataModel.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\RefDataModel.dll</HintPath>
     </Reference>
     <Reference Include="RefNewData, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RefNewData.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\RefNewData.dll</HintPath>
     </Reference>
     <Reference Include="RefRelayRemoteStation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RefRelayRemoteStation.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\RefRelayRemoteStation.dll</HintPath>
     </Reference>
     <Reference Include="RemotingRef, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RemotingRef.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\RemotingRef.dll</HintPath>
     </Reference>
     <Reference Include="SPSRemoting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\SPSRemoting.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\SPSRemoting.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\StackExchange.Redis.dll</HintPath>
+      <HintPath>..\..\Sources\Fanex.RemotingRef.Service\Ref\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -111,6 +111,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Constants\Common.cs" />
+    <Compile Include="Controllers\BetRadarMatchCodeFormatController.cs" />
     <Compile Include="Controllers\BetTypeNameController.cs" />
     <Compile Include="Controllers\CasinoBetItemController.cs" />
     <Compile Include="Controllers\CountryNameController.cs" />
@@ -119,13 +120,16 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KenoBetTypeController.cs" />
+    <Compile Include="Controllers\LeagueName3rdController.cs" />
     <Compile Include="Controllers\LeagueNameController.cs" />
     <Compile Include="Controllers\LotteryBetTypeController.cs" />
     <Compile Include="Controllers\OddsTypeNameController.cs" />
+    <Compile Include="Controllers\DisplayedTypeIdController.cs" />
     <Compile Include="Controllers\ParentBetTypeIdController.cs" />
     <Compile Include="Controllers\ResourceDataController.cs" />
     <Compile Include="Controllers\RouletteBetItemController.cs" />
     <Compile Include="Controllers\SportNameController.cs" />
+    <Compile Include="Controllers\TeamName3rdController.cs" />
     <Compile Include="Controllers\TeamNameController.cs" />
     <Compile Include="DataAccesses\IRemotingRefDataAccess.cs" />
     <Compile Include="DataAccesses\RemotingRefDataAccess.cs" />
@@ -150,20 +154,6 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Ref\IBCFile.dll" />
-    <Content Include="Ref\NLog.dll" />
-    <Content Include="Ref\NLog.Targets.RabbitMQ.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.Redis.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.RedisLib.dll" />
-    <Content Include="Ref\ONEbook.Common.DataPlus.dll" />
-    <Content Include="Ref\ONEbook.Product.Site.Common.LocalCache.dll" />
-    <Content Include="Ref\RefDataModel.dll" />
-    <Content Include="Ref\RefNewData.dll" />
-    <Content Include="Ref\RefRelayRemoteStation.dll" />
-    <Content Include="Ref\RemotingRef.dll" />
-    <Content Include="Ref\SPSRemoting.dll" />
-    <Content Include="Ref\StackExchange.Redis.dll" />
     <Content Include="Setting\RedisSetting.pro.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
@@ -182,6 +172,9 @@
   <ItemGroup>
     <PackageReference Include="Fanex.Common">
       <Version>1.1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Fanex.RemotingRef">
+      <Version>1.0.0-beta-1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>
@@ -248,6 +241,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Web.local.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

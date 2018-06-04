@@ -522,5 +522,58 @@
 
             Assert.Equal(expectedData, actualResult);
         }
+
+        [Fact]
+        public void BetRadarMatchCodeFormat_Always_GetExpectedRefResult()
+        {
+            // Arrange
+            _refData.GetBetRadarMatchCodeFormat("1", "en").Returns("BetRadarMatchCodeFormat");
+            var refSyncController = new RefSyncController(_refData);
+            var requestSyncData = new RequestSyncFormData
+            {
+                ParameterSets = new List<Dictionary<string, object>>
+                {
+                    new Dictionary<string, object> { { "matchCode", "1" } }
+                },
+                Languages = new[] { "en-US" }
+            };
+
+            // Act
+            var actualResult = refSyncController.BetRadarMatchCodeFormat(requestSyncData);
+
+            // Assert
+            var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
+            {
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "BetRadarMatchCodeFormat" } } }
+            };
+
+            Assert.Equal(expectedData, actualResult);
+        }
+
+        [Fact]
+        public void DisplayedTypeId_Always_GetExpectedRefResult()
+        {
+            // Arrange
+            _refData.GetDisplayedTypeId("1").Returns("2");
+            var refSyncController = new RefSyncController(_refData);
+            var requestSyncData = new RequestSyncFormData
+            {
+                ParameterSets = new List<Dictionary<string, object>>
+                {
+                    new Dictionary<string, object> { { "betTypeId", "1" } }
+                },
+            };
+
+            // Act
+            var actualResult = refSyncController.DisplayedTypeId(requestSyncData);
+
+            // Assert
+            var expectedData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>
+            {
+                { requestSyncData.ParameterSets[0], new Dictionary<string, string> { { "en-US", "2" } } }
+            };
+
+            Assert.Equal(expectedData, actualResult);
+        }
     }
 }
