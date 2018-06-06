@@ -37,16 +37,6 @@
 
         public CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Key must not be null or empty", nameof(key));
-            }
-
-            if (keySet == null)
-            {
-                throw new ArgumentNullException(nameof(keySet));
-            }
-
             CheckDisposed();
 
             return new CacheEntry(
@@ -88,11 +78,6 @@
 
         public bool TryGet(string key, out CacheEntry result)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Key must not be null or empty", nameof(key));
-            }
-
             CheckDisposed();
 
             result = null;

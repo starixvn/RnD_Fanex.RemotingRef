@@ -24,18 +24,18 @@
         }
 
         [Fact]
-        public void ArgumentExceptionIsThrownIfCreateEntryTakesNullOrEmtyAsKey()
+        public void ArgumentNullExceptionIsThrownIfCreateEntryTakesNullAsKey()
         {
             // Arrange.
+            string key = null;
             var keySet = new KeySet();
-            var key = string.Empty;
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.
             Exception exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
 
             // Assert.
-            Assert.IsType<ArgumentException>(exception);
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
         [Fact]
@@ -54,16 +54,16 @@
         }
 
         [Fact]
-        public void ArgumentExceptionIsThrownIfTryGetTakesNullOrEmtyAsKey()
+        public void ArgumentNullExceptionIsThrownIfTryGetTakesNullAsKey()
         {
             // Arrange.
-            var key = string.Empty;
+            string key = null;
 
             // Act.
             Exception exception = Record.Exception(() => _storage.TryGet(key, out _));
 
             // Assert.
-            Assert.IsType<ArgumentException>(exception);
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
 #pragma warning disable S2952 // Classes should "Dispose" of members from the classes' own "Dispose" methods
