@@ -50,7 +50,10 @@
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), value, $"{nameof(value)} must be non-negative.");
+                    throw new ArgumentOutOfRangeException(
+                        nameof(value),
+                        value,
+                        "Number of entries of each data type must be positive.");
                 }
 
                 _numberOfEntriesLimit = value;
@@ -69,7 +72,10 @@
             {
                 if (value < 0 || value > 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), value, $"{nameof(value)} must be between 0 and 1 inclusive.");
+                    throw new ArgumentOutOfRangeException(
+                        nameof(value),
+                        value,
+                        "Compaction Percentage must be between 0 and 1 inclusive.");
                 }
 
                 _compactionPercentage = value;

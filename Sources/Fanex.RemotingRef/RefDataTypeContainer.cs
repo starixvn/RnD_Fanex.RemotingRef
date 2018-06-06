@@ -106,6 +106,16 @@
             return this;
         }
 
+        public RefDataTypeContainer FromApplication(string applicationName)
+        {
+            if (!string.IsNullOrEmpty(applicationName))
+            {
+                RefDataTypeHandlerOptions.ApplicationName = applicationName;
+            }
+
+            return this;
+        }
+
         public RefDataTypeContainer SupportMultiLanguages()
         {
             RefDataTypeHandlerOptions.IsMultiLanguagesSupported = true;
@@ -122,7 +132,10 @@
 
         public RefDataTypeContainer RegisterSupportedLanguages(params string[] languageCodes)
         {
-            RefDataTypeHandlerOptions.SupportedLanguageCodes = languageCodes;
+            if (languageCodes?.Length > 0)
+            {
+                RefDataTypeHandlerOptions.SupportedLanguageCodes = languageCodes;
+            }
 
             return this;
         }

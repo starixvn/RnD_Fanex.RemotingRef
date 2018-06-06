@@ -226,6 +226,33 @@
         }
 
         [Fact]
+        public void RegisterApplicationNameOverwritesApplicationNameOfRefDataTypeHandlerOptions()
+        {
+            // Arrange.
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var applicationName = "an application name";
+
+            // Act.
+            fluentInstance.SupportMultiLanguages().FromApplication(applicationName);
+
+            // Assert.
+            Assert.Equal(applicationName, RefDataTypeHandlerOptions.ApplicationName);
+        }
+
+        [Fact]
+        public void RegisterApplicationNameReturnsCurrentFluentInstance()
+        {
+            // Arrange.
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+
+            // Act.
+            var returnedInstance = fluentInstance.FromApplication("an application name");
+
+            // Assert.
+            Assert.Same(fluentInstance, returnedInstance);
+        }
+
+        [Fact]
         public void RegisterSupportedLanguagesOverwritesSupportedLanguageCodesOfRefDataTypeHandlerOptions()
         {
             // Arrange.

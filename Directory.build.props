@@ -3,10 +3,10 @@
         <Authors>R&amp;D Team</Authors>
         <Company>Nexcel Solutions</Company>
         <Copyright>2017 Nexdev</Copyright>
-        <PackageProjectUrl>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref</PackageProjectUrl>
-        <RepositoryUrl>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref</RepositoryUrl>
+        <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</PackageProjectUrl>
+        <RepositoryUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>https://gitlab.nexcel.vn/infrastructure/fanex-remotingref/milestones/1</PackageReleaseNotes>
+        <PackageReleaseNotes>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/milestones/1</PackageReleaseNotes>
         <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <IncludeSymbols>false</IncludeSymbols>

@@ -24,7 +24,7 @@
         }
 
         [Fact]
-        public void ArgumentExceptionIsThrownIfTCreateEntryTakesNullOrEmtyAsKey()
+        public void ArgumentExceptionIsThrownIfCreateEntryTakesNullOrEmtyAsKey()
         {
             // Arrange.
             var keySet = new KeySet();
@@ -39,7 +39,7 @@
         }
 
         [Fact]
-        public void ArgumentExceptionIsThrownIfTCreateEntryTakesNullAsKeySet()
+        public void ArgumentExceptionIsThrownIfCreateEntryTakesNullAsKeySet()
         {
             // Arrange.
             KeySet keySet = null;

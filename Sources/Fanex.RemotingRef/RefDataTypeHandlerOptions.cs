@@ -5,11 +5,16 @@
 
     public class RefDataTypeHandlerOptions : LocalStorageOptions
     {
+        private const string DefaultApplicationName = "NoApplicationNameConfigured";
         public const string DefaultLanguage = "en-US";
+
         private static string[] supportedLanguageCodes = { DefaultLanguage, "zh-TW", "zh-CN", "ja-JP", "th-TH", "ko-KR", "vi-VN", "zh-Hans" };
 
         public int SyncBatchSize { get; set; }
             = 100;
+
+        internal static string ApplicationName { get; set; }
+            = DefaultApplicationName;
 
         internal static string[] SupportedLanguageCodes
         {

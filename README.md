@@ -78,7 +78,8 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
     ```csharp
          RefDataTypeContainer
             .ConnectTo(new Uri(Configuration["RemotingRefService"]))
-            .RegisterSupportedLanguages"en-US", "ja-JP")
+            .FromApplication("Fanex.RemotingRef.Demo")
+            .RegisterSupportedLanguages("en-US", "ja-JP")
             .Register(
                 RefDataType.BetTypeName,
                 new RefDataTypeHandlerOptions
@@ -92,9 +93,10 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 | **Method**                                                                | **Description**                                                                         |
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | ConnectTo(**Uri** remotingRefServiceUri)                                  | Connect to RemotingRef Service with Url                                                 |
+| FromApplication(**string** applicationName)                               | Provide an application name for statistics purpose                                      |
 | SupportMultiLanguages()                                                   | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-Hans) |
 | SupportOnlyDefaultLanguage()                                              | Only support English (en-US)                                                            |
-| RegisterSupportedLanguages(**string[]** languageCodes)                    | Support optional languages                                                              |
+| RegisterSupportedLanguages(**params string[]** languageCodes)             | Support optional languages                                                              |
 | Register(**RefDataType** dataType, **RefDataTypeHandlerOptions** options) | Register caching data type with customized *RefDataTypeHandlerOptions*                  |
 
 ### RefDataTypeHandlerOptions
@@ -114,10 +116,10 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
 ### There is some functions have been renamed
 
-| **Old**                                                                | **New**                                                                         |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-|  GetKenoBettype                       | GetKenoBetType                                                 |
+| **Old**              | **New**              |
+| -------------------- | -------------------- |
+| GetKenoBettype       | GetKenoBetType       |
 | GetFastMarketsChoise | GetFastMarketsChoice |
-| GetLotteryBettype| GetLotteryBetType |
+| GetLotteryBettype    | GetLotteryBetType    |
 
 ### The Language Code parameter, which is passed to Fanex.RemotingRef, is standard language code (en-US, zh-TW, zh-CN, ja-JP, ...)
