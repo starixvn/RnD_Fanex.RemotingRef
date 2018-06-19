@@ -456,7 +456,9 @@ namespace Fanex.RemotingRef
                 requestUri.Append($"languages={language}&");
             }
 
-            var response = _client.GetAsync(requestUri.ToString().TrimEnd('&')).GetAwaiter().GetResult();
+            requestUri.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
+
+            var response = _client.GetAsync(requestUri.ToString()).GetAwaiter().GetResult();
 
             if (response.IsSuccessStatusCode)
             {

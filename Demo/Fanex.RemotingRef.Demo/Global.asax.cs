@@ -29,7 +29,9 @@
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new Container();
-            RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]));
+            RefDataTypeContainer
+                .ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]))
+                .FromApplication("Fanex.RemotingRef.Demo");
             container.Register<IRemotingRefService, RemotingRefService>(Lifestyle.Singleton);
             container.Register<IRefData, RefNewDataHandler>(Lifestyle.Singleton);
             container.Register<IRemotingRefDataAccess, RemotingRefDataAccess>(Lifestyle.Singleton);

@@ -11,7 +11,10 @@
 
         public RemotingRefServiceTests()
         {
-            RefDataTypeContainer.ConnectTo(new Uri(_remotingRefServiceUrl)).SupportOnlyDefaultLanguage();
+            RefDataTypeContainer
+                .ConnectTo(new Uri(_remotingRefServiceUrl))
+                .FromApplication("UnitTest_AppName")
+                .SupportOnlyDefaultLanguage();
             _remotingRefService = new RemotingRefService();
         }
 
@@ -82,7 +85,7 @@
             var teamName = _remotingRefService.GetTeamName3rd("1", "en-US");
 
             // Assert
-            Assert.Equal("LangKaoJomPiChit(AiJamPen)", teamName);
+            Assert.Equal("Langsad SriHaYuth (DanYai)", teamName);
         }
 
         [Fact]
@@ -102,7 +105,7 @@
             var leagueName = _remotingRefService.GetLeagueName3rd("1", "en-US");
 
             // Assert
-            Assert.Equal("New Antipolo Coliseum", leagueName);
+            Assert.Equal("KlongHae Songkhla Early", leagueName);
         }
 
         [Fact]
