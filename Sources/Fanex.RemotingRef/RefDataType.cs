@@ -21,6 +21,7 @@
         LotteryBetType,
         LotteryBetChoice,
         BetRadarMatchCodeFormat,
-        GetDisplayedTypeId
+        GetDisplayedTypeId,
+        HorseTeamName
     }
 }

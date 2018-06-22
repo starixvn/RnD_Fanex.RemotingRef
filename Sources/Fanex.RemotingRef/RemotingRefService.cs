@@ -12,7 +12,7 @@ namespace Fanex.RemotingRef
     using Fanex.RemotingRef.Utilities.Serialization;
     using Fanex.RemotingRef.Utilities.WebClient;
 
-    public class RemotingRefService : IRemotingRefService, IDisposable
+    public class RemotingRefService : IRemotingRefService
     {
         private const string RefController = "api/ref/";
         private const string RefSyncController = "api/refsync/";
@@ -177,6 +177,7 @@ namespace Fanex.RemotingRef
             {
                 ["countryCode"] = countryCode
             };
+
             string countryName = GetTranslationText(RefDataType.CountryName, "countryName", keySet, languageCode);
 
             return string.IsNullOrEmpty(countryName) ? defaultValue : countryName;
@@ -206,6 +207,7 @@ namespace Fanex.RemotingRef
                 ["refId"] = refId,
                 ["resourceId"] = resourceId
             };
+
             string resource = GetTranslationText(RefDataType.RefResource, "resourceData", keySet, languageCode);
 
             return string.IsNullOrEmpty(resource) ? defaultValue : resource;
@@ -217,6 +219,7 @@ namespace Fanex.RemotingRef
             {
                 ["betTypeId"] = betTypeId
             };
+
             string parentBetTypeId = GetTranslationText(RefDataType.ParentBetTypeId, "parentIdByBetTypeId", keySet, null);
 
             return string.IsNullOrEmpty(parentBetTypeId) ? defaultValue : parentBetTypeId;
@@ -241,7 +244,16 @@ namespace Fanex.RemotingRef
         }
 
         public string GetHorseTeamName(string codeId, string languageCode, string defaultValue)
-            => throw new NotSupportedException();
+        {
+            var keySet = new KeySet
+            {
+                ["codeId"] = codeId
+            };
+
+            var horseTeamName = GetTranslationText(RefDataType.HorseTeamName, "horseTeamName", keySet, languageCode);
+
+            return string.IsNullOrEmpty(horseTeamName) ? defaultValue : horseTeamName;
+        }
 
         public string GetCasinoBetItem(string itemId, string languageCode, string defaultValue)
         {
@@ -249,6 +261,7 @@ namespace Fanex.RemotingRef
             {
                 ["itemId"] = itemId
             };
+
             string casinoBetItem = GetTranslationText(RefDataType.CasinoBetItem, "casinoBetItem", keySet, null);
 
             return string.IsNullOrEmpty(casinoBetItem) ? defaultValue : casinoBetItem;
@@ -428,7 +441,14 @@ namespace Fanex.RemotingRef
         }
 
         private string GetTranslationText(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
-            => GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
+        {
+            if (keySet.Any(parameter => string.IsNullOrWhiteSpace(parameter.Value?.ToString())))
+            {
+                return string.Empty;
+            }
+
+            return GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
+        }
 
         private T GetTranslationObject<T>(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
         {

@@ -82,11 +82,11 @@
 
             if (refNo == 0 && resourceId == Common.DefaultResourceId)
             {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, DefaultValue);
+                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, string.Empty);
             }
             else if (refNo != 0 && resourceId == Common.DefaultResourceId)
             {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, refNo, DefaultValue);
+                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, refNo, string.Empty);
             }
             else if (refNo == 0 && resourceId != Common.DefaultResourceId)
             {

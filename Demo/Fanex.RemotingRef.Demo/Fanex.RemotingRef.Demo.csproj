@@ -130,6 +130,7 @@
     <Compile Include="Controllers\RouletteBetItemController.cs" />
     <Compile Include="Controllers\SportNameController.cs" />
     <Compile Include="Controllers\TeamName3rdController.cs" />
+    <Compile Include="Controllers\HorseTeamNameController.cs" />
     <Compile Include="Controllers\TeamNameController.cs" />
     <Compile Include="DataAccesses\IRemotingRefDataAccess.cs" />
     <Compile Include="DataAccesses\RemotingRefDataAccess.cs" />
@@ -174,7 +175,7 @@
       <Version>1.1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Fanex.RemotingRef">
-      <Version>1.0.0-beta-2</Version>
+      <Version>1.0.0-beta-4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>

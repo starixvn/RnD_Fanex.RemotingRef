@@ -41,6 +41,19 @@
             return httpResponseMessage;
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void GetBetTypeName_BetTypeIdIsNull_ReturnEmptyString(string betTypeId)
+        {
+            // Act
+            var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US");
+
+            // Assert
+            Assert.Empty(betTypeName);
+        }
+
         [Fact]
         public void GetBetTypeName_Always_GetBetTypeNameWithCorrectParamters()
         {
@@ -52,6 +65,17 @@
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void GetBetTypeName_BetTypeIdIsNullOrWhiteSpace_ReturnEmptyString(string betTypeId)
+        {
+            var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US", 100000000000);
+
+            Assert.Empty(betTypeName);
+        }
+
         [Fact]
         public void GetBetTypeName_WithRefNo_GetBetTypeNameWithCorrectParamters()
         {
@@ -61,6 +85,17 @@
             // Assert
             const string expectedUrl = "api/ref/BetTypeNameWithRefNo?betTypeId=1&refNo=100000000000&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void GetBetTypeName_BetTypeIdIsNullOrWhiteSpace_ReturnDefaultValue(string betTypeId)
+        {
+            var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US", 100000000000, "betType");
+
+            Assert.Equal("betType", betTypeName);
         }
 
         [Fact]
@@ -95,6 +130,17 @@
             // Assert
             const string expectedUrl = "api/ref/BetTypeNameWithRefNoAndResourceId?betTypeId=1&resourceId=2&refNo=100000000000&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void GetBetTypeName_ResourceIdIsNullOrWhiteSpace_ReturnEmptyString(string resourceId)
+        {
+            var betTypeName = _remotingRefService.GetBetTypeName("1", "en-US", string.Empty, resourceId, 1000);
+
+            Assert.Empty(betTypeName);
         }
 
         [Fact]
@@ -275,13 +321,15 @@
         }
 
         [Fact]
-        public void GetHorseTeamName_Always_ThrowNotSupportedException()
+        public void GetHorseTeamName_Always_GetHorseTeamNameWithCorrectParamters()
         {
             // Act
-            var testDelegate = new Action(() => _remotingRefService.GetHorseTeamName("1", "en-US", string.Empty));
+            var horseTeamName = _remotingRefService.GetHorseTeamName("1", "en-US", "horseTeamName");
 
             // Assert
-            Assert.Throws<NotSupportedException>(testDelegate);
+            const string expectedUrl = "api/ref/horseTeamName?codeId=1&languages=en-US&applicationName=UnitTest_AppName";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            Assert.Equal("horseTeamName", horseTeamName);
         }
 
         [Fact]

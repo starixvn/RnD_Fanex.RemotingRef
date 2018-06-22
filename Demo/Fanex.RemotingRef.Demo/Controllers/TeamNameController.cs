@@ -52,7 +52,7 @@
         [HttpGet]
         public ActionResult TeamNameList()
         {
-            var inputData = new[] { 5 };
+            var inputData = new[] { 5, 6, 7, 8 };
             var viewModels = new List<RefDataViewModel>();
 
             foreach (var typeId in inputData)
