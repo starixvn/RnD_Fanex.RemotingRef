@@ -48,6 +48,9 @@
                 Clock.UtcNow);
         }
 
+        public bool IsExpired(CacheEntry entry)
+            => entry.IsExpired(Clock.UtcNow);
+
         public IList<CacheEntry> FilterOutOfDateEntries(int batchSize)
         {
             var outOfDateEntries = new List<CacheEntry>();

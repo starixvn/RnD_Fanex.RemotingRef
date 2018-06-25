@@ -93,7 +93,7 @@
             {
                 string key = entry.Key;
 
-                if (newEntryMaps.ContainsKey(key))
+                if (!_localStorage.IsExpired(entry) && newEntryMaps.ContainsKey(key))
                 {
                     TranslationSet newTranslationSet = newEntryMaps[key];
 

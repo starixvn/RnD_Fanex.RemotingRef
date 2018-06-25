@@ -254,6 +254,32 @@
         }
 
         [Fact]
+        public async Task ExpiredEntryIsNotUpdated()
+        {
+            // Arrange.
+            var createdEntry = SetupStorageWithOnlyOneEntry();
+            var key = createdEntry.OriginalKeySet.BuildKey();
+            var timeToUpdateCache = _options.SlidingTimeout + _timeToTriggerRenewal;
+            var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
+            {
+                [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
+            });
+            var syncedData = new Dictionary<string, TranslationSet>
+            {
+                [key] = newValue
+            };
+
+            _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
+
+            // Act.
+            _clock.Add(timeToUpdateCache);
+            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+
+            // Assert.
+            Assert.False(_storage.TryGet(key, out _));
+        }
+
+        [Fact]
         public async Task LockedEntryIsReleasedIfNotInResponse()
         {
             // Arrange.

@@ -13,5 +13,7 @@
         bool TryGet(string key, out CacheEntry result);
 
         IList<CacheEntry> FilterOutOfDateEntries(int batchSize);
+
+        bool IsExpired(CacheEntry entry);
     }
 }
