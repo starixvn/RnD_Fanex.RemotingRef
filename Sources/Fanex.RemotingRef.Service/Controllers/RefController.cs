@@ -22,10 +22,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetTypeName(string betTypeId, [FromUri] string[] languages)
+        public Dictionary<string, string> BetTypeName(string betTypeId = null, [FromUri] string[] languages = null)
         {
             var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     betTypeId);
@@ -34,10 +34,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithRefNo(string betTypeId, long refNo, [FromUri] string[] languages)
+        public Dictionary<string, string> BetTypeNameWithRefNo(string betTypeId = null, long refNo = 0, [FromUri] string[] languages = null)
         {
             var betTypeNames = GetRefResult(
-                   (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, (long)parameters[1]),
+                   (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, (long)parameters[1]),
                    IsValidRefData,
                    languages,
                    betTypeId,
@@ -47,10 +47,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithResourceId(string betTypeId, string resourceId, [FromUri]string[] languages)
+        public Dictionary<string, string> BetTypeNameWithResourceId(string betTypeId = null, string resourceId = null, [FromUri]string[] languages = null)
         {
             var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString()),
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, parameters[1] as string),
                     IsValidRefData,
                     languages,
                     betTypeId,
@@ -60,10 +60,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithRefNoAndResourceId(string betTypeId, string resourceId, long refNo, [FromUri]string[] languages)
+        public Dictionary<string, string> BetTypeNameWithRefNoAndResourceId(string betTypeId = null, string resourceId = null, long refNo = 0, [FromUri]string[] languages = null)
         {
             var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0].ToString(), language, parameters[1].ToString(), (long)parameters[2]),
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, parameters[1] as string, (long)parameters[2]),
                     IsValidRefData,
                     languages,
                     betTypeId,
@@ -74,10 +74,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> SportName(string sportTypeId, [FromUri]string[] languages)
+        public Dictionary<string, string> SportName(string sportTypeId = null, [FromUri]string[] languages = null)
         {
             var sportNames = GetRefResult(
-                    (parameters, language) => _refData.GetSportName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetSportName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     sportTypeId);
@@ -86,10 +86,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> TeamName(string teamId, [FromUri]string[] languages)
+        public Dictionary<string, string> TeamName(string teamId = null, [FromUri]string[] languages = null)
         {
             var teamNames = GetRefResult(
-                    (parameters, language) => _refData.GetTeamName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetTeamName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     teamId);
@@ -98,10 +98,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> TeamName3rd(string team3rdId, [FromUri]string[] languages)
+        public Dictionary<string, string> TeamName3rd(string team3rdId = null, [FromUri]string[] languages = null)
         {
             var teamNames = GetRefResult(
-                    (parameters, language) => _refData.GetTeamName3rd(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetTeamName3rd(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     team3rdId);
@@ -110,10 +110,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> LeagueName(string leagueId, [FromUri]string[] languages)
+        public Dictionary<string, string> LeagueName(string leagueId = null, [FromUri]string[] languages = null)
         {
             var leagueNames = GetRefResult(
-                    (parameters, language) => _refData.GetLeagueName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetLeagueName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     leagueId);
@@ -122,10 +122,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> LeagueName3rd(string league3rdId, [FromUri]string[] languages)
+        public Dictionary<string, string> LeagueName3rd(string league3rdId = null, [FromUri]string[] languages = null)
         {
             var league3rdNames = GetRefResult(
-                    (parameters, language) => _refData.GetLeagueName3rd(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetLeagueName3rd(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     league3rdId);
@@ -134,10 +134,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> ResourceData(string refId, string resourceId, [FromUri]string[] languages)
+        public Dictionary<string, string> ResourceData(string refId = null, string resourceId = null, [FromUri]string[] languages = null)
         {
             var resourceData = GetRefResult(
-                    (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0].ToString(), parameters[1].ToString(), language),
+                    (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0] as string, parameters[1] as string, language),
                     IsValidRefData,
                     languages,
                     refId,
@@ -147,10 +147,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> CountryName(string countryCode, [FromUri]string[] languages)
+        public Dictionary<string, string> CountryName(string countryCode = null, [FromUri]string[] languages = null)
         {
             var countryNames = GetRefResult(
-                    (parameters, language) => _refData.GetCountryName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetCountryName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     countryCode);
@@ -159,10 +159,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> OddsTypeName(string oddsTypeId, [FromUri]string[] languages)
+        public Dictionary<string, string> OddsTypeName(string oddsTypeId = null, [FromUri]string[] languages = null)
         {
             var oddsTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetOddsTypeName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetOddsTypeName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     oddsTypeId);
@@ -171,10 +171,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> ParentIdByBetTypeId(string betTypeId)
+        public Dictionary<string, string> ParentIdByBetTypeId(string betTypeId = null)
         {
             var parentId = GetRefResult(
-                    (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0].ToString()),
+                    (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0] as string),
                     IsValidRefData,
                     new[] { LanguageHelper.DefaultLanguage },
                     betTypeId);
@@ -184,14 +184,14 @@
 
         [HttpGet]
         public Dictionary<string, string[]> CombinationTypeComboParlay(
-            string betTeam,
-            string betCheck,
-            int handicap1,
-            int handicap2,
-            [FromUri]string[] languages)
+            string betTeam = null,
+            string betCheck = null,
+            int handicap1 = 0,
+            int handicap2 = 0,
+            [FromUri]string[] languages = null)
         {
             var combinationTypes = GetRefResult(
-                    (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0].ToString(), parameters[1].ToString(), (int)parameters[2], (int)parameters[3], language),
+                    (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0] as string, parameters[1] as string, (int)parameters[2], (int)parameters[3], language),
                     (refData) => refData.Any(item => !string.IsNullOrEmpty(item)),
                     languages,
                     betTeam,
@@ -203,10 +203,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> HorseTeamName(string codeId, [FromUri]string[] languages)
+        public Dictionary<string, string> HorseTeamName(string codeId = null, [FromUri]string[] languages = null)
         {
             var horseTeamNames = GetRefResult(
-                    (parameters, language) => _refData.GetHorseTeamName(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetHorseTeamName(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     codeId);
@@ -215,10 +215,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> CasinoBetItem(string itemId, [FromUri]string[] languages)
+        public Dictionary<string, string> CasinoBetItem(string itemId = null, [FromUri]string[] languages = null)
         {
             var casinoBetItems = GetRefResult(
-                    (parameters, language) => _refData.GetCasinoBetItem(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetCasinoBetItem(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     itemId);
@@ -227,10 +227,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> RouletteBetItem(string itemId, [FromUri]string[] languages)
+        public Dictionary<string, string> RouletteBetItem(string itemId = null, [FromUri]string[] languages = null)
         {
             var rouletteBetItems = GetRefResult(
-                    (parameters, language) => _refData.GetRouletteBetItem(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetRouletteBetItem(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     itemId);
@@ -239,11 +239,11 @@
         }
 
         [HttpGet]
-        public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId, [FromUri]string[] languages)
+        public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId = null, [FromUri]string[] languages = null)
         {
             Tuple<string, string> getKenoBetChoice(object[] parameters, string language)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0].ToString(), language, out string kenoBetTypeId);
+                var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0] as string, language, out string kenoBetTypeId);
 
                 return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
             }
@@ -258,10 +258,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> KenoBetType(string kenoBetTypeId, [FromUri]string[] languages)
+        public Dictionary<string, string> KenoBetType(string kenoBetTypeId = null, [FromUri]string[] languages = null)
         {
             var kenoBetTypes = GetRefResult(
-                    (parameters, language) => _refData.GetKenoBetType(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetKenoBetType(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     kenoBetTypeId);
@@ -270,12 +270,12 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> FastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, [FromUri]string[] languages)
+        public Dictionary<string, string> FastMarketsChoice(string betTypeId = null, string betTeam = null, int handicap1 = 0, int handicap2 = 0, [FromUri]string[] languages = null)
         {
             var fastMarketsChoices = GetRefResult(
                     (parameters, language) => _refData.GetFastMarketsChoice(
-                        parameters[0].ToString(),
-                        parameters[1].ToString(),
+                        parameters[0] as string,
+                        parameters[1] as string,
                         (int)parameters[2],
                         (int)parameters[3],
                         language),
@@ -290,10 +290,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> FastMarkets225Result(string resultId, [FromUri]string[] languages)
+        public Dictionary<string, string> FastMarkets225Result(string resultId = null, [FromUri]string[] languages = null)
         {
             var fastMarkets225Results = GetRefResult(
-                    (parameters, language) => _refData.GetFastMarkets225Result(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetFastMarkets225Result(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     resultId);
@@ -302,11 +302,11 @@
         }
 
         [HttpGet]
-        public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId, [FromUri]string[] languages)
+        public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId = null, [FromUri]string[] languages = null)
         {
             Tuple<string, string> getLotteryBetChoice(object[] parameters, string language)
             {
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0].ToString(), language, out string lotteryBetTypeID);
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0] as string, language, out string lotteryBetTypeID);
 
                 return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeID);
             }
@@ -321,10 +321,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> LotteryBetType(string betTypeId, [FromUri]string[] languages)
+        public Dictionary<string, string> LotteryBetType(string betTypeId = null, [FromUri]string[] languages = null)
         {
             var lotteryBetTypes = GetRefResult(
-                    (parameters, language) => _refData.GetLotteryBetType(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetLotteryBetType(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     betTypeId);
@@ -333,10 +333,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetRadarMatchCodeFormat(string matchCode, [FromUri]string[] languages)
+        public Dictionary<string, string> BetRadarMatchCodeFormat(string matchCode = null, [FromUri]string[] languages = null)
         {
             var refResult = GetRefResult(
-                    (parameters, language) => _refData.GetBetRadarMatchCodeFormat(parameters[0].ToString(), language),
+                    (parameters, language) => _refData.GetBetRadarMatchCodeFormat(parameters[0] as string, language),
                     IsValidRefData,
                     languages,
                     matchCode);
@@ -345,10 +345,10 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> DisplayedTypeId(string betTypeId)
+        public Dictionary<string, string> DisplayedTypeId(string betTypeId = null)
         {
             var refResult = GetRefResult(
-                    (parameters, _) => _refData.GetDisplayedTypeId(parameters[0].ToString()),
+                    (parameters, _) => _refData.GetDisplayedTypeId(parameters[0] as string),
                     IsValidRefData,
                     new[] { LanguageHelper.DefaultLanguage },
                     betTypeId);

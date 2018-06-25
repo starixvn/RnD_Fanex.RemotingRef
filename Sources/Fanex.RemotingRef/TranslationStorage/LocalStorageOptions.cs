@@ -7,7 +7,7 @@
         private int _numberOfEntriesLimit = 1000;
         private double _compactionPercentage = 0.1;
         private TimeSpan _slidingTimeout = TimeSpan.FromMinutes(10);
-        private TimeSpan _renewalTime = TimeSpan.FromSeconds(40);
+        private TimeSpan _renewalTime = TimeSpan.FromSeconds(5);
 
         public TimeSpan SlidingTimeout
         {

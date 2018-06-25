@@ -16,6 +16,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
         public MsgPackHttpClientHandler(Uri baseAddress)
         {
             _client.BaseAddress = baseAddress;
+            _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
         }
 
@@ -55,6 +56,8 @@ namespace Fanex.RemotingRef.Utilities.WebClient
             {
                 throw new ArgumentNullException(nameof(url));
             }
+
+            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
 
             return _client.PostAsync(url, content);
         }

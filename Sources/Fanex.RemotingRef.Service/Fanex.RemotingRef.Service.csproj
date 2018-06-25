@@ -127,6 +127,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RefController.cs" />
     <Compile Include="Controllers\RefSyncController.cs" />
+    <Compile Include="Filters\GlobalExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -135,6 +136,7 @@
     <Compile Include="Utilities\LanguageHelper.cs" />
     <Compile Include="Utilities\RefData\IRefDataHelper.cs" />
     <Compile Include="Utilities\RefData\RefDataHelper.cs" />
+    <Compile Include="Utilities\NullOrEmptyStringModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

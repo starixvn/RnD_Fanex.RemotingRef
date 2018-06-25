@@ -1,4 +1,6 @@
 ﻿#pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
+#pragma warning disable S3994 // URI Parameters should not be strings
+#pragma warning disable S3995 // URI Parameters should not be strings
 
 namespace Fanex.RemotingRef
 {
@@ -441,14 +443,7 @@ namespace Fanex.RemotingRef
         }
 
         private string GetTranslationText(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
-        {
-            if (keySet.Any(parameter => string.IsNullOrWhiteSpace(parameter.Value?.ToString())))
-            {
-                return string.Empty;
-            }
-
-            return GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
-        }
+            => GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
 
         private T GetTranslationObject<T>(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
         {
@@ -464,21 +459,8 @@ namespace Fanex.RemotingRef
         private TranslationSet RequestTranslation<T>(string path, KeySet parameters)
         {
             var result = new Dictionary<string, T>();
-            var requestUri = new StringBuilder($"{path}?");
-
-            foreach (var parameter in parameters)
-            {
-                requestUri.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
-            }
-
-            foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
-            {
-                requestUri.Append($"languages={language}&");
-            }
-
-            requestUri.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
-
-            var response = _client.GetAsync(requestUri.ToString()).GetAwaiter().GetResult();
+            var requestUrl = BuildRequestUrl(path, parameters);
+            var response = _client.GetAsync(requestUrl).GetAwaiter().GetResult();
 
             if (response.IsSuccessStatusCode)
             {
@@ -488,6 +470,28 @@ namespace Fanex.RemotingRef
             }
 
             return TranslationSet.FromDictionary(result);
+        }
+
+        private static string BuildRequestUrl(string path, KeySet parameters)
+        {
+            var requestUri = new StringBuilder($"{path}?");
+
+            foreach (var parameter in parameters)
+            {
+                if (parameter.Value != null)
+                {
+                    requestUri.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
+                }
+            }
+
+            foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
+            {
+                requestUri.Append($"languages={language}&");
+            }
+
+            requestUri.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
+
+            return requestUri.ToString();
         }
 
 #pragma warning disable S3216 // "ConfigureAwait(false)" should be used
