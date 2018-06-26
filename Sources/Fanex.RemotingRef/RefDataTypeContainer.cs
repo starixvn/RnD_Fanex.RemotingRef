@@ -2,26 +2,20 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
     using Fanex.RemotingRef.Delegates;
     using Fanex.RemotingRef.TranslationStorage;
 
     public class RefDataTypeContainer
     {
-        internal const string MimeType = "application/x-msgpack";
         private readonly ConcurrentDictionary<RefDataType, RefDataTypeHandlerOptions> _registeredDataTypeHandlerOptions;
         private readonly ConcurrentDictionary<RefDataType, IRefDataTypeHandler> _registeredDataTypeHandlers;
         private readonly Uri _remotingRefServiceUri;
-        private readonly HttpClient _httpClient = new HttpClient();
 
         private RefDataTypeContainer(Uri remotingRefServiceUri)
         {
             _registeredDataTypeHandlerOptions = new ConcurrentDictionary<RefDataType, RefDataTypeHandlerOptions>();
             _registeredDataTypeHandlers = new ConcurrentDictionary<RefDataType, IRefDataTypeHandler>();
             _remotingRefServiceUri = remotingRefServiceUri;
-            _httpClient.BaseAddress = remotingRefServiceUri;
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
 
             PreRegisterSpecialDataTypes();
         }
@@ -36,19 +30,6 @@
                 }
 
                 return CurrentInstance._remotingRefServiceUri;
-            }
-        }
-
-        public static HttpClient HttpClient
-        {
-            get
-            {
-                if (CurrentInstance == null)
-                {
-                    throw new InvalidOperationException($"Method '{nameof(RefDataTypeContainer.ConnectTo)}' has not been called.");
-                }
-
-                return CurrentInstance._httpClient;
             }
         }
 

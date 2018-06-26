@@ -41,19 +41,6 @@
             return httpResponseMessage;
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void GetBetTypeName_BetTypeIdIsNull_ReturnNull(string betTypeId)
-        {
-            // Act
-            var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US");
-
-            // Assert
-            Assert.Null(betTypeName);
-        }
-
         [Fact]
         public void GetBetTypeName_Always_GetBetTypeNameWithCorrectParamters()
         {
@@ -63,17 +50,6 @@
             // Assert
             const string expectedUrl = "api/ref/BetTypeName?betTypeId=1&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void GetBetTypeName_BetTypeIdIsNullOrWhiteSpace_ReturnNull(string betTypeId)
-        {
-            var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US", 100000000000);
-
-            Assert.Null(betTypeName);
         }
 
         [Fact]

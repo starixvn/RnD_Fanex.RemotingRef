@@ -474,24 +474,24 @@ namespace Fanex.RemotingRef
 
         private static string BuildRequestUrl(string path, KeySet parameters)
         {
-            var requestUri = new StringBuilder($"{path}?");
+            var urlBuilder = new StringBuilder($"{path}?");
 
             foreach (var parameter in parameters)
             {
                 if (parameter.Value != null)
                 {
-                    requestUri.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
+                    urlBuilder.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
                 }
             }
 
             foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
             {
-                requestUri.Append($"languages={language}&");
+                urlBuilder.Append($"languages={language}&");
             }
 
-            requestUri.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
+            urlBuilder.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
 
-            return requestUri.ToString();
+            return urlBuilder.ToString();
         }
 
 #pragma warning disable S3216 // "ConfigureAwait(false)" should be used

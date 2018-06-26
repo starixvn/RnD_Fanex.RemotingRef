@@ -217,12 +217,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\Fanex.RemotingRef\Fanex.RemotingRef.csproj">
-      <Project>{a9f53053-00f6-46a1-b981-115c6da2b9f3}</Project>
-      <Name>Fanex.RemotingRef</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Web.sit.config" />
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +237,12 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Web.local.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Fanex.RemotingRef\Fanex.RemotingRef.csproj">
+      <Project>{a9f53053-00f6-46a1-b981-115c6da2b9f3}</Project>
+      <Name>Fanex.RemotingRef</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

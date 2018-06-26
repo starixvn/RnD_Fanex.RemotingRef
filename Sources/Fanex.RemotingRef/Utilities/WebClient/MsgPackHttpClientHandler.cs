@@ -14,7 +14,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
 
         public MsgPackHttpClientHandler(HttpClient client = null)
         {
-            _client = client ?? RefDataTypeContainer.HttpClient;
+            _client = client ?? HttpClientManager.CreateHttpClient();
         }
 
         public HttpResponseMessage Get(string url)
@@ -54,7 +54,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
                 throw new ArgumentNullException(nameof(url));
             }
 
-            content.Headers.ContentType = new MediaTypeHeaderValue(RefDataTypeContainer.MimeType);
+            content.Headers.ContentType = new MediaTypeHeaderValue(HttpClientManager.MimeType);
 
             return _client.PostAsync(url, content);
         }
