@@ -28,7 +28,7 @@ namespace Fanex.RemotingRef
 
         internal RemotingRefService(IHttpHandler client, ISerializer serializer)
         {
-            _client = client ?? new MsgPackHttpClientHandler(RefDataTypeContainer.ServiceUri);
+            _client = client ?? new MsgPackHttpClientHandler();
             _serializer = serializer ?? new MessagePackSerializer();
         }
 

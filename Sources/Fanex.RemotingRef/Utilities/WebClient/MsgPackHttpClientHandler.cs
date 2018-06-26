@@ -10,14 +10,11 @@ namespace Fanex.RemotingRef.Utilities.WebClient
 
     public class MsgPackHttpClientHandler : IHttpHandler
     {
-        private const string MimeType = "application/x-msgpack";
-        private readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client;
 
-        public MsgPackHttpClientHandler(Uri baseAddress)
+        public MsgPackHttpClientHandler(HttpClient client = null)
         {
-            _client.BaseAddress = baseAddress;
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
+            _client = client ?? RefDataTypeContainer.HttpClient;
         }
 
         public HttpResponseMessage Get(string url)
@@ -57,7 +54,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
                 throw new ArgumentNullException(nameof(url));
             }
 
-            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
+            content.Headers.ContentType = new MediaTypeHeaderValue(RefDataTypeContainer.MimeType);
 
             return _client.PostAsync(url, content);
         }

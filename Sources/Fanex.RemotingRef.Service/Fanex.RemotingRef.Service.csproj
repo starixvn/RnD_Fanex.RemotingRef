@@ -128,6 +128,7 @@
     <Compile Include="Controllers\RefController.cs" />
     <Compile Include="Controllers\RefSyncController.cs" />
     <Compile Include="Filters\GlobalExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\InformationLogFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
