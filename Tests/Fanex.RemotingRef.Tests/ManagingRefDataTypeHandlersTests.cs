@@ -36,7 +36,7 @@
         public void NewFluentInstanceIsCreateOnceCallingConnectTo()
         {
             // Arrange.
-            var remotingRefServiceUri = new Uri("localhost:9999");
+            var remotingRefServiceUri = new Uri("http://localhost:9999");
 
             // Act.
             var fluentInstance = RefDataTypeContainer.ConnectTo(remotingRefServiceUri);
@@ -62,7 +62,7 @@
         public void RetrievingServiceUriReturnsUriPassedToConnectTo()
         {
             // Arrange.
-            var remotingRefServiceUri = new Uri("localhost:9999");
+            var remotingRefServiceUri = new Uri("http://localhost:9999");
 
             RefDataTypeContainer.ConnectTo(remotingRefServiceUri);
 
@@ -77,7 +77,7 @@
         public void TryResolveDataTypeHandlerAlwaysReturnsRefDataTypeHandlerForEveryRefDataType()
         {
             // Arrange.
-            RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.CountryName, _requestHandler, _syncHandler);
@@ -90,7 +90,7 @@
         public void TryResolveDataTypeHandleReturnsRegisteredRefDataTypeHandlerIfAny()
         {
             // Arrange.
-            RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
@@ -105,7 +105,7 @@
         public void TryResolveDataTypeHandleUsesPreConfiguredRefDataTypeHandlerOptionsIfAny()
         {
             // Arrange.
-            RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
@@ -120,7 +120,7 @@
         {
             // Arrange.
             RefDataTypeHandlerOptions options = null;
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             Exception exception = Record.Exception(() => fluentInstance.Register(RefDataType.CountryName, options));
@@ -133,7 +133,7 @@
         public void RegisterOverwritesDefaultConfiguredOptions()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var newOptions = new RefDataTypeHandlerOptions
@@ -153,7 +153,7 @@
         public void RegisterAddsOptionsToRegistedListIfNotExist()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var newOptions = new RefDataTypeHandlerOptions
@@ -173,7 +173,7 @@
         public void SupportMultiLanguagesTurnsOnIsMultiLanguagesSupportedOfRefDataTypeHandlerOptions()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             RefDataTypeHandlerOptions.IsMultiLanguagesSupported = false;
 
@@ -188,7 +188,7 @@
         public void SupportMultiLanguagesReturnsCurrentFluentInstance()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var returnedInstance = fluentInstance.SupportMultiLanguages();
@@ -201,7 +201,7 @@
         public void SupportOnlyDefaultLanguageTurnsOffIsMultiLanguagesSupportedOfRefDataTypeHandlerOptions()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             RefDataTypeHandlerOptions.IsMultiLanguagesSupported = true;
 
@@ -216,7 +216,7 @@
         public void SupportOnlyDefaultLanguageReturnsCurrentFluentInstance()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var returnedInstance = fluentInstance.SupportOnlyDefaultLanguage();
@@ -229,7 +229,7 @@
         public void RegisterApplicationNameOverwritesApplicationNameOfRefDataTypeHandlerOptions()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
             var applicationName = "an application name";
 
             // Act.
@@ -243,7 +243,7 @@
         public void RegisterApplicationNameReturnsCurrentFluentInstance()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var returnedInstance = fluentInstance.FromApplication("an application name");
@@ -256,7 +256,7 @@
         public void RegisterSupportedLanguagesOverwritesSupportedLanguageCodesOfRefDataTypeHandlerOptions()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
             var supportLanguages = new[] { "first", "second" };
 
             // Act.
@@ -270,7 +270,7 @@
         public void RegisterSupportedLanguagesReturnsCurrentFluentInstance()
         {
             // Arrange.
-            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("localhost:9999"));
+            var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
             var returnedInstance = fluentInstance.RegisterSupportedLanguages("first", "second");

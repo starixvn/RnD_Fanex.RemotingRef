@@ -58,19 +58,5 @@ namespace Fanex.RemotingRef.Utilities.WebClient
 
             return _client.PostAsync(url, content);
         }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_client != null)
-            {
-                _client.Dispose();
-            }
-        }
     }
 }

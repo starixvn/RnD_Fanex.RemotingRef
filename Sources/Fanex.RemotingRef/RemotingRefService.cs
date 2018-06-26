@@ -503,7 +503,8 @@ namespace Fanex.RemotingRef
             var formData = new ByteArrayContent(_serializer.Serialize(new
             {
                 ParameterSets = parameterSets,
-                Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes
+                Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes,
+                RefDataTypeHandlerOptions.ApplicationName
             }));
 
             var response = await _client.PostAsync(path, formData);
@@ -516,22 +517,19 @@ namespace Fanex.RemotingRef
             }
 
             return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
+
+            //// TODO: temporary disbale throw exception because this code run async, need more study here
+            //// throw new RemotingRefException(
+            ////    new Dictionary<string, object>
+            ////    {
+            ////        { "path", path },
+            ////        { "languages", string.Join(",", RefDataTypeHandlerOptions.SupportedLanguageCodes) },
+            ////        { "statusCode", response.StatusCode },
+            ////        { "failedReason", response.ReasonPhrase },
+            ////        { "parameterSets", string.Join("\r\n", parameterSets.Select(keySet => keySet.BuildKey())) },
+            ////    });
         }
 
 #pragma warning restore S3216 // "ConfigureAwait(false)" should be used
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_client != null)
-            {
-                _client.Dispose();
-            }
-        }
     }
 }

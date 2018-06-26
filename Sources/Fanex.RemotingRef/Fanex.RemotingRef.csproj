@@ -3,10 +3,11 @@
         <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
         <Description>RemotingRef client which works with RemotingRef API 2.0.</Description>
         <PackageTags>fanex.remotingref;remotingref</PackageTags>
-        <Version>1.0.0-beta-4</Version>
-        <PackageReleaseNotes></PackageReleaseNotes>
+        <Version>1.0.0-beta-5</Version>
+        <PackageReleaseNotes>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageReleaseNotes>
         <Copyright>Starixsoft - 2018</Copyright>
         <Company>Starixsoft</Company>
+        <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="MessagePack" Version="1.7.3.4" />

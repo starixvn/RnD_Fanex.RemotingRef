@@ -175,7 +175,7 @@
       <Version>1.1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Fanex.RemotingRef">
-      <Version>1.0.0-beta-4</Version>
+      <Version>1.0.0-beta-5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>

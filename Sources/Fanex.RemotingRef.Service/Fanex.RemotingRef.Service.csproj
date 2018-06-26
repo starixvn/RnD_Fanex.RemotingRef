@@ -125,10 +125,11 @@
     <Compile Include="App_Start\MessagePackFormatter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Configs\AppSettings.cs" />
     <Compile Include="Controllers\RefController.cs" />
     <Compile Include="Controllers\RefSyncController.cs" />
     <Compile Include="Filters\GlobalExceptionFilterAttribute.cs" />
-    <Compile Include="Filters\InformationLogFilterAttribute.cs" />
+    <Compile Include="Filters\TrackingRequestFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,6 +195,15 @@
     <None Include="Fanex.RemotingRef.Service.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Fanex.Logging">
+      <Version>1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Fanex.Logging.Extensions">
+      <Version>1.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Fanex.Logging.Extensions.Web">
+      <Version>1.0.6</Version>
+    </PackageReference>
     <PackageReference Include="MessagePack">
       <Version>1.7.3.4</Version>
     </PackageReference>

@@ -45,13 +45,13 @@
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void GetBetTypeName_BetTypeIdIsNull_ReturnEmptyString(string betTypeId)
+        public void GetBetTypeName_BetTypeIdIsNull_ReturnNull(string betTypeId)
         {
             // Act
             var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US");
 
             // Assert
-            Assert.Empty(betTypeName);
+            Assert.Null(betTypeName);
         }
 
         [Fact]
@@ -69,11 +69,11 @@
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void GetBetTypeName_BetTypeIdIsNullOrWhiteSpace_ReturnEmptyString(string betTypeId)
+        public void GetBetTypeName_BetTypeIdIsNullOrWhiteSpace_ReturnNull(string betTypeId)
         {
             var betTypeName = _remotingRefService.GetBetTypeName(betTypeId, "en-US", 100000000000);
 
-            Assert.Empty(betTypeName);
+            Assert.Null(betTypeName);
         }
 
         [Fact]

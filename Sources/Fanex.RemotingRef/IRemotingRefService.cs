@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IRemotingRefService : IDisposable
+    public interface IRemotingRefService
     {
         string GetBetTypeName(string betTypeId, string languageCode);
 

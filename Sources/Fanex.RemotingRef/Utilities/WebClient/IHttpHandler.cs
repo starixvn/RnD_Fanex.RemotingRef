@@ -6,7 +6,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
     using System.Net.Http;
     using System.Threading.Tasks;
 
-    public interface IHttpHandler : IDisposable
+    public interface IHttpHandler
     {
         HttpResponseMessage Get(string url);
 

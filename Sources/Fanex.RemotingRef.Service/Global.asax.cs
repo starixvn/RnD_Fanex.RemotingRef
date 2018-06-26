@@ -1,11 +1,10 @@
 ﻿namespace Fanex.RemotingRef.Service.MVC
 {
     using System;
-    using System.Globalization;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
-    using NLog;
+    using Fanex.Logging.Extensions.Web;
 
 #pragma warning disable SA1649 // File name must match first type name
 
@@ -19,13 +18,16 @@
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
         }
 
+#pragma warning disable RECS0154 // Parameter is never used
         protected void Application_Error(object sender, EventArgs e)
+#pragma warning restore RECS0154 // Parameter is never used
         {
-            Logger logger = LogManager.GetCurrentClassLogger();
-
-            logger.Error(CultureInfo.InvariantCulture, Server.GetLastError());
+            ExceptionHandler.Handle(Server.GetLastError());
         }
     }
 
