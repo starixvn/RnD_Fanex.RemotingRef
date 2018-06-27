@@ -86,7 +86,7 @@ namespace Fanex.RemotingRef
         }
 
         private string GetBetTypeName(KeySet keySet, string languageCode, string actionName = "BetTypeName")
-            => GetTranslationText(RefDataType.BetTypeName, actionName, keySet, languageCode);
+            => GetTranslationText(RefDataType.BetTypeName, actionName, keySet, languageCode) ?? string.Empty;
 
         public string GetSportName(string sportTypeId, string languageCode)
         {
@@ -95,7 +95,7 @@ namespace Fanex.RemotingRef
                 ["sportTypeId"] = sportTypeId
             };
 
-            return GetTranslationText(RefDataType.SportName, "sportName", keySet, languageCode);
+            return GetTranslationText(RefDataType.SportName, "sportName", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetSportName(string sportTypeId, string languageCode, string defaultValue)
@@ -112,7 +112,7 @@ namespace Fanex.RemotingRef
                 ["teamId"] = teamId
             };
 
-            return GetTranslationText(RefDataType.TeamName, "teamName", keySet, languageCode);
+            return GetTranslationText(RefDataType.TeamName, "teamName", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetTeamName(string teamId, string languageCode, string defaultValue)
@@ -129,7 +129,7 @@ namespace Fanex.RemotingRef
                 ["team3rdId"] = team3rdId
             };
 
-            return GetTranslationText(RefDataType.TeamName3rd, "teamName3rd", keySet, languageCode);
+            return GetTranslationText(RefDataType.TeamName3rd, "teamName3rd", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetTeamName3rd(string team3rdId, string languageCode, string defaultValue)
@@ -146,7 +146,7 @@ namespace Fanex.RemotingRef
                 ["leagueId"] = leagueId
             };
 
-            return GetTranslationText(RefDataType.LeagueName, "leagueName", keySet, languageCode);
+            return GetTranslationText(RefDataType.LeagueName, "leagueName", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetLeagueName(string leagueId, string languageCode, string defaultValue)
@@ -163,7 +163,7 @@ namespace Fanex.RemotingRef
                 ["league3rdId"] = league3rdId
             };
 
-            return GetTranslationText(RefDataType.LeagueName3rd, "leagueName3rd", keySet, languageCode);
+            return GetTranslationText(RefDataType.LeagueName3rd, "leagueName3rd", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetLeagueName3rd(string league3rdId, string languageCode, string defaultValue)
@@ -192,7 +192,7 @@ namespace Fanex.RemotingRef
                 ["oddsTypeId"] = oddsTypeId
             };
 
-            return GetTranslationText(RefDataType.OddsTypeName, "oddsTypeName", keySet, languageCode);
+            return GetTranslationText(RefDataType.OddsTypeName, "oddsTypeName", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetOddsTypeName(string oddsTypeId, string languageCode, string defaultValue)
@@ -242,7 +242,7 @@ namespace Fanex.RemotingRef
                 ["handicap2"] = handicap2,
             };
 
-            return handler.Get(keySet, null) as string[];
+            return handler.Get(keySet, languageCode) as string[];
         }
 
         public string GetHorseTeamName(string codeId, string languageCode, string defaultValue)
@@ -276,7 +276,7 @@ namespace Fanex.RemotingRef
                 ["itemId"] = itemId
             };
 
-            return GetTranslationText(RefDataType.RouletteBetItem, "rouletteBetItem", keySet, languageCode);
+            return GetTranslationText(RefDataType.RouletteBetItem, "rouletteBetItem", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetRouletteBetItem(string itemId, string languageCode, string defaultValue)
@@ -330,7 +330,7 @@ namespace Fanex.RemotingRef
                 ["kenoBetTypeId"] = kenoBetTypeId
             };
 
-            return GetTranslationText(RefDataType.KenoBetType, "kenoBetType", keySet, languageCode);
+            return GetTranslationText(RefDataType.KenoBetType, "kenoBetType", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetKenoBetType(string kenoBetTypeId, string languageCode, string defaultValue)
@@ -350,7 +350,7 @@ namespace Fanex.RemotingRef
                 ["handicap2"] = handicap2,
             };
 
-            return GetTranslationText(RefDataType.FastMarketsChoice, "fastMarketsChoice", keySet, languageCode);
+            return GetTranslationText(RefDataType.FastMarketsChoice, "fastMarketsChoice", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetFastMarkets225Result(string resultId, string languageCode)
@@ -360,7 +360,7 @@ namespace Fanex.RemotingRef
                 ["resultId"] = resultId
             };
 
-            return GetTranslationText(RefDataType.FastMarkets225Result, "fastMarkets225Result", keySet, languageCode);
+            return GetTranslationText(RefDataType.FastMarkets225Result, "fastMarkets225Result", keySet, languageCode) ?? string.Empty;
         }
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
@@ -407,7 +407,7 @@ namespace Fanex.RemotingRef
                 ["betTypeId"] = lotteryBetTypeId
             };
 
-            return GetTranslationText(RefDataType.LotteryBetType, "lotteryBetType", keySet, languageCode);
+            return GetTranslationText(RefDataType.LotteryBetType, "lotteryBetType", keySet, languageCode) ?? string.Empty;
         }
 
         public string GetLotteryBetType(string lotteryBetTypeId, string languageCode, string defaultValue)
@@ -425,13 +425,6 @@ namespace Fanex.RemotingRef
             };
 
             return GetTranslationText(RefDataType.BetRadarMatchCodeFormat, "betRadarMatchCodeFormat", keySet, languageCode);
-        }
-
-        public string GetBetRadarMatchCodeFormat(string matchCode, string languageCode, string defaultValue)
-        {
-            string betRadarMatchCodeFormat = GetBetRadarMatchCodeFormat(matchCode, languageCode);
-
-            return string.IsNullOrEmpty(betRadarMatchCodeFormat) ? defaultValue : betRadarMatchCodeFormat;
         }
 
         public string GetDisplayedTypeId(string betTypeId, string defaultValue)

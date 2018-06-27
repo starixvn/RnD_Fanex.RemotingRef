@@ -444,8 +444,8 @@
 
         [Theory]
         [InlineData("matchCodeFormat", "matchCodeFormat")]
-        [InlineData("", "defaultMatchCode")]
-        [InlineData(null, "defaultMatchCode")]
+        [InlineData("", "")]
+        [InlineData(null, null)]
         public void GetBetRadarMatchCodeFormat_WithDefaultValue_GetFormatWithCorrectParamters(string returnValue, string expectedMatchCodeFormat)
         {
             // Arrange
@@ -454,7 +454,7 @@
                 .Returns(new Dictionary<string, string> { { "en-US", returnValue } });
 
             // Act
-            var actualMatchCodeFormat = _remotingRefService.GetBetRadarMatchCodeFormat("1", "en-US", "defaultMatchCode");
+            var actualMatchCodeFormat = _remotingRefService.GetBetRadarMatchCodeFormat("1", "en-US");
 
             // Assert
             const string expectedUrl = "api/ref/betRadarMatchCodeFormat?matchCode=1&languages=en-US&applicationName=UnitTest_AppName";

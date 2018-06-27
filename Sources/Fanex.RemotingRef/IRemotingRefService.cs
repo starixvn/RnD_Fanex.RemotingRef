@@ -82,8 +82,6 @@
 
         string GetBetRadarMatchCodeFormat(string matchCode, string languageCode);
 
-        string GetBetRadarMatchCodeFormat(string matchCode, string languageCode, string defaultValue);
-
         string GetDisplayedTypeId(string betTypeId, string defaultValue);
     }
 }

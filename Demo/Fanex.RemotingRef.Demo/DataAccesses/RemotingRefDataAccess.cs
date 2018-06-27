@@ -296,7 +296,7 @@
 
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetBetRadarMatchCodeFormat(matchCode, languageCode, DefaultValue),
+                FanexRefNew = _remotingRefService.GetBetRadarMatchCodeFormat(matchCode, languageCode),
                 TaiwanRefOld = RefData.GetBetRadarMatchCodeFormat(matchCode, twLanguage),
                 TaiwanRefNew = _taiwanRefNew.GetBetRadarMatchCodeFormat(matchCode, twLanguage)
             };
