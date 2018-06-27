@@ -1,7 +1,5 @@
 ﻿namespace Fanex.RemotingRef
 {
-    using System;
-
     public interface IRemotingRefService
     {
         string GetBetTypeName(string betTypeId, string languageCode);

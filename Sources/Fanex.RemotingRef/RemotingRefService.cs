@@ -288,6 +288,15 @@ namespace Fanex.RemotingRef
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
 
+        public string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, string defaultValue, out string kenoBetTypeId)
+        {
+            var returnKenoBetTypeId = string.Empty;
+            var kenoBetChoice = GetKenoBetChoice(kenoBetChoiceId, languageCode, out returnKenoBetTypeId);
+            kenoBetTypeId = string.IsNullOrEmpty(returnKenoBetTypeId) ? defaultValue : returnKenoBetTypeId;
+
+            return string.IsNullOrEmpty(kenoBetChoice) ? defaultValue : kenoBetChoice;
+        }
+
         public string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, out string kenoBetTypeId)
         {
             var keySet = new KeySet
@@ -296,13 +305,6 @@ namespace Fanex.RemotingRef
             };
 
             return GetKenoBetChoice(keySet, languageCode, out kenoBetTypeId);
-        }
-
-        public string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, string defaultValue, out string kenoBetTypeId)
-        {
-            string kenoBetChoice = GetKenoBetChoice(kenoBetChoiceId, languageCode, out kenoBetTypeId);
-
-            return string.IsNullOrEmpty(kenoBetChoice) ? defaultValue : kenoBetChoice;
         }
 
         private string GetKenoBetChoice(KeySet keySet, string languageCode, out string kenoBetTypeId)
@@ -314,9 +316,9 @@ namespace Fanex.RemotingRef
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(RefSyncController + actionName, parameterSets));
             var kenoChoicesAndBetTypes = handler.Get(keySet, languageCode) as Tuple<string, string>;
 
-            kenoBetTypeId = kenoChoicesAndBetTypes.Item2;
+            kenoBetTypeId = kenoChoicesAndBetTypes?.Item2 ?? string.Empty;
 
-            return kenoChoicesAndBetTypes.Item1;
+            return kenoChoicesAndBetTypes?.Item1 ?? string.Empty;
         }
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
@@ -375,7 +377,9 @@ namespace Fanex.RemotingRef
 
         public string GetLotteryBetChoice(string lotteryBetChoiceId, string languageCode, string defaultValue, out string lotteryBetTypeId)
         {
-            string lotteryBetChoice = GetLotteryBetChoice(lotteryBetChoiceId, languageCode, out lotteryBetTypeId);
+            var returnLotteryBetTypeId = string.Empty;
+            var lotteryBetChoice = GetLotteryBetChoice(lotteryBetChoiceId, languageCode, out returnLotteryBetTypeId);
+            lotteryBetTypeId = string.IsNullOrEmpty(returnLotteryBetTypeId) ? defaultValue : returnLotteryBetTypeId;
 
             return string.IsNullOrEmpty(lotteryBetChoice) ? defaultValue : lotteryBetChoice;
         }
@@ -389,9 +393,9 @@ namespace Fanex.RemotingRef
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(RefSyncController + actionName, parameterSets));
             var lotteryChoicesAndBetTypes = handler.Get(keySet, languageCode) as Tuple<string, string>;
 
-            lotteryBetTypeId = lotteryChoicesAndBetTypes.Item2;
+            lotteryBetTypeId = lotteryChoicesAndBetTypes?.Item2 ?? string.Empty;
 
-            return lotteryChoicesAndBetTypes.Item1;
+            return lotteryChoicesAndBetTypes?.Item1 ?? string.Empty;
         }
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
