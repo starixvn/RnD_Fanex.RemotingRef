@@ -13,16 +13,18 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 1. After install NuGet package, in the *ConfigureServices* method of *Startup.cs*, connect to Service url and register the RemotingRefService
 
     ```csharp
-        RefDataTypeContainer.ConnectTo(new Uri(Configuration["Fanex.RemotingRef.Service.Url"]));
+        RefDataTypeContainer
+            .ConnectTo(new Uri(Configuration["Fanex.RemotingRef.Service.Url"]))
+            .FromApplication("Your Application Name");
         services.AddMvc();
         services.Configure<IConfiguration>(Configuration);
         services.AddSingleton<IRemotingRefService, RemotingRefService>();
     ```
 
-2. Configure RemotingRef Service url in *appsettings.json*
+2. Configure RemotingRef Service url in *appsettings.json*. Refer [here](#Fanex.RemotingRef.Service.Url) to get Fanex.RemotingRef.Service URL
     ```json
         {
-            "Fanex.RemotingRef.Service.Url": "http://10.19.10.144:9999/"
+            "Fanex.RemotingRef.Service.Url": "http://ha.nexdev.net:7258/Main/"
         }
     ```
 
@@ -49,10 +51,12 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 1. After install NuGet package, in the *Application_Start* method of *Global.asax.cs*, connect to Service url
 
     ```csharp
-        RefDataTypeContainer.ConnectTo(new Uri(ConfigurationManager.AppSettings["Fanex.RemotingRef.Service.Url"]));
+        RefDataTypeContainer
+            .ConnectTo(new Uri(ConfigurationManager.AppSettings["Fanex.RemotingRef.Service.Url"]))
+            .FromApplication("Your Application Name");
     ```
 
-2. Configure RemotingRef Service url in *web.config*
+2. Configure RemotingRef Service url in *web.config*.  Refer [here](#Fanex.RemotingRef.Service.Url) to get Fanex.RemotingRef.Service URL
     ```config
         <appSettings>
             <add key="Fanex.RemotingRef.Service.Url" value="http://ha.nexdev.net:7258/Main/" />
@@ -70,6 +74,15 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
             return betTypeName;
         }
     ```
+
+## Configuration Information
+
+### <a name="Fanex.RemotingRef.Service.Url"></a> Fanex.RemotingRef.Service URL
+- LOCAL: http://ha.nexdev.net:7258/Main/
+- SIT: not ready
+- UAT: http://10.40.40.73:7207/
+- PRO: http://10.40.40.47:7258/
+  
 
 ## Configuration & Customization
 
