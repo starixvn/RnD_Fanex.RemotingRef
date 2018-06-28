@@ -24,10 +24,7 @@
         {
             get
             {
-                if (CurrentInstance == null)
-                {
-                    throw new InvalidOperationException($"Method '{nameof(RefDataTypeContainer.ConnectTo)}' has not been called.");
-                }
+                VerifyConfiguration();
 
                 return CurrentInstance._remotingRefServiceUri;
             }
@@ -138,6 +135,21 @@
             }
 
             return this;
+        }
+
+        private static void VerifyConfiguration()
+        {
+            if (CurrentInstance == null)
+            {
+                throw new InvalidOperationException(
+                    $"URL to Fanex.RemotingRef.Service must be configured by calling '{nameof(RefDataTypeContainer.ConnectTo)}'.");
+            }
+
+            if (RefDataTypeHandlerOptions.ApplicationName == null)
+            {
+                throw new InvalidOperationException(
+                    $"Application must be provided via '{nameof(RefDataTypeContainer.FromApplication)}' for purpose of statistics.");
+            }
         }
     }
 }

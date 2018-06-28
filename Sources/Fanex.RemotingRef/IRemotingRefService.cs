@@ -32,6 +32,8 @@
 
         string GetLeagueName3rd(string league3rdId, string languageCode, string defaultValue);
 
+        string GetCountryName(string countryCode, string languageCode);
+
         string GetCountryName(string countryCode, string languageCode, string defaultValue);
 
         string GetOddsTypeName(string oddsTypeId, string languageCode);
@@ -44,7 +46,11 @@
 
         string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode);
 
+        string GetHorseTeamName(string codeId, string languageCode);
+
         string GetHorseTeamName(string codeId, string languageCode, string defaultValue);
+
+        string GetCasinoBetItem(string itemId, string languageCode);
 
         string GetCasinoBetItem(string itemId, string languageCode, string defaultValue);
 
