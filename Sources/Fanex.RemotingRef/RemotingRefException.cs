@@ -1,38 +1,58 @@
 ﻿namespace Fanex.RemotingRef
 {
     using System;
-    using System.Collections.Generic;
+    using System.Net;
+    using System.Runtime.Serialization;
+    using System.Security.Permissions;
     using System.Text;
 
-#pragma warning disable S3925 // "ISerializable" should be implemented correctly
-
+    [Serializable]
     public class RemotingRefException : Exception
-#pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
-        private readonly StringBuilder contentBuilder = new StringBuilder();
-
-        public RemotingRefException()
+        public RemotingRefException(
+            string request,
+            HttpStatusCode statusCode,
+            string failedReason)
+            : base(BuildMessage(request, statusCode, failedReason))
         {
+            Request = request;
+            StatusCode = statusCode;
+            FailedReason = failedReason;
         }
 
-        public RemotingRefException(string message)
-            : base(message)
+        protected RemotingRefException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
+            Request = info.GetString(nameof(Request));
+            StatusCode = (HttpStatusCode)info.GetInt32(nameof(StatusCode));
+            FailedReason = info.GetString(nameof(FailedReason));
         }
 
-        public RemotingRefException(string message, Exception innerException)
-            : base(message, innerException)
+        public string Request { get; }
+
+        public HttpStatusCode StatusCode { get; }
+
+        public string FailedReason { get; }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue(nameof(Request), Request);
+            info.AddValue(nameof(StatusCode), StatusCode);
+            info.AddValue(nameof(FailedReason), FailedReason);
+
+            base.GetObjectData(info, context);
         }
 
-        public RemotingRefException(IDictionary<string, object> parameters)
-        {
-            foreach (var param in parameters)
-            {
-                contentBuilder.AppendLine($"\t{param.Key}: {param.Value}");
-            }
-        }
-
-        public override string ToString() => $"{contentBuilder.ToString()} \r\n {base.ToString()}";
+        private static string BuildMessage(
+            string request,
+            HttpStatusCode statusCode,
+            string failedReason)
+            => new StringBuilder()
+                .AppendLine("Failed to send request to Fanex.RemotingRef.Service:")
+                .AppendLine($"\tRequest URL: '{request}'")
+                .AppendLine($"\tResponse's Status Code: {statusCode}")
+                .AppendLine($"\tReason: {failedReason}")
+                .ToString();
     }
 }

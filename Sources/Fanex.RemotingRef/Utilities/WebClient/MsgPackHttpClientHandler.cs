@@ -10,11 +10,32 @@ namespace Fanex.RemotingRef.Utilities.WebClient
 
     public class MsgPackHttpClientHandler : IHttpHandler
     {
-        private readonly HttpClient _client;
+        internal const string MimeType = "application/x-msgpack";
 
-        public MsgPackHttpClientHandler(HttpClient client = null)
+        private static readonly object _syncRoot = new object();
+        private static HttpClient _client;
+
+        internal static HttpClient Client => CreateHttpClient();
+
+        private static HttpClient CreateHttpClient()
         {
-            _client = client ?? HttpClientManager.CreateHttpClient();
+            if (_client == null)
+            {
+                lock (_syncRoot)
+                {
+                    if (_client == null)
+                    {
+                        _client = new HttpClient
+                        {
+                            BaseAddress = RefDataTypeContainer.ServiceUri
+                        };
+
+                        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
+                    }
+                }
+            }
+
+            return _client;
         }
 
         public HttpResponseMessage Get(string url)
@@ -44,7 +65,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
                 throw new ArgumentNullException(nameof(url));
             }
 
-            return _client.GetAsync(url);
+            return Client.GetAsync(url);
         }
 
         public Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
@@ -54,9 +75,9 @@ namespace Fanex.RemotingRef.Utilities.WebClient
                 throw new ArgumentNullException(nameof(url));
             }
 
-            content.Headers.ContentType = new MediaTypeHeaderValue(HttpClientManager.MimeType);
+            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
 
-            return _client.PostAsync(url, content);
+            return Client.PostAsync(url, content);
         }
     }
 }

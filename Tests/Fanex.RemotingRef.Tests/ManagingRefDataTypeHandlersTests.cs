@@ -253,6 +253,19 @@
         }
 
         [Fact]
+        public void RetrievingServiceUriBeforeRegisteringApplicationNameThrowsInvalidOperationException()
+        {
+            // Arrange.
+            RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
+
+            // Act.
+            Exception exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
+
+            // Assert.
+            Assert.IsType<InvalidOperationException>(exception);
+        }
+
+        [Fact]
         public void RegisterSupportedLanguagesOverwritesSupportedLanguageCodesOfRefDataTypeHandlerOptions()
         {
             // Arrange.
