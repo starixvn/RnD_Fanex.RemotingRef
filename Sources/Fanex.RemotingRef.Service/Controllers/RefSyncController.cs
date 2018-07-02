@@ -76,7 +76,7 @@
                            parameterSet["betTypeId"].ToString(),
                            LanguageHelper.GenerateTaiwanLanguage(language),
                            parameterSet["resourceId"].ToString(),
-                            (long)parameterSet["refNo"]));
+                           (long)parameterSet["refNo"]));
                 }
             }
 
@@ -237,7 +237,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> KenoBetChoice([FromBody] RequestSyncFormData data)
         {
-            Tuple<string, string> getKenoBetChoice(Dictionary<string, object> parameter, string language)
+            Tuple<string, string> GetKenoBetChoice(Dictionary<string, object> parameter, string language)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(
                         parameter["kenoBetChoiceId"].ToString(),
@@ -249,7 +249,7 @@
 
             var kenoBetChoiceSet = GetRefResultSet(
                  data,
-                 getRefData: getKenoBetChoice,
+                 getRefData: GetKenoBetChoice,
                  isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return kenoBetChoiceSet;
@@ -284,7 +284,7 @@
         [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> LotteryBetChoice([FromBody]RequestSyncFormData data)
         {
-            Tuple<string, string> getLotteryBetChoice(Dictionary<string, object> parameter, string language)
+            Tuple<string, string> GetLotteryBetChoice(Dictionary<string, object> parameter, string language)
             {
                 var lotteryBetChoice = _refData.GetLotteryBetChoice(
                         parameter["betChoiceId"].ToString(),
@@ -296,7 +296,7 @@
 
             var lotteryBetChoiceSet = GetRefResultSet(
                   data,
-                  getRefData: getLotteryBetChoice,
+                  getRefData: GetLotteryBetChoice,
                   isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
 
             return lotteryBetChoiceSet;

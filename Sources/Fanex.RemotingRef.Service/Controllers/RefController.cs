@@ -241,7 +241,7 @@
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> KenoBetChoice(string kenoBetChoiceId = null, [FromUri]string[] languages = null)
         {
-            Tuple<string, string> getKenoBetChoice(object[] parameters, string language)
+            Tuple<string, string> GetKenoBetChoice(object[] parameters, string language)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(parameters[0] as string, language, out string kenoBetTypeId);
 
@@ -249,7 +249,7 @@
             }
 
             var kenoBetChoices = GetRefResult(
-                    getKenoBetChoice,
+                    GetKenoBetChoice,
                     (refData) => !string.IsNullOrEmpty(refData.Item1),
                     languages,
                     kenoBetChoiceId);
@@ -304,7 +304,7 @@
         [HttpGet]
         public Dictionary<string, Tuple<string, string>> LotteryBetChoice(string betChoiceId = null, [FromUri]string[] languages = null)
         {
-            Tuple<string, string> getLotteryBetChoice(object[] parameters, string language)
+            Tuple<string, string> GetLotteryBetChoice(object[] parameters, string language)
             {
                 var lotteryBetChoice = _refData.GetLotteryBetChoice(parameters[0] as string, language, out string lotteryBetTypeID);
 
@@ -312,7 +312,7 @@
             }
 
             var lotteryBetChoices = GetRefResult(
-                    getLotteryBetChoice,
+                    GetLotteryBetChoice,
                     (refData) => !string.IsNullOrEmpty(refData.Item1),
                     languages,
                     betChoiceId);
