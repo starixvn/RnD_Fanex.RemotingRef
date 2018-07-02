@@ -3,21 +3,20 @@
 
 namespace Fanex.RemotingRef.Utilities.WebClient
 {
-    using System;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
-    public class MsgPackHttpClientHandler : IHttpHandler
+    internal class MsgPackHttpClientHandler : IHttpHandler
     {
-        internal const string MimeType = "application/x-msgpack";
+        public const string MimeType = "application/x-msgpack";
 
         private static readonly object _syncRoot = new object();
         private static HttpClient _client;
 
-        internal static HttpClient Client => CreateHttpClient();
+        public static HttpClient Client => GetHttpClient();
 
-        private static HttpClient CreateHttpClient()
+        private static HttpClient GetHttpClient()
         {
             if (_client == null)
             {
@@ -39,42 +38,16 @@ namespace Fanex.RemotingRef.Utilities.WebClient
         }
 
         public HttpResponseMessage Get(string url)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
-            return GetAsync(url).Result;
-        }
+            => GetAsync(url).Result;
 
         public HttpResponseMessage Post(string url, HttpContent content)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
-            return PostAsync(url, content).Result;
-        }
+            => PostAsync(url, content).Result;
 
         public Task<HttpResponseMessage> GetAsync(string url)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
-            return Client.GetAsync(url);
-        }
+            => Client.GetAsync(url);
 
         public Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
         {
-            if (string.IsNullOrEmpty(url))
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
             content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
 
             return Client.PostAsync(url, content);

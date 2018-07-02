@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Net;
     using System.Net.Http;
     using Fanex.RemotingRef.Utilities.Serialization;
     using Fanex.RemotingRef.Utilities.WebClient;
@@ -235,6 +236,17 @@
         }
 
         [Fact]
+        public void GetCountryName_WithoutDefaultValue_GetBetTypeNameWithCorrectParamters()
+        {
+            // Act
+            _remotingRefService.GetCountryName("1", "en-US");
+
+            // Assert
+            const string expectedUrl = "api/ref/countryName?countryCode=1&languages=en-US&applicationName=UnitTest_AppName";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+        }
+
+        [Fact]
         public void GetCountryName_WithDefaultValue_GetBetTypeNameWithCorrectParamters()
         {
             // Act
@@ -297,7 +309,18 @@
         }
 
         [Fact]
-        public void GetHorseTeamName_Always_GetHorseTeamNameWithCorrectParamters()
+        public void GetHorseTeamName_WithoutDefaultValue_GetHorseTeamNameWithCorrectParamters()
+        {
+            // Act
+            _remotingRefService.GetHorseTeamName("1", "en-US");
+
+            // Assert
+            const string expectedUrl = "api/ref/horseTeamName?codeId=1&languages=en-US&applicationName=UnitTest_AppName";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+        }
+
+        [Fact]
+        public void GetHorseTeamName_WithDefaultValue_GetHorseTeamNameWithCorrectParamters()
         {
             // Act
             var horseTeamName = _remotingRefService.GetHorseTeamName("1", "en-US", "horseTeamName");
@@ -306,6 +329,17 @@
             const string expectedUrl = "api/ref/horseTeamName?codeId=1&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("horseTeamName", horseTeamName);
+        }
+
+        [Fact]
+        public void GetCasinoBetItem_WithoutDefaultValue_GetBetTypeNameWithCorrectParamters()
+        {
+            // Act
+            _remotingRefService.GetCasinoBetItem("1", "en-US");
+
+            // Assert
+            const string expectedUrl = "api/ref/casinoBetItem?itemId=1&languages=en-US&applicationName=UnitTest_AppName";
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
@@ -352,7 +386,7 @@
 
         [Theory]
         [InlineData("betType", "betType")]
-        [InlineData("", "kenoBetType")]
+        [InlineData("", "")]
         [InlineData(null, "kenoBetType")]
         public void GetKenoBetType_WithDefaultValue_GetBetTypeNameWithCorrectParamters(string returnValue, string expectedValue)
         {
@@ -424,7 +458,7 @@
 
         [Theory]
         [InlineData("betType", "betType")]
-        [InlineData("", "lotteryBetType")]
+        [InlineData("", "")]
         [InlineData(null, "lotteryBetType")]
         public void GetLotteryBetType_WithDefaultValue_GetBetTypeNameWithCorrectParamters(string returnValue, string expectedValue)
         {
@@ -472,6 +506,29 @@
             const string expectedUrl = "api/ref/displayedTypeId?betTypeId=1&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
             Assert.Equal("betType", betType);
+        }
+
+        [Fact]
+        public void RequestTranslation_ResponseIsUnsuccessful_ThrowRemotingRefException()
+        {
+            // Arrange
+            var failedReason = "InternalError";
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                ReasonPhrase = failedReason
+            };
+            _httpClient.GetAsync(Arg.Any<string>()).Returns(httpResponseMessage);
+
+            // Act
+            var exception = Record.Exception(() => _remotingRefService.GetBetTypeName("1", "en-US"));
+
+            // Assert
+            const string expectedUrl = "api/ref/BetTypeName?betTypeId=1&languages=en-US&applicationName=UnitTest_AppName";
+            var remotingRefException = exception as RemotingRefException;
+            Assert.IsType<RemotingRefException>(exception);
+            Assert.Equal(expectedUrl, remotingRefException.Request);
+            Assert.Equal(HttpStatusCode.InternalServerError, remotingRefException.StatusCode);
+            Assert.Equal(failedReason, remotingRefException.FailedReason);
         }
     }
 }
