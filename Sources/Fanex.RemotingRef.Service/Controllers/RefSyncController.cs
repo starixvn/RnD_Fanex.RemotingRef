@@ -108,7 +108,7 @@
         {
             var teamName3rdSet = GetRefResultSet(
                     data,
-                    (parameter, language) => _refData.GetTeamName(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                    (parameter, language) => _refData.GetTeamName3rd(parameter["team3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return teamName3rdSet;
         }
@@ -128,7 +128,7 @@
         {
             var leagueName3rdSet = GetRefResultSet(
                     data,
-                    (parameter, language) => _refData.GetLeagueName(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
+                    (parameter, language) => _refData.GetLeagueName3rd(parameter["league3rdId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return leagueName3rdSet;
         }
