@@ -32,7 +32,7 @@
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.
-            Exception exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
+            var exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -47,7 +47,7 @@
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.
-            Exception exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
+            var exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -60,7 +60,7 @@
             string key = null;
 
             // Act.
-            Exception exception = Record.Exception(() => _storage.TryGet(key, out _));
+            var exception = Record.Exception(() => _storage.TryGet(key, out _));
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -72,12 +72,12 @@
         public void ObjectDisposedExceptionIsThrownIfTryGetOrAddIsCalledAfterDisposingStorage()
         {
             // Arrange.
-            var key = "someKey";
+            var key = InstanceCreator.CreateKey();
 
             _storage.Dispose();
 
             // Act.
-            Exception exception = Record.Exception(() => _storage.TryGet(key, out _));
+            var exception = Record.Exception(() => _storage.TryGet(key, out _));
 
             // Assert.
             Assert.IsType<ObjectDisposedException>(exception);
@@ -89,10 +89,10 @@
         public void TryGetMissingKeyReturnsFalse()
         {
             // Arrange.
-            var key = "missingKey";
+            var missingKey = InstanceCreator.CreateKey();
 
             // Act.
-            bool found = _storage.TryGet(key, out _);
+            var found = _storage.TryGet(missingKey, out _);
 
             // Assert.
             Assert.False(found);
@@ -102,10 +102,10 @@
         public void TryGetMissingKeyReturnsNullAsOutput()
         {
             // Arrange.
-            var key = "missingKey";
+            var missingKey = InstanceCreator.CreateKey();
 
             // Act.
-            _storage.TryGet(key, out CacheEntry result);
+            _storage.TryGet(missingKey, out CacheEntry result);
 
             // Assert.
             Assert.Null(result);
@@ -115,30 +115,26 @@
         public void TryGetCanPickObjectStoredByAdd()
         {
             // Arrange.
-            var cacheEntry = CreateCacheEntry();
-            var key = cacheEntry.Key;
-
-            _storage.Add(cacheEntry);
+            var (key, entry) = _storage.AddCacheEntry();
 
             // Act.
-            bool found = _storage.TryGet(key, out CacheEntry result);
+            var found = _storage.TryGet(key, out CacheEntry result);
 
             // Assert.
             Assert.True(found);
-            Assert.Same(cacheEntry, result);
+            Assert.Same(entry, result);
         }
 
         [Fact]
         public void AddAndTryGetDoNotWorkWithCaseInsensitiveKeys()
         {
             // Arrange.
-            var key = "uniqueKey";
-            var cacheEntry = CreateCacheEntry(key);
+            var (key, entry) = _storage.CreateCacheEntry();
 
             // Act.
-            _storage.Add(cacheEntry);
+            _storage.Add(entry);
 
-            bool found = _storage.TryGet(key.ToUpperInvariant(), out CacheEntry result);
+            var found = _storage.TryGet(key.ToUpperInvariant(), out CacheEntry result);
 
             // Assert.
             Assert.False(found);
@@ -149,69 +145,31 @@
         public void AddAlwaysOverwritesExistingCacheEntry()
         {
             // Arrange.
-            var key = "uniqueKey";
-            var cacheEntry = CreateCacheEntry(key);
-            var newCacheEntry = CreateCacheEntry(key);
+            var (key, entry) = _storage.AddCacheEntry();
+            var newEntry = _storage.CloneCacheEntry(entry);
 
             // Act.
-            _storage.Add(cacheEntry);
-            _storage.Add(newCacheEntry);
+            _storage.Add(newEntry);
 
             // Assert.
             _storage.TryGet(key, out CacheEntry result);
-            Assert.Same(newCacheEntry, result);
+            Assert.Same(newEntry, result);
         }
 
         [Fact]
-        public void TryGetAndAddAreThreadSafe()
+        public void TryGetAndAddOneSpecificKeyAreThreadSafe()
         {
             // Arrange.
-            var key = "uniqueKey";
-            var cacheEntry = CreateCacheEntry(key);
-            var newCacheEntry = CreateCacheEntry(key);
+            var (keySet, key) = InstanceCreator.CreateKeySet();
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
 
             // Act.
-            var firstTask = Task.Run(
-                () =>
-                {
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        _storage.Add(cacheEntry);
-                    }
-                },
-                cancellationToken);
+            var firstTask = Task.Run(() => AddOneSpecificKey(keySet, cancellationToken), cancellationToken);
+            var secondTask = Task.Run(() => TryOneSpecificKey(key, cancellationToken), cancellationToken);
+            var thirdTask = Task.Run(() => cancellationTokenSource.CancelAfter(TimeSpan.FromMilliseconds(50)), cancellationToken);
 
-            var secondTask = Task.Run(
-                () =>
-                {
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        _storage.Add(newCacheEntry);
-                    }
-                },
-                cancellationToken);
-
-            var thirdTask = Task.Run(
-                () =>
-                {
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        _storage.TryGet(key, out _);
-                    }
-                },
-                cancellationToken);
-
-            var forthTask = Task.Run(
-                async () =>
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    cancellationTokenSource.Cancel();
-                },
-                cancellationToken);
-
-            Task.WaitAll(firstTask, secondTask, thirdTask, forthTask);
+            Task.WaitAll(firstTask, secondTask, thirdTask);
             cancellationTokenSource.Dispose();
 
             // Assert.
@@ -220,15 +178,63 @@
             Assert.Equal(TaskStatus.RanToCompletion, thirdTask.Status);
         }
 
-        private CacheEntry CreateCacheEntry(string expectedKey = null)
+        private void AddOneSpecificKey(KeySet keySet, CancellationToken cancellationToken)
         {
-            var keySet = new KeySet
+            while (!cancellationToken.IsCancellationRequested)
             {
-                ["Key"] = "Value"
-            };
-            var key = expectedKey ?? keySet.BuildKey();
+                var entry = _storage.CreateEntry(keySet.BuildKey(), keySet, InstanceCreator.CreateTranslationSet());
 
-            return _storage.CreateEntry(key, keySet, TranslationSet.FromDictionary(new Dictionary<string, string>()));
+                _storage.Add(entry);
+            }
+        }
+
+        private void TryOneSpecificKey(string key, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                _storage.TryGet(key, out _);
+            }
+        }
+
+        [Fact]
+        public void TryGetAndAddRandomKeysAreThreadSafe()
+        {
+            // Arrange.
+            var cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSource.Token;
+
+            // Act.
+            var firstTask = Task.Run(() => AddRandomKey(cancellationToken), cancellationToken);
+            var secondTask = Task.Run(() => AddRandomKey(cancellationToken), cancellationToken);
+            var thirdTask = Task.Run(() => TryGetRandomKey(cancellationToken), cancellationToken);
+            var forthTask = Task.Run(() => cancellationTokenSource.CancelAfter(TimeSpan.FromMilliseconds(50)), cancellationToken);
+
+            Task.WaitAll(firstTask, secondTask, thirdTask, forthTask);
+            cancellationTokenSource.Dispose();
+
+            // Assert.
+            Assert.Equal(TaskStatus.RanToCompletion, firstTask.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, secondTask.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, thirdTask.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, forthTask.Status);
+        }
+
+        private void AddRandomKey(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                _storage.AddRandomCacheEntry();
+            }
+        }
+
+        private void TryGetRandomKey(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var (_, key) = InstanceCreator.CreateRandomKeySet();
+
+                _storage.TryGet(key, out _);
+            }
         }
 
         public void Dispose()

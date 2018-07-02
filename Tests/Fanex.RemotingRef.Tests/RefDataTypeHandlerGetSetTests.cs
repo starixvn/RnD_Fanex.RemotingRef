@@ -12,8 +12,11 @@
 
         private readonly IRefDataTypeHandler _handler;
         private readonly RefDataTypeHandlerOptions _options;
-        private readonly KeySet _keySet;
         private readonly TranslationSet _predefinedTranslationSet;
+
+#pragma warning disable S3459 // Unassigned members should be removed
+        private readonly KeySet _keySet;
+#pragma warning restore S3459 // Unassigned members should be removed
 
         private LocalStorage _storage;
 
@@ -28,11 +31,7 @@
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
             _options.RequestHandler = (parameters) => _predefinedTranslationSet;
-
-            _keySet = new KeySet
-            {
-                ["Key"] = "Value"
-            };
+            (_keySet, _) = InstanceCreator.CreateKeySet();
         }
 
         [Fact]
@@ -51,15 +50,10 @@
         public void ReturningNullRequestHandlerMakesGetReturnNull()
         {
             // Arrange.
-            var unexistingKeySet = new KeySet
-            {
-                ["UnexistingTranslation"] = "UnexistingTranslation"
-            };
-
             _options.RequestHandler = (parameters) => null;
 
             // Act.
-            var actualResult = _handler.Get(unexistingKeySet, TestingLanguageCode);
+            var actualResult = _handler.Get(_keySet, TestingLanguageCode);
 
             // Assert.
             Assert.Null(actualResult);

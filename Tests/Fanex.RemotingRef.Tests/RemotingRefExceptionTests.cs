@@ -1,6 +1,5 @@
 ﻿namespace Fanex.RemotingRef.Tests
 {
-    using System;
     using System.IO;
     using System.Net;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -25,33 +24,33 @@
         }
 
         [Fact]
-        public void SerializeException_Always_NotThrowException()
+        public void SerializeExceptionAlwaysDoesNotThrowException()
         {
             // Act.
-            Exception unexpectedException = Record.Exception(() => SerializeException(_exception));
+            var unexpectedException = Record.Exception(() => SerializeException(_exception));
 
             // Assert.
             Assert.Null(unexpectedException);
         }
 
         [Fact]
-        public void SerializeException_Always_BeSuccessful()
+        public void SerializeExceptionReturnsArrayOfBytes()
         {
             // Act.
-            byte[] actualResult = SerializeException(_exception);
+            var actualResult = SerializeException(_exception);
 
             // Assert.
             Assert.NotEmpty(actualResult);
         }
 
         [Fact]
-        public void SerializeAndDeserializeException_Always_ReturnOriginalExceptionAfterDeserializing()
+        public void SerializeThenDeserializeAnExceptionAlwaysReturnOriginalException()
         {
             // Act.
-            byte[] serializedException = SerializeException(_exception);
+            var serializedException = SerializeException(_exception);
 
             // Assert.
-            RemotingRefException deserializedException = DeserializeException(serializedException);
+            var deserializedException = DeserializeException(serializedException);
 
             Assert.Equal(_request, deserializedException.Request);
             Assert.Equal(_statusCode, deserializedException.StatusCode);

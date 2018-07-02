@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests.TranslationStorage
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using Fanex.RemotingRef.Tests.Mocks;
     using Fanex.RemotingRef.TranslationStorage;
@@ -60,8 +59,7 @@
         public void KeysExpireInBackground()
         {
             // Arrange.
-            var key = "myKey";
-            var entry = CreateCacheEntry(key);
+            var (key, entry) = _storage.CreateCacheEntry();
             var callbackInvoked = new ManualResetEventSlim(false);
 
             entry.PostEvictionCallback = callbackInvoked.Set;
@@ -69,11 +67,15 @@
 
             // Act.
             // Background expiration checks are triggered when TryGet is called no matter what the key is.
+            var anyKey = InstanceCreator.CreateKey();
+
             _clock.Add(TimeSpan.FromMinutes(20));
-            _storage.TryGet("otherKey", out _);
+            _storage.TryGet(anyKey, out _);
 
             // Assert.
-            Assert.True(callbackInvoked.Wait(TimeSpan.FromSeconds(30)));
+            var waitingTime = TimeSpan.FromSeconds(30);
+
+            Assert.True(callbackInvoked.Wait(waitingTime));
             Assert.False(_storage.TryGet(key, out _));
         }
 
@@ -81,12 +83,8 @@
         public void KeyExpiresIfNotBeingTouched()
         {
             // Arrange.
-            var key = "myKey";
-            var entry = CreateCacheEntry(key);
-            bool found;
-
-            _storage.Add(entry);
-            found = _storage.TryGet(key, out CacheEntry addedEntry);
+            var (key, entry) = _storage.AddCacheEntry();
+            bool found = _storage.TryGet(key, out CacheEntry addedEntry);
 
             Assert.True(found);
             Assert.Same(entry, addedEntry);
@@ -104,10 +102,7 @@
         public void KeyIsRenewedOnceBeingTouched()
         {
             // Arrange.
-            var key = "myKey";
-            var entry = CreateCacheEntry(key);
-
-            _storage.Add(entry);
+            var (key, entry) = _storage.AddCacheEntry();
 
             // Act - touched after 5 seconds.
             _clock.Add(TimeSpan.FromSeconds(5));
@@ -126,28 +121,16 @@
         public void AddExpiredCacheEntryMatchingWithExistingKeyRemovesTheExistingCacheEntry()
         {
             // Arrange.
-            var key = "uniqueKey";
-            var cacheEntry = CreateCacheEntry(key);
-            var newCacheEntry = CreateCacheEntry(key);
+            var (key, firstEntry) = _storage.AddCacheEntry();
 
             // Act.
-            _storage.Add(cacheEntry);
+            var secondEntry = _storage.CloneCacheEntry(firstEntry);
+
             _clock.Add(TimeSpan.FromSeconds(30));
-            _storage.Add(newCacheEntry);
+            _storage.Add(secondEntry);
 
             // Assert.
             Assert.False(_storage.TryGet(key, out _));
-        }
-
-        private CacheEntry CreateCacheEntry(string expectedKey)
-        {
-            var keySet = new KeySet
-            {
-                ["StupidKey"] = "StupidValue"
-            };
-            var key = expectedKey;
-
-            return _storage.CreateEntry(key, keySet, TranslationSet.FromDictionary(new Dictionary<string, string>()));
         }
 
         public void Dispose()

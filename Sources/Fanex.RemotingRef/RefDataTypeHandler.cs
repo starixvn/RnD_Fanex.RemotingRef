@@ -21,7 +21,7 @@
         public object Get(KeySet keySet, string languageCode)
         {
             object result = null;
-            string key = keySet.BuildKey();
+            var key = keySet.BuildKey();
 
             if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
             {
@@ -34,11 +34,11 @@
             }
             else
             {
-                TranslationSet newTranslationSet = Options.RequestHandler(keySet);
+                var newTranslationSet = Options.RequestHandler(keySet);
 
                 if (newTranslationSet != null)
                 {
-                    CacheEntry newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
+                    var newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
 
                     _localStorage.Add(newEntry);
                     result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
@@ -50,7 +50,7 @@
 
         private static object GetTranslationInSpecificLanguage(TranslationSet translations, string languageCode)
         {
-            string retrievingLanguageCode = string.IsNullOrEmpty(languageCode) ? RefDataTypeHandlerOptions.DefaultLanguage : languageCode;
+            var retrievingLanguageCode = string.IsNullOrEmpty(languageCode) ? RefDataTypeHandlerOptions.DefaultLanguage : languageCode;
 
             if (translations.ContainsKey(retrievingLanguageCode))
             {
@@ -70,12 +70,12 @@
 
         internal async Task SyncCachedDataAsync(CacheEntry rootEntry)
         {
-            IList<CacheEntry> batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
+            var batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
 
             batch.Add(rootEntry);
 
-            IList<KeySet> parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
-            IDictionary<string, TranslationSet> results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
+            var parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
+            var results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
 
             if (results != null && results.Count > 0)
             {
@@ -89,17 +89,17 @@
 
         private void UpdateDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
         {
-            foreach (CacheEntry entry in existingEntries)
+            foreach (var entry in existingEntries)
             {
-                string key = entry.Key;
+                var key = entry.Key;
 
                 if (!_localStorage.IsExpired(entry) && newEntryMaps.ContainsKey(key))
                 {
-                    TranslationSet newTranslationSet = newEntryMaps[key];
+                    var newTranslationSet = newEntryMaps[key];
 
                     if (newTranslationSet != null)
                     {
-                        CacheEntry updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newTranslationSet);
+                        var updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newTranslationSet);
 
                         _localStorage.Add(updatedEntry);
                     }
@@ -113,7 +113,7 @@
 
         private static void ReleaseRenewingLocks(IList<CacheEntry> lockedEntries)
         {
-            foreach (CacheEntry lockedEntry in lockedEntries)
+            foreach (var lockedEntry in lockedEntries)
             {
                 lockedEntry.ReleaseRenewingLock();
             }

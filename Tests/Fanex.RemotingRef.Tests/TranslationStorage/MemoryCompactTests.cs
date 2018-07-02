@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests.TranslationStorage
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Fanex.RemotingRef.Tests.Mocks;
     using Fanex.RemotingRef.TranslationStorage;
@@ -28,7 +27,7 @@
             var negativeCompactionPercentage = -0.1;
 
             // Act.
-            Exception exception = Record.Exception(() => new LocalStorageOptions
+            var exception = Record.Exception(() => new LocalStorageOptions
             {
                 CompactionPercentage = negativeCompactionPercentage
             });
@@ -44,7 +43,7 @@
             var outOfRangeCompactionPercentage = 1.1;
 
             // Act.
-            Exception exception = Record.Exception(() => new LocalStorageOptions
+            var exception = Record.Exception(() => new LocalStorageOptions
             {
                 CompactionPercentage = outOfRangeCompactionPercentage
             });
@@ -122,7 +121,7 @@
             TriggerGargabeCollectionInItsOwnScope();
 
             // Assert.
-            int expectedCount = cachedKeys.Length - (int)(compactPercentage * cachedKeys.Length);
+            var expectedCount = cachedKeys.Length - (int)(compactPercentage * cachedKeys.Length);
 
             Assert.True(expectedCount >= _storage.Count);
         }
@@ -139,26 +138,19 @@
 
         private string[] InitializeCacheData()
         {
-            int expectedLength = 4;
-            var createdEntries = new CacheEntry[expectedLength];
+            var expectedLength = 4;
+            var createdKeys = new string[expectedLength];
+            var creationInterval = TimeSpan.FromSeconds(1);
 
-            for (int index = 0; index < expectedLength; index++)
+            for (var index = 0; index < expectedLength; index++)
             {
-                var keySet = new KeySet
-                {
-                    ["Key" + index] = "Key" + index
-                };
-                var value = TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    ["Value" + index] = "Value" + index
-                });
+                var (key, entry) = _storage.AddCacheEntry();
 
-                createdEntries[index] = _storage.CreateEntry(keySet.BuildKey(), keySet, value);
-                _storage.Add(createdEntries[index]);
-                _clock.Add(TimeSpan.FromSeconds(1));
+                createdKeys[index] = key;
+                _clock.Add(creationInterval);
             }
 
-            return createdEntries.Select(enrty => enrty.Key).ToArray();
+            return createdKeys;
         }
 
         public void Dispose()

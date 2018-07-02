@@ -54,8 +54,8 @@
         public IList<CacheEntry> FilterOutOfDateEntries(int batchSize)
         {
             var outOfDateEntries = new List<CacheEntry>();
-            DateTimeOffset now = Clock.UtcNow;
-            IEnumerator<CacheEntry> enumerableEntries = _entries.Values.OrderByDescending(entry => entry.LastAccess).GetEnumerator();
+            var now = Clock.UtcNow;
+            var enumerableEntries = _entries.Values.OrderByDescending(entry => entry.LastAccess).GetEnumerator();
 
             try
             {
@@ -157,7 +157,7 @@
 
         private void StartScanForExpiredEntries()
         {
-            DateTimeOffset now = Clock.UtcNow;
+            var now = Clock.UtcNow;
 
             if (_options.ExpirationScanFrequency < now - _lastExpirationScan)
             {
@@ -169,9 +169,9 @@
 
         private static void ScanForExpiredEntries(LocalStorage storage)
         {
-            DateTimeOffset now = storage.Clock.UtcNow;
+            var now = storage.Clock.UtcNow;
 
-            foreach (CacheEntry entry in storage._entries.Values)
+            foreach (var entry in storage._entries.Values)
             {
                 if (entry.IsExpired(now))
                 {
@@ -201,7 +201,7 @@
             var removalCountTarget = (int)(_entriesCount * percentage);
             var entriesToRemove = CollectRarelyAccessedBucket(removalCountTarget);
 
-            foreach (CacheEntry entry in entriesToRemove)
+            foreach (var entry in entriesToRemove)
             {
                 RemoveEntry(entry);
             }
@@ -210,7 +210,7 @@
         private List<CacheEntry> CollectRarelyAccessedBucket(int removalCountTarget)
         {
             var entriesToRemove = new List<CacheEntry>();
-            IEnumerator<CacheEntry> rarelyAccessedEntries = _entries.Values.OrderBy(entry => entry.LastAccess).GetEnumerator();
+            var rarelyAccessedEntries = _entries.Values.OrderBy(entry => entry.LastAccess).GetEnumerator();
 
             try
             {

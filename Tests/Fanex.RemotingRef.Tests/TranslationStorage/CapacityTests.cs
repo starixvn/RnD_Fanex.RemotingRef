@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests.TranslationStorage
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Fanex.RemotingRef.Tests.Mocks;
@@ -35,7 +34,7 @@
             var negativeNumberOfEntriesLimit = -1;
 
             // Act.
-            Exception exception = Record.Exception(() => new LocalStorageOptions
+            var exception = Record.Exception(() => new LocalStorageOptions
             {
                 NumberOfEntriesLimit = negativeNumberOfEntriesLimit
             });
@@ -48,15 +47,10 @@
         public void NewEntryIsStillAcceptedIfItExceedsCapacity()
         {
             // Arrange.
-            var entry = CreateCacheEntry("myStupidKey");
-
-            _storage.Add(entry);
+            var (_, entry) = _storage.AddCacheEntry();
 
             // Act.
-            var newKey = "myOtherStupidEntry";
-            var newEntry = CreateCacheEntry("myOtherStupidEntry");
-
-            _storage.Add(newEntry);
+            var (newKey, newEntry) = _storage.AddCacheEntry();
 
             // Assert.
             var found = _storage.TryGet(newKey, out _);
@@ -68,34 +62,24 @@
         public async Task ExceedsCapacityCompactsTheStorage()
         {
             // Arrange.
-            var firstEntry = CreateCacheEntry("myFirstStupidKey");
-            var secondEntry = CreateCacheEntry("mySecondStupidKey");
+            var (_, firstEntry) = _storage.AddCacheEntry();
+            var (_, secondEntry) = _storage.CreateCacheEntry();
             var semaphore = new SemaphoreSlim(0, 1);
 
             _storageOptions.CompactionPercentage = 1;
-            firstEntry.PostEvictionCallback = () =>
+            secondEntry.PostEvictionCallback = () =>
             {
                 semaphore.Release();
             };
 
             // Act.
-            _storage.Add(firstEntry);
             _storage.Add(secondEntry);
 
             // Assert.
-            Assert.True(await semaphore.WaitAsync(TimeSpan.FromSeconds(30)));
+            var waitingTime = TimeSpan.FromSeconds(30);
+
+            Assert.True(await semaphore.WaitAsync(waitingTime));
             Assert.Equal(0, _storage.Count);
-        }
-
-        private CacheEntry CreateCacheEntry(string expectedKey = null)
-        {
-            var keySet = new KeySet
-            {
-                ["AnotherStupidDuplication"] = "StupidValue"
-            };
-            var key = expectedKey;
-
-            return _storage.CreateEntry(key, keySet, TranslationSet.FromDictionary(new Dictionary<string, string>()));
         }
 
         public void Dispose()

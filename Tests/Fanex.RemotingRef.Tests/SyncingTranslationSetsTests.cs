@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Fanex.RemotingRef.Tests.Mocks;
@@ -40,7 +39,7 @@
             var negativeRenewalTime = TimeSpan.FromSeconds(-1);
 
             // Act.
-            Exception exception = Record.Exception(() => _options.RenewalTime = negativeRenewalTime);
+            var exception = Record.Exception(() => _options.RenewalTime = negativeRenewalTime);
 
             // Assert.
             Assert.IsType<ArgumentOutOfRangeException>(exception);
@@ -51,7 +50,7 @@
         {
             // Arrange.
             var callbackInvoked = new ManualResetEventSlim(false);
-            var existingKeySet = SetupStorageWithOnlyOneEntry().OriginalKeySet;
+            var (_, existingEntry) = _storage.AddCacheEntry();
 
             _clock.Add(_timeToTriggerRenewal);
             _options.SyncHandler = (parameterSets) =>
@@ -62,7 +61,7 @@
             };
 
             // Act.
-            _handler.Get(existingKeySet, null);
+            _handler.Get(existingEntry.OriginalKeySet, null);
 
             // Assert.
             Assert.True(callbackInvoked.Wait(_waitingTime));
@@ -73,9 +72,8 @@
         {
             // Arrange.
             const int expectedEntries = 4;
-            const int assumedCreationInterval = 1;
 
-            var createdEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var createdEntries = SetupStorageWithBatchOfData(expectedEntries);
             var firstCreatedEntry = createdEntries[0];
             IList<KeySet> sendingKeySets = null;
 
@@ -103,9 +101,8 @@
         {
             // Arrange.
             const int expectedEntries = 5;
-            const int assumedCreationInterval = 1;
 
-            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries);
             IList<KeySet> sendingKeySets = null;
 
             _clock.Add(_timeToTriggerRenewal);
@@ -130,9 +127,8 @@
         {
             // Arrange.
             const int expectedEntries = 4;
-            const int assumedCreationInterval = 1;
 
-            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
+            var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries);
             IList<KeySet> sendingKeySets = null;
 
             _options.SyncHandler = (parameterSets) =>
@@ -187,8 +183,7 @@
         public async Task EmptyResponseDoesNotUpdateDataInStorage()
         {
             // Arrange.
-            var createdEntry = SetupStorageWithOnlyOneEntry();
-            var key = createdEntry.OriginalKeySet.BuildKey();
+            var (key, entry) = _storage.AddCacheEntry();
             var emptyValue = new Dictionary<string, TranslationSet>();
 
             _clock.Add(_timeToTriggerRenewal);
@@ -196,7 +191,7 @@
             _storage.TryGet(key, out CacheEntry oldEntry);
 
             // Act.
-            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+            await _handler.SyncCachedDataAsync(entry).ConfigureAwait(false);
 
             // Assert.
             _storage.TryGet(key, out CacheEntry currentEntry);
@@ -208,8 +203,7 @@
         public async Task EmptyResponseLetsRenewingLocksBeReleased()
         {
             // Arrange.
-            var createdEntry = SetupStorageWithOnlyOneEntry();
-            var key = createdEntry.OriginalKeySet.BuildKey();
+            var (key, entry) = _storage.AddCacheEntry();
             var emptyValue = new Dictionary<string, TranslationSet>();
 
             _clock.Add(_timeToTriggerRenewal);
@@ -217,25 +211,21 @@
             _storage.TryGet(key, out CacheEntry oldEntry);
 
             // Act.
-            Assert.True(createdEntry.NeedToRenew(_clock.UtcNow));
-            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+            Assert.True(entry.NeedToRenew(_clock.UtcNow));
+            await _handler.SyncCachedDataAsync(entry).ConfigureAwait(false);
 
             // Assert.
             _storage.TryGet(key, out CacheEntry currentEntry);
 
-            Assert.True(createdEntry.NeedToRenew(_clock.UtcNow));
+            Assert.True(entry.NeedToRenew(_clock.UtcNow));
         }
 
         [Fact]
         public async Task NonemptyResponseUpdatesDataInStorage()
         {
             // Arrange.
-            var createdEntry = SetupStorageWithOnlyOneEntry();
-            var key = createdEntry.OriginalKeySet.BuildKey();
-            var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
-            {
-                [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
-            });
+            var (key, entry) = _storage.AddCacheEntry();
+            var newValue = InstanceCreator.CreateTranslationSet();
             var syncedData = new Dictionary<string, TranslationSet>
             {
                 [key] = newValue
@@ -245,7 +235,7 @@
             _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
 
             // Act.
-            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+            await _handler.SyncCachedDataAsync(entry).ConfigureAwait(false);
 
             // Assert.
             _storage.TryGet(key, out CacheEntry currentEntry);
@@ -257,23 +247,18 @@
         public async Task ExpiredEntryIsNotUpdated()
         {
             // Arrange.
-            var createdEntry = SetupStorageWithOnlyOneEntry();
-            var key = createdEntry.OriginalKeySet.BuildKey();
+            var (key, entry) = _storage.AddCacheEntry();
             var timeToUpdateCache = _options.SlidingTimeout + _timeToTriggerRenewal;
-            var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
-            {
-                [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
-            });
             var syncedData = new Dictionary<string, TranslationSet>
             {
-                [key] = newValue
+                [key] = InstanceCreator.CreateTranslationSet()
             };
 
             _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
 
             // Act.
             _clock.Add(timeToUpdateCache);
-            await _handler.SyncCachedDataAsync(createdEntry).ConfigureAwait(false);
+            await _handler.SyncCachedDataAsync(entry).ConfigureAwait(false);
 
             // Assert.
             Assert.False(_storage.TryGet(key, out _));
@@ -288,14 +273,10 @@
 
             var createdCacheEntries = SetupStorageWithBatchOfData(expectedEntries, assumedCreationInterval);
             var lastEntry = createdCacheEntries[expectedEntries - 1];
-            var lastEntryKey = lastEntry.OriginalKeySet.BuildKey();
-            var newValue = TranslationSet.FromDictionary(new Dictionary<string, string>
-            {
-                [RefDataTypeHandlerOptions.DefaultLanguage] = "NewStupidText"
-            });
+            var lastEntryKey = lastEntry.Key;
             var syncedData = new Dictionary<string, TranslationSet>
             {
-                [lastEntryKey] = newValue
+                [lastEntryKey] = InstanceCreator.CreateTranslationSet()
             };
             IList<KeySet> sendingKeySets = null;
 
@@ -313,50 +294,24 @@
             // Assert.
             var firstEntry = createdCacheEntries[0];
 
-            _storage.TryGet(firstEntry.OriginalKeySet.BuildKey(), out CacheEntry entry);
+            _storage.TryGet(firstEntry.Key, out CacheEntry entry);
 
             Assert.True(entry.NeedToRenew(_clock.UtcNow));
         }
 
-        private CacheEntry[] SetupStorageWithBatchOfData(int expectedLength, int creationInterval)
+        private CacheEntry[] SetupStorageWithBatchOfData(int expectedLength, int creationInterval = 1)
         {
             var createdEntries = new CacheEntry[expectedLength];
 
-            for (int index = 0; index < expectedLength; index++)
+            for (var index = 0; index < expectedLength; index++)
             {
-                var keySet = new KeySet
-                {
-                    ["Key" + index] = "Key" + index
-                };
-                var value = TranslationSet.FromDictionary(new Dictionary<string, string>
-                {
-                    [RefDataTypeHandlerOptions.DefaultLanguage] = "StupidText"
-                });
+                var (key, entry) = _storage.AddCacheEntry();
 
-                createdEntries[index] = _storage.CreateEntry(keySet.BuildKey(), keySet, value);
-                _storage.Add(createdEntries[index]);
+                createdEntries[index] = entry;
                 _clock.Add(TimeSpan.FromSeconds(creationInterval));
             }
 
-            return createdEntries.ToArray();
-        }
-
-        private CacheEntry SetupStorageWithOnlyOneEntry()
-        {
-            var keySet = new KeySet
-            {
-                ["StupidKey"] = "StupidValue"
-            };
-            var key = keySet.BuildKey();
-            var value = new Dictionary<string, string>
-            {
-                [RefDataTypeHandlerOptions.DefaultLanguage] = "StupidText"
-            };
-            var entry = _storage.CreateEntry(key, keySet, TranslationSet.FromDictionary(value));
-
-            _storage.Add(entry);
-
-            return entry;
+            return createdEntries;
         }
 
         public void Dispose()

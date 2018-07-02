@@ -91,7 +91,7 @@ namespace Fanex.RemotingRef
             {
                 ["sportTypeId"] = sportTypeId
             };
-            string sportName = GetTranslationText(RefDataType.SportName, "sportName", keySet, languageCode);
+            var sportName = GetTranslationText(RefDataType.SportName, "sportName", keySet, languageCode);
 
             return sportName ?? defaultValue;
         }
@@ -105,7 +105,7 @@ namespace Fanex.RemotingRef
             {
                 ["teamId"] = teamId
             };
-            string teamName = GetTranslationText(RefDataType.TeamName, "teamName", keySet, languageCode);
+            var teamName = GetTranslationText(RefDataType.TeamName, "teamName", keySet, languageCode);
 
             return teamName ?? defaultValue;
         }
@@ -119,7 +119,7 @@ namespace Fanex.RemotingRef
             {
                 ["team3rdId"] = team3rdId
             };
-            string teamName3rd = GetTranslationText(RefDataType.TeamName3rd, "teamName3rd", keySet, languageCode);
+            var teamName3rd = GetTranslationText(RefDataType.TeamName3rd, "teamName3rd", keySet, languageCode);
 
             return teamName3rd ?? defaultValue;
         }
@@ -133,7 +133,7 @@ namespace Fanex.RemotingRef
             {
                 ["leagueId"] = leagueId
             };
-            string leagueName = GetTranslationText(RefDataType.LeagueName, "leagueName", keySet, languageCode);
+            var leagueName = GetTranslationText(RefDataType.LeagueName, "leagueName", keySet, languageCode);
 
             return leagueName ?? defaultValue;
         }
@@ -147,7 +147,7 @@ namespace Fanex.RemotingRef
             {
                 ["league3rdId"] = league3rdId
             };
-            string leagueName3rd = GetTranslationText(RefDataType.LeagueName3rd, "leagueName3rd", keySet, languageCode);
+            var leagueName3rd = GetTranslationText(RefDataType.LeagueName3rd, "leagueName3rd", keySet, languageCode);
 
             return leagueName3rd ?? defaultValue;
         }
@@ -161,7 +161,7 @@ namespace Fanex.RemotingRef
             {
                 ["countryCode"] = countryCode
             };
-            string countryName = GetTranslationText(RefDataType.CountryName, "countryName", keySet, languageCode);
+            var countryName = GetTranslationText(RefDataType.CountryName, "countryName", keySet, languageCode);
 
             return countryName ?? defaultValue;
         }
@@ -175,7 +175,7 @@ namespace Fanex.RemotingRef
             {
                 ["oddsTypeId"] = oddsTypeId
             };
-            string oddsTypeName = GetTranslationText(RefDataType.OddsTypeName, "oddsTypeName", keySet, languageCode);
+            var oddsTypeName = GetTranslationText(RefDataType.OddsTypeName, "oddsTypeName", keySet, languageCode);
 
             return oddsTypeName ?? defaultValue;
         }
@@ -187,7 +187,7 @@ namespace Fanex.RemotingRef
                 ["refId"] = refId,
                 ["resourceId"] = resourceId
             };
-            string resource = GetTranslationText(RefDataType.RefResource, "resourceData", keySet, languageCode);
+            var resource = GetTranslationText(RefDataType.RefResource, "resourceData", keySet, languageCode);
 
             return resource ?? defaultValue;
         }
@@ -198,7 +198,7 @@ namespace Fanex.RemotingRef
             {
                 ["betTypeId"] = betTypeId
             };
-            string parentBetTypeId = GetTranslationText(RefDataType.ParentBetTypeId, "parentIdByBetTypeId", keySet, null);
+            var parentBetTypeId = GetTranslationText(RefDataType.ParentBetTypeId, "parentIdByBetTypeId", keySet, null);
 
             return parentBetTypeId ?? defaultValue;
         }
@@ -206,7 +206,7 @@ namespace Fanex.RemotingRef
         public string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode)
         {
             const string actionName = "CombinationTypeComboParlay";
-            IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
                 parameters => RequestTranslation<string[]>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<string[]>(actionName, parameterSets));
@@ -230,7 +230,7 @@ namespace Fanex.RemotingRef
             {
                 ["codeId"] = codeId
             };
-            string horseTeamName = GetTranslationText(RefDataType.HorseTeamName, "horseTeamName", keySet, languageCode);
+            var horseTeamName = GetTranslationText(RefDataType.HorseTeamName, "horseTeamName", keySet, languageCode);
 
             return horseTeamName ?? defaultValue;
         }
@@ -244,7 +244,7 @@ namespace Fanex.RemotingRef
             {
                 ["itemId"] = itemId
             };
-            string casinoBetItem = GetTranslationText(RefDataType.CasinoBetItem, "casinoBetItem", keySet, null);
+            var casinoBetItem = GetTranslationText(RefDataType.CasinoBetItem, "casinoBetItem", keySet, null);
 
             return casinoBetItem ?? defaultValue;
         }
@@ -258,7 +258,7 @@ namespace Fanex.RemotingRef
             {
                 ["itemId"] = itemId
             };
-            string rouletteBetItem = GetTranslationText(RefDataType.RouletteBetItem, "rouletteBetItem", keySet, languageCode);
+            var rouletteBetItem = GetTranslationText(RefDataType.RouletteBetItem, "rouletteBetItem", keySet, languageCode);
 
             return rouletteBetItem ?? defaultValue;
         }
@@ -271,7 +271,7 @@ namespace Fanex.RemotingRef
         public string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, string defaultValue, out string kenoBetTypeId)
         {
             const string actionName = "kenoBetChoice";
-            IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.KenoBetChoice,
                 parameters => RequestTranslation<Tuple<string, string>>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
@@ -297,7 +297,7 @@ namespace Fanex.RemotingRef
             {
                 ["kenoBetTypeId"] = kenoBetTypeId
             };
-            string kenoBetType = GetTranslationText(RefDataType.KenoBetType, "kenoBetType", keySet, languageCode);
+            var kenoBetType = GetTranslationText(RefDataType.KenoBetType, "kenoBetType", keySet, languageCode);
 
             return kenoBetType ?? defaultValue;
         }
@@ -311,7 +311,7 @@ namespace Fanex.RemotingRef
                 ["handicap1"] = handicap1,
                 ["handicap2"] = handicap2,
             };
-            string fastMarketChoice = GetTranslationText(RefDataType.FastMarketsChoice, "fastMarketsChoice", keySet, languageCode);
+            var fastMarketChoice = GetTranslationText(RefDataType.FastMarketsChoice, "fastMarketsChoice", keySet, languageCode);
 
             return fastMarketChoice ?? string.Empty;
         }
@@ -322,7 +322,7 @@ namespace Fanex.RemotingRef
             {
                 ["resultId"] = resultId
             };
-            string fastMarketResult = GetTranslationText(RefDataType.FastMarkets225Result, "fastMarkets225Result", keySet, languageCode);
+            var fastMarketResult = GetTranslationText(RefDataType.FastMarkets225Result, "fastMarkets225Result", keySet, languageCode);
 
             return fastMarketResult ?? string.Empty;
         }
@@ -335,7 +335,7 @@ namespace Fanex.RemotingRef
         public string GetLotteryBetChoice(string lotteryBetChoiceId, string languageCode, string defaultValue, out string lotteryBetTypeId)
         {
             const string actionName = "lotteryBetChoice";
-            IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
                 parameters => RequestTranslation<Tuple<string, string>>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
@@ -361,7 +361,7 @@ namespace Fanex.RemotingRef
             {
                 ["betTypeId"] = lotteryBetTypeId
             };
-            string lotteryBetType = GetTranslationText(RefDataType.LotteryBetType, "lotteryBetType", keySet, languageCode);
+            var lotteryBetType = GetTranslationText(RefDataType.LotteryBetType, "lotteryBetType", keySet, languageCode);
 
             return lotteryBetType ?? defaultValue;
         }
@@ -382,7 +382,7 @@ namespace Fanex.RemotingRef
             {
                 ["betTypeId"] = betTypeId
             };
-            string displayedTypeId = GetTranslationText(RefDataType.GetDisplayedTypeId, "displayedTypeId", keySet, null);
+            var displayedTypeId = GetTranslationText(RefDataType.GetDisplayedTypeId, "displayedTypeId", keySet, null);
 
             return displayedTypeId ?? defaultValue;
         }
@@ -392,11 +392,11 @@ namespace Fanex.RemotingRef
 
         private T GetTranslationObject<T>(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
         {
-            IRefDataTypeHandler handler = RefDataTypeContainer.TryResolveDataTypeHandler(
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 dataType,
                 parameters => RequestTranslation<T>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<T>(actionName, parameterSets));
-            T result = (T)handler.Get(keySet, languageCode);
+            var result = (T)handler.Get(keySet, languageCode);
 
             return result;
         }

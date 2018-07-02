@@ -26,7 +26,7 @@
             Uri remotingRefServiceUri = null;
 
             // Act.
-            Exception exception = Record.Exception(() => RefDataTypeContainer.ConnectTo(remotingRefServiceUri));
+            var exception = Record.Exception(() => RefDataTypeContainer.ConnectTo(remotingRefServiceUri));
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -52,7 +52,7 @@
             RefDataTypeContainer.Reset();
 
             // Act.
-            Exception exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
+            var exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
 
             // Assert.
             Assert.IsType<InvalidOperationException>(exception);
@@ -123,7 +123,7 @@
             var fluentInstance = RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
-            Exception exception = Record.Exception(() => fluentInstance.Register(RefDataType.CountryName, options));
+            var exception = Record.Exception(() => fluentInstance.Register(RefDataType.CountryName, options));
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -259,7 +259,7 @@
             RefDataTypeContainer.ConnectTo(new Uri("http://localhost:9999"));
 
             // Act.
-            Exception exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
+            var exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
 
             // Assert.
             Assert.IsType<InvalidOperationException>(exception);

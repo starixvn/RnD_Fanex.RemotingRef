@@ -21,7 +21,7 @@ namespace Fanex.RemotingRef.TranslationStorage
 
             var translationSet = new TranslationSet(dictionary.Count, null);
 
-            foreach (KeyValuePair<string, T> pair in dictionary)
+            foreach (var pair in dictionary)
             {
                 translationSet.Add(pair.Key, pair.Value);
             }

@@ -58,7 +58,7 @@
             RequestTranslationSetDelegate requestHandler,
             SyncTranslationSetsDelegate syncHandler)
         {
-            IRefDataTypeHandler handler = CurrentInstance._registeredDataTypeHandlers.GetOrAdd(
+            var handler = CurrentInstance._registeredDataTypeHandlers.GetOrAdd(
                 dataType,
                 checkingDataType => CreateRefDataHandler(checkingDataType, requestHandler, syncHandler));
 
@@ -70,7 +70,7 @@
             RequestTranslationSetDelegate requestHandler,
             SyncTranslationSetsDelegate syncHandler)
         {
-            RefDataTypeHandlerOptions options = TryResolveDataTypeHandlerOptions(dataType);
+            var options = TryResolveDataTypeHandlerOptions(dataType);
 
             options.RequestHandler = requestHandler ?? throw new ArgumentNullException(nameof(requestHandler));
             options.SyncHandler = syncHandler ?? throw new ArgumentNullException(nameof(syncHandler));
