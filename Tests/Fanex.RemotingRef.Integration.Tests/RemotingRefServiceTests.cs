@@ -1,21 +1,14 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System;
-    using System.Configuration;
     using Xunit;
 
-    public class RemotingRefServiceTests
+    public class RemotingRefServiceTests : IClassFixture<RemotingRefServiceFixture>
     {
         private const string DefaultValue = "defaultValue";
         private readonly IRemotingRefService _remotingRefService;
-        private static readonly string _remotingRefServiceUrl = ConfigurationManager.AppSettings["RemotingRefServiceTest"];
 
         public RemotingRefServiceTests()
         {
-            RefDataTypeContainer
-                .ConnectTo(new Uri(_remotingRefServiceUrl))
-                .FromApplication("UnitTest_AppName")
-                .SupportOnlyDefaultLanguage();
             _remotingRefService = new RemotingRefService();
         }
 
