@@ -5,11 +5,11 @@
     using AutoFixture;
     using Fanex.RemotingRef.TranslationStorage;
 
-    internal static class InstanceCreator
+    internal static class LocalStorageExtensions
     {
         private static readonly Fixture _fixture = new Fixture();
 
-        static InstanceCreator()
+        static LocalStorageExtensions()
         {
             _fixture.Customizations.Add(new RandomNumericSequenceGenerator(0, 10));
         }

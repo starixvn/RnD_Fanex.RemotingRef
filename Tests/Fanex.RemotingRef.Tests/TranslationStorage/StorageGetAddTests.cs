@@ -72,7 +72,7 @@
         public void ObjectDisposedExceptionIsThrownIfTryGetOrAddIsCalledAfterDisposingStorage()
         {
             // Arrange.
-            var key = InstanceCreator.CreateKey();
+            var key = LocalStorageExtensions.CreateKey();
 
             _storage.Dispose();
 
@@ -89,7 +89,7 @@
         public void TryGetMissingKeyReturnsFalse()
         {
             // Arrange.
-            var missingKey = InstanceCreator.CreateKey();
+            var missingKey = LocalStorageExtensions.CreateKey();
 
             // Act.
             var found = _storage.TryGet(missingKey, out _);
@@ -102,7 +102,7 @@
         public void TryGetMissingKeyReturnsNullAsOutput()
         {
             // Arrange.
-            var missingKey = InstanceCreator.CreateKey();
+            var missingKey = LocalStorageExtensions.CreateKey();
 
             // Act.
             _storage.TryGet(missingKey, out CacheEntry result);
@@ -160,7 +160,7 @@
         public void TryGetAndAddOneSpecificKeyAreThreadSafe()
         {
             // Arrange.
-            var (keySet, key) = InstanceCreator.CreateKeySet();
+            var (keySet, key) = LocalStorageExtensions.CreateKeySet();
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
 
@@ -182,7 +182,7 @@
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var entry = _storage.CreateEntry(keySet.BuildKey(), keySet, InstanceCreator.CreateTranslationSet());
+                var entry = _storage.CreateEntry(keySet.BuildKey(), keySet, LocalStorageExtensions.CreateTranslationSet());
 
                 _storage.Add(entry);
             }
@@ -231,7 +231,7 @@
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var (_, key) = InstanceCreator.CreateRandomKeySet();
+                var (_, key) = LocalStorageExtensions.CreateRandomKeySet();
 
                 _storage.TryGet(key, out _);
             }

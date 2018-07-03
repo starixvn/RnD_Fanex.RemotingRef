@@ -225,7 +225,7 @@
         {
             // Arrange.
             var (key, entry) = _storage.AddCacheEntry();
-            var newValue = InstanceCreator.CreateTranslationSet();
+            var newValue = LocalStorageExtensions.CreateTranslationSet();
             var syncedData = new Dictionary<string, TranslationSet>
             {
                 [key] = newValue
@@ -251,7 +251,7 @@
             var timeToUpdateCache = _options.SlidingTimeout + _timeToTriggerRenewal;
             var syncedData = new Dictionary<string, TranslationSet>
             {
-                [key] = InstanceCreator.CreateTranslationSet()
+                [key] = LocalStorageExtensions.CreateTranslationSet()
             };
 
             _options.SyncHandler = (parameterSets) => Task.FromResult<IDictionary<string, TranslationSet>>(syncedData);
@@ -276,7 +276,7 @@
             var lastEntryKey = lastEntry.Key;
             var syncedData = new Dictionary<string, TranslationSet>
             {
-                [lastEntryKey] = InstanceCreator.CreateTranslationSet()
+                [lastEntryKey] = LocalStorageExtensions.CreateTranslationSet()
             };
             IList<KeySet> sendingKeySets = null;
 

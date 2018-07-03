@@ -67,7 +67,7 @@
 
             // Act.
             // Background expiration checks are triggered when TryGet is called no matter what the key is.
-            var anyKey = InstanceCreator.CreateKey();
+            var anyKey = LocalStorageExtensions.CreateKey();
 
             _clock.Add(TimeSpan.FromMinutes(20));
             _storage.TryGet(anyKey, out _);

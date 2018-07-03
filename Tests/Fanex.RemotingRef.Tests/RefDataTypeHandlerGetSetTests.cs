@@ -31,7 +31,7 @@
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
             _options.RequestHandler = (parameters) => _predefinedTranslationSet;
-            (_keySet, _) = InstanceCreator.CreateKeySet();
+            (_keySet, _) = LocalStorageExtensions.CreateKeySet();
         }
 
         [Fact]
