@@ -7,7 +7,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class RefControllerTests
+    public sealed class RefControllerTests : IDisposable
     {
         private readonly IRefDataHelper _refData;
         private readonly RefController _refController;
@@ -370,5 +370,8 @@
             var expectedData = new Dictionary<string, string> { { "en-US", "2" } };
             Assert.Equal(expectedData, actualResult);
         }
+
+        public void Dispose()
+            => _refController.Dispose();
     }
 }

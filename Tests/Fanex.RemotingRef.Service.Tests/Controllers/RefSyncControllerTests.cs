@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class RefSyncControllerTests
+    public sealed class RefSyncControllerTests : IDisposable
     {
         private readonly IRefDataHelper _refData;
         private readonly RefSyncController _refSyncController;
@@ -611,5 +611,8 @@
 
             Assert.Equal(expectedData, actualResult);
         }
+
+        public void Dispose()
+            => _refSyncController.Dispose();
     }
 }
