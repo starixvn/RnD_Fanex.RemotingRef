@@ -572,17 +572,6 @@
         }
 
         [Fact]
-        public void GetKenoBetChoice_WithoutDefaultValue_RefResultHasData_ReturnEmptyString()
-        {
-            // Act
-            var kenoBetChoice = _remotingRefService.GetKenoBetChoice(null, "en-US", out string kenoBetType);
-
-            // Assert
-            Assert.Empty(kenoBetChoice);
-            Assert.Empty(kenoBetType);
-        }
-
-        [Fact]
         public void GetKenoBetChoice_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
         {
             // Act

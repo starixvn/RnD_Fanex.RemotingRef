@@ -205,9 +205,9 @@ namespace Fanex.RemotingRef
 
         public string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode)
         {
-            const string actionName = "CombinationTypeComboParlay";
+            const string actionName = "combinationTypeComboParlay";
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
-                RefDataType.LotteryBetChoice,
+                RefDataType.CombinationTypeCombo,
                 parameters => RequestTranslation<string[]>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<string[]>(actionName, parameterSets));
             var keySet = new KeySet
@@ -382,7 +382,7 @@ namespace Fanex.RemotingRef
             {
                 ["betTypeId"] = betTypeId
             };
-            var displayedTypeId = GetTranslationText(RefDataType.GetDisplayedTypeId, "displayedTypeId", keySet, null);
+            var displayedTypeId = GetTranslationText(RefDataType.DisplayedTypeId, "displayedTypeId", keySet, null);
 
             return displayedTypeId ?? defaultValue;
         }

@@ -11,6 +11,7 @@
         CountryName,
         OddsTypeName,
         ParentBetTypeId,
+        CombinationTypeCombo,
         RefResource,
         CasinoBetItem,
         RouletteBetItem,
@@ -21,7 +22,7 @@
         LotteryBetType,
         LotteryBetChoice,
         BetRadarMatchCodeFormat,
-        GetDisplayedTypeId,
+        DisplayedTypeId,
         HorseTeamName
     }
 }

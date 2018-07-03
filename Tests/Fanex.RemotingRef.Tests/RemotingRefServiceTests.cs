@@ -304,7 +304,7 @@
             _remotingRefService.GetCombinationTypeCombo("1", "2", 3, 4, "en-US");
 
             // Assert
-            const string expectedUrl = "api/ref/CombinationTypeComboParlay?betTeam=1&betCheck=2&handicap1=3&handicap2=4&languages=en-US&applicationName=UnitTest_AppName";
+            const string expectedUrl = "api/ref/combinationTypeComboParlay?betTeam=1&betCheck=2&handicap1=3&handicap2=4&languages=en-US&applicationName=UnitTest_AppName";
             _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
