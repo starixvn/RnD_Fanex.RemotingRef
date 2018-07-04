@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Net;
     using System.Net.Http;
@@ -72,6 +71,23 @@
             Assert.Equal(expectedUrl, remotingRefException.Request);
             Assert.Equal(statusCode, remotingRefException.StatusCode);
             Assert.Equal(failedReason, remotingRefException.FailedReason);
+        }
+
+        [Fact]
+        public void NullParameterIsNotIncludedInRequest()
+        {
+            // Arrange.
+            var betTypeId = _fixture.Create<string>();
+            var defaultValue = _fixture.Create<string>();
+            string resourceId = null;
+
+            // Act.
+            _remotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode, defaultValue, resourceId);
+
+            // Assert.
+            var expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
+
+            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
     }
 }
