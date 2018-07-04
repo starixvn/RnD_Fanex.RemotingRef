@@ -134,19 +134,6 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> ResourceData(string refId = null, string resourceId = null, [FromUri]string[] languages = null)
-        {
-            var resourceData = GetRefResult(
-                    (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0] as string, parameters[1] as string, language),
-                    IsValidRefData,
-                    languages,
-                    refId,
-                    resourceId);
-
-            return resourceData;
-        }
-
-        [HttpGet]
         public Dictionary<string, string> CountryName(string countryCode = null, [FromUri]string[] languages = null)
         {
             var countryNames = GetRefResult(
@@ -168,6 +155,19 @@
                     oddsTypeId);
 
             return oddsTypeNames;
+        }
+
+        [HttpGet]
+        public Dictionary<string, string> ResourceData(string refId = null, string resourceId = null, [FromUri]string[] languages = null)
+        {
+            var resourceData = GetRefResult(
+                    (parameters, language) => _refData.GetResourceDataByRefIdAndResourceId(parameters[0] as string, parameters[1] as string, language),
+                    IsValidRefData,
+                    languages,
+                    refId,
+                    resourceId);
+
+            return resourceData;
         }
 
         [HttpGet]

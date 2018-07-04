@@ -134,20 +134,6 @@
         }
 
         [HttpPost]
-        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ResourceData([FromBody]RequestSyncFormData data)
-        {
-            var resourceDataSet = GetRefResultSet(
-                    data,
-                    (parameter, language)
-                        => _refData.GetResourceDataByRefIdAndResourceId(
-                                parameter["refId"].ToString(),
-                                parameter["resourceId"].ToString(),
-                                LanguageHelper.GenerateTaiwanLanguage(language)));
-
-            return resourceDataSet;
-        }
-
-        [HttpPost]
         public Dictionary<Dictionary<string, object>, Dictionary<string, string>> CountryName([FromBody]RequestSyncFormData data)
         {
             var countryNameSet = GetRefResultSet(
@@ -165,6 +151,20 @@
                     (parameter, language) => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
 
             return oddsTypeNameSet;
+        }
+
+        [HttpPost]
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> ResourceData([FromBody]RequestSyncFormData data)
+        {
+            var resourceDataSet = GetRefResultSet(
+                    data,
+                    (parameter, language)
+                        => _refData.GetResourceDataByRefIdAndResourceId(
+                                parameter["refId"].ToString(),
+                                parameter["resourceId"].ToString(),
+                                LanguageHelper.GenerateTaiwanLanguage(language)));
+
+            return resourceDataSet;
         }
 
         [HttpPost]

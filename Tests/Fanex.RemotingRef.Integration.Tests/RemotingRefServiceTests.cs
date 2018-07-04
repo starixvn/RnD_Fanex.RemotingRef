@@ -103,7 +103,7 @@
         }
 
         [Fact]
-        public void GetBetTypeName_WithResourceIdAndRefNo_RefResultIsNull_ReturnExpectedBetTypeName()
+        public void GetBetTypeName_WithResourceIdAndRefNo_RefResultIsNull_ReturnDefaultValue()
         {
             // Act
             var betTypeName = _remotingRefService.GetBetTypeName("60623423423424", "en-US", DefaultValue, "10", 13242354353453);
@@ -313,6 +313,26 @@
         }
 
         [Fact]
+        public void GetCountryName_WithoutDefaultValue_RefResultHasData_ReturnExpectedCountryName()
+        {
+            // Act
+            var countryName = _remotingRefService.GetCountryName("AUS", "en-US");
+
+            // Assert
+            Assert.Equal("Australia", countryName);
+        }
+
+        [Fact]
+        public void GetCountryName_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
+        {
+            // Act
+            var countryName = _remotingRefService.GetCountryName("AUSSSSSSS", "en-US");
+
+            // Assert
+            Assert.Empty(countryName);
+        }
+
+        [Fact]
         public void GetCountryName_WithDefaultValue_RefResultHasData_ReturnExpectedCountryName()
         {
             // Act
@@ -330,16 +350,6 @@
 
             // Assert
             Assert.Equal(DefaultValue, countryName);
-        }
-
-        [Fact]
-        public void GetCountryName_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
-        {
-            // Act
-            var countryName = _remotingRefService.GetCountryName("AUSSSSSSS", "en-US");
-
-            // Assert
-            Assert.Empty(countryName);
         }
 
         [Fact]
@@ -443,6 +453,26 @@
         }
 
         [Fact]
+        public void GetHorseTeamName_WithoutDefaultValue_RefResultHasData_ReturnExpectedHorseTeamName()
+        {
+            // Act
+            var horseTeamName = _remotingRefService.GetHorseTeamName("53438", "en-US");
+
+            // Assert
+            Assert.Equal("T Keddy", horseTeamName);
+        }
+
+        [Fact]
+        public void GetHorseTeamName_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
+        {
+            // Act
+            var horseTeamName = _remotingRefService.GetHorseTeamName("53438234234", "en-US");
+
+            // Assert
+            Assert.Empty(horseTeamName);
+        }
+
+        [Fact]
         public void GetHorseTeamName_WithDefaultValue_RefResultHasData_ReturnExpectedHorseTeamName()
         {
             // Act
@@ -463,13 +493,23 @@
         }
 
         [Fact]
-        public void GetHorseTeamName_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
+        public void GetCasinoBetItem_WithoutDefaultValue_RefResultHasData_ReturnExpectedCasinoBetItem()
         {
             // Act
-            var horseTeamName = _remotingRefService.GetHorseTeamName("53438234234", "en-US");
+            var casinoBetItem = _remotingRefService.GetCasinoBetItem("1", "en-US");
 
             // Assert
-            Assert.Empty(horseTeamName);
+            Assert.Equal("Banker", casinoBetItem);
+        }
+
+        [Fact]
+        public void GetCasinoBetItem_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
+        {
+            // Act
+            var casinoBetItem = _remotingRefService.GetCasinoBetItem("1234234223", "en-US");
+
+            // Assert
+            Assert.Empty(casinoBetItem);
         }
 
         [Fact]
@@ -490,16 +530,6 @@
 
             // Assert
             Assert.Equal(DefaultValue, casinoBetItem);
-        }
-
-        [Fact]
-        public void GetCasinoBetItem_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
-        {
-            // Act
-            var casinoBetItem = _remotingRefService.GetCasinoBetItem("1234234223", "en-US");
-
-            // Assert
-            Assert.Empty(casinoBetItem);
         }
 
         [Fact]
@@ -543,6 +573,28 @@
         }
 
         [Fact]
+        public void GetKenoBetChoice_WithoutDefaultValue_RefResultHasData_ReturnExpectedKenoBetChoice()
+        {
+            // Act
+            var kenoBetChoice = _remotingRefService.GetKenoBetChoice("2", "en-US", out string kenoBetType);
+
+            // Assert
+            Assert.Equal("Small", kenoBetChoice);
+            Assert.Equal("1", kenoBetType);
+        }
+
+        [Fact]
+        public void GetKenoBetChoice_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
+        {
+            // Act
+            var kenoBetChoice = _remotingRefService.GetKenoBetChoice(null, "en-US", out string kenoBetType);
+
+            // Assert
+            Assert.Empty(kenoBetChoice);
+            Assert.Empty(kenoBetType);
+        }
+
+        [Fact]
         public void GetKenoBetChoice_WithDefaultValue_RefResultHasData_ReturnExpectedKenoBetChoice()
         {
             // Act
@@ -562,17 +614,6 @@
             // Assert
             Assert.Equal(DefaultValue, kenoBetChoice);
             Assert.Equal(DefaultValue, kenoBetType);
-        }
-
-        [Fact]
-        public void GetKenoBetChoice_WithoutDefaultValue_RefResultIsNull_ReturnEmptyString()
-        {
-            // Act
-            var kenoBetChoice = _remotingRefService.GetKenoBetChoice(null, "en-US", out string kenoBetType);
-
-            // Assert
-            Assert.Empty(kenoBetChoice);
-            Assert.Empty(kenoBetType);
         }
 
         [Fact]
@@ -737,6 +778,26 @@
 
             // Assert
             Assert.Equal("1324520 ", mactchCode);
+        }
+
+        [Fact]
+        public void GetDisplayedTypeId_RefResultHasData_ReturnExpectedBetRadarMatchCode()
+        {
+            // Act
+            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("1", DefaultValue);
+
+            // Assert
+            Assert.Equal("1", displayBetTypeId);
+        }
+
+        [Fact]
+        public void GetDisplayedTypeId_RefResultIsNull_ReturnDefaultValue()
+        {
+            // Act
+            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("-1", DefaultValue);
+
+            // Assert
+            Assert.Equal(DefaultValue, displayBetTypeId);
         }
     }
 }
