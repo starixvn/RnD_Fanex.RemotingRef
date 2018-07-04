@@ -7,7 +7,7 @@
         /// <summary>
         /// We use NULL for default value cannot get from ONElab RemotingRef,
         /// because if we don't specific default name ONElab RemotingRef will return empty string,
-        /// and client will cache empty string, so we use NULL to make client dont cache it
+        /// and client will cache empty string, so we use NULL to make client dont cache it.
         /// </summary>
         private const string DefaultName = null;
 
