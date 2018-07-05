@@ -2,7 +2,6 @@
 
 namespace Fanex.RemotingRef.TranslationStorage
 {
-    using System;
     using System.Collections.Generic;
 
     internal sealed class TranslationSet : Dictionary<string, object>

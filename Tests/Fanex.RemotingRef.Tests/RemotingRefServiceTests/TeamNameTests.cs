@@ -54,8 +54,8 @@
 
             // Act.
             var actualTeamName = _remotingRefService.GetTeamName(
-                teamId, 
-                TestingLanguageCode, 
+                teamId,
+                TestingLanguageCode,
                 defaultTeamName);
 
             // Assert.

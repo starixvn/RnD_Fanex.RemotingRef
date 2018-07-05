@@ -12,7 +12,7 @@
     <tbody>
         @foreach (var viewModel in Model)
         {
-           
+
         <tr class="@(viewModel.RefDataResult.IsDataMatched()? "text-success" : "text-danger")">
             <td>@viewModel.TypeId</td>
             <td>@viewModel.RefDataResult.TaiwanRefOld</td>
@@ -22,5 +22,3 @@
         }
     </tbody>
 </table>
-
-

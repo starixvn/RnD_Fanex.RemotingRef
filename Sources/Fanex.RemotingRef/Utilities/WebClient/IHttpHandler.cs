@@ -2,7 +2,6 @@
 
 namespace Fanex.RemotingRef.Utilities.WebClient
 {
-    using System;
     using System.Net.Http;
     using System.Threading.Tasks;
 

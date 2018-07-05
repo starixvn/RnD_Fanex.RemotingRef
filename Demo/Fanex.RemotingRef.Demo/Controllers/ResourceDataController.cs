@@ -4,7 +4,6 @@
     using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
-    using Fanex.RemotingRef.Demo.Filters;
     using Fanex.RemotingRef.Demo.Models;
 
     [Authorize]
