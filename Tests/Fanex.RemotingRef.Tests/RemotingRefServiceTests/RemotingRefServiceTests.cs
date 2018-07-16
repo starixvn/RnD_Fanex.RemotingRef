@@ -14,8 +14,9 @@
     public partial class RemotingRefServiceTests
     {
         private const string ApplicationName = "UnitTest_AppName";
-        private const string RequestUrlPattern = "api/ref/{0}&languages=en-US&applicationName=UnitTest_AppName";
         private const string TestingLanguageCode = RefDataTypeHandlerOptions.DefaultLanguage;
+
+        private static readonly string RequestUrlPattern = $"api/ref/{{0}}&languages=en-US&applicationName={ApplicationName}";
 
         private readonly IHttpHandler _httpClient;
         private readonly ISerializer _serializer;
@@ -40,11 +41,10 @@
         }
 
         private static HttpResponseMessage FakeHttpResponseMessage()
-        {
-            var httpResponseMessage = Substitute.For<HttpResponseMessage>();
-            httpResponseMessage.Content = new StreamContent(new MemoryStream(new byte[] { }));
-            return httpResponseMessage;
-        }
+            => new HttpResponseMessage
+            {
+                Content = new StreamContent(new MemoryStream(new byte[] { }))
+            };
 
         [Fact]
         public void RequestTranslationReturningFailedResponseThrowsRemotingRefException()
