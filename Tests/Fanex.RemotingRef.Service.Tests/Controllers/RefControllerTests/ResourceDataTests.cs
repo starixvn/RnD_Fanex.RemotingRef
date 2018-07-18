@@ -17,7 +17,19 @@
         }
 
         [Fact]
-        public void CallGetResourceDataByRefIdAndResourceIdOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetResourceDataOfRefDataHelper()
+        {
+            // Act.
+            RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetResourceDataByRefIdAndResourceId(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
@@ -29,7 +41,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetResourceDataByRefIdAndResourceIdOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
@@ -47,34 +59,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeResourceData();
 
             // Act.
-            var actualResourceData = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
+            var actualResult = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualResourceData.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetResourceDataByRefIdAndResourceIdOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedResourceData = FakeResourceData();
 
             // Act.
-            var actualResourceData = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
+            var actualResult = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedResourceData, actualResourceData);
+            Assert.Equal(expectedResourceData, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeResourceData()
+        private List<string> FakeResourceData()
         {
-            var expectedResourceData = new Dictionary<string, string>();
+            var expectedResourceData = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -86,7 +98,7 @@
                         Arg.Is(_resourceId),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(resourceInSpecificLanguage);
-                expectedResourceData.Add(standardLanguageCode, resourceInSpecificLanguage);
+                expectedResourceData.Add(resourceInSpecificLanguage);
             }
 
             return expectedResourceData;

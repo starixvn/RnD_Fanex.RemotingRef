@@ -13,7 +13,17 @@
             => _oddsTypeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetOddsTypeNameOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetOddsTypeNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetOddsTypeNameOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeOddsTypeNames();
 
             // Act.
-            var actualOddsTypeNames = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
+            var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualOddsTypeNames.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetOddsTypeNameOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedOddsTypeNames = FakeOddsTypeNames();
 
             // Act.
-            var actualOddsTypeNames = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
+            var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedOddsTypeNames, actualOddsTypeNames);
+            Assert.Equal(expectedOddsTypeNames, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeOddsTypeNames()
+        private List<string> FakeOddsTypeNames()
         {
-            var expectedOddsTypeNames = new Dictionary<string, string>();
+            var expectedOddsTypeNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(oddsTypeNameInSpecificLanguage);
-                expectedOddsTypeNames.Add(standardLanguageCode, oddsTypeNameInSpecificLanguage);
+                expectedOddsTypeNames.Add(oddsTypeNameInSpecificLanguage);
             }
 
             return expectedOddsTypeNames;

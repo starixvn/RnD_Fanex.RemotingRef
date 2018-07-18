@@ -21,7 +21,29 @@
         }
 
         [Fact]
-        public void CallGetCombinationTypeComboOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.CombinationTypeComboParlay(
+                _betTeam,
+                _betCheck,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetCombinationTypeCombo(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<int>(),
+                    Arg.Any<int>(),
+                    Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.CombinationTypeComboParlay(
@@ -43,7 +65,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetCombinationTypeComboOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.CombinationTypeComboParlay(
@@ -68,13 +90,13 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeCombinationTypeCombos();
 
             // Act.
-            var actualCombinationTypeCombos = RefController.CombinationTypeComboParlay(
+            var actualResult = RefController.CombinationTypeComboParlay(
                 _betTeam,
                 _betCheck,
                 _handicap1,
@@ -82,17 +104,17 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualCombinationTypeCombos.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetCombinationTypeComboOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedCombinationTypeCombos = FakeCombinationTypeCombos();
 
             // Act.
-            var actualCombinationTypeCombos = RefController.CombinationTypeComboParlay(
+            var actualResult = RefController.CombinationTypeComboParlay(
                 _betTeam,
                 _betCheck,
                 _handicap1,
@@ -100,12 +122,12 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedCombinationTypeCombos, actualCombinationTypeCombos);
+            Assert.Equal(expectedCombinationTypeCombos, actualResult.Values);
         }
 
-        private Dictionary<string, string[]> FakeCombinationTypeCombos()
+        private List<string[]> FakeCombinationTypeCombos()
         {
-            var expectedCombinationTypeCombos = new Dictionary<string, string[]>();
+            var expectedCombinationTypeCombos = new List<string[]>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -119,7 +141,7 @@
                         Arg.Is(_handicap2),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(comboInSpecificLanguage);
-                expectedCombinationTypeCombos.Add(standardLanguageCode, comboInSpecificLanguage);
+                expectedCombinationTypeCombos.Add(comboInSpecificLanguage);
             }
 
             return expectedCombinationTypeCombos;

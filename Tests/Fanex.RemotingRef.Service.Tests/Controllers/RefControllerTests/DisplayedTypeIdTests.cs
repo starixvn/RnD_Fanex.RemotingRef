@@ -13,7 +13,17 @@
             => _betTypeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetDisplayedTypeIdOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetDisplayedTypeIdOfRefDataHelper()
+        {
+            // Act.
+            RefController.DisplayedTypeId(_betTypeId);
+
+            // Assert.
+            RefData.Received().GetDisplayedTypeId(Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.DisplayedTypeId(_betTypeId);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrentArgumentsToRefDataHelperOncePerLanguage()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.DisplayedTypeId(_betTypeId);
@@ -33,27 +43,40 @@
         }
 
         [Fact]
-        public void ReturnDataGotFromGetDisplayedTypeIdOfRefDataHelper()
+        public void ResultTakesDefaultLanguageCodeAsKey()
+        {
+            // Arrange.
+            FakeDisplayedTypeId();
+
+            // Act.
+            var actualResult = RefController.DisplayedTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Equal(new[] { DefaultLanguageCode }, actualResult.Keys);
+        }
+
+        [Fact]
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedDisplayedTypeIds = FakeDisplayedTypeId();
 
             // Act.
-            var actualDisplayedTypeIds = RefController.DisplayedTypeId(_betTypeId);
+            var actualResult = RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            Assert.Equal(expectedDisplayedTypeIds, actualDisplayedTypeIds);
+            Assert.Equal(expectedDisplayedTypeIds, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeDisplayedTypeId()
+        private List<string> FakeDisplayedTypeId()
         {
             var displayedTypeId = Fixture.Create<string>();
 
             RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns(displayedTypeId);
 
-            return new Dictionary<string, string>
+            return new List<string>
             {
-                [DefaultLanguageCode] = displayedTypeId
+                displayedTypeId
             };
         }
     }

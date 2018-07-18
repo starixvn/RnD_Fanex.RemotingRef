@@ -13,7 +13,17 @@
             => _countryCode = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetCountryNameOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetCountryNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.CountryName(_countryCode, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetCountryName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.CountryName(_countryCode, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetCountryNameOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.CountryName(_countryCode, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeCountryNames();
 
             // Act.
-            var actualCountryNames = RefController.CountryName(_countryCode, StandardLanguageCodes);
+            var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualCountryNames.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetCountryNameOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedCountryNames = FakeCountryNames();
 
             // Act.
-            var actualCountryNames = RefController.CountryName(_countryCode, StandardLanguageCodes);
+            var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedCountryNames, actualCountryNames);
+            Assert.Equal(expectedCountryNames, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeCountryNames()
+        private List<string> FakeCountryNames()
         {
-            var expectedCountryNames = new Dictionary<string, string>();
+            var expectedCountryNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(countryNameInSpecificLanguage);
-                expectedCountryNames.Add(standardLanguageCode, countryNameInSpecificLanguage);
+                expectedCountryNames.Add(countryNameInSpecificLanguage);
             }
 
             return expectedCountryNames;

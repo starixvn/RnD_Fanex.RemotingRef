@@ -13,7 +13,17 @@
             => _itemId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetRouletteBetItemOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetRouletteBetItemOfRefDataHelper()
+        {
+            // Act.
+            RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetRouletteBetItem(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetRouletteBetItemOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeRouletteBetItems();
 
             // Act.
-            var actualRouletteBetItems = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
+            var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualRouletteBetItems.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetRouletteBetItemOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedRouletteBetItems = FakeRouletteBetItems();
 
             // Act.
-            var actualRouletteBetItems = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
+            var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedRouletteBetItems, actualRouletteBetItems);
+            Assert.Equal(expectedRouletteBetItems, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeRouletteBetItems()
+        private List<string> FakeRouletteBetItems()
         {
-            var expectedRouletteBetItems = new Dictionary<string, string>();
+            var expectedRouletteBetItems = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(rouletteBetItemInSpecificLanguage);
-                expectedRouletteBetItems.Add(standardLanguageCode, rouletteBetItemInSpecificLanguage);
+                expectedRouletteBetItems.Add(rouletteBetItemInSpecificLanguage);
             }
 
             return expectedRouletteBetItems;

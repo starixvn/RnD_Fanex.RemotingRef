@@ -21,7 +21,29 @@
         }
 
         [Fact]
-        public void CallGetFastMarketsChoiceOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.FastMarketsChoice(
+                _betTypeId,
+                _betTeam,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetFastMarketsChoice(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<int>(),
+                    Arg.Any<int>(),
+                    Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.FastMarketsChoice(
@@ -43,7 +65,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetFastMarketsChoiceOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.FastMarketsChoice(
@@ -68,13 +90,13 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeFastMarketsChoices();
 
             // Act.
-            var actualFastMarketsChoices = RefController.FastMarketsChoice(
+            var actualResult = RefController.FastMarketsChoice(
                 _betTypeId,
                 _betTeam,
                 _handicap1,
@@ -82,17 +104,17 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualFastMarketsChoices.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetFastMarketsChoiceOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedFastMarketsChoices = FakeFastMarketsChoices();
 
             // Act.
-            var actualFastMarketsChoices = RefController.FastMarketsChoice(
+            var actualResult = RefController.FastMarketsChoice(
                 _betTypeId,
                 _betTeam,
                 _handicap1,
@@ -100,12 +122,12 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedFastMarketsChoices, actualFastMarketsChoices);
+            Assert.Equal(expectedFastMarketsChoices, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeFastMarketsChoices()
+        private List<string> FakeFastMarketsChoices()
         {
-            var expectedFastMarketsChoices = new Dictionary<string, string>();
+            var expectedFastMarketsChoices = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -119,7 +141,7 @@
                         Arg.Is(_handicap2),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(fastMarketsChoiceInSpecificLanguage);
-                expectedFastMarketsChoices.Add(standardLanguageCode, fastMarketsChoiceInSpecificLanguage);
+                expectedFastMarketsChoices.Add(fastMarketsChoiceInSpecificLanguage);
             }
 
             return expectedFastMarketsChoices;

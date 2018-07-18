@@ -13,7 +13,17 @@
             => _sportTypeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetSportNameOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetSportNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.SportName(_sportTypeId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetSportName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.SportName(_sportTypeId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetSportNameOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.SportName(_sportTypeId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeSportNames();
 
             // Act.
-            var actualSportNames = RefController.SportName(_sportTypeId, StandardLanguageCodes);
+            var actualResult = RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualSportNames.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetSportNameOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedSportNames = FakeSportNames();
 
             // Act.
-            var actualSportNames = RefController.SportName(_sportTypeId, StandardLanguageCodes);
+            var actualResult = RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedSportNames, actualSportNames);
+            Assert.Equal(expectedSportNames, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeSportNames()
+        private List<string> FakeSportNames()
         {
-            var expectedSportNames = new Dictionary<string, string>();
+            var expectedSportNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(sportNameInSpecificLanguage);
-                expectedSportNames.Add(standardLanguageCode, sportNameInSpecificLanguage);
+                expectedSportNames.Add(sportNameInSpecificLanguage);
             }
 
             return expectedSportNames;

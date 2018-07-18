@@ -14,7 +14,17 @@
             => _kenoBetChoiceId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetKenoBetChoiceOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetKenoBetChoiceOfRefDataHelper()
+        {
+            // Act.
+            RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
@@ -24,7 +34,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetKenoBetChoiceOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
@@ -39,34 +49,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeKenoBetChoices();
 
             // Act.
-            var actualKenoBetChoicesAndBetTypes = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
+            var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualKenoBetChoicesAndBetTypes.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetKenoBetChoiceOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedKenoBetChoicesAndBetTypes = FakeKenoBetChoices();
 
             // Act.
-            var actualKenoBetChoicesAndBetTypes = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
+            var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedKenoBetChoicesAndBetTypes, actualKenoBetChoicesAndBetTypes);
+            Assert.Equal(expectedKenoBetChoicesAndBetTypes, actualResult.Values);
         }
 
-        private Dictionary<string, Tuple<string, string>> FakeKenoBetChoices()
+        private List<Tuple<string, string>> FakeKenoBetChoices()
         {
-            var expectedKenoBetChoicesAndBetTypes = new Dictionary<string, Tuple<string, string>>();
+            var expectedKenoBetChoicesAndBetTypes = new List<Tuple<string, string>>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -82,7 +92,6 @@
                         return kenoBetChoiceInSpecificLanguage;
                     });
                 expectedKenoBetChoicesAndBetTypes.Add(
-                    standardLanguageCode,
                     new Tuple<string, string>(kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
             }
 

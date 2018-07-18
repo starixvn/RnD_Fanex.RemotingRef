@@ -13,7 +13,17 @@
             => _codeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetHorseTeamNameOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetHorseTeamNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.HorseTeamName(_codeId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.HorseTeamName(_codeId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetHorseTeamNameOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.HorseTeamName(_codeId, StandardLanguageCodes);
@@ -38,34 +48,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeHorseTeamNames();
 
             // Act.
-            var actualHorseTeamNames = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
+            var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualHorseTeamNames.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetHorseTeamNameOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedHorseTeamNames = FakeHorseTeamNames();
 
             // Act.
-            var actualHorseTeamNames = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
+            var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedHorseTeamNames, actualHorseTeamNames);
+            Assert.Equal(expectedHorseTeamNames, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeHorseTeamNames()
+        private List<string> FakeHorseTeamNames()
         {
-            var expectedHorseTeamNames = new Dictionary<string, string>();
+            var expectedHorseTeamNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -74,7 +84,7 @@
                 RefData
                     .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(horseTeamNameInSpecificLanguage);
-                expectedHorseTeamNames.Add(standardLanguageCode, horseTeamNameInSpecificLanguage);
+                expectedHorseTeamNames.Add(horseTeamNameInSpecificLanguage);
             }
 
             return expectedHorseTeamNames;

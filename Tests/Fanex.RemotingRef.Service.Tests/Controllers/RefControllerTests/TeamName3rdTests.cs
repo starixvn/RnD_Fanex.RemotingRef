@@ -13,7 +13,17 @@
             => _team3rdId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetTeamName3rdOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetTeamName3rdOfRefDataHelper()
+        {
+            // Act.
+            RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetTeamName3rdOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeTeam3rdNames();
 
             // Act.
-            var actualTeam3rdNames = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
+            var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualTeam3rdNames.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetTeamName3rdOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedTeam3rdNames = FakeTeam3rdNames();
 
             // Act.
-            var actualTeam3rdNames = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
+            var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedTeam3rdNames, actualTeam3rdNames);
+            Assert.Equal(expectedTeam3rdNames, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeTeam3rdNames()
+        private List<string> FakeTeam3rdNames()
         {
-            var expectedTeam3rdNames = new Dictionary<string, string>();
+            var expectedTeam3rdNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(teamNameInSpecificLanguage);
-                expectedTeam3rdNames.Add(standardLanguageCode, teamNameInSpecificLanguage);
+                expectedTeam3rdNames.Add(teamNameInSpecificLanguage);
             }
 
             return expectedTeam3rdNames;

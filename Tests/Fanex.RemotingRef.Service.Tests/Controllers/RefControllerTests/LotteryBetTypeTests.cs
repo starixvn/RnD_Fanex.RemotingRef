@@ -13,7 +13,17 @@
             => _lotteryBetTypeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetLotteryBetTypeOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetLotteryBetTypeOfRefDataHelper()
+        {
+            // Act.
+            RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetLotteryBetType(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetLotteryBetTypeOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeLotteryBetTypes();
 
             // Act.
-            var actualLotteryBetTypes = RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualLotteryBetTypes.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetLotteryBetTypeOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedLotteryBetTypes = FakeLotteryBetTypes();
 
             // Act.
-            var actualLotteryBetTypes = RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetType(_lotteryBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedLotteryBetTypes, actualLotteryBetTypes);
+            Assert.Equal(expectedLotteryBetTypes, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeLotteryBetTypes()
+        private List<string> FakeLotteryBetTypes()
         {
-            var expectedLotteryBetTypes = new Dictionary<string, string>();
+            var expectedLotteryBetTypes = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(lotteryBetTypeInSpecificLanguage);
-                expectedLotteryBetTypes.Add(standardLanguageCode, lotteryBetTypeInSpecificLanguage);
+                expectedLotteryBetTypes.Add(lotteryBetTypeInSpecificLanguage);
             }
 
             return expectedLotteryBetTypes;

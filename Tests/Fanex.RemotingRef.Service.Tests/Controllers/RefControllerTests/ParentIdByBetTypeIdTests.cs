@@ -13,7 +13,17 @@
             => _betTypeId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetParentIdByBetTypeIdOfRefDataHelperOnlyOneTime()
+        public void AlwaysCallGetParentIdByBetTypeIdOfRefDataHelper()
+        {
+            // Act.
+            RefController.ParentIdByBetTypeId(_betTypeId);
+
+            // Assert.
+            RefData.Received().GetParentIdByBetTypeId(Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.ParentIdByBetTypeId(_betTypeId);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void ReturnResultWithDefaultLanguageCodesAsKey()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Arrange.
             FakeParentIdByBetTypeId();
@@ -36,27 +46,40 @@
         }
 
         [Fact]
-        public void ReturnDataGotFromGetParentIdByBetTypeIdOfRefDataHelper()
+        public void ResultTakesStandardLanguageCodesAsKeys()
+        {
+            // Arrange.
+            FakeParentIdByBetTypeId();
+
+            // Act.
+            var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Equal(new[] { DefaultLanguageCode }, actualResult.Keys);
+        }
+
+        [Fact]
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedParentIdByBetTypeId = FakeParentIdByBetTypeId();
 
             // Act.
-            var actualParentIdByBetTypeId = RefController.ParentIdByBetTypeId(_betTypeId);
+            var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);
 
             // Assert.
-            Assert.Equal(expectedParentIdByBetTypeId, actualParentIdByBetTypeId);
+            Assert.Equal(expectedParentIdByBetTypeId, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeParentIdByBetTypeId()
+        private List<string> FakeParentIdByBetTypeId()
         {
             var parentBetTypeId = Fixture.Create<string>();
 
             RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns(parentBetTypeId);
 
-            return new Dictionary<string, string>
+            return new List<string>
             {
-                [DefaultLanguageCode] = parentBetTypeId
+                parentBetTypeId
             };
         }
     }

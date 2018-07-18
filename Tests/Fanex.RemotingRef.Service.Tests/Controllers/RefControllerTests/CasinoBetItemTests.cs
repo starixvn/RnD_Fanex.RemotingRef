@@ -13,7 +13,17 @@
             => _itemId = Fixture.Create<string>();
 
         [Fact]
-        public void CallGetCasinoBetItemOfRefDataHelperOncePerLanguage()
+        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        {
+            // Act.
+            RefController.TeamName(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            RefData.Received().GetTeamName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
             RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
@@ -23,7 +33,7 @@
         }
 
         [Fact]
-        public void SendCorrectArgumentsToGetCasinoBetItemOfRefDataHelper()
+        public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
             RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
@@ -36,34 +46,34 @@
         }
 
         [Fact]
-        public void ReturnResultWithStandardLanguageCodesAsKeys()
+        public void ResultTakesStandardLanguageCodesAsKeys()
         {
             // Arrange.
             FakeCasinoBetItems();
 
             // Act.
-            var actualCasinoBetItems = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
+            var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(StandardLanguageCodes, actualCasinoBetItems.Keys);
+            Assert.Equal(StandardLanguageCodes, actualResult.Keys);
         }
 
         [Fact]
-        public void ReturnDataGotFromGetCasinoBetItemOfRefDataHelper()
+        public void ResultTakesDataReturnedByRefDataHelperAsValues()
         {
             // Arrange.
             var expectedCasinoBetItems = FakeCasinoBetItems();
 
             // Act.
-            var actualCasinoBetItems = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
+            var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedCasinoBetItems, actualCasinoBetItems);
+            Assert.Equal(expectedCasinoBetItems, actualResult.Values);
         }
 
-        private Dictionary<string, string> FakeCasinoBetItems()
+        private List<string> FakeCasinoBetItems()
         {
-            var expectedCasinoBetItems = new Dictionary<string, string>();
+            var expectedCasinoBetItems = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -72,7 +82,7 @@
                 RefData
                     .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(casinoBetItemInSpecificLanguage);
-                expectedCasinoBetItems.Add(standardLanguageCode, casinoBetItemInSpecificLanguage);
+                expectedCasinoBetItems.Add(casinoBetItemInSpecificLanguage);
             }
 
             return expectedCasinoBetItems;
