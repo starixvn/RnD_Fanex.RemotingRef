@@ -13,13 +13,13 @@
             => _itemId = Fixture.Create<string>();
 
         [Fact]
-        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        public void AlwaysCallGetCasinoBetItemOfRefDataHelper()
         {
             // Act.
-            RefController.TeamName(_itemId, StandardLanguageCodes);
+            RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetTeamName(Arg.Any<string>(), Arg.Any<string>());
+            RefData.Received().GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]

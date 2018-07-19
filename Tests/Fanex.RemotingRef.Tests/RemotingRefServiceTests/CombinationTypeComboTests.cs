@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,19 +6,19 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class CombinationTypeComboTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetCombinationTypeComboSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betTeam = _fixture.Create<string>();
-            var betCheck = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
+            var betTeam = Fixture.Create<string>();
+            var betCheck = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
 
             // Act.
-            _remotingRefService.GetCombinationTypeCombo(
+            RemotingRefService.GetCombinationTypeCombo(
                 betTeam,
                 betCheck,
                 handicap1,
@@ -28,25 +28,25 @@
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"CombinationTypeComboParlay?betTeam={betTeam}&betCheck={betCheck}&handicap1={handicap1}&handicap2={handicap2}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetCombinationTypeComboReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTeam = _fixture.Create<string>();
-            var betCheck = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
-            var combinationTypes = _fixture.Create<string[]>();
+            var betTeam = Fixture.Create<string>();
+            var betCheck = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
+            var combinationTypes = Fixture.Create<string[]>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string[]>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string[]> { { TestingLanguageCode, combinationTypes } });
+                .Returns(new Dictionary<string, string[]> { [TestingLanguageCode] = combinationTypes });
 
             // Act.
-            var actualCombinationTypes = _remotingRefService.GetCombinationTypeCombo(
+            var actualCombinationTypes = RemotingRefService.GetCombinationTypeCombo(
                 betTeam,
                 betCheck,
                 handicap1,
@@ -58,20 +58,20 @@
         }
 
         [Fact]
-        public void GetCombinationTypeComboReturnsNullIfServiceReturnsNull()
+        public void ReturnNullIfServiceReturnsNull()
         {
             // Arrange.
-            var betTeam = _fixture.Create<string>();
-            var betCheck = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
+            var betTeam = Fixture.Create<string>();
+            var betCheck = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualCombinationTypes = _remotingRefService.GetCombinationTypeCombo(
+            var actualCombinationTypes = RemotingRefService.GetCombinationTypeCombo(
                 betTeam,
                 betCheck,
                 handicap1,

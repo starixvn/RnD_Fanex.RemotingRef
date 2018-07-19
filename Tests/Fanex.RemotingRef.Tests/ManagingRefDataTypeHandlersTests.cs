@@ -7,8 +7,8 @@
     using Fanex.RemotingRef.TranslationStorage;
     using Xunit;
 
-    [Collection("Run with Single RefDataTypeContainer due to conflicting set up RefDataTypeContainer")]
-    public class ManagingRefDataTypeHandlersTests
+    [Collection("SharedContainer")]
+    public sealed class ManagingRefDataTypeHandlersTests : IDisposable
     {
         private readonly RequestTranslationSetDelegate _requestHandler;
         private readonly SyncTranslationSetsDelegate _syncHandler;
@@ -48,9 +48,6 @@
         [Fact]
         public void RetrievingServiceUriBeforeCallingConnectToThrowsInvalidOperationException()
         {
-            // Arrange.
-            RefDataTypeContainer.Reset();
-
             // Act.
             var exception = Record.Exception(() => RefDataTypeContainer.ServiceUri);
 
@@ -64,7 +61,9 @@
             // Arrange.
             var remotingRefServiceUri = new Uri("http://localhost:9999");
 
-            RefDataTypeContainer.ConnectTo(remotingRefServiceUri);
+            RefDataTypeContainer
+                .ConnectTo(remotingRefServiceUri)
+                .FromApplication("AnApplicationName");
 
             // Act.
             var actualUri = RefDataTypeContainer.ServiceUri;
@@ -291,5 +290,8 @@
             // Assert.
             Assert.Same(fluentInstance, returnedInstance);
         }
+
+        public void Dispose()
+            => RefDataTypeContainer.Reset();
     }
 }

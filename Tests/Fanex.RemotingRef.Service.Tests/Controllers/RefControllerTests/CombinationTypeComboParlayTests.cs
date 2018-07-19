@@ -21,7 +21,7 @@
         }
 
         [Fact]
-        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        public void AlwaysCallGetCombinationTypeComboOfRefDataHelper()
         {
             // Act.
             RefController.CombinationTypeComboParlay(

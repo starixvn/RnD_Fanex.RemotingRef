@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,54 +6,54 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class OddsTypeNameTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetOddsTypeNameSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var oddsTypeId = _fixture.Create<string>();
+            var oddsTypeId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
+            RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"OddsTypeName?oddsTypeId={oddsTypeId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetOddsTypeNameReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var oddsTypeId = _fixture.Create<string>();
-            var oddsTypeName = _fixture.Create<string>();
+            var oddsTypeId = Fixture.Create<string>();
+            var oddsTypeName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, oddsTypeName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = oddsTypeName });
 
             // Act.
-            var actualOddsTypeName = _remotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
+            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(oddsTypeName, actualOddsTypeName);
         }
 
         [Fact]
-        public void GetOddsTypeNameWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var oddsTypeId = _fixture.Create<string>();
-            var defaultOddsTypeName = _fixture.Create<string>();
+            var oddsTypeId = Fixture.Create<string>();
+            var defaultOddsTypeName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualOddsTypeName = _remotingRefService.GetOddsTypeName(
+            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(
                 oddsTypeId,
                 TestingLanguageCode,
                 defaultOddsTypeName);
@@ -63,17 +63,17 @@
         }
 
         [Fact]
-        public void GetOddsTypeNameWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var oddsTypeId = _fixture.Create<string>();
+            var oddsTypeId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualOddsTypeName = _remotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
+            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualOddsTypeName);

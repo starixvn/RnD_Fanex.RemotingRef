@@ -7,12 +7,12 @@ namespace Fanex.RemotingRef.Integration.Tests
 
     public class RemotingRefServiceFixture
     {
-        private static readonly string _remotingRefServiceUrl = ConfigurationManager.AppSettings["RemotingRefServiceTest"];
+        private static readonly string RemotingRefServiceUrl = ConfigurationManager.AppSettings["RemotingRefServiceTest"];
 
         public RemotingRefServiceFixture()
         {
             RefDataTypeContainer
-                .ConnectTo(new Uri(_remotingRefServiceUrl))
+                .ConnectTo(new Uri(RemotingRefServiceUrl))
                 .FromApplication("UnitTest_AppName")
                 .SupportOnlyDefaultLanguage();
         }

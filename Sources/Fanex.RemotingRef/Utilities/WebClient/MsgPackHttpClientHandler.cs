@@ -11,7 +11,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
     {
         public const string MimeType = "application/x-msgpack";
 
-        private static readonly object _syncRoot = new object();
+        private static readonly object SyncRoot = new object();
         private static HttpClient _client;
 
         public static HttpClient Client => GetHttpClient();
@@ -20,7 +20,7 @@ namespace Fanex.RemotingRef.Utilities.WebClient
         {
             if (_client == null)
             {
-                lock (_syncRoot)
+                lock (SyncRoot)
                 {
                     if (_client == null)
                     {

@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,54 +6,54 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class TeamNameTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetTeamNameSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var teamId = _fixture.Create<string>();
+            var teamId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"TeamName?teamId={teamId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetTeamNameReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var teamId = _fixture.Create<string>();
-            var teamName = _fixture.Create<string>();
+            var teamId = Fixture.Create<string>();
+            var teamName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, teamName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = teamName });
 
             // Act.
-            var actualTeamName = _remotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(teamName, actualTeamName);
         }
 
         [Fact]
-        public void GetTeamNameWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var teamId = _fixture.Create<string>();
-            var defaultTeamName = _fixture.Create<string>();
+            var teamId = Fixture.Create<string>();
+            var defaultTeamName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualTeamName = _remotingRefService.GetTeamName(
+            var actualTeamName = RemotingRefService.GetTeamName(
                 teamId,
                 TestingLanguageCode,
                 defaultTeamName);
@@ -63,17 +63,17 @@
         }
 
         [Fact]
-        public void GetTeamNameWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var teamId = _fixture.Create<string>();
+            var teamId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualTeamName = _remotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualTeamName);

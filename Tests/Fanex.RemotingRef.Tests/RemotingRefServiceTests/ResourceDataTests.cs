@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,18 +6,18 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class ResourceDataTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetResourceDataByRefIdAndResourceIdSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var refId = _fixture.Create<string>();
-            var resourceId = _fixture.Create<string>();
-            var defaultResourceData = _fixture.Create<string>();
+            var refId = Fixture.Create<string>();
+            var resourceId = Fixture.Create<string>();
+            var defaultResourceData = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetResourceDataByRefIdAndResourceId(
+            RemotingRefService.GetResourceDataByRefIdAndResourceId(
                 refId,
                 resourceId,
                 TestingLanguageCode,
@@ -26,24 +26,24 @@
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"ResourceData?refId={refId}&resourceId={resourceId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetResourceDataByRefIdAndResourceIdReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var refId = _fixture.Create<string>();
-            var resourceId = _fixture.Create<string>();
-            var resourceData = _fixture.Create<string>();
-            var defaultResourceData = _fixture.Create<string>();
+            var refId = Fixture.Create<string>();
+            var resourceId = Fixture.Create<string>();
+            var resourceData = Fixture.Create<string>();
+            var defaultResourceData = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, resourceData } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = resourceData });
 
             // Act.
-            var actualResourceData = _remotingRefService.GetResourceDataByRefIdAndResourceId(
+            var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
                 refId,
                 resourceId,
                 TestingLanguageCode,
@@ -54,19 +54,19 @@
         }
 
         [Fact]
-        public void GetResourceDataByRefIdAndResourceIdReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var refId = _fixture.Create<string>();
-            var resourceId = _fixture.Create<string>();
-            var defaultResourceData = _fixture.Create<string>();
+            var refId = Fixture.Create<string>();
+            var resourceId = Fixture.Create<string>();
+            var defaultResourceData = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualResourceData = _remotingRefService.GetResourceDataByRefIdAndResourceId(
+            var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
                 refId,
                 resourceId,
                 TestingLanguageCode,

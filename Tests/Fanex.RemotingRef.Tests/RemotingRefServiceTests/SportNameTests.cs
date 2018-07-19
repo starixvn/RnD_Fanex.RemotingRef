@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,71 +6,71 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class SportNameTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetSportNameSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var sportTypeId = _fixture.Create<string>();
+            var sportTypeId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
+            RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"SportName?sportTypeId={sportTypeId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetSportNameReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var sportTypeId = _fixture.Create<string>();
-            var sportTypeName = _fixture.Create<string>();
+            var sportTypeId = Fixture.Create<string>();
+            var sportTypeName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, sportTypeName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = sportTypeName });
 
             // Act.
-            var actualSportName = _remotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
+            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(sportTypeName, actualSportName);
         }
 
         [Fact]
-        public void GetSportNameWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var sportTypeId = _fixture.Create<string>();
-            var defaultSportTypeName = _fixture.Create<string>();
+            var sportTypeId = Fixture.Create<string>();
+            var defaultSportTypeName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualSportName = _remotingRefService.GetSportName(sportTypeId, TestingLanguageCode, defaultSportTypeName);
+            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode, defaultSportTypeName);
 
             // Assert.
             Assert.Equal(defaultSportTypeName, actualSportName);
         }
 
         [Fact]
-        public void GetSportNameWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void RetursEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var sportTypeId = _fixture.Create<string>();
+            var sportTypeId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualSportName = _remotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
+            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualSportName);

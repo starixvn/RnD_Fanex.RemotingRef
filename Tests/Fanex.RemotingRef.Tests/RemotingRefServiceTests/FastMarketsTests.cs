@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,19 +6,19 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class FastMarketsTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetFastMarketsChoiceSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var betTeam = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
+            var betTypeId = Fixture.Create<string>();
+            var betTeam = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
 
             // Act.
-            _remotingRefService.GetFastMarketsChoice(
+            RemotingRefService.GetFastMarketsChoice(
                 betTypeId,
                 betTeam,
                 handicap1,
@@ -28,25 +28,25 @@
             // Assert.
             string expectedUrl = string.Format(RequestUrlPattern, $"FastMarketsChoice?betTypeId={betTypeId}&betTeam={betTeam}&handicap1={handicap1}&handicap2={handicap2}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetFastMarketsChoiceReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var betTeam = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
-            var fastMarketsChoice = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var betTeam = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
+            var fastMarketsChoice = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, fastMarketsChoice } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = fastMarketsChoice });
 
             // Act.
-            var actualFastMarketsChoice = _remotingRefService.GetFastMarketsChoice(
+            var actualFastMarketsChoice = RemotingRefService.GetFastMarketsChoice(
                 betTypeId,
                 betTeam,
                 handicap1,
@@ -58,20 +58,20 @@
         }
 
         [Fact]
-        public void GetFastMarketsChoiceReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNull()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var betTeam = _fixture.Create<string>();
-            var handicap1 = _fixture.Create<int>();
-            var handicap2 = _fixture.Create<int>();
+            var betTypeId = Fixture.Create<string>();
+            var betTeam = Fixture.Create<string>();
+            var handicap1 = Fixture.Create<int>();
+            var handicap2 = Fixture.Create<int>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualFastMarketsChoice = _remotingRefService.GetFastMarketsChoice(
+            var actualFastMarketsChoice = RemotingRefService.GetFastMarketsChoice(
                 betTypeId,
                 betTeam,
                 handicap1,
@@ -80,56 +80,6 @@
 
             // Assert.
             Assert.Empty(actualFastMarketsChoice);
-        }
-
-        [Fact]
-        public void GetFastMarkets225ResultSendsRequestWithCorrectParameters()
-        {
-            // Arrange.
-            var resultId = _fixture.Create<string>();
-
-            // Act.
-            _remotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
-
-            // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"FastMarkets225Result?resultId={resultId}");
-
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
-        }
-
-        [Fact]
-        public void GetFastMarkets225ResultReturnsValueGotFromService()
-        {
-            // Arrange.
-            var resultId = _fixture.Create<string>();
-            var result = _fixture.Create<string>();
-
-            _serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, result } });
-
-            // Act.
-            var actualResult = _remotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
-
-            // Assert.
-            Assert.Equal(result, actualResult);
-        }
-
-        [Fact]
-        public void GetFastMarkets225ResultReturnsEmptyStringIfServiceReturnsNull()
-        {
-            // Arrange.
-            var resultId = _fixture.Create<string>();
-
-            _serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
-
-            // Act.
-            var actualResult = _remotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
-
-            // Assert.
-            Assert.Empty(actualResult);
         }
     }
 }

@@ -21,7 +21,7 @@
         }
 
         [Fact]
-        public void AlwaysCallGetTeamNameOfRefDataHelper()
+        public void AlwaysCallGetFastMarketsChoiceOfRefDataHelper()
         {
             // Act.
             RefController.FastMarketsChoice(

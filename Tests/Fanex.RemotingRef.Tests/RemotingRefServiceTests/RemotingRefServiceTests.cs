@@ -1,67 +1,29 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System;
-    using System.IO;
     using System.Net;
     using System.Net.Http;
     using AutoFixture;
-    using Fanex.RemotingRef.Utilities.Serialization;
-    using Fanex.RemotingRef.Utilities.WebClient;
     using NSubstitute;
     using Xunit;
 
-    [Collection("Run with Single RefDataTypeContainer due to conflicting set up RefDataTypeContainer")]
-    public partial class RemotingRefServiceTests
+    public class RemotingRefServiceTests : RemotingRefServiceBaseTests
     {
-        private const string ApplicationName = "UnitTest_AppName";
-        private const string TestingLanguageCode = RefDataTypeHandlerOptions.DefaultLanguage;
-
-        private static readonly string RequestUrlPattern = $"api/ref/{{0}}&languages=en-US&applicationName={ApplicationName}";
-
-        private readonly IHttpHandler _httpClient;
-        private readonly ISerializer _serializer;
-        private readonly IRemotingRefService _remotingRefService;
-        private readonly Fixture _fixture;
-
-        public RemotingRefServiceTests()
-        {
-            RefDataTypeContainer
-                .ConnectTo(new Uri("http://localhost:10000"))
-                .FromApplication(ApplicationName)
-                .SupportOnlyDefaultLanguage();
-
-            _serializer = Substitute.For<ISerializer>();
-
-            _httpClient = Substitute.For<IHttpHandler>();
-            _httpClient.GetAsync(Arg.Any<string>()).Returns(FakeHttpResponseMessage());
-
-            _remotingRefService = new RemotingRefService(_httpClient, _serializer);
-
-            _fixture = new Fixture();
-        }
-
-        private static HttpResponseMessage FakeHttpResponseMessage()
-            => new HttpResponseMessage
-            {
-                Content = new StreamContent(new MemoryStream(new byte[] { }))
-            };
-
         [Fact]
         public void RequestTranslationReturningFailedResponseThrowsRemotingRefException()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var statusCode = _fixture.Create<HttpStatusCode>();
-            var failedReason = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var statusCode = Fixture.Create<HttpStatusCode>();
+            var failedReason = Fixture.Create<string>();
             var httpResponseMessage = new HttpResponseMessage(statusCode)
             {
                 ReasonPhrase = failedReason
             };
 
-            _httpClient.GetAsync(Arg.Any<string>()).Returns(httpResponseMessage);
+            HttpClient.GetAsync(Arg.Any<string>()).Returns(httpResponseMessage);
 
             // Act.
-            var exception = Record.Exception(() => _remotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode));
+            var exception = Record.Exception(() => RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode));
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
@@ -77,17 +39,17 @@
         public void NullParameterIsNotIncludedInRequest()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var defaultValue = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var defaultValue = Fixture.Create<string>();
             string resourceId = null;
 
             // Act.
-            _remotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode, defaultValue, resourceId);
+            RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode, defaultValue, resourceId);
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
     }
 }

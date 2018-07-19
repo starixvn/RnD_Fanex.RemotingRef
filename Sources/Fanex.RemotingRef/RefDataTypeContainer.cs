@@ -51,7 +51,12 @@
         }
 
         internal static void Reset()
-            => CurrentInstance = null;
+        {
+            CurrentInstance = null;
+            RefDataTypeHandlerOptions.ApplicationName = null;
+            RefDataTypeHandlerOptions.IsMultiLanguagesSupported = true;
+            RefDataTypeHandlerOptions.SupportedLanguageCodes = RefDataTypeHandlerOptions.DefaultSupportedLanguageCodes;
+        }
 
         internal static IRefDataTypeHandler TryResolveDataTypeHandler(
             RefDataType dataType,

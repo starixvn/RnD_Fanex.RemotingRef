@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,56 +6,56 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class DisplayedTypeIdTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetDisplayedTypeIdSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var defaultDisplayTypeId = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var defaultDisplayTypeId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
 
             // Assert.
             string expectedUrl = string.Format(RequestUrlPattern, $"DisplayedTypeId?betTypeId={betTypeId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetDisplayedTypeIdReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var displayTypeId = _fixture.Create<string>();
-            var defaultDisplayTypeId = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var displayTypeId = Fixture.Create<string>();
+            var defaultDisplayTypeId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, displayTypeId } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = displayTypeId });
 
             // Act.
-            var actualDisplayTypeId = _remotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
 
             // Assert.
             Assert.Equal(displayTypeId, actualDisplayTypeId);
         }
 
         [Fact]
-        public void GetDisplayedTypeIdReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var betTypeId = _fixture.Create<string>();
-            var defaultDisplayTypeId = _fixture.Create<string>();
+            var betTypeId = Fixture.Create<string>();
+            var defaultDisplayTypeId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualDisplayTypeId = _remotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
 
             // Assert.
             Assert.Equal(defaultDisplayTypeId, actualDisplayTypeId);

@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,71 +6,71 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class HorseTeamTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetHorseTeamNameSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var codeId = _fixture.Create<string>();
+            var codeId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
+            RemotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
 
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"HorseTeamName?codeId={codeId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetHorseTeamNameReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var codeId = _fixture.Create<string>();
-            var horseTeamName = _fixture.Create<string>();
+            var codeId = Fixture.Create<string>();
+            var horseTeamName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, horseTeamName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = horseTeamName });
 
             // Act.
-            var actualHorseTeamName = _remotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
+            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(horseTeamName, actualHorseTeamName);
         }
 
         [Fact]
-        public void GetHorseTeamNameWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var codeId = _fixture.Create<string>();
-            var defaultHorseTeamName = _fixture.Create<string>();
+            var codeId = Fixture.Create<string>();
+            var defaultHorseTeamName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualHorseTeamName = _remotingRefService.GetHorseTeamName(codeId, TestingLanguageCode, defaultHorseTeamName);
+            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguageCode, defaultHorseTeamName);
 
             // Assert.
             Assert.Equal(defaultHorseTeamName, actualHorseTeamName);
         }
 
         [Fact]
-        public void GetHorseTeamNameWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var codeId = _fixture.Create<string>();
+            var codeId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualHorseTeamName = _remotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
+            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualHorseTeamName);

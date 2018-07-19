@@ -13,13 +13,13 @@
             => _league3rdId = Fixture.Create<string>();
 
         [Fact]
-        public void AlwaysCallGetTeam3rdNameOfRefDataHelper()
+        public void AlwaysCallGetLeagueName3rdOfRefDataHelper()
         {
             // Act.
-            RefController.TeamName3rd(_league3rdId, StandardLanguageCodes);
+            RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+            RefData.Received().GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]

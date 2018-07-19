@@ -13,14 +13,13 @@
         protected const string DefaultLanguageCode = LanguageHelper.DefaultLanguage;
 
         protected static readonly string[] StandardLanguageCodes = { DefaultLanguageCode, "zh-TW" };
-
         protected static readonly Dictionary<string, string> MappedRemotingRefLanguageCodes = new Dictionary<string, string>
         {
             ["en-US"] = "en",
             ["zh-TW"] = "ch"
         };
 
-        private bool disposed;
+        private bool _disposed;
 
         protected RefControllerBaseTests()
         {
@@ -37,14 +36,14 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     RefController.Dispose();
                 }
 
-                disposed = true;
+                _disposed = true;
             }
         }
 

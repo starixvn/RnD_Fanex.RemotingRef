@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,54 +6,54 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class CasinoBetItemTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetCasinoBetItemSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
+            RemotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             string expectedUrl = string.Format(RequestUrlPattern, $"CasinoBetItem?itemId={itemId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetCasinoBetItemReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
-            var casinoBetItemName = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
+            var casinoBetItemName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, casinoBetItemName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = casinoBetItemName });
 
             // Act.
-            var actualCasinoBetItemName = _remotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
+            var actualCasinoBetItemName = RemotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(casinoBetItemName, actualCasinoBetItemName);
         }
 
         [Fact]
-        public void GetCasinoBetItemWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
-            var defaultCasinoBetItemName = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
+            var defaultCasinoBetItemName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualCasinoBetItemName = _remotingRefService.GetCasinoBetItem(
+            var actualCasinoBetItemName = RemotingRefService.GetCasinoBetItem(
                 itemId,
                 TestingLanguageCode,
                 defaultCasinoBetItemName);
@@ -63,17 +63,17 @@
         }
 
         [Fact]
-        public void GetCasinoBetItemWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualCasinoBetItemName = _remotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
+            var actualCasinoBetItemName = RemotingRefService.GetCasinoBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualCasinoBetItemName);

@@ -7,20 +7,20 @@
 
     internal static class LocalStorageExtensions
     {
-        private static readonly Fixture _fixture = new Fixture();
+        private static readonly Fixture Fixture = new Fixture();
 
         static LocalStorageExtensions()
         {
-            _fixture.Customizations.Add(new RandomNumericSequenceGenerator(0, 10));
+            Fixture.Customizations.Add(new RandomNumericSequenceGenerator(0, 10));
         }
 
         public static string CreateKey()
-            => _fixture.Create<string>();
+            => Fixture.Create<string>();
 
         public static (KeySet, string) CreateKeySet()
         {
-            var key = _fixture.Create<string>();
-            var value = _fixture.Create<string>();
+            var key = Fixture.Create<string>();
+            var value = Fixture.Create<string>();
             var keySet = new KeySet
             {
                 [key] = value
@@ -31,7 +31,7 @@
 
         public static (KeySet, string) CreateRandomKeySet()
         {
-            var key = _fixture.Create<int>().ToString(CultureInfo.InvariantCulture);
+            var key = Fixture.Create<int>().ToString(CultureInfo.InvariantCulture);
             var value = key;
             var keySet = new KeySet
             {
@@ -54,7 +54,7 @@
 
         public static TranslationSet CreateTranslationSet()
         {
-            var value = _fixture.Create<string>();
+            var value = Fixture.Create<string>();
 
             return TranslationSet.FromDictionary(new Dictionary<string, string>
             {

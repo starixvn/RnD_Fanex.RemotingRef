@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Tests
+﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,54 +6,54 @@
     using NSubstitute;
     using Xunit;
 
-    public partial class RemotingRefServiceTests
+    public class RouletteBetItemTests : RemotingRefServiceBaseTests
     {
         [Fact]
-        public void GetRouletteBetItemSendsRequestWithCorrectParameters()
+        public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
 
             // Act.
-            _remotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
+            RemotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             string expectedUrl = string.Format(RequestUrlPattern, $"RouletteBetItem?itemId={itemId}");
 
-            _httpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
-        public void GetRouletteBetItemReturnsValueGotFromService()
+        public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
-            var rouletteBetItemName = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
+            var rouletteBetItemName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { { TestingLanguageCode, rouletteBetItemName } });
+                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = rouletteBetItemName });
 
             // Act.
-            var actualRouletteBetItemName = _remotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(rouletteBetItemName, actualRouletteBetItemName);
         }
 
         [Fact]
-        public void GetRouletteBetItemWithDefaultValuePassedReturnsDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
-            var defaultRouletteBetItemName = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
+            var defaultRouletteBetItemName = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualRouletteBetItemName = _remotingRefService.GetRouletteBetItem(
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(
                 itemId,
                 TestingLanguageCode,
                 defaultRouletteBetItemName);
@@ -63,17 +63,17 @@
         }
 
         [Fact]
-        public void GetRouletteBetItemWithoutDefaultValuePassedReturnsEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var itemId = _fixture.Create<string>();
+            var itemId = Fixture.Create<string>();
 
-            _serializer
+            Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualRouletteBetItemName = _remotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualRouletteBetItemName);
