@@ -11,17 +11,25 @@
         /// </summary>
         private const string DefaultName = null;
 
-        public string GetBetTypeName(string betTypeId, string language)
-            => RefData.GetBetTypeName(betTypeId, language, DefaultName);
+        public string GetBetTypeName(string betTypeId, string resourceId, long? refNo, string language)
+        {
+            if (resourceId == null && refNo == null)
+            {
+                return RefData.GetBetTypeName(betTypeId, language, DefaultName);
+            }
 
-        public string GetBetTypeName(string betTypeId, string language, long refNo)
-            => RefData.GetBetTypeName(betTypeId, language, refNo, DefaultName);
+            if (resourceId == null)
+            {
+                return RefData.GetBetTypeName(betTypeId, language, refNo.Value, DefaultName);
+            }
 
-        public string GetBetTypeName(string betTypeId, string language, string resourceId)
-            => RefData.GetBetTypeName(betTypeId, language, DefaultName, ResourceId: resourceId);
+            if (refNo == null)
+            {
+                return RefData.GetBetTypeName(betTypeId, language, DefaultName, resourceId);
+            }
 
-        public string GetBetTypeName(string betTypeId, string language, string resourceId, long refNo)
-            => RefData.GetBetTypeName(betTypeId, language, DefaultName, resourceId, refNo);
+            return RefData.GetBetTypeName(betTypeId, language, DefaultName, resourceId, refNo.Value);
+        }
 
         public string GetCasinoBetItem(string itemId, string language)
             => RefData.GetCasinoBetItem(itemId, language, DefaultName);

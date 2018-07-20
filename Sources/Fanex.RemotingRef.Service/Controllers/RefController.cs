@@ -22,52 +22,14 @@
         }
 
         [HttpGet]
-        public Dictionary<string, string> BetTypeName(string betTypeId = null, [FromUri] string[] languages = null)
+        public Dictionary<string, string> BetTypeName(string betTypeId = null, string resourceId = null, long? refNo = null, [FromUri]string[] languages = null)
         {
             var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language),
-                    IsValidRefData,
-                    languages,
-                    betTypeId);
-
-            return betTypeNames;
-        }
-
-        [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithRefNo(string betTypeId = null, long refNo = 0, [FromUri] string[] languages = null)
-        {
-            var betTypeNames = GetRefResult(
-                   (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, (long)parameters[1]),
-                   IsValidRefData,
-                   languages,
-                   betTypeId,
-                   refNo);
-
-            return betTypeNames;
-        }
-
-        [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithResourceId(string betTypeId = null, string resourceId = null, [FromUri]string[] languages = null)
-        {
-            var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, parameters[1] as string),
+                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, parameters[1] as string, (long?)parameters[2], language),
                     IsValidRefData,
                     languages,
                     betTypeId,
-                    resourceId ?? string.Empty);
-
-            return betTypeNames;
-        }
-
-        [HttpGet]
-        public Dictionary<string, string> BetTypeNameWithRefNoAndResourceId(string betTypeId = null, string resourceId = null, long refNo = 0, [FromUri]string[] languages = null)
-        {
-            var betTypeNames = GetRefResult(
-                    (parameters, language) => _refData.GetBetTypeName(parameters[0] as string, language, parameters[1] as string, (long)parameters[2]),
-                    IsValidRefData,
-                    languages,
-                    betTypeId,
-                    resourceId ?? string.Empty,
+                    resourceId,
                     refNo);
 
             return betTypeNames;
@@ -192,7 +154,7 @@
         {
             var combinationTypes = GetRefResult(
                     (parameters, language) => _refData.GetCombinationTypeCombo(parameters[0] as string, parameters[1] as string, (int)parameters[2], (int)parameters[3], language),
-                    (refData) => refData.Any(item => !string.IsNullOrEmpty(item)),
+                    (refData) => refData != null && refData.Any(item => !string.IsNullOrEmpty(item)),
                     languages,
                     betTeam,
                     betCheck,

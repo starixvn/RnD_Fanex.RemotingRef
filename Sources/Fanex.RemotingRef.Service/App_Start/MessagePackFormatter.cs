@@ -12,20 +12,18 @@
 
     public class MessagePackFormatter : MediaTypeFormatter
     {
+        public const string MimeType = "application/x-msgpack";
+
         public MessagePackFormatter()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/x-msgpack"));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(MimeType));
         }
 
         public override bool CanReadType(Type type)
-        {
-            return true;
-        }
+            => true;
 
         public override bool CanWriteType(Type type)
-        {
-            return true;
-        }
+            => true;
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
         {
@@ -40,6 +38,7 @@
             }
 
             MessagePackSerializer.NonGeneric.Serialize(type, writeStream, value, ContractlessStandardResolver.Instance);
+
             return Task.FromResult(0);
         }
 
@@ -56,6 +55,7 @@
             }
 
             var value = MessagePackSerializer.NonGeneric.Deserialize(type, readStream, ContractlessStandardResolver.Instance);
+
             return Task.FromResult(value);
         }
     }

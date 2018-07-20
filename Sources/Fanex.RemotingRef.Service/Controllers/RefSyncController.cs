@@ -43,41 +43,19 @@
         private Dictionary<string, string> GetBetTypeNames(string[] languages, Dictionary<string, object> parameterSet)
         {
             var betTypeNames = new Dictionary<string, string>();
+            var betTypeId = parameterSet.ContainsKey("betTypeId") ? (parameterSet["betTypeId"] as string) : null;
+            var resourceId = parameterSet.ContainsKey("resourceId") ? (parameterSet["resourceId"] as string) : null;
+            var refNo = parameterSet.ContainsKey("refNo") ? (long?)parameterSet["refNo"] : null;
 
             foreach (var language in languages)
             {
-                if (parameterSet.Keys.Count == 1)
-                {
-                    betTypeNames.Add(language, _refData.GetBetTypeName(parameterSet["betTypeId"].ToString(), LanguageHelper.GenerateTaiwanLanguage(language)));
-                }
-                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("refNo"))
-                {
-                    betTypeNames.Add(
-                        language,
-                        _refData.GetBetTypeName(
-                            parameterSet["betTypeId"].ToString(),
-                            LanguageHelper.GenerateTaiwanLanguage(language),
-                            (long)parameterSet["refNo"]));
-                }
-                else if (parameterSet.Keys.Count == 2 && parameterSet.ContainsKey("resourceId"))
-                {
-                    betTypeNames.Add(
-                        language,
-                        _refData.GetBetTypeName(
-                            parameterSet["betTypeId"].ToString(),
-                            LanguageHelper.GenerateTaiwanLanguage(language),
-                            parameterSet["resourceId"].ToString()));
-                }
-                else
-                {
-                    betTypeNames.Add(
-                        language,
-                        _refData.GetBetTypeName(
-                           parameterSet["betTypeId"].ToString(),
-                           LanguageHelper.GenerateTaiwanLanguage(language),
-                           parameterSet["resourceId"].ToString(),
-                           (long)parameterSet["refNo"]));
-                }
+                betTypeNames.Add(
+                    language,
+                    _refData.GetBetTypeName(
+                        betTypeId,
+                        resourceId,
+                        refNo,
+                        LanguageHelper.GenerateTaiwanLanguage(language)));
             }
 
             return betTypeNames;
@@ -189,7 +167,7 @@
                                 (int)parameter["handicap1"],
                                 (int)parameter["handicap2"],
                                 LanguageHelper.GenerateTaiwanLanguage(language)),
-                    (result) => result.Any(item => item.Value.Any(type => !string.IsNullOrEmpty(type))));
+                    (result) => result.Any(item => item.Value != null && item.Value.Any(type => !string.IsNullOrEmpty(type))));
 
             return combinationTypeSet;
         }
@@ -250,7 +228,7 @@
             var kenoBetChoiceSet = GetRefResultSet(
                  data,
                  getRefData: GetKenoBetChoice,
-                 isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
+                 isValidRefResultData: (result) => result.Any(item => item.Value != null && (!string.IsNullOrEmpty(item.Value.Item1) || !string.IsNullOrEmpty(item.Value.Item2))));
 
             return kenoBetChoiceSet;
         }
@@ -303,7 +281,7 @@
         }
 
         [HttpPost]
-        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LotteryBetTypeName([FromBody]RequestSyncFormData data)
+        public Dictionary<Dictionary<string, object>, Dictionary<string, string>> LotteryBetType([FromBody]RequestSyncFormData data)
         {
             var lotteryBetTypeSet = GetRefResultSet(
                     data,
@@ -360,6 +338,6 @@
         }
 
         private static bool IsValidRefResultData<T>(IDictionary<string, T> result)
-            => result.Any(item => !string.IsNullOrEmpty(item.Value.ToString()));
+            => result.Any(item => !string.IsNullOrEmpty(item.Value as string));
     }
 }

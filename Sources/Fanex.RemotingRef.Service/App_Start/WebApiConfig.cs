@@ -3,7 +3,6 @@
     using System.Web.Http;
     using System.Web.Http.ModelBinding;
     using System.Web.Http.ModelBinding.Binders;
-    using Fanex.RemotingRef.Service.Configs;
     using Fanex.RemotingRef.Service.Filters;
     using Fanex.RemotingRef.Service.Utilities;
 
@@ -24,13 +23,10 @@
 
             config.Filters.Add(new GlobalExceptionFilterAttribute());
 
-            var provider = new SimpleModelBinderProvider(typeof(string), new NullOrEmptyStringModelBinder());
-            config.Services.Insert(typeof(ModelBinderProvider), 0, provider);
-
-            if (AppSettings.EnabledTrackingRequest)
-            {
-                config.Filters.Add(new TrackingRequestFilterAttribute());
-            }
+            config.Services.Insert(
+                typeof(ModelBinderProvider),
+                0,
+                new SimpleModelBinderProvider(typeof(string), new NullOrEmptyStringModelBinder()));
         }
     }
 }

@@ -6,7 +6,7 @@
     using NLog;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
-    public class GlobalExceptionFilterAttribute : ExceptionFilterAttribute
+    public sealed class GlobalExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {

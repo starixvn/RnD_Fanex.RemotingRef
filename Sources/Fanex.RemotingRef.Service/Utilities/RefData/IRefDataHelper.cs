@@ -2,13 +2,7 @@
 {
     public interface IRefDataHelper
     {
-        string GetBetTypeName(string betTypeId, string language);
-
-        string GetBetTypeName(string betTypeId, string language, long refNo);
-
-        string GetBetTypeName(string betTypeId, string language, string resourceId);
-
-        string GetBetTypeName(string betTypeId, string language, string resourceId, long refNo);
+        string GetBetTypeName(string betTypeId, string resourceId, long? refNo, string language);
 
         string GetSportName(string sportTypeId, string language);
 

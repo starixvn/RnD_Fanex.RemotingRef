@@ -123,13 +123,10 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MessagePackFormatter.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Configs\AppSettings.cs" />
     <Compile Include="Controllers\RefController.cs" />
     <Compile Include="Controllers\RefSyncController.cs" />
     <Compile Include="Filters\GlobalExceptionFilterAttribute.cs" />
-    <Compile Include="Filters\TrackingRequestFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
