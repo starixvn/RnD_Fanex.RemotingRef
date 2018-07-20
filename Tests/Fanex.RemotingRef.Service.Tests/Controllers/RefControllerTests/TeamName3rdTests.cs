@@ -87,5 +87,41 @@
 
             return expectedTeam3rdNames;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            Fake3rdTeamNamesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            Fake3rdTeamNamesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void Fake3rdTeamNamesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

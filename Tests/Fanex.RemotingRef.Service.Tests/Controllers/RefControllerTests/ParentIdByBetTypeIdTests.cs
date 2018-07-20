@@ -82,5 +82,31 @@
                 parentBetTypeId
             };
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns((string)null);
+
+            // Act.
+            var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns(string.Empty);
+
+            // Act.
+            var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
     }
 }

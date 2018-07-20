@@ -99,5 +99,46 @@
 
             return expectedLotteryBetChoicesAndBetTypes;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeLotteryBetChoicesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeLotteryBetChoicesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeLotteryBetChoicesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetLotteryBetChoice(Arg.Is(_lotteryBetChoiceId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]), out _)
+                    .Returns(parameters =>
+                    {
+                        parameters[2] = specialValue;
+
+                        return specialValue;
+                    });
+            }
+        }
     }
 }

@@ -87,5 +87,41 @@
 
             return expectedOddsTypeNames;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeOddsTypeNamesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeOddsTypeNamesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeOddsTypeNamesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

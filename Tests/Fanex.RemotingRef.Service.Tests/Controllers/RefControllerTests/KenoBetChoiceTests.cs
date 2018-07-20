@@ -97,5 +97,46 @@
 
             return expectedKenoBetChoicesAndBetTypes;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeKenoBetChoicesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeKenoBetChoicesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeKenoBetChoicesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]), out _)
+                    .Returns(parameters =>
+                    {
+                        parameters[2] = specialValue;
+
+                        return specialValue;
+                    });
+            }
+        }
     }
 }

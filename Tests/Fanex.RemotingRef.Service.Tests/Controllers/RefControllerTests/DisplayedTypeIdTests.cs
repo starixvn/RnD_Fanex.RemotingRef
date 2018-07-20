@@ -79,5 +79,31 @@
                 displayedTypeId
             };
         }
+
+        [Fact]
+        public void ReturnNullIfResultIsNullValue()
+        {
+            // Arrange.
+            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns((string)null);
+
+            // Act.
+            var actualResult = RefController.DisplayedTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultIsEmptyString()
+        {
+            // Arrange.
+            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns(string.Empty);
+
+            // Act.
+            var actualResult = RefController.DisplayedTypeId(_betTypeId);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
     }
 }

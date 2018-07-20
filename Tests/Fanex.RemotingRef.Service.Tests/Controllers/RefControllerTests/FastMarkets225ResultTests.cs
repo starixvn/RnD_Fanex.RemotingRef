@@ -87,5 +87,41 @@
 
             return expectedFastMarkets225Results;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeFastMarkets225ResultsWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.FastMarkets225Result(_resultId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeFastMarkets225ResultsWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.FastMarkets225Result(_resultId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeFastMarkets225ResultsWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetFastMarkets225Result(Arg.Is(_resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

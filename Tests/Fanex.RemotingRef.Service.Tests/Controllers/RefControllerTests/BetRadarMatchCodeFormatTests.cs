@@ -87,5 +87,41 @@
 
             return expectedBetRadarMatchCodeFormats;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeBetRadarMatchCodeFormatsWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.BetRadarMatchCodeFormat(_matchCode, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeBetRadarMatchCodeFormatsWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.BetRadarMatchCodeFormat(_matchCode, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeBetRadarMatchCodeFormatsWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

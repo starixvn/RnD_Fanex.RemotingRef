@@ -89,5 +89,41 @@
 
             return expectedHorseTeamNames;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeHorseTeamNamesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeHorseTeamNamesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeHorseTeamNamesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

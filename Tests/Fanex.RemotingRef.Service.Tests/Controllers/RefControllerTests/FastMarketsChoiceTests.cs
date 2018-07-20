@@ -146,5 +146,56 @@
 
             return expectedFastMarketsChoices;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeFastMarketsChoicesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.FastMarketsChoice(
+                _betTypeId,
+                _betTeam,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeFastMarketsChoicesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.FastMarketsChoice(
+                _betTypeId,
+                _betTeam,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeFastMarketsChoicesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetFastMarketsChoice(
+                        Arg.Is(_betTypeId),
+                        Arg.Is(_betTeam),
+                        Arg.Is(_handicap1),
+                        Arg.Is(_handicap2),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

@@ -127,5 +127,53 @@
 
             return expectedBetTypeNames;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeBetTypeNamesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.BetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeBetTypeNamesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.BetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeBetTypeNamesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetBetTypeName(
+                        Arg.Is(_betTypeId),
+                        Arg.Is(_resourceId),
+                        Arg.Is(_refNo),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

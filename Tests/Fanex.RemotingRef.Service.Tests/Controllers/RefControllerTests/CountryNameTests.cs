@@ -87,5 +87,41 @@
 
             return expectedCountryNames;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeCountryNamesWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeCountryNamesWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeCountryNamesWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

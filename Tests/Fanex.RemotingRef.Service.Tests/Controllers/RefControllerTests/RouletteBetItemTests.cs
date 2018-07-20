@@ -87,5 +87,41 @@
 
             return expectedRouletteBetItems;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeRouletteBetItemsWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeRouletteBetItemsWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeRouletteBetItemsWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

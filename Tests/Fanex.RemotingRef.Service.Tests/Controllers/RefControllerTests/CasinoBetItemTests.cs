@@ -87,5 +87,41 @@
 
             return expectedCasinoBetItems;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeCasinoBetItemsWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllEmptyStrings()
+        {
+            // Arrange.
+            FakeCasinoBetItemsWithSpecialValue(string.Empty);
+
+            // Act.
+            var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeCasinoBetItemsWithSpecialValue(string specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }

@@ -146,5 +146,74 @@
 
             return expectedCombinationTypeCombos;
         }
+
+        [Fact]
+        public void ReturnNullIfResultContainsAllNullValues()
+        {
+            // Arrange.
+            FakeCombinationTypeComboParlaysWithSpecialValue(null);
+
+            // Act.
+            var actualResult = RefController.CombinationTypeComboParlay(
+                _betTeam,
+                _betCheck,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultAreAllArraysOfEmptyStrings()
+        {
+            // Arrange.
+            FakeCombinationTypeComboParlaysWithSpecialValue(new[] { string.Empty });
+
+            // Act.
+            var actualResult = RefController.CombinationTypeComboParlay(
+                _betTeam,
+                _betCheck,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        [Fact]
+        public void ReturnNullIfResultAreAllArraysOfNullValues()
+        {
+            // Arrange.
+            FakeCombinationTypeComboParlaysWithSpecialValue(new string[] { null });
+
+            // Act.
+            var actualResult = RefController.CombinationTypeComboParlay(
+                _betTeam,
+                _betCheck,
+                _handicap1,
+                _handicap2,
+                StandardLanguageCodes);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
+        private void FakeCombinationTypeComboParlaysWithSpecialValue(string[] specialValue)
+        {
+            foreach (var standardLanguageCode in StandardLanguageCodes)
+            {
+                RefData
+                    .GetCombinationTypeCombo(
+                        Arg.Is(_betTeam),
+                        Arg.Is(_betCheck),
+                        Arg.Is(_handicap1),
+                        Arg.Is(_handicap2),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .Returns(specialValue);
+            }
+        }
     }
 }
