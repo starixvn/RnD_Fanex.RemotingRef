@@ -1,0 +1,158 @@
+﻿namespace Fanex.RemotingRef.Service.Tests.Controllers.RefSyncControllerTests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using AutoFixture;
+    using Fanex.RemotingRef.Service.Models;
+    using NSubstitute;
+    using Xunit;
+
+    public class OddsTypeNameTests : RefSyncControllerBaseTests
+    {
+        private const int NumberOfTestingOddsTypes = 5;
+
+        private RequestSyncFormData _formData;
+        private List<Dictionary<string, object>> _parameterSets;
+        private List<string> _oddsTypeIds;
+
+        public OddsTypeNameTests()
+            => PrepareFormData();
+
+        private void PrepareFormData()
+        {
+            _parameterSets = new List<Dictionary<string, object>>();
+            _oddsTypeIds = new List<string>();
+
+            for (var counter = 0; counter < NumberOfTestingOddsTypes; counter++)
+            {
+                var oddsTypeId = Fixture.Create<string>();
+
+                _oddsTypeIds.Add(oddsTypeId);
+                _parameterSets.Add(new Dictionary<string, object>
+                {
+                    ["oddsTypeId"] = oddsTypeId
+                });
+            }
+
+            _formData = new RequestSyncFormData
+            {
+                ParameterSets = _parameterSets,
+                Languages = StandardLanguageCodes
+            };
+        }
+
+        [Fact]
+        public void AlwaysCallGetOddsTypeNameOfRefDataHelper()
+        {
+            // Act.
+            RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            RefData.Received().GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void CallRefDataHelperOncePerLanguageForEachOddsTypeId()
+        {
+            // Act.
+            RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
+
+            RefData.Received(expectedNumberOfCalls).GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void SendCorrectArgumentsToRefDataHelper()
+        {
+            // Act.
+            RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            foreach (var oddsTypeId in _oddsTypeIds)
+            {
+                foreach (var standardLanguageCode in StandardLanguageCodes)
+                {
+                    RefData.Received().GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                }
+            }
+        }
+
+        [Fact]
+        public void ReturnDataGotFromRefDataHelper()
+        {
+            // Arrange.
+            var expectedResult = FakeSyncedOddsTypeNames();
+
+            // Act.
+            var actualResult = RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void NullIsNotIncludedInResult()
+        {
+            // Arrange.
+            var expectedResult = FakeSyncedOddsTypeNames(true, null);
+
+            // Act.
+            var actualResult = RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void EmptyStringIsNotIncludedInResult()
+        {
+            // Arrange.
+            var expectedResult = FakeSyncedOddsTypeNames(true, string.Empty);
+
+            // Act.
+            var actualResult = RefSyncController.OddsTypeName(_formData);
+
+            // Assert.
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedOddsTypeNames(
+            bool requireSpecialValue = false,
+            string specialValue = null)
+        {
+            var expectedSyncedOddsTypeNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var specialIndex = -1;
+
+            if (requireSpecialValue)
+            {
+                specialIndex = new Random().Next(0, _parameterSets.Count - 1);
+            }
+
+            for (var counter = 1; counter < _parameterSets.Count; counter++)
+            {
+                var oddsNameInMultilanguages = new Dictionary<string, string>();
+                var oddsTypeId = _oddsTypeIds[counter];
+
+                foreach (var standardLanguageCode in StandardLanguageCodes)
+                {
+                    var oddsNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
+
+                    RefData
+                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .Returns(oddsNameInSpecificLanguage);
+                    oddsNameInMultilanguages.Add(standardLanguageCode, oddsNameInSpecificLanguage);
+                }
+
+                if (oddsNameInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                {
+                    expectedSyncedOddsTypeNames.Add(_parameterSets[counter], oddsNameInMultilanguages);
+                }
+            }
+
+            return expectedSyncedOddsTypeNames;
+        }
+    }
+}

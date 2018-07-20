@@ -11,7 +11,4 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Sources\Fanex.RemotingRef.Service\Fanex.RemotingRef.Service.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Controllers\RefSyncControllerTests\" />
-    </ItemGroup>
 </Project>
