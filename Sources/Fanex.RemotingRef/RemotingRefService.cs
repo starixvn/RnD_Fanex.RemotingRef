@@ -394,7 +394,7 @@ namespace Fanex.RemotingRef
             return matchCodeFormat ?? matchCode;
         }
 
-        public string GetDisplayedTypeId(string betTypeId, string defaultValue)
+        public string GetDisplayedTypeId(string betTypeId)
         {
             const string actionName = "DisplayedTypeId";
             var keySet = new KeySet
@@ -403,7 +403,7 @@ namespace Fanex.RemotingRef
             };
             var displayedTypeId = GetTranslationText(RefDataType.DisplayedTypeId, actionName, keySet, null);
 
-            return displayedTypeId ?? defaultValue;
+            return displayedTypeId ?? betTypeId;
         }
 
         private string GetTranslationText(RefDataType dataType, string actionName, KeySet keySet, string languageCode)

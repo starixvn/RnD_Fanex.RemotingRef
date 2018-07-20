@@ -305,7 +305,7 @@
         public RefDataResult GetDisplayedTypeId(string betTypeId, string languageCode = "en-US")
             => new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetDisplayedTypeId(betTypeId, DefaultValue),
+                FanexRefNew = _remotingRefService.GetDisplayedTypeId(betTypeId),
                 TaiwanRefOld = RefData.GetDisplayedTypeId(betTypeId),
                 TaiwanRefNew = _taiwanRefNew.GetDisplayedTypeId(betTypeId)
             };

@@ -781,23 +781,26 @@
         }
 
         [Fact]
-        public void GetDisplayedTypeId_RefResultHasData_ReturnExpectedBetRadarMatchCode()
+        public void GetDisplayedTypeId_RefResultHasData_ReturnExpectedDisplayBetTypeId()
         {
             // Act
-            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("1", DefaultValue);
+            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("1");
 
             // Assert
             Assert.Equal("1", displayBetTypeId);
         }
 
         [Fact]
-        public void GetDisplayedTypeId_RefResultIsNull_ReturnDefaultValue()
+        public void GetDisplayedTypeId_RefResultIsNull_ReturnBetTypeId()
         {
+            // Arrange
+            var betTypeId = "-1";
+
             // Act
-            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("-1", DefaultValue);
+            var displayBetTypeId = _remotingRefService.GetDisplayedTypeId("-1");
 
             // Assert
-            Assert.Equal(DefaultValue, displayBetTypeId);
+            Assert.Equal(betTypeId, displayBetTypeId);
         }
     }
 }

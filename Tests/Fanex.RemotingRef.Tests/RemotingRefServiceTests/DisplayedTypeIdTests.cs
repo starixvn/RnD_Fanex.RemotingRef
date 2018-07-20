@@ -13,10 +13,9 @@
         {
             // Arrange.
             var betTypeId = Fixture.Create<string>();
-            var defaultDisplayTypeId = Fixture.Create<string>();
 
             // Act.
-            RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
             string expectedUrl = string.Format(RequestUrlPattern, $"DisplayedTypeId?betTypeId={betTypeId}");
@@ -30,35 +29,33 @@
             // Arrange.
             var betTypeId = Fixture.Create<string>();
             var displayTypeId = Fixture.Create<string>();
-            var defaultDisplayTypeId = Fixture.Create<string>();
 
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = displayTypeId });
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
             Assert.Equal(displayTypeId, actualDisplayTypeId);
         }
 
         [Fact]
-        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ReturnProvidedBetTypeIdIfServiceReturnsNull()
         {
             // Arrange.
             var betTypeId = Fixture.Create<string>();
-            var defaultDisplayTypeId = Fixture.Create<string>();
 
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId, defaultDisplayTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
-            Assert.Equal(defaultDisplayTypeId, actualDisplayTypeId);
+            Assert.Equal(betTypeId, actualDisplayTypeId);
         }
     }
 }
