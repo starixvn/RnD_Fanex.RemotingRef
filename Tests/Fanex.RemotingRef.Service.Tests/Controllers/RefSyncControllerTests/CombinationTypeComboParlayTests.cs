@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CombinationTypeComboParlayTests : RefSyncControllerBaseTests
+    public class CombinationTypeComboParlayTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingCombos = 5;
 

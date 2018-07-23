@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class TeamName3rdTests : RefSyncControllerBaseTests
+    public class TeamName3rdTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingTeam3rds = 5;
 

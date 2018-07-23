@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class FastMarketsTests : RemotingRefServiceBaseTests
+    public class FastMarketsTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

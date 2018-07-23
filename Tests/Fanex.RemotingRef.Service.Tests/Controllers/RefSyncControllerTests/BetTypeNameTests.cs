@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class BetTypeNameTests : RefSyncControllerBaseTests
+    public class BetTypeNameTests : RefSyncControllerTestBase
     {
         private readonly RequestSyncFormData _formData;
         private readonly List<Dictionary<string, object>> _parameterSets;

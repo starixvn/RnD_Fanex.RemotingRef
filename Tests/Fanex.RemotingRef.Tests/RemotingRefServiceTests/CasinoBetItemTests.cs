@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CasinoBetItemTests : RemotingRefServiceBaseTests
+    public class CasinoBetItemTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

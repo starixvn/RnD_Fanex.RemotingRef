@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class HorseTeamNameTests : RefControllerBaseTests
+    public class HorseTeamNameTests : RefControllerTestBase
     {
         private readonly string _codeId;
 

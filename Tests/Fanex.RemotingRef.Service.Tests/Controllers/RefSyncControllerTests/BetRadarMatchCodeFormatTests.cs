@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class BetRadarMatchCodeFormatTests : RefSyncControllerBaseTests
+    public class BetRadarMatchCodeFormatTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingMatchCodes = 5;
 

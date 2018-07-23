@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service.Tests.Controllers.RefSyncControllerTests
+﻿namespace Fanex.RemotingRef.Service.Tests.Controllers.RefControllerTests
 {
     using System;
     using System.Collections.Generic;
@@ -8,12 +8,11 @@
     using Fanex.RemotingRef.Service.Utilities.RefData;
     using NSubstitute;
 
-    public class RefSyncControllerBaseTests : IDisposable
+    public class RefControllerTestBase : IDisposable
     {
         protected const string DefaultLanguageCode = LanguageHelper.DefaultLanguage;
 
         protected static readonly string[] StandardLanguageCodes = { DefaultLanguageCode, "zh-TW" };
-
         protected static readonly Dictionary<string, string> MappedRemotingRefLanguageCodes = new Dictionary<string, string>
         {
             ["en-US"] = "en",
@@ -22,16 +21,16 @@
 
         private bool _disposed;
 
-        protected RefSyncControllerBaseTests()
+        protected RefControllerTestBase()
         {
             RefData = Substitute.For<IRefDataHelper>();
-            RefSyncController = new RefSyncController(RefData);
+            RefController = new RefController(RefData);
             Fixture = new Fixture();
         }
 
         protected IRefDataHelper RefData { get; }
 
-        protected RefSyncController RefSyncController { get; }
+        protected RefController RefController { get; }
 
         protected Fixture Fixture { get; }
 
@@ -41,7 +40,7 @@
             {
                 if (disposing)
                 {
-                    RefSyncController.Dispose();
+                    RefController.Dispose();
                 }
 
                 _disposed = true;

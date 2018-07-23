@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class FastMarkets225ResultTests : RefSyncControllerBaseTests
+    public class FastMarkets225ResultTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingResults = 5;
 

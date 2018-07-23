@@ -10,7 +10,7 @@
     using Xunit;
 
     [Collection("SharedContainer")]
-    public abstract class RemotingRefServiceBaseTests : IDisposable
+    public abstract class RemotingRefServiceTestBase : IDisposable
     {
         protected const string ApplicationName = "UnitTest_AppName";
         protected const string TestingLanguageCode = RefDataTypeHandlerOptions.DefaultLanguage;
@@ -19,7 +19,7 @@
 
         private bool _disposed;
 
-        protected RemotingRefServiceBaseTests()
+        protected RemotingRefServiceTestBase()
         {
             RefDataTypeContainer
                 .ConnectTo(new Uri("http://localhost:10000"))

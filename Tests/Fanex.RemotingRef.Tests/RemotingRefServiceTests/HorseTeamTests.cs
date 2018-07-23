@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class HorseTeamTests : RemotingRefServiceBaseTests
+    public class HorseTeamTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

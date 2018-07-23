@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class OddsTypeNameTests : RefSyncControllerBaseTests
+    public class OddsTypeNameTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingOddsTypes = 5;
 

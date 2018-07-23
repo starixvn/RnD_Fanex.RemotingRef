@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class KenoBetChoiceTests : RefControllerBaseTests
+    public class KenoBetChoiceTests : RefControllerTestBase
     {
         private readonly string _kenoBetChoiceId;
 

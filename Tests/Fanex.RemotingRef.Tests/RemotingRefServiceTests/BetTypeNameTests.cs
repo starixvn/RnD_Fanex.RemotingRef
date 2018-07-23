@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class BetTypeNameTests : RemotingRefServiceBaseTests
+    public class BetTypeNameTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void ByBetTypeId_SendRequestWithCorrectParameters()

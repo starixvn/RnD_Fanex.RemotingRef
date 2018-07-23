@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CombinationTypeComboParlayTests : RefControllerBaseTests
+    public class CombinationTypeComboParlayTests : RefControllerTestBase
     {
         private readonly string _betTeam;
         private readonly string _betCheck;

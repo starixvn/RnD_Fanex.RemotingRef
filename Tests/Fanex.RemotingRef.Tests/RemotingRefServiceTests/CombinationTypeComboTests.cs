@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CombinationTypeComboTests : RemotingRefServiceBaseTests
+    public class CombinationTypeComboTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

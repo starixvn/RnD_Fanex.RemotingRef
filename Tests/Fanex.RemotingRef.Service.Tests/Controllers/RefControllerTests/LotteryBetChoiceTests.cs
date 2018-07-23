@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class LotteryBetChoiceTests : RefControllerBaseTests
+    public class LotteryBetChoiceTests : RefControllerTestBase
     {
         private readonly string _lotteryBetChoiceId;
 

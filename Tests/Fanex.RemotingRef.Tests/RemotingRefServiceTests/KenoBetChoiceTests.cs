@@ -7,7 +7,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class KenoBetChoiceTests : RemotingRefServiceBaseTests
+    public class KenoBetChoiceTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

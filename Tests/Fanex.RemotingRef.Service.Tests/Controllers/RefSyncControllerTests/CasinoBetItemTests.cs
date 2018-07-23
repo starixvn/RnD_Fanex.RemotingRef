@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CasinoBetItemTests : RefSyncControllerBaseTests
+    public class CasinoBetItemTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingCasinoBetItems = 5;
 

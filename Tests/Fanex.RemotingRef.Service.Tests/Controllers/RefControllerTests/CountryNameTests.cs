@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CountryNameTests : RefControllerBaseTests
+    public class CountryNameTests : RefControllerTestBase
     {
         private readonly string _countryCode;
 

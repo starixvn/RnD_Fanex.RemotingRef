@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class BetRadarMatchCodeTests : RemotingRefServiceBaseTests
+    public class BetRadarMatchCodeTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

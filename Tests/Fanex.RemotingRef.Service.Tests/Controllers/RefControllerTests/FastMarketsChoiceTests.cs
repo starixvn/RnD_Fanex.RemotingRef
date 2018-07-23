@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class FastMarketsChoiceTests : RefControllerBaseTests
+    public class FastMarketsChoiceTests : RefControllerTestBase
     {
         private readonly string _betTypeId;
         private readonly string _betTeam;

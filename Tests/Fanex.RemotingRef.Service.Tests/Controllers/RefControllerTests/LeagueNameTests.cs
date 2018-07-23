@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class LeagueNameTests : RefControllerBaseTests
+    public class LeagueNameTests : RefControllerTestBase
     {
         private readonly string _leagueId;
 

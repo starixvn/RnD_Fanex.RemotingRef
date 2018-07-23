@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class ResourceDataTests : RefSyncControllerBaseTests
+    public class ResourceDataTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingResources = 5;
 

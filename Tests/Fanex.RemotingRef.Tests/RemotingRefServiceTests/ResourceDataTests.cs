@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class ResourceDataTests : RemotingRefServiceBaseTests
+    public class ResourceDataTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void SendRequestWithCorrectParameters()

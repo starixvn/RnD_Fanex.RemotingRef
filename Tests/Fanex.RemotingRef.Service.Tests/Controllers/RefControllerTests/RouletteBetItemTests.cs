@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class RouletteBetItemTests : RefControllerBaseTests
+    public class RouletteBetItemTests : RefControllerTestBase
     {
         private readonly string _itemId;
 

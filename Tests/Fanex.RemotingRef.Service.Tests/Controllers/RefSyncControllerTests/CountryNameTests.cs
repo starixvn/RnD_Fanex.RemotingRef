@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class CountryNameTests : RefSyncControllerBaseTests
+    public class CountryNameTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingCountries = 5;
 

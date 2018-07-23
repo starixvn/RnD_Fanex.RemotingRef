@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class BetRadarMatchCodeFormatTests : RefControllerBaseTests
+    public class BetRadarMatchCodeFormatTests : RefControllerTestBase
     {
         private readonly string _matchCode;
 

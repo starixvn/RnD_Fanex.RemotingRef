@@ -5,7 +5,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class ResourceDataTests : RefControllerBaseTests
+    public class ResourceDataTests : RefControllerTestBase
     {
         private readonly string _refId;
         private readonly string _resourceId;

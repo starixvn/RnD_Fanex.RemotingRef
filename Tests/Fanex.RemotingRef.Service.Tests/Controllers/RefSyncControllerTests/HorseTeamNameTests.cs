@@ -8,7 +8,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class HorseTeamNameTests : RefSyncControllerBaseTests
+    public class HorseTeamNameTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingHorseTeams = 5;
 

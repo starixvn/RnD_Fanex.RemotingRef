@@ -6,7 +6,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class RemotingRefServiceTests : RemotingRefServiceBaseTests
+    public class RemotingRefServiceTests : RemotingRefServiceTestBase
     {
         [Fact]
         public void RequestTranslationReturningFailedResponseThrowsRemotingRefException()

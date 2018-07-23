@@ -7,7 +7,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class ParentIdByBetTypeIdTests : RefSyncControllerBaseTests
+    public class ParentIdByBetTypeIdTests : RefSyncControllerTestBase
     {
         private const int NumberOfTestingBetTypes = 5;
 
