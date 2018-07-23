@@ -23,7 +23,7 @@
         }
 
         [Fact]
-        public void CallRefDataHelperOncePerLanguage()
+        public void CallRefDataHelperOncePerBetTypeId()
         {
             // Act.
             RefController.ParentIdByBetTypeId(_betTypeId);
