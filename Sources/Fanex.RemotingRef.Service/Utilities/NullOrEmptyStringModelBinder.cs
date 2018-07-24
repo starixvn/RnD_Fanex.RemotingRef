@@ -18,6 +18,7 @@
                 if (string.IsNullOrWhiteSpace(stringValue))
                 {
                     bindingContext.Model = stringValue;
+
                     return true;
                 }
             }
