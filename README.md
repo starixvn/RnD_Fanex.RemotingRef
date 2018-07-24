@@ -79,7 +79,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
 ### <a name="Fanex.RemotingRef.Service.Url"></a> Fanex.RemotingRef.Service URL
 - LOCAL: http://ha.nexdev.net:7258/Main/
-- SIT: not ready
+- SIT: http://172.16.4.105:6207/
 - UAT: http://10.40.40.73:7207/
 - PRO: http://10.40.40.47:7258/
   
