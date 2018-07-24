@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
@@ -42,7 +41,7 @@
                 TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetParentIdByBetTypeId(typeId, language)
+                RefDataResult = _remotingRefDataAccess.GetParentIdByBetTypeId(typeId)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -59,8 +58,8 @@
                 var refDataViewModel = new RefDataViewModel
                 {
                     DataType = "Parent Bet Type",
-                    TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetParentIdByBetTypeId(typeId.ToString(CultureInfo.InvariantCulture))
+                    TypeId = typeId,
+                    RefDataResult = _remotingRefDataAccess.GetParentIdByBetTypeId(typeId)
                 };
 
                 viewModels.Add(refDataViewModel);

@@ -196,7 +196,7 @@
             };
         }
 
-        public RefDataResult GetParentIdByBetTypeId(string betTypeId, string languageCode = "en-US")
+        public RefDataResult GetParentIdByBetTypeId(string betTypeId)
         {
             return new RefDataResult
             {
@@ -302,7 +302,7 @@
             };
         }
 
-        public RefDataResult GetDisplayedTypeId(string betTypeId, string languageCode = "en-US")
+        public RefDataResult GetDisplayedTypeId(string betTypeId)
             => new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetDisplayedTypeId(betTypeId),

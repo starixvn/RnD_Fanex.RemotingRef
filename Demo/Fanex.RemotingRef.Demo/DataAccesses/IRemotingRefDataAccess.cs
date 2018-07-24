@@ -23,7 +23,7 @@
 
         RefDataResult GetOddsTypeName(string oddsTypeId, string languageCode = Common.DefaultLanguage);
 
-        RefDataResult GetParentIdByBetTypeId(string betTypeId, string languageCode = Common.DefaultLanguage);
+        RefDataResult GetParentIdByBetTypeId(string betTypeId);
 
         RefDataResult GetHorseTeamName(string codeId, string languageCode = Common.DefaultLanguage);
 
@@ -41,6 +41,6 @@
 
         RefDataResult GetBetRadarMatchCodeFormat(string matchCode, string languageCode = Common.DefaultLanguage);
 
-        RefDataResult GetDisplayedTypeId(string betTypeId, string languageCode = Common.DefaultLanguage);
+        RefDataResult GetDisplayedTypeId(string betTypeId);
     }
 }
