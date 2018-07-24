@@ -1,54 +1,15 @@
 ﻿namespace Fanex.RemotingRef.Service.Tests.Controllers.RefSyncControllerTests
 {
-    using System;
-    using System.Collections.Generic;
-    using AutoFixture;
     using Fanex.RemotingRef.Service.Controllers;
-    using Fanex.RemotingRef.Service.Utilities;
-    using Fanex.RemotingRef.Service.Utilities.RefData;
-    using NSubstitute;
 
-    public class RefSyncControllerTestBase : IDisposable
+    public class RefSyncControllerTestBase : ControllerTestBase
     {
-        protected const string DefaultLanguageCode = LanguageHelper.DefaultLanguage;
-
-        protected static readonly string[] StandardLanguageCodes = { DefaultLanguageCode, "zh-TW" };
-
-        protected static readonly Dictionary<string, string> MappedRemotingRefLanguageCodes = new Dictionary<string, string>
-        {
-            ["en-US"] = "en",
-            ["zh-TW"] = "ch"
-        };
-
-        private bool _disposed;
-
         protected RefSyncControllerTestBase()
-        {
-            RefData = Substitute.For<IRefDataHelper>();
-            RefSyncController = new RefSyncController(RefData);
-            Fixture = new Fixture();
-        }
-
-        protected IRefDataHelper RefData { get; }
+            => RefSyncController = new RefSyncController(RefData);
 
         protected RefSyncController RefSyncController { get; }
 
-        protected Fixture Fixture { get; }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    RefSyncController.Dispose();
-                }
-
-                _disposed = true;
-            }
-        }
-
-        public void Dispose()
-            => Dispose(true);
+        protected override void DisposeController()
+            => RefSyncController.Dispose();
     }
 }
