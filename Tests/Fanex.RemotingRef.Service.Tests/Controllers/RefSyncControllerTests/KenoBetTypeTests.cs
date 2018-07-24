@@ -119,9 +119,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedKenoBetTypes()
+            => FakeSyncedKenoBetTypes(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedKenoBetTypes(
-            bool requireSpecialValue = false,
-            string specialValue = null)
+            bool requireSpecialValue,
+            string specialValue)
         {
             var expectedSyncedKenoBetTypes = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
             var specialIndex = -1;

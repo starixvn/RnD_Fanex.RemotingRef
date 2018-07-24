@@ -119,9 +119,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedSportNames()
+            => FakeSyncedSportNames(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedSportNames(
-            bool requireSpecialValue = false,
-            string specialValue = null)
+            bool requireSpecialValue,
+            string specialValue)
         {
             var expectedSyncedSportNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
             var specialIndex = -1;

@@ -9,11 +9,11 @@
 
     public class ParentIdByBetTypeIdTests : RefSyncControllerTestBase
     {
-        private const int NumberOfTestingBetTypes = 5;
+        private const int NumberOfChildBetTypes = 5;
 
         private RequestSyncFormData _formData;
         private List<Dictionary<string, object>> _parameterSets;
-        private List<string> _betTypeIds;
+        private List<string> _childBetTypeIds;
 
         public ParentIdByBetTypeIdTests()
             => PrepareFormData();
@@ -21,16 +21,16 @@
         private void PrepareFormData()
         {
             _parameterSets = new List<Dictionary<string, object>>();
-            _betTypeIds = new List<string>();
+            _childBetTypeIds = new List<string>();
 
-            for (var counter = 0; counter < NumberOfTestingBetTypes; counter++)
+            for (var counter = 0; counter < NumberOfChildBetTypes; counter++)
             {
-                var betTypeId = Fixture.Create<string>();
+                var childBetTypeId = Fixture.Create<string>();
 
-                _betTypeIds.Add(betTypeId);
+                _childBetTypeIds.Add(childBetTypeId);
                 _parameterSets.Add(new Dictionary<string, object>
                 {
-                    ["betTypeId"] = betTypeId
+                    ["betTypeId"] = childBetTypeId
                 });
             }
 
@@ -69,7 +69,7 @@
             RefSyncController.ParentIdByBetTypeId(_formData);
 
             // Assert.
-            foreach (var betTypeId in _betTypeIds)
+            foreach (var betTypeId in _childBetTypeIds)
             {
                 RefData.Received().GetParentIdByBetTypeId(Arg.Is(betTypeId));
             }
@@ -114,9 +114,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedParentBetTypeIds()
+            => FakeSyncedParentBetTypeIds(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedParentBetTypeIds(
-            bool requireSpecialValue = false,
-            string specialValue = null)
+            bool requireSpecialValue,
+            string specialValue)
         {
             var expectedSyncedParentBetTypeIds = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
             var specialIndex = -1;
@@ -128,7 +131,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var betTypeId = _betTypeIds[counter];
+                var betTypeId = _childBetTypeIds[counter];
                 var parentBetTypeId = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                 RefData.GetParentIdByBetTypeId(Arg.Is(betTypeId)).Returns(parentBetTypeId);

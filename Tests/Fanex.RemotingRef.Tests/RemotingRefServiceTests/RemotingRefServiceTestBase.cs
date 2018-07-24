@@ -10,7 +10,7 @@
     using Xunit;
 
     [Collection("SharedContainer")]
-    public abstract class RemotingRefServiceTestBase : IDisposable
+    public class RemotingRefServiceTestBase : IDisposable
     {
         protected const string ApplicationName = "UnitTest_AppName";
         protected const string TestingLanguageCode = RefDataTypeHandlerOptions.DefaultLanguage;

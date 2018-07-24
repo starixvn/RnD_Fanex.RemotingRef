@@ -129,9 +129,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> FakeSyncedLotteryBetChoices()
+            => FakeSyncedLotteryBetChoices(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> FakeSyncedLotteryBetChoices(
-            bool requireSpecialValue = false,
-            string specialValue = null)
+            bool requireSpecialValue,
+            string specialValue)
         {
             var expectedSyncedLotteryBetChoiceAndTypeIds = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>();
             var specialIndex = -1;

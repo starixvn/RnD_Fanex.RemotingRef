@@ -119,9 +119,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedFastMarkets225Results()
+            => FakeSyncedFastMarkets225Results(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedFastMarkets225Results(
-            bool requireSpecialValue = false,
-            string specialValue = null)
+            bool requireSpecialValue,
+            string specialValue)
         {
             var expectedSyncedFastMarkets225Results = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
             var specialIndex = -1;

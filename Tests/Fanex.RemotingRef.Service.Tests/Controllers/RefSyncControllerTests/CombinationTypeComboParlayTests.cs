@@ -174,9 +174,12 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
+        private Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays()
+            => FakeSyncedCombinationTypeComboParlays(false, null);
+
         private Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays(
-            bool requireSpecialValue = false,
-            string[] specialValue = null)
+            bool requireSpecialValue,
+            string[] specialValue)
         {
             var expectedSyncedComboNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string[]>>();
             var specialIndex = -1;
