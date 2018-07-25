@@ -11,12 +11,12 @@
     public class BetTypeNameTests : RefSyncControllerTestBase
     {
         private readonly RequestSyncFormData _formData;
-        private readonly List<Dictionary<string, object>> _parameterSets;
+        private readonly List<ParameterSet> _parameterSets;
         private readonly List<Tuple<string, string, long?>> _parameterSetsValues;
 
         public BetTypeNameTests()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _parameterSetsValues = new List<Tuple<string, string, long?>>();
             _formData = new RequestSyncFormData
             {
@@ -50,7 +50,7 @@
         private void AddParameterSet(string betTypeId, string resourceId, long? refNo)
         {
             _parameterSetsValues.Add(new Tuple<string, string, long?>(betTypeId, resourceId, refNo));
-            _parameterSets.Add(new Dictionary<string, object>
+            _parameterSets.Add(new ParameterSet
             {
                 ["betTypeId"] = betTypeId,
                 ["resourceId"] = resourceId,
@@ -153,14 +153,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedBetTypeNames()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedBetTypeNames()
             => FakeSyncedBetTypeNames(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedBetTypeNames(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedBetTypeNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedBetTypeNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedBetTypeNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

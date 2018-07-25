@@ -13,7 +13,7 @@
         private const int NumberOfTestingResources = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<Tuple<string, string>> _refIdAndResourceIdPairs;
 
         public ResourceDataTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _refIdAndResourceIdPairs = new List<Tuple<string, string>>();
 
             for (var counter = 0; counter < NumberOfTestingResources; counter++)
@@ -30,7 +30,7 @@
                 var resourceId = Fixture.Create<string>();
 
                 _refIdAndResourceIdPairs.Add(new Tuple<string, string>(refId, resourceId));
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["refId"] = refId,
                     ["resourceId"] = resourceId
@@ -124,14 +124,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedResourceData()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedResourceData()
             => FakeSyncedResourceData(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedResourceData(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedResourceData(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedResourceData = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedResourceData = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

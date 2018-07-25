@@ -13,7 +13,7 @@
         private const int NumberOfTestingTeam3rds = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _team3rdIds;
 
         public TeamName3rdTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _team3rdIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingTeam3rds; counter++)
@@ -29,7 +29,7 @@
                 var team3rdId = Fixture.Create<string>();
 
                 _team3rdIds.Add(team3rdId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["team3rdId"] = team3rdId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSynced3rdTeamNames()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSynced3rdTeamNames()
             => FakeSynced3rdTeamNames(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSynced3rdTeamNames(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSynced3rdTeamNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedTeamNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedTeamNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

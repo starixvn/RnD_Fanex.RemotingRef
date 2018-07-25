@@ -13,7 +13,7 @@
         private const int NumberOfTestingKenoBetTypes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _kenoBetTypeIds;
 
         public KenoBetTypeTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _kenoBetTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingKenoBetTypes; counter++)
@@ -29,7 +29,7 @@
                 var kenoBetTypeId = Fixture.Create<string>();
 
                 _kenoBetTypeIds.Add(kenoBetTypeId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["kenoBetTypeId"] = kenoBetTypeId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedKenoBetTypes()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedKenoBetTypes()
             => FakeSyncedKenoBetTypes(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedKenoBetTypes(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedKenoBetTypes(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedKenoBetTypes = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedKenoBetTypes = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

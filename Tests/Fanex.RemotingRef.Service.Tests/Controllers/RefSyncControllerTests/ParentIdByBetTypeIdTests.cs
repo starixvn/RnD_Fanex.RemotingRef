@@ -12,7 +12,7 @@
         private const int NumberOfChildBetTypes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _childBetTypeIds;
 
         public ParentIdByBetTypeIdTests()
@@ -20,7 +20,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _childBetTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfChildBetTypes; counter++)
@@ -28,7 +28,7 @@
                 var childBetTypeId = Fixture.Create<string>();
 
                 _childBetTypeIds.Add(childBetTypeId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["betTypeId"] = childBetTypeId
                 });
@@ -114,14 +114,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedParentBetTypeIds()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedParentBetTypeIds()
             => FakeSyncedParentBetTypeIds(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedParentBetTypeIds(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedParentBetTypeIds(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedParentBetTypeIds = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedParentBetTypeIds = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

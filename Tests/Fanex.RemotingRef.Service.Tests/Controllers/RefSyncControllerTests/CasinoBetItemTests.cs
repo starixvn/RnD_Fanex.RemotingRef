@@ -13,7 +13,7 @@
         private const int NumberOfTestingCasinoBetItems = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _itemIds;
 
         public CasinoBetItemTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _itemIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingCasinoBetItems; counter++)
@@ -29,7 +29,7 @@
                 var itemId = Fixture.Create<string>();
 
                 _itemIds.Add(itemId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["itemId"] = itemId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedCasinoBetItems()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCasinoBetItems()
             => FakeSyncedCasinoBetItems(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedCasinoBetItems(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCasinoBetItems(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedCasinoBetItems = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedCasinoBetItems = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

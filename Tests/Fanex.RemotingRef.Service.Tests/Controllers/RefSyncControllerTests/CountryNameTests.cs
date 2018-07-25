@@ -13,7 +13,7 @@
         private const int NumberOfTestingCountries = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _countryCodes;
 
         public CountryNameTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _countryCodes = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingCountries; counter++)
@@ -29,7 +29,7 @@
                 var countryCode = Fixture.Create<string>();
 
                 _countryCodes.Add(countryCode);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["countryCode"] = countryCode
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedCountryNames()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCountryNames()
             => FakeSyncedCountryNames(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedCountryNames(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCountryNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedCountryNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedCountryNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

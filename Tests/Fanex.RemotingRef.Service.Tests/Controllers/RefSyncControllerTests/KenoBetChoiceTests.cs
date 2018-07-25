@@ -13,7 +13,7 @@
         private const int NumberOfTestingKenoBetChoices = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _kenoBetChoiceIds;
 
         public KenoBetChoiceTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _kenoBetChoiceIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingKenoBetChoices; counter++)
@@ -29,7 +29,7 @@
                 var kenoBetChoiceId = Fixture.Create<string>();
 
                 _kenoBetChoiceIds.Add(kenoBetChoiceId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["kenoBetChoiceId"] = kenoBetChoiceId
                 });
@@ -129,14 +129,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices()
+        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices()
             => FakeSyncedKenoBetChoices(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices(
+        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedKenoBetChoiceAndTypeIds = new Dictionary<Dictionary<string, object>, Dictionary<string, Tuple<string, string>>>();
+            var expectedSyncedKenoBetChoiceAndTypeIds = new Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

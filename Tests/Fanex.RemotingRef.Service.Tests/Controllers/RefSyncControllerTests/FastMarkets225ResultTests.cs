@@ -13,7 +13,7 @@
         private const int NumberOfTestingResults = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _resultIds;
 
         public FastMarkets225ResultTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _resultIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingResults; counter++)
@@ -29,7 +29,7 @@
                 var resultId = Fixture.Create<string>();
 
                 _resultIds.Add(resultId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["resultId"] = resultId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedFastMarkets225Results()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedFastMarkets225Results()
             => FakeSyncedFastMarkets225Results(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedFastMarkets225Results(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedFastMarkets225Results(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedFastMarkets225Results = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedFastMarkets225Results = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

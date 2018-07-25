@@ -13,7 +13,7 @@
         private const int NumberOfTestingCombos = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<Tuple<string, string, int, int>> _parameterSetsValues;
 
         public CombinationTypeComboParlayTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _parameterSetsValues = new List<Tuple<string, string, int, int>>();
 
             for (var counter = 0; counter < NumberOfTestingCombos; counter++)
@@ -31,7 +31,7 @@
                 var handicap1 = Fixture.Create<int>();
                 var handicap2 = Fixture.Create<int>();
 
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["betTeam"] = betTeam,
                     ["betCheck"] = betCheck,
@@ -174,14 +174,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays()
+        private Dictionary<ParameterSet, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays()
             => FakeSyncedCombinationTypeComboParlays(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays(
+        private Dictionary<ParameterSet, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays(
             bool requireSpecialValue,
             string[] specialValue)
         {
-            var expectedSyncedComboNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string[]>>();
+            var expectedSyncedComboNames = new Dictionary<ParameterSet, Dictionary<string, string[]>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

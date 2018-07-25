@@ -13,7 +13,7 @@
         private const int NumberOfTestingSportTypes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _sportTypeIds;
 
         public SportNameTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _sportTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingSportTypes; counter++)
@@ -29,7 +29,7 @@
                 var sportTypeId = Fixture.Create<string>();
 
                 _sportTypeIds.Add(sportTypeId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["sportTypeId"] = sportTypeId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedSportNames()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedSportNames()
             => FakeSyncedSportNames(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedSportNames(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedSportNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedSportNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedSportNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)

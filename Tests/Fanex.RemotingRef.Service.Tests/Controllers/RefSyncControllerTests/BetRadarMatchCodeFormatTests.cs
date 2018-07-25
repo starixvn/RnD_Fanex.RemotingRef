@@ -11,7 +11,7 @@
         private const int NumberOfTestingMatchCodes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _matchCodes;
 
         public BetRadarMatchCodeFormatTests()
@@ -19,7 +19,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _matchCodes = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingMatchCodes; counter++)
@@ -27,7 +27,7 @@
                 var matchCode = Fixture.Create<string>();
 
                 _matchCodes.Add(matchCode);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["matchCode"] = matchCode
                 });
@@ -91,9 +91,9 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedBetRadarMatchCodeFormats()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedBetRadarMatchCodeFormats()
         {
-            var expectedSyncedMatchFormats = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedMatchFormats = new Dictionary<ParameterSet, Dictionary<string, string>>();
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {

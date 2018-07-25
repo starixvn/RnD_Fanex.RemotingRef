@@ -130,9 +130,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ParameterSet.cs" />
     <Compile Include="Models\RequestSyncFormData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\LanguageHelper.cs" />
+    <Compile Include="Utilities\LanguageHelpers.cs" />
     <Compile Include="Utilities\RefData\IRefDataHelper.cs" />
     <Compile Include="Utilities\RefData\RefDataHelper.cs" />
     <Compile Include="Utilities\NullOrEmptyStringModelBinder.cs" />

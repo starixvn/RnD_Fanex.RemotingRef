@@ -138,7 +138,7 @@
             var parentId = GetRefResult(
                     (parameters, _) => _refData.GetParentIdByBetTypeId(parameters[0] as string),
                     IsValidRefData,
-                    new[] { LanguageHelper.DefaultLanguage },
+                    new[] { LanguageHelpers.DefaultLanguage },
                     betTypeId);
 
             return parentId;
@@ -312,7 +312,7 @@
             var refResult = GetRefResult(
                     (parameters, _) => _refData.GetDisplayedTypeId(parameters[0] as string),
                     IsValidRefData,
-                    new[] { LanguageHelper.DefaultLanguage },
+                    new[] { LanguageHelpers.DefaultLanguage },
                     betTypeId);
 
             return refResult;
@@ -328,7 +328,7 @@
 
             foreach (var language in languages)
             {
-                var refData = getRefData(parameters, LanguageHelper.GenerateTaiwanLanguage(language));
+                var refData = getRefData(parameters, LanguageHelpers.ToRemotingRefLanguageCode(language));
 
                 if (isValidResultData(refData))
                 {

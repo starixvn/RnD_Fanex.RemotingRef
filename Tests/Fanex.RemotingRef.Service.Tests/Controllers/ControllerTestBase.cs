@@ -9,7 +9,7 @@
 
     public abstract class ControllerTestBase : IDisposable
     {
-        public const string DefaultLanguageCode = LanguageHelper.DefaultLanguage;
+        public const string DefaultLanguageCode = LanguageHelpers.DefaultLanguage;
 
         private bool _disposed;
 

@@ -11,7 +11,7 @@
         private const int NumberOfTestingBetTypes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _betTypeIds;
 
         public DisplayedTypeIdTests()
@@ -19,7 +19,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _betTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingBetTypes; counter++)
@@ -27,7 +27,7 @@
                 var betTypeId = Fixture.Create<string>();
 
                 _betTypeIds.Add(betTypeId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["betTypeId"] = betTypeId
                 });
@@ -90,9 +90,9 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedDisplayedTypeIds()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedDisplayedTypeIds()
         {
-            var expectedSyncedDisplayBetTypeIds = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedDisplayBetTypeIds = new Dictionary<ParameterSet, Dictionary<string, string>>();
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {

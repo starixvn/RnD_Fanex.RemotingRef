@@ -13,7 +13,7 @@
         private const int NumberOfTestingOddsTypes = 5;
 
         private RequestSyncFormData _formData;
-        private List<Dictionary<string, object>> _parameterSets;
+        private List<ParameterSet> _parameterSets;
         private List<string> _oddsTypeIds;
 
         public OddsTypeNameTests()
@@ -21,7 +21,7 @@
 
         private void PrepareFormData()
         {
-            _parameterSets = new List<Dictionary<string, object>>();
+            _parameterSets = new List<ParameterSet>();
             _oddsTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingOddsTypes; counter++)
@@ -29,7 +29,7 @@
                 var oddsTypeId = Fixture.Create<string>();
 
                 _oddsTypeIds.Add(oddsTypeId);
-                _parameterSets.Add(new Dictionary<string, object>
+                _parameterSets.Add(new ParameterSet
                 {
                     ["oddsTypeId"] = oddsTypeId
                 });
@@ -119,14 +119,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedOddsTypeNames()
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedOddsTypeNames()
             => FakeSyncedOddsTypeNames(false, null);
 
-        private Dictionary<Dictionary<string, object>, Dictionary<string, string>> FakeSyncedOddsTypeNames(
+        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedOddsTypeNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedOddsTypeNames = new Dictionary<Dictionary<string, object>, Dictionary<string, string>>();
+            var expectedSyncedOddsTypeNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
             var specialIndex = -1;
 
             if (requireSpecialValue)
