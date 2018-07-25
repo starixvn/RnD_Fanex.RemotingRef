@@ -9,29 +9,25 @@ Write-Host "CreatePackages: $CreatePackages"
 Write-Host "RunTests: $RunTests"
 
 $packageOutputFolder = "$PSScriptRoot\.nupkgs"
-$projectsToBuild =
-    'Fanex.RemotingRef'
-  #,'Fanex.RemotingRef.Extensions'
-
-$testsToRun =
-    'Fanex.RemotingRef.Tests'
-  #,'Fanex.RemotingRef.Extensions.Tests'
+$projectsToBuild = Get-ChildItem "$PSScriptRoot\Sources" -Include *.csproj -Recurse
+$testsToRun = Get-ChildItem "$PSScriptRoot\Tests" -Include *.csproj -Recurse
 
 if ($RunTests) {
     dotnet restore /ConsoleLoggerParameters:Verbosity=Quiet
     foreach ($project in $testsToRun) {
-        Write-Host "Running tests: $project (all frameworks)" -ForegroundColor "Magenta"
-        Push-Location ".\Tests\$project"
+        $projectName = $project.Name
+        $projectFolder = Split-Path $project.FullName -parent
 
-        dotnet test
+        Write-Host "Running tests: $projectName (all frameworks)" -ForegroundColor "Magenta"
+        Push-Location $projectFolder
+
+        dotnet test /ConsoleLoggerParameters:Verbosity=Quiet
         if ($LastExitCode -ne 0) {
             Write-Host "Error with tests, aborting build." -Foreground "Red"
-            Pop-Location
             Exit 1
         }
 
         Write-Host "Tests passed!" -ForegroundColor "Green"
-        Pop-Location
     }
 }
 
@@ -44,14 +40,15 @@ if ($CreatePackages) {
     Write-Host "Building all packages" -ForegroundColor "Green"
 
     foreach ($project in $projectsToBuild) {
-        Write-Host "Working on $project`:" -ForegroundColor "Magenta"
+        $projectName = $project.Name
+        $projectFolder = Split-Path $project.FullName -parent
+
+        Write-Host "Working on $projectName`:" -ForegroundColor "Magenta"
         Write-Host "  Restoring and packing $project..." -ForegroundColor "Magenta"
 
-        Push-Location ".\Sources\$project"
+        Push-Location $projectFolder
 
-        dotnet msbuild "/t:Restore;Pack" "/p:Configuration=Release" "/p:PackageOutputPath=$packageOutputFolder"
-
-        Pop-Location
+        dotnet msbuild "/t:Restore;Pack" "/p:Configuration=Release" "/p:PackageOutputPath=$packageOutputFolder" /ConsoleLoggerParameters:Verbosity=Quiet
 
         Write-Host "Done." -ForegroundColor "Green"
         Write-Host ""
@@ -59,3 +56,5 @@ if ($CreatePackages) {
 
     Write-Host "Build Complete." -ForegroundColor "Green"
 }
+
+Push-Location $PSScriptRoot
