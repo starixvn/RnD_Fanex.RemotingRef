@@ -91,13 +91,13 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedBetRadarMatchCodeFormats()
+        private SyncedTranslationResultSet FakeSyncedBetRadarMatchCodeFormats()
         {
-            var expectedSyncedMatchFormats = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedMatchFormats = new SyncedTranslationResultSet();
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var matchFormatInMultilanguages = new Dictionary<string, string>();
+                var matchFormatInMultilanguages = new TranslationSet();
                 var matchCode = _matchCodes[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)

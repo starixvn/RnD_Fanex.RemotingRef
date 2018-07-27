@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCountryNames()
+        private SyncedTranslationResultSet FakeSyncedCountryNames()
             => FakeSyncedCountryNames(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCountryNames(
+        private SyncedTranslationResultSet FakeSyncedCountryNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedCountryNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedCountryNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var countryNameInMultilanguages = new Dictionary<string, string>();
+                var countryNameInMultilanguages = new TranslationSet();
                 var countryCode = _countryCodes[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     countryNameInMultilanguages.Add(standardLanguageCode, countryNameInSpecificLanguage);
                 }
 
-                if (countryNameInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(countryNameInMultilanguages))
                 {
                     expectedSyncedCountryNames.Add(_parameterSets[counter], countryNameInMultilanguages);
                 }

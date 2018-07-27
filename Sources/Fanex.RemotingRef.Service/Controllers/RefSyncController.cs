@@ -4,13 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using Fanex.RemotingRef.Service.Delegates;
     using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
     using Fanex.RemotingRef.Service.Utilities.RefData;
 
     public class RefSyncController : ApiController
     {
-        private readonly IRefDataHelper _refData = new RefDataHelper();
+        private readonly IRefDataHelper _refData;
 
         public RefSyncController()
             : this(null)
@@ -18,326 +19,281 @@
         }
 
         public RefSyncController(IRefDataHelper refData)
+            => _refData = refData ?? new RefDataHelper();
+
+        [HttpPost]
+        public SyncedTranslationResultSet BetTypeName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetBetTypeName(
+                    parameterSet.GetBetTypeId(),
+                    parameterSet.GetResourceId(),
+                    parameterSet.GetRefNo(),
+                    refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet SportName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetSportName(parameterSet.GetSportTypeId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet TeamName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetTeamName(parameterSet.GetTeamId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet TeamName3rd([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetTeamName3rd(parameterSet.GetTeam3rdId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet LeagueName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetLeagueName(parameterSet.GetLeagueId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet LeagueName3rd([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetLeagueName3rd(parameterSet.GetLeague3rdId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet CountryName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetCountryName(parameterSet.GetCountryCode(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet OddsTypeName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetOddsTypeName(parameterSet.GetOddsTypeId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet ResourceData([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetResourceDataByRefIdAndResourceId(
+                    parameterSet.GetRefId(),
+                    parameterSet.GetResourceId(),
+                    refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet ParentIdByBetTypeId([FromBody]RequestSyncFormData formData)
+            => GetSyncedNeutralTextSet(
+                formData.ParameterSets,
+                parameterSet => _refData.GetParentIdByBetTypeId(parameterSet.GetBetTypeId()));
+
+        [HttpPost]
+        public SyncedTranslationResultSet CombinationTypeComboParlay([FromBody]RequestSyncFormData formData)
         {
-            _refData = refData ?? _refData;
+            bool VerifyComboList(string[] combos)
+                => combos != null && combos.Any(combo => !string.IsNullOrEmpty(combo));
+
+            return GetSyncedTranslationResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetCombinationTypeCombo(
+                    parameterSet.GetBetTeam(),
+                    parameterSet.GetBetCheck(),
+                    parameterSet.GetHandicap1(),
+                    parameterSet.GetHandicap2(),
+                    refLanguageCode),
+                VerifyComboList);
         }
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> BetTypeName([FromBody]RequestSyncFormData data)
-        {
-            var betTypeNameSet = new Dictionary<ParameterSet, Dictionary<string, string>>();
-
-            foreach (var parameterSet in data.ParameterSets)
-            {
-                var betTypeNames = GetBetTypeNames(data.Languages, parameterSet);
-
-                if (IsValidRefResultData(betTypeNames))
-                {
-                    betTypeNameSet.Add(parameterSet, betTypeNames);
-                }
-            }
-
-            return betTypeNameSet;
-        }
-
-        private Dictionary<string, string> GetBetTypeNames(string[] languages, ParameterSet parameterSet)
-        {
-            var betTypeNames = new Dictionary<string, string>();
-            var betTypeId = parameterSet.ContainsKey("betTypeId") ? (parameterSet["betTypeId"] as string) : null;
-            var resourceId = parameterSet.ContainsKey("resourceId") ? (parameterSet["resourceId"] as string) : null;
-            var refNo = parameterSet.ContainsKey("refNo") ? (long?)parameterSet["refNo"] : null;
-
-            foreach (var language in languages)
-            {
-                betTypeNames.Add(
-                    language,
-                    _refData.GetBetTypeName(
-                        betTypeId,
-                        resourceId,
-                        refNo,
-                        LanguageHelpers.ToRemotingRefLanguageCode(language)));
-            }
-
-            return betTypeNames;
-        }
+        public SyncedTranslationResultSet HorseTeamName([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetHorseTeamName(parameterSet.GetCodeId(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> SportName([FromBody]RequestSyncFormData data)
-        {
-            var sportNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetSportName(parameter["sportTypeId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return sportNameSet;
-        }
+        public SyncedTranslationResultSet CasinoBetItem([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetCasinoBetItem(parameterSet.GetItemId(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> TeamName([FromBody]RequestSyncFormData data)
-        {
-            var teamNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetTeamName(parameter["teamId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return teamNameSet;
-        }
+        public SyncedTranslationResultSet RouletteBetItem([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetRouletteBetItem(parameterSet.GetItemId(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> TeamName3rd([FromBody]RequestSyncFormData data)
+        public SyncedTranslationResultSet KenoBetChoice([FromBody] RequestSyncFormData formData)
         {
-            var teamName3rdSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetTeamName3rd(parameter["team3rdId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return teamName3rdSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> LeagueName([FromBody]RequestSyncFormData data)
-        {
-            var leagueNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetLeagueName(parameter["leagueId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return leagueNameSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> LeagueName3rd([FromBody]RequestSyncFormData data)
-        {
-            var leagueName3rdSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetLeagueName3rd(parameter["league3rdId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return leagueName3rdSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> CountryName([FromBody]RequestSyncFormData data)
-        {
-            var countryNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetCountryName(parameter["countryCode"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return countryNameSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> OddsTypeName([FromBody]RequestSyncFormData data)
-        {
-            var oddsTypeNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetOddsTypeName(parameter["oddsTypeId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return oddsTypeNameSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> ResourceData([FromBody]RequestSyncFormData data)
-        {
-            var resourceDataSet = GetRefResultSet(
-                    data,
-                    (parameter, language)
-                        => _refData.GetResourceDataByRefIdAndResourceId(
-                                parameter["refId"].ToString(),
-                                parameter["resourceId"].ToString(),
-                                LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return resourceDataSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> ParentIdByBetTypeId([FromBody]RequestSyncFormData data)
-        {
-            var parentIdSet = GetRefResultSet(
-                    data,
-                    (parameter, _) => _refData.GetParentIdByBetTypeId(parameter["betTypeId"].ToString()));
-
-            return parentIdSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string[]>> CombinationTypeComboParlay([FromBody]RequestSyncFormData data)
-        {
-            var combinationTypeSet = GetRefResultSet(
-                    data,
-                    (parameter, language)
-                        => _refData.GetCombinationTypeCombo(
-                                parameter["betTeam"].ToString(),
-                                parameter["betCheck"].ToString(),
-                                (int)parameter["handicap1"],
-                                (int)parameter["handicap2"],
-                                LanguageHelpers.ToRemotingRefLanguageCode(language)),
-                    (result) => result.Any(item => item.Value != null && item.Value.Any(type => !string.IsNullOrEmpty(type))));
-
-            return combinationTypeSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> HorseTeamName([FromBody]RequestSyncFormData data)
-        {
-            var horseTeamNameSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetHorseTeamName(parameter["codeId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return horseTeamNameSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> CasinoBetItem([FromBody]RequestSyncFormData data)
-        {
-            var casinoBetItemSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetCasinoBetItem(parameter["itemId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return casinoBetItemSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> RouletteBetItem([FromBody]RequestSyncFormData data)
-        {
-            var rouletteBetItemSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetRouletteBetItem(parameter["itemId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return rouletteBetItemSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> KenoBetType([FromBody]RequestSyncFormData data)
-        {
-            var kenoBetTypeSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetKenoBetType(parameter["kenoBetTypeId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return kenoBetTypeSet;
-        }
-
-        [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> KenoBetChoice([FromBody] RequestSyncFormData data)
-        {
-            Tuple<string, string> GetKenoBetChoice(ParameterSet parameter, string language)
+            Tuple<string, string> GetKenoBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(
-                        parameter["kenoBetChoiceId"].ToString(),
-                        LanguageHelpers.ToRemotingRefLanguageCode(language),
-                        out string kenoBetTypeId);
+                    parameterSet.GetKenoBetChoiceId(),
+                    refLanguageCode,
+                    out string kenoBetTypeId);
+
+                if (string.IsNullOrEmpty(kenoBetChoice) && string.IsNullOrEmpty(kenoBetTypeId))
+                {
+                    return null;
+                }
 
                 return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
             }
 
-            var kenoBetChoiceSet = GetRefResultSet(
-                 data,
-                 getRefData: GetKenoBetChoice,
-                 isValidRefResultData: (result) => result.Any(item => item.Value != null && (!string.IsNullOrEmpty(item.Value.Item1) || !string.IsNullOrEmpty(item.Value.Item2))));
-
-            return kenoBetChoiceSet;
+            return GetSyncedTranslationResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                GetKenoBetChoiceAndType,
+                choiceAndTypePair => choiceAndTypePair != null);
         }
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> FastMarketsChoice([FromBody]RequestSyncFormData data)
-        {
-            var fastMarketChoiceSet = GetRefResultSet(
-                    data,
-                    (parameter, language)
-                        => _refData.GetFastMarketsChoice(
-                                parameter["betTypeId"].ToString(),
-                                parameter["betTeam"].ToString(),
-                                (int)parameter["handicap1"],
-                                (int)parameter["handicap2"],
-                                LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return fastMarketChoiceSet;
-        }
+        public SyncedTranslationResultSet KenoBetType([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetKenoBetType(parameterSet.GetKenoBetTypeId(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> FastMarkets225Result([FromBody]RequestSyncFormData data)
-        {
-            var fastMarkets225ResultSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetFastMarkets225Result(parameter["resultId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return fastMarkets225ResultSet;
-        }
+        public SyncedTranslationResultSet FastMarketsChoice([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetFastMarketsChoice(
+                    parameterSet.GetBetTypeId(),
+                    parameterSet.GetBetTeam(),
+                    parameterSet.GetHandicap1(),
+                    parameterSet.GetHandicap2(),
+                    refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> LotteryBetChoice([FromBody]RequestSyncFormData data)
+        public SyncedTranslationResultSet FastMarkets225Result([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetFastMarkets225Result(parameterSet.GetResultId(), refLanguageCode));
+
+        [HttpPost]
+        public SyncedTranslationResultSet LotteryBetChoice([FromBody] RequestSyncFormData formData)
         {
-            Tuple<string, string> GetLotteryBetChoice(ParameterSet parameter, string language)
+            Tuple<string, string> GetLotteryBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var lotteryBetChoice = _refData.GetLotteryBetChoice(
-                        parameter["betChoiceId"].ToString(),
-                        LanguageHelpers.ToRemotingRefLanguageCode(language),
-                        out string lotteryBetType);
+                    parameterSet.GetBetChoiceId(),
+                    refLanguageCode,
+                    out string lotteryBetTypeId);
 
-                return new Tuple<string, string>(lotteryBetChoice, lotteryBetType);
+                if (string.IsNullOrEmpty(lotteryBetChoice) && string.IsNullOrEmpty(lotteryBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId);
             }
 
-            var lotteryBetChoiceSet = GetRefResultSet(
-                  data,
-                  getRefData: GetLotteryBetChoice,
-                  isValidRefResultData: (result) => result.Any(item => !string.IsNullOrEmpty(item.Value.Item1)));
-
-            return lotteryBetChoiceSet;
+            return GetSyncedTranslationResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                GetLotteryBetChoiceAndType,
+                choiceAndTypePair => choiceAndTypePair != null);
         }
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> LotteryBetType([FromBody]RequestSyncFormData data)
-        {
-            var lotteryBetTypeSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetLotteryBetType(parameter["betTypeId"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return lotteryBetTypeSet;
-        }
+        public SyncedTranslationResultSet LotteryBetType([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetLotteryBetType(parameterSet.GetBetTypeId(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> BetRadarMatchCodeFormat([FromBody]RequestSyncFormData data)
-        {
-            var refResultSet = GetRefResultSet(
-                    data,
-                    (parameter, language) => _refData.GetBetRadarMatchCodeFormat(parameter["matchCode"].ToString(), LanguageHelpers.ToRemotingRefLanguageCode(language)));
-
-            return refResultSet;
-        }
+        public SyncedTranslationResultSet BetRadarMatchCodeFormat([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetBetRadarMatchCodeFormat(parameterSet.GetMatchCode(), refLanguageCode));
 
         [HttpPost]
-        public Dictionary<ParameterSet, Dictionary<string, string>> DisplayedTypeId([FromBody]RequestSyncFormData data)
+        public SyncedTranslationResultSet DisplayedTypeId([FromBody]RequestSyncFormData formData)
+            => GetSyncedNeutralTextSet(
+                formData.ParameterSets,
+                parameterSet => _refData.GetDisplayedTypeId(parameterSet.GetBetTypeId()));
+
+        private static SyncedTranslationResultSet GetSyncedNeutralTextSet(IList<ParameterSet> parameterSets, SyncNeutralResouceDelegate<string> textGetter)
         {
-            var refResultSet = GetRefResultSet(
-                    data,
-                    (parameter, _) => _refData.GetDisplayedTypeId(parameter["betTypeId"].ToString()));
+            var syncedResultSet = new SyncedTranslationResultSet();
 
-            return refResultSet;
-        }
-
-        private static Dictionary<ParameterSet, Dictionary<string, T>> GetRefResultSet<T>(
-            RequestSyncFormData data,
-            Func<ParameterSet, string, T> getRefData,
-            Func<Dictionary<string, T>, bool> isValidRefResultData = null)
-        {
-            var resultSet = new Dictionary<ParameterSet, Dictionary<string, T>>();
-            data.Languages = data.Languages ?? new[] { "en-US" };
-            var checkValidRefResultData = isValidRefResultData ?? IsValidRefResultData;
-
-            foreach (var parameterSet in data.ParameterSets)
+            foreach (var parameterSet in parameterSets)
             {
-                var result = new Dictionary<string, T>();
+                var text = textGetter(parameterSet);
 
-                foreach (var language in data.Languages)
+                if (!string.IsNullOrEmpty(text))
                 {
-                    result.Add(language, getRefData(parameterSet, language));
-                }
-
-                if (checkValidRefResultData(result))
-                {
-                    resultSet.Add(parameterSet, result);
+                    syncedResultSet.Add(
+                        parameterSet,
+                        new TranslationSet
+                        {
+                            [LanguageHelpers.DefaultLanguage] = text
+                        });
                 }
             }
 
-            return resultSet;
+            return syncedResultSet;
         }
 
-        private static bool IsValidRefResultData<T>(IDictionary<string, T> result)
-            => result.Any(item => !string.IsNullOrEmpty(item.Value as string));
+        private static SyncedTranslationResultSet GetSyncedTranslatedTextResultSet(
+            IList<ParameterSet> parameterSets,
+            string[] standardLanguageCodes,
+            SyncTranslationDelegate<string> textGetter)
+            => GetSyncedTranslationResultSet(
+                parameterSets,
+                standardLanguageCodes,
+                textGetter,
+                text => !string.IsNullOrEmpty(text));
+
+        private static SyncedTranslationResultSet GetSyncedTranslationResultSet<T>(
+            IList<ParameterSet> parameterSets,
+            string[] standardLanguageCodes,
+            SyncTranslationDelegate<T> translationGetter,
+            VerifyTranslationDelegate<T> verifier)
+        {
+            var syncedResultSet = new SyncedTranslationResultSet();
+            var refLanguageCodes = LanguageHelpers.ToRefLanguageCodes(standardLanguageCodes);
+
+            foreach (var parameterSet in parameterSets)
+            {
+                var translationSet = new TranslationSet();
+
+                for (var counter = 0; counter < refLanguageCodes.Length; counter++)
+                {
+                    var resourceInSpecificLanguage = translationGetter(parameterSet, refLanguageCodes[counter]);
+
+                    if (verifier(resourceInSpecificLanguage))
+                    {
+                        translationSet.Add(standardLanguageCodes[counter], resourceInSpecificLanguage);
+                    }
+                }
+
+                if (translationSet.Count > 0)
+                {
+                    syncedResultSet.Add(parameterSet, translationSet);
+                }
+            }
+
+            return syncedResultSet;
+        }
     }
 }

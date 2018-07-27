@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AutoFixture;
+    using Fanex.RemotingRef.Service.Models;
     using Fanex.RemotingRef.Service.Utilities;
     using Fanex.RemotingRef.Service.Utilities.RefData;
     using NSubstitute;
@@ -46,6 +48,9 @@
         public IRefDataHelper RefData { get; }
 
         public Fixture Fixture { get; }
+
+        public static bool ValidateTextSet(TranslationSet textSet)
+            => textSet.Any(pair => !string.IsNullOrEmpty(pair.Value as string));
 
         protected abstract void DisposeController();
 

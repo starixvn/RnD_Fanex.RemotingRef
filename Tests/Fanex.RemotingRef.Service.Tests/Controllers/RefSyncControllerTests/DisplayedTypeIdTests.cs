@@ -35,7 +35,8 @@
 
             _formData = new RequestSyncFormData
             {
-                ParameterSets = _parameterSets
+                ParameterSets = _parameterSets,
+                Languages = StandardLanguageCodes
             };
         }
 
@@ -90,9 +91,9 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedDisplayedTypeIds()
+        private SyncedTranslationResultSet FakeSyncedDisplayedTypeIds()
         {
-            var expectedSyncedDisplayBetTypeIds = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedDisplayBetTypeIds = new SyncedTranslationResultSet();
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
@@ -102,7 +103,7 @@
                 RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayTypeId);
                 expectedSyncedDisplayBetTypeIds.Add(
                     _parameterSets[counter],
-                    new Dictionary<string, string>
+                    new TranslationSet
                     {
                         [DefaultLanguageCode] = displayTypeId
                     });

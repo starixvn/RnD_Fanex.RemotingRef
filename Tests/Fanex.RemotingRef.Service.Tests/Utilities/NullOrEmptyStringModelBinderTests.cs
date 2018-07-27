@@ -2,7 +2,6 @@
 {
     using System.Globalization;
     using System.Web.Http.Controllers;
-    using System.Web.Http.Metadata;
     using System.Web.Http.Metadata.Providers;
     using System.Web.Http.ModelBinding;
     using System.Web.Http.ValueProviders;

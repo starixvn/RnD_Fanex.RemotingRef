@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedHorseTeamNames()
+        private SyncedTranslationResultSet FakeSyncedHorseTeamNames()
             => FakeSyncedHorseTeamNames(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedHorseTeamNames(
+        private SyncedTranslationResultSet FakeSyncedHorseTeamNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedHorseTeamNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedHorseTeamNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var horseTeamNameInMultilanguages = new Dictionary<string, string>();
+                var horseTeamNameInMultilanguages = new TranslationSet();
                 var codeId = _codeIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     horseTeamNameInMultilanguages.Add(standardLanguageCode, horseTeamNameInSpecificLanguage);
                 }
 
-                if (horseTeamNameInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(horseTeamNameInMultilanguages))
                 {
                     expectedSyncedHorseTeamNames.Add(_parameterSets[counter], horseTeamNameInMultilanguages);
                 }

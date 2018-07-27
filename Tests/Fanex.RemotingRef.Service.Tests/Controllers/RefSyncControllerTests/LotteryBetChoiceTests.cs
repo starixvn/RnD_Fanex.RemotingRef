@@ -129,14 +129,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedLotteryBetChoices()
+        private SyncedTranslationResultSet FakeSyncedLotteryBetChoices()
             => FakeSyncedLotteryBetChoices(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedLotteryBetChoices(
+        private SyncedTranslationResultSet FakeSyncedLotteryBetChoices(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedLotteryBetChoiceAndTypeIds = new Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>>();
+            var expectedSyncedLotteryBetChoiceAndTypeIds = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -146,7 +146,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var lotteryBetTypeAndChoiceInMultilanguages = new Dictionary<string, Tuple<string, string>>();
+                var lotteryBetTypeAndChoiceInMultilanguages = new TranslationSet();
                 var lotteryBetChoiceId = _betChoiceId[counter];
                 var lotteryBetTypeId = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
@@ -179,8 +179,8 @@
             return expectedSyncedLotteryBetChoiceAndTypeIds;
         }
 
-        private static bool IsNotNullOrEmptyString(KeyValuePair<string, Tuple<string, string>> lotteryBetTypeAndChoice)
-            => lotteryBetTypeAndChoice.Value != null
-            && (!string.IsNullOrEmpty(lotteryBetTypeAndChoice.Value.Item1) || !string.IsNullOrEmpty(lotteryBetTypeAndChoice.Value.Item2));
+        private static bool IsNotNullOrEmptyString(KeyValuePair<string, object> lotteryBetTypeAndChoice)
+            => (lotteryBetTypeAndChoice.Value is Tuple<string, string> lotteryBetTypeAndChoicePair)
+            && (!string.IsNullOrEmpty(lotteryBetTypeAndChoicePair.Item1) || !string.IsNullOrEmpty(lotteryBetTypeAndChoicePair.Item2));
     }
 }

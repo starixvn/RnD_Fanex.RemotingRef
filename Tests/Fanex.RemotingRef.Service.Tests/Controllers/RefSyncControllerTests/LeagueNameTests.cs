@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedLeagueNames()
+        private SyncedTranslationResultSet FakeSyncedLeagueNames()
             => FakeSyncedLeagueNames(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedLeagueNames(
+        private SyncedTranslationResultSet FakeSyncedLeagueNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedLeagueNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedLeagueNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var leagueNameInMultilanguages = new Dictionary<string, string>();
+                var leagueNameInMultilanguages = new TranslationSet();
                 var leagueId = _leagueIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     leagueNameInMultilanguages.Add(standardLanguageCode, leagueNameInSpecificLanguage);
                 }
 
-                if (leagueNameInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(leagueNameInMultilanguages))
                 {
                     expectedSyncedLeagueNames.Add(_parameterSets[counter], leagueNameInMultilanguages);
                 }

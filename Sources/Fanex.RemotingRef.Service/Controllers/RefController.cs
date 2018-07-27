@@ -125,7 +125,10 @@
         {
             Tuple<string, string> GetKenoBetChoiceAndType(string refLanguageCode)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(kenoBetChoiceId, refLanguageCode, out string kenoBetTypeId);
+                var kenoBetChoice = _refData.GetKenoBetChoice(
+                    kenoBetChoiceId,
+                    refLanguageCode,
+                    out string kenoBetTypeId);
 
                 if (string.IsNullOrEmpty(kenoBetChoice) && string.IsNullOrEmpty(kenoBetTypeId))
                 {
@@ -223,7 +226,7 @@
                 text => !string.IsNullOrEmpty(text));
 
         private static TranslationSet GetTranslationSet<T>(
-            GetTranslationDelegate<T> translatedTextGetter,
+            GetTranslationDelegate<T> translationGetter,
             string[] standardLanguageCodes,
             VerifyTranslationDelegate<T> verifier)
         {
@@ -232,7 +235,7 @@
 
             for (var counter = 0; counter < refLanguageCodes.Length; counter++)
             {
-                var resourceInSpecificLanguage = translatedTextGetter(refLanguageCodes[counter]);
+                var resourceInSpecificLanguage = translationGetter(refLanguageCodes[counter]);
 
                 if (verifier(resourceInSpecificLanguage))
                 {

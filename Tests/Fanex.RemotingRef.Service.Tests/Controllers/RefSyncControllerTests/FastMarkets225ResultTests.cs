@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedFastMarkets225Results()
+        private SyncedTranslationResultSet FakeSyncedFastMarkets225Results()
             => FakeSyncedFastMarkets225Results(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedFastMarkets225Results(
+        private SyncedTranslationResultSet FakeSyncedFastMarkets225Results(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedFastMarkets225Results = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedFastMarkets225Results = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var fastMarkets225ResultInMultilanguages = new Dictionary<string, string>();
+                var fastMarkets225ResultInMultilanguages = new TranslationSet();
                 var resultId = _resultIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     fastMarkets225ResultInMultilanguages.Add(standardLanguageCode, fastMarkets225ResultInSpecificLanguage);
                 }
 
-                if (fastMarkets225ResultInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(fastMarkets225ResultInMultilanguages))
                 {
                     expectedSyncedFastMarkets225Results.Add(_parameterSets[counter], fastMarkets225ResultInMultilanguages);
                 }

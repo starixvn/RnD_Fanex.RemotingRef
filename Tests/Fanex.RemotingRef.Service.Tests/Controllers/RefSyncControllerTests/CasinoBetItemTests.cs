@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCasinoBetItems()
+        private SyncedTranslationResultSet FakeSyncedCasinoBetItems()
             => FakeSyncedCasinoBetItems(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedCasinoBetItems(
+        private SyncedTranslationResultSet FakeSyncedCasinoBetItems(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedCasinoBetItems = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedCasinoBetItems = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var betItemInMultilanguages = new Dictionary<string, string>();
+                var betItemInMultilanguages = new TranslationSet();
                 var itemId = _itemIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     betItemInMultilanguages.Add(standardLanguageCode, betItemInSpecificLanguage);
                 }
 
-                if (betItemInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(betItemInMultilanguages))
                 {
                     expectedSyncedCasinoBetItems.Add(_parameterSets[counter], betItemInMultilanguages);
                 }

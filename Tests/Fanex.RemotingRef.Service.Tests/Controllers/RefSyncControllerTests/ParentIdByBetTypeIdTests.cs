@@ -36,7 +36,8 @@
 
             _formData = new RequestSyncFormData
             {
-                ParameterSets = _parameterSets
+                ParameterSets = _parameterSets,
+                Languages = StandardLanguageCodes
             };
         }
 
@@ -114,14 +115,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedParentBetTypeIds()
+        private SyncedTranslationResultSet FakeSyncedParentBetTypeIds()
             => FakeSyncedParentBetTypeIds(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedParentBetTypeIds(
+        private SyncedTranslationResultSet FakeSyncedParentBetTypeIds(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedParentBetTypeIds = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedParentBetTypeIds = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -140,7 +141,7 @@
                 {
                     expectedSyncedParentBetTypeIds.Add(
                         _parameterSets[counter],
-                        new Dictionary<string, string>
+                        new TranslationSet
                         {
                             [DefaultLanguageCode] = parentBetTypeId
                         });

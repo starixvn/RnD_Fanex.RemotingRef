@@ -174,14 +174,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays()
+        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays()
             => FakeSyncedCombinationTypeComboParlays(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string[]>> FakeSyncedCombinationTypeComboParlays(
+        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays(
             bool requireSpecialValue,
             string[] specialValue)
         {
-            var expectedSyncedComboNames = new Dictionary<ParameterSet, Dictionary<string, string[]>>();
+            var expectedSyncedComboNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -191,7 +191,7 @@
 
             for (var counter = 0; counter < _parameterSets.Count; counter++)
             {
-                var comboNamesInMultilanguages = new Dictionary<string, string[]>();
+                var comboNamesInMultilanguages = new TranslationSet();
                 var parameterSetsValue = _parameterSetsValues[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -218,7 +218,7 @@
             return expectedSyncedComboNames;
         }
 
-        private static bool DoesNotContainNullOrEmptyArray(Dictionary<string, string[]> comboNamesInMultilanguages)
-            => comboNamesInMultilanguages.Any(pair => pair.Value != null && pair.Value.Any(name => !string.IsNullOrEmpty(name)));
+        private static bool DoesNotContainNullOrEmptyArray(TranslationSet comboNamesInMultilanguages)
+            => comboNamesInMultilanguages.Any(pair => (pair.Value is string[] combos) && combos.Any(name => !string.IsNullOrEmpty(name)));
     }
 }

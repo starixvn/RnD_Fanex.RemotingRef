@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.Service.Models;
     using NSubstitute;
@@ -119,14 +118,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedSportNames()
+        private SyncedTranslationResultSet FakeSyncedSportNames()
             => FakeSyncedSportNames(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, string>> FakeSyncedSportNames(
+        private SyncedTranslationResultSet FakeSyncedSportNames(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedSportNames = new Dictionary<ParameterSet, Dictionary<string, string>>();
+            var expectedSyncedSportNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -136,7 +135,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var sportNameInMultilanguages = new Dictionary<string, string>();
+                var sportNameInMultilanguages = new TranslationSet();
                 var sportTypeId = _sportTypeIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -149,7 +148,7 @@
                     sportNameInMultilanguages.Add(standardLanguageCode, sportNameInSpecificLanguage);
                 }
 
-                if (sportNameInMultilanguages.Any(pair => !string.IsNullOrEmpty(pair.Value)))
+                if (ValidateTextSet(sportNameInMultilanguages))
                 {
                     expectedSyncedSportNames.Add(_parameterSets[counter], sportNameInMultilanguages);
                 }

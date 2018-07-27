@@ -129,14 +129,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices()
+        private SyncedTranslationResultSet FakeSyncedKenoBetChoices()
             => FakeSyncedKenoBetChoices(false, null);
 
-        private Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>> FakeSyncedKenoBetChoices(
+        private SyncedTranslationResultSet FakeSyncedKenoBetChoices(
             bool requireSpecialValue,
             string specialValue)
         {
-            var expectedSyncedKenoBetChoiceAndTypeIds = new Dictionary<ParameterSet, Dictionary<string, Tuple<string, string>>>();
+            var expectedSyncedKenoBetChoiceAndTypeIds = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -146,7 +146,7 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var kenoBetTypeAndChoiceInMultilanguages = new Dictionary<string, Tuple<string, string>>();
+                var kenoBetTypeAndChoiceInMultilanguages = new TranslationSet();
                 var kenoBetChoiceId = _kenoBetChoiceIds[counter];
                 var kenoBetTypeId = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
@@ -179,8 +179,8 @@
             return expectedSyncedKenoBetChoiceAndTypeIds;
         }
 
-        private static bool IsNotNullOrEmptyString(KeyValuePair<string, Tuple<string, string>> kenoBetTypeAndChoice)
-            => kenoBetTypeAndChoice.Value != null
-            && (!string.IsNullOrEmpty(kenoBetTypeAndChoice.Value.Item1) || !string.IsNullOrEmpty(kenoBetTypeAndChoice.Value.Item2));
+        private static bool IsNotNullOrEmptyString(KeyValuePair<string, object> kenoBetTypeAndChoice)
+            => (kenoBetTypeAndChoice.Value is Tuple<string, string> kenoBetTypeAndChoicePair)
+            && (!string.IsNullOrEmpty(kenoBetTypeAndChoicePair.Item1) || !string.IsNullOrEmpty(kenoBetTypeAndChoicePair.Item2));
     }
 }
