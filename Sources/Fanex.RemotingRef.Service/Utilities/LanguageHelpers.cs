@@ -4,7 +4,7 @@
     {
         public const string DefaultLanguage = "en-US";
 
-        public static string[] ToRemotingRefLanguageCodes(string[] standardLanguageCodes)
+        public static string[] ToRefLanguageCodes(string[] standardLanguageCodes)
         {
             var remotingRefLanguageCodes = new string[standardLanguageCodes.Length];
 
