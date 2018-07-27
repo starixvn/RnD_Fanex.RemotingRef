@@ -26,31 +26,32 @@
             };
 
             PrepareFormData();
-            FakeDisplayedTypeId();
         }
 
         private void PrepareFormData()
         {
-            AddParameterSet(
+            AddParameterSetAndRegisterRefData(
                 Fixture.Create<string>(),
                 Fixture.Create<string>(),
                 Fixture.Create<long?>());
-            AddParameterSet(
+            AddParameterSetAndRegisterRefData(
                 Fixture.Create<string>(),
                 null,
                 Fixture.Create<long?>());
-            AddParameterSet(
+            AddParameterSetAndRegisterRefData(
                 Fixture.Create<string>(),
                 Fixture.Create<string>(),
                 null);
-            AddParameterSet(
+            AddParameterSetAndRegisterRefData(
                 Fixture.Create<string>(),
                 null,
                 null);
         }
 
-        private void AddParameterSet(string betTypeId, string resourceId, long? refNo)
+        private void AddParameterSetAndRegisterRefData(string betTypeId, string resourceId, long? refNo)
         {
+            var displayedBetTypeId = Fixture.Create<string>();
+
             _parameterSetsValues.Add(new Tuple<string, string, long?>(betTypeId, resourceId, refNo));
             _parameterSets.Add(new ParameterSet
             {
@@ -58,18 +59,8 @@
                 ["resourceId"] = resourceId,
                 ["refNo"] = refNo
             });
-        }
-
-        private void FakeDisplayedTypeId()
-        {
-            foreach (var parameterSetValue in _parameterSetsValues)
-            {
-                var betTypeId = parameterSetValue.Item1;
-                var displayedBetTypeId = Fixture.Create<string>();
-
-                _displayedBetTypeIds.Add(displayedBetTypeId);
-                RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayedBetTypeId);
-            }
+            _displayedBetTypeIds.Add(displayedBetTypeId);
+            RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayedBetTypeId);
         }
 
         [Fact]

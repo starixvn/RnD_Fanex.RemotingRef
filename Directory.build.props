@@ -8,7 +8,7 @@
         <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <IncludeSymbols>false</IncludeSymbols>
-        <Version>1.0.0-beta7</Version>
+        <Version>1.0.0-beta8</Version>
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>AD0001</NoWarn>
