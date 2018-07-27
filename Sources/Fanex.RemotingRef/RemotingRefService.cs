@@ -406,6 +406,56 @@ namespace Fanex.RemotingRef
             return displayedTypeId ?? betTypeId;
         }
 
+        public string GetDisplayedBetTypeName(string betTypeId, string languageCode)
+        {
+            var keySet = new KeySet
+            {
+                ["betTypeId"] = betTypeId
+            };
+
+            return GetDisplayedBetTypeName(keySet, languageCode, string.Empty);
+        }
+
+        public string GetDisplayedBetTypeName(string betTypeId, long refNo, string languageCode)
+            => GetDisplayedBetTypeName(betTypeId, refNo, languageCode, string.Empty);
+
+        public string GetDisplayedBetTypeName(string betTypeId, long refNo, string languageCode, string defaultValue)
+        {
+            var keySet = new KeySet
+            {
+                ["betTypeId"] = betTypeId,
+                ["refNo"] = refNo
+            };
+
+            return GetDisplayedBetTypeName(keySet, languageCode, defaultValue);
+        }
+
+        public string GetDisplayedBetTypeName(string betTypeId, string resourceId, string languageCode, string defaultValue)
+        {
+            var keySet = new KeySet
+            {
+                ["betTypeId"] = betTypeId,
+                ["resourceId"] = resourceId
+            };
+
+            return GetDisplayedBetTypeName(keySet, languageCode, defaultValue);
+        }
+
+        public string GetDisplayedBetTypeName(string betTypeId, string resourceId, long refNo, string languageCode, string defaultValue)
+        {
+            var keySet = new KeySet
+            {
+                ["betTypeId"] = betTypeId,
+                ["resourceId"] = resourceId,
+                ["refNo"] = refNo
+            };
+
+            return GetDisplayedBetTypeName(keySet, languageCode, defaultValue);
+        }
+
+        private string GetDisplayedBetTypeName(KeySet keySet, string languageCode, string defaultValue)
+            => GetTranslationText(RefDataType.DisplayedBetTypeName, "DisplayedBetTypeName", keySet, languageCode) ?? defaultValue;
+
         private string GetTranslationText(RefDataType dataType, string actionName, KeySet keySet, string languageCode)
             => GetTranslationObject<string>(dataType, actionName, keySet, languageCode);
 

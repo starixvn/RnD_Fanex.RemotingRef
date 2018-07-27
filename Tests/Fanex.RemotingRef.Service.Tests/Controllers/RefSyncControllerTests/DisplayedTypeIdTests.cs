@@ -93,7 +93,7 @@
 
         private SyncedTranslationResultSet FakeSyncedDisplayedTypeIds()
         {
-            var expectedSyncedDisplayBetTypeIds = new SyncedTranslationResultSet();
+            var expectedSyncedDisplayedBetTypeIds = new SyncedTranslationResultSet();
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
@@ -101,7 +101,7 @@
                 var displayTypeId = Fixture.Create<string>();
 
                 RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayTypeId);
-                expectedSyncedDisplayBetTypeIds.Add(
+                expectedSyncedDisplayedBetTypeIds.Add(
                     _parameterSets[counter],
                     new TranslationSet
                     {
@@ -109,7 +109,7 @@
                     });
             }
 
-            return expectedSyncedDisplayBetTypeIds;
+            return expectedSyncedDisplayedBetTypeIds;
         }
     }
 }

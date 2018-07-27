@@ -453,12 +453,90 @@
             var betTypeId = "157";
 
             // Act.
-            var actualDisplayBetTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
             var expectedBetTypeId = "2";
 
-            Assert.Equal(expectedBetTypeId, actualDisplayBetTypeId);
+            Assert.Equal(expectedBetTypeId, actualDisplayedBetTypeId);
+        }
+
+        [Fact]
+        public void GetDisplayedBetTypeName()
+        {
+            // Arrange.
+            var betTypeId = "407";
+
+            // Act.
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(betTypeId, TestingLanguage);
+
+            // Assert.
+            var expectedDisplayedBetTypeName = "Exact Home Team Goals";
+
+            Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
+        }
+
+        [Fact]
+        public void GetDisplayedViaLuckyBetTypeName()
+        {
+            // Arrange.
+            var betTypeId = "407";
+            var refNo = 100_000_000_001L;
+
+            // Act.
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
+                betTypeId,
+                refNo,
+                TestingLanguage);
+
+            // Assert.
+            var expectedDisplayedBetTypeName = "Exact Home Team Goals (Via Lucky)";
+
+            Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
+        }
+
+        [Fact]
+        [Description("Get bet type name stored in DB, then replace X, Y, or Z in its name with values in resourceId")]
+        public void GetDisplayedBetTypeNameContaingPlaceholders()
+        {
+            // Arrange.
+            var betTypeId = "1316";
+            var resourceId = "01";
+
+            // Act.
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
+                betTypeId,
+                resourceId,
+                TestingLanguage,
+                DefaultValue);
+
+            // Assert.
+            var expectedDisplayedBetTypeName = "Set 1 Game Handicap";
+
+            Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
+        }
+
+        [Fact]
+        [Description("Get Via Lucky bet type name, then replace X, Y, or Z in its name with values in resourceId")]
+        public void GetDisplayedViaLuckyBetTypeNameContainingPlaceholders()
+        {
+            // Arrange.
+            var betTypeId = "1316";
+            var resourceId = "02";
+            var refNo = 100_000_000_001L;
+
+            // Act.
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
+                betTypeId,
+                resourceId,
+                refNo,
+                TestingLanguage,
+                DefaultValue);
+
+            // Assert.
+            var expectedDisplayedBetTypeName = "Set 2 Game Handicap (Via Lucky)";
+
+            Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
     }
 }

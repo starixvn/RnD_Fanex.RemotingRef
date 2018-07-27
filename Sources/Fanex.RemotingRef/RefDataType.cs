@@ -10,19 +10,20 @@
         LeagueName3rd,
         CountryName,
         OddsTypeName,
+        RefResource,
         ParentBetTypeId,
         CombinationTypeCombo,
-        RefResource,
+        HorseTeamName,
         CasinoBetItem,
         RouletteBetItem,
-        KenoBetType,
         KenoBetChoice,
+        KenoBetType,
         FastMarketsChoice,
         FastMarkets225Result,
-        LotteryBetType,
         LotteryBetChoice,
+        LotteryBetType,
         BetRadarMatchCodeFormat,
         DisplayedTypeId,
-        HorseTeamName
+        DisplayedBetTypeName
     }
 }

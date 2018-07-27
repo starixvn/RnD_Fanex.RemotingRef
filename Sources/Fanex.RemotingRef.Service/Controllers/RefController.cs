@@ -204,6 +204,20 @@
         public TranslationSet DisplayedTypeId(string betTypeId = null)
             => GetNeutralText(() => _refData.GetDisplayedTypeId(betTypeId));
 
+        [HttpGet]
+        public TranslationSet DisplayedBetTypeName(
+            string betTypeId = null,
+            string resourceId = null,
+            long? refNo = null,
+            [FromUri]string[] languages = null)
+        {
+            var displayedBetTypeId = _refData.GetDisplayedTypeId(betTypeId);
+
+            return GetTranslationSet(
+                refLanguagCode => _refData.GetBetTypeName(displayedBetTypeId, resourceId, refNo, refLanguagCode),
+                languages);
+        }
+
         internal static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
         {
             var text = textGetter();

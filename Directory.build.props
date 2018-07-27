@@ -1,10 +1,10 @@
 <Project>
     <PropertyGroup>
         <Authors>R&amp;D Team</Authors>
-        <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</PackageProjectUrl>
+        <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
         <RepositoryUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageReleaseNotes>
+        <PackageReleaseNotes>Add new API named 'GetDisplayedBetTypeName'</PackageReleaseNotes>
         <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <IncludeSymbols>false</IncludeSymbols>

@@ -232,6 +232,43 @@
                 formData.ParameterSets,
                 parameterSet => _refData.GetDisplayedTypeId(parameterSet.GetBetTypeId()));
 
+        [HttpPost]
+        public SyncedTranslationResultSet DisplayedBetTypeName([FromBody]RequestSyncFormData formData)
+        {
+            var syncedResultSet = new SyncedTranslationResultSet();
+            var standardLanguageCodes = formData.Languages;
+            var refLanguageCodes = LanguageHelpers.ToRefLanguageCodes(standardLanguageCodes);
+
+            foreach (var parameterSet in formData.ParameterSets)
+            {
+                var displayedBetTypeId = _refData.GetDisplayedTypeId(parameterSet.GetBetTypeId());
+                var resourceId = parameterSet.GetResourceId();
+                var refNo = parameterSet.GetRefNo();
+                var translationSet = new TranslationSet();
+
+                for (var counter = 0; counter < refLanguageCodes.Length; counter++)
+                {
+                    var displayedBetTypeNameInSpecificLanguage = _refData.GetBetTypeName(
+                        displayedBetTypeId,
+                        resourceId,
+                        refNo,
+                        refLanguageCodes[counter]);
+
+                    if (!string.IsNullOrEmpty(displayedBetTypeNameInSpecificLanguage))
+                    {
+                        translationSet.Add(standardLanguageCodes[counter], displayedBetTypeNameInSpecificLanguage);
+                    }
+                }
+
+                if (translationSet.Count > 0)
+                {
+                    syncedResultSet.Add(parameterSet, translationSet);
+                }
+            }
+
+            return syncedResultSet;
+        }
+
         private static SyncedTranslationResultSet GetSyncedNeutralTextSet(IList<ParameterSet> parameterSets, SyncNeutralResouceDelegate<string> textGetter)
         {
             var syncedResultSet = new SyncedTranslationResultSet();
