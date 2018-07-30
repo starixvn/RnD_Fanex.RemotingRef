@@ -36,7 +36,7 @@
         }
 
         [Fact]
-        [Description("GIVE: refNo > one billions | GET: displayed bet type name containing '(Via Lucky)'")]
+        [Description("GIVE: refNo > one hundred billions | GET: displayed bet type name containing '(Via Lucky)'")]
         public void GetDisplayedViaLuckyBetTypeNameWithOverOneHundredBillionRefNo()
         {
             // Arrange.
@@ -56,7 +56,7 @@
         }
 
         [Fact]
-        [Description("GIVE: refNo <= one billions | GET: displayed bet type name without '(Via Lucky)' suffixed")]
+        [Description("GIVE: refNo <= one hundred billions | GET: displayed bet type name without '(Via Lucky)' suffixed")]
         public void GetOriginalDisplayedNameWithUnderOneHundredBillionRefNo()
         {
             // Arrange.
@@ -79,7 +79,7 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: (refNo > one billions) && (invalid betTypeId) && (no defaultValue provided) | GET: empty string")]
+        [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) && (no defaultValue provided) | GET: empty string")]
         public void GetEmptyStringWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
@@ -99,7 +99,7 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: (refNo > one billions) && (invalid betTypeId) | GET: given defaultValue")]
+        [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
         public void GetGivenDefaultValueWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
@@ -181,7 +181,7 @@
         }
 
         [Fact]
-        [Description("GIVE: (refNo > one billions) && (nonnull or non-empty resourceId) | " +
+        [Description("GIVE: (refNo > one hundred billions) && (nonnull or non-empty resourceId) | " +
                      "GET: displayed bet type with any X, Y, or Z replaced by resourceId, then suffix it with '(Via Lucky)'")]
         public void GetDisplayedViaLuckyBetTypeNameWithPlaceholdersReplacedByResourceId()
         {
@@ -208,7 +208,7 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: (resourceId is not null or empty) && (refNo > one billions) && (invalid betTypeId) | GET: given defaultValue")]
+        [Description("GIVE: (resourceId is not null or empty) && (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
         public void GetGivenDefaultValueWithSatisfiedResourceIdAndRefNoButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.

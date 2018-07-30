@@ -1,16 +1,20 @@
 # Fanex.RemotingRef
 
-Fanex.RemotingRef is a wrapper of TW RemotingRef 2.0. Its main purpose is to support .NET Standard and reduce the number of dependencies sticked with TW RemotingRef 2.0. The overview [can be found here](https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/overview)
+Fanex.RemotingRef is a wrapper of TW RemotingRef 2.0. Its main purpose is to support .NET Standard and reduce the number of dependencies sticked with TW RemotingRef 2.0.
+
+As for the technical overview, check out this [page](https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/Technical-Overview)
+
+As for APIs supported by Fanex.RemotingRef, check out this [page](https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/apis)
 
 ## Install
 
-NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
+NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.RemotingRef/)
 
 ## Get Started
 
 ### ASP.NET Core
 
-1. After install NuGet package, in the *ConfigureServices* method of *Startup.cs*, connect to Service url and register the RemotingRefService
+1. After install NuGet package, in the `ConfigureServices` method of `Startup.cs`, connect to Service URL and register the `RemotingRefService`
 
     ```csharp
         RefDataTypeContainer
@@ -21,14 +25,15 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
         services.AddSingleton<IRemotingRefService, RemotingRefService>();
     ```
 
-2. Configure RemotingRef Service url in *appsettings.json*. Refer [here](#Fanex.RemotingRef.Service.Url) to get Fanex.RemotingRef.Service URL
+2. Configure RemotingRef Service url in `appsettings.json`. Refer [here](#fanexremotingrefservice-url) to get Fanex.RemotingRef.Service URL
+
     ```json
         {
             "Fanex.RemotingRef.Service.Url": "http://ha.nexdev.net:7258/Main/"
         }
     ```
 
-3. Use *RemotingRefService* instance in where you want to use
+3. Use `RemotingRefService` instance in anywhere you want to use
 
     ```csharp
         private readonly IRemotingRefService _remotingRefService;
@@ -48,7 +53,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
 ### ASP.NET MVC
 
-1. After install NuGet package, in the *Application_Start* method of *Global.asax.cs*, connect to Service url
+1. After install NuGet package, in the `Application_Start` method of `Global.asax.cs`, connect to the Service as
 
     ```csharp
         RefDataTypeContainer
@@ -56,7 +61,8 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
             .FromApplication("Your Application Name");
     ```
 
-2. Configure RemotingRef Service url in *web.config*.  Refer [here](#Fanex.RemotingRef.Service.Url) to get Fanex.RemotingRef.Service URL
+2. Configure RemotingRef Service URL in `web.config`.  Refer [here](#fanexremotingrefservice-url) to get Fanex.RemotingRef.Service URL
+
     ```config
         <appSettings>
             <add key="Fanex.RemotingRef.Service.Url" value="http://ha.nexdev.net:7258/Main/" />
@@ -64,7 +70,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
     ```
 
-3. Use *RemotingRefService* in where you want to use
+3. Use `RemotingRefService` in anywhere you want to use
 
     ```csharp
         public string GetBetTypeName(string betTypeId, string languageCode)
@@ -77,16 +83,16 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 
 ## Configuration Information
 
-### <a name="Fanex.RemotingRef.Service.Url"></a> Fanex.RemotingRef.Service URL
+### Fanex.RemotingRef.Service URL
+
 - LOCAL: http://ha.nexdev.net:7258/Main/
 - SIT: http://172.16.4.105:6207/
 - UAT: http://10.40.40.73:7207/
 - PRO: http://10.40.40.47:7258/
-  
 
 ## Configuration & Customization
 
-- Fanex.RemotingRef allow you to customize cached data types and supported languages in your site. All customized methods are supported in class **RefDataTypeContainer**. For example
+- Fanex.RemotingRef allow you to customize cached data types and supported languages in your site. All customized methods are supported in class `RefDataTypeContainer`. For example:
 
     ```csharp
          RefDataTypeContainer
@@ -123,7 +129,6 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/RemotingRef/)
 | CompactionPercentage    | The percentage of item amount that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
 | CompactOnMemoryPressure | Enable cleaning cached items when Gargabe Collector runs                                                                                                                                                                                                                                                 | bool     | false             |
 | ExpirationScanFrequency | Time to scan expired cached items                                                                                                                                                                                                                                                                        | Timespan | 1 minute          |
-
 
 ## Special Notes
 

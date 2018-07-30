@@ -153,7 +153,7 @@
             if (RefDataTypeHandlerOptions.ApplicationName == null)
             {
                 throw new InvalidOperationException(
-                    $"Application must be provided via '{nameof(RefDataTypeContainer.FromApplication)}' for purpose of statistics.");
+                    $"Application Name must be provided via '{nameof(RefDataTypeContainer.FromApplication)}' for purpose of statistics.");
             }
         }
     }
