@@ -10,13 +10,13 @@
 
             for (var counter = 0; counter < standardLanguageCodes.Length; counter++)
             {
-                remotingRefLanguageCodes[counter] = ToRemotingRefLanguageCode(standardLanguageCodes[counter]);
+                remotingRefLanguageCodes[counter] = ToRefLanguageCode(standardLanguageCodes[counter]);
             }
 
             return remotingRefLanguageCodes;
         }
 
-        public static string ToRemotingRefLanguageCode(string standardLanguageCode)
+        public static string ToRefLanguageCode(string standardLanguageCode)
         {
             switch (standardLanguageCode)
             {

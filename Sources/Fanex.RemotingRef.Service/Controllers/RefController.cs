@@ -218,7 +218,7 @@
                 languages);
         }
 
-        internal static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
+        private static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
         {
             var text = textGetter();
 
@@ -245,15 +245,14 @@
             VerifyTranslationDelegate<T> verifier)
         {
             var translationSet = new TranslationSet();
-            var refLanguageCodes = LanguageHelpers.ToRefLanguageCodes(standardLanguageCodes);
 
-            for (var counter = 0; counter < refLanguageCodes.Length; counter++)
+            foreach (var standardLanguageCode in standardLanguageCodes)
             {
-                var resourceInSpecificLanguage = translationGetter(refLanguageCodes[counter]);
+                var resourceInSpecificLanguage = translationGetter(LanguageHelpers.ToRefLanguageCode(standardLanguageCode));
 
                 if (verifier(resourceInSpecificLanguage))
                 {
-                    translationSet.Add(standardLanguageCodes[counter], resourceInSpecificLanguage);
+                    translationSet.Add(standardLanguageCode, resourceInSpecificLanguage);
                 }
             }
 
