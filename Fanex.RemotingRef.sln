@@ -38,6 +38,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{C56E8B40-6415-4D28-BE88-65A07CBD76F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedAssemblies", "SharedAssemblies", "{41F409AE-4FFF-48F5-A230-82B8F18B33AD}"
+	ProjectSection(SolutionItems) = preProject
+		SharedAssemblies\IBCFile.dll = SharedAssemblies\IBCFile.dll
+		SharedAssemblies\NLog.dll = SharedAssemblies\NLog.dll
+		SharedAssemblies\NLog.Targets.RabbitMQ.dll = SharedAssemblies\NLog.Targets.RabbitMQ.dll
+		SharedAssemblies\ONEbook.Common.Caching.dll = SharedAssemblies\ONEbook.Common.Caching.dll
+		SharedAssemblies\ONEbook.Common.Caching.Redis.dll = SharedAssemblies\ONEbook.Common.Caching.Redis.dll
+		SharedAssemblies\ONEbook.Common.Caching.RedisLib.dll = SharedAssemblies\ONEbook.Common.Caching.RedisLib.dll
+		SharedAssemblies\ONEbook.Common.DataPlus.dll = SharedAssemblies\ONEbook.Common.DataPlus.dll
+		SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll = SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll
+		SharedAssemblies\RefDataModel.dll = SharedAssemblies\RefDataModel.dll
+		SharedAssemblies\RefNewData.dll = SharedAssemblies\RefNewData.dll
+		SharedAssemblies\RefRelayRemoteStation.dll = SharedAssemblies\RefRelayRemoteStation.dll
+		SharedAssemblies\RemotingRef.dll = SharedAssemblies\RemotingRef.dll
+		SharedAssemblies\SPSRemoting.dll = SharedAssemblies\SPSRemoting.dll
+		SharedAssemblies\StackExchange.Redis.dll = SharedAssemblies\StackExchange.Redis.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

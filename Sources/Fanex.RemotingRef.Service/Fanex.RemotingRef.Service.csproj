@@ -47,60 +47,60 @@
   <ItemGroup>
     <Reference Include="IBCFile, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\IBCFile.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\IBCFile.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\NLog.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Targets.RabbitMQ, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\NLog.Targets.RabbitMQ.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\NLog.Targets.RabbitMQ.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\ONEbook.Common.Caching.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.Redis.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\ONEbook.Common.Caching.Redis.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.Caching.RedisLib, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.Caching.RedisLib.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\ONEbook.Common.Caching.RedisLib.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Common.DataPlus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Common.DataPlus.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\ONEbook.Common.DataPlus.dll</HintPath>
     </Reference>
     <Reference Include="ONEbook.Product.Site.Common.LocalCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
     </Reference>
     <Reference Include="RefDataModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RefDataModel.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\RefDataModel.dll</HintPath>
     </Reference>
     <Reference Include="RefNewData, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\harrison.nguyen\Downloads\Betradar Method for RemotingRef1.0\RefNewData.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\RefNewData.dll</HintPath>
     </Reference>
     <Reference Include="RefRelayRemoteStation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\RefRelayRemoteStation.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\RefRelayRemoteStation.dll</HintPath>
     </Reference>
     <Reference Include="RemotingRef, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\harrison.nguyen\Downloads\Betradar Method for RemotingRef1.0\RemotingRef.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\RemotingRef.dll</HintPath>
     </Reference>
     <Reference Include="SPSRemoting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\SPSRemoting.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\SPSRemoting.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Ref\StackExchange.Redis.dll</HintPath>
+      <HintPath>..\..\SharedAssemblies\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
