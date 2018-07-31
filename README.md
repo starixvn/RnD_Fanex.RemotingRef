@@ -85,10 +85,12 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.Remotin
 
 ### Fanex.RemotingRef.Service URL
 
-- LOCAL: http://ha.nexdev.net:7258/Main/
-- SIT: http://172.16.4.105:6207/
-- UAT: http://10.40.40.73:7207/
-- PRO: http://10.40.40.47:7258/
+| Environment | Dev                           | Master                          |
+| ----------- | ----------------------------- | ------------------------------- |
+| LOCAL       | http://ha.nexdev.net:7258/V1/ | http://ha.nexdev.net:7258/Main/ |
+| SIT         | http://172.16.4.105:6207/V1/  | http://172.16.4.105:6207/Main/  |
+| UAT         | http://10.40.40.73:7207/V1/   | http://10.40.40.73:7207/Main/   |
+| PRO         |                               | http://10.40.40.47:7258/        |
 
 ## Configuration & Customization
 

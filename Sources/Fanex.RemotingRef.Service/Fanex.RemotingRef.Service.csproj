@@ -163,6 +163,9 @@
     <Content Include="Ref\RemotingRef.dll" />
     <Content Include="Ref\SPSRemoting.dll" />
     <Content Include="Ref\StackExchange.Redis.dll" />
+    <Content Include="Setting\RedisSetting.mnl.xml">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
     <Content Include="Setting\RedisSetting.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -199,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fanex.RemotingRef.Service.ruleset" />
+    <None Include="Web.AppSettings.mnl.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fanex.Logging">

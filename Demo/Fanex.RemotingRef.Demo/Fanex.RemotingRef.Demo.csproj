@@ -155,6 +155,9 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Setting\RedisSetting.mnl.xml">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
     <Content Include="Setting\RedisSetting.pro.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
@@ -237,6 +240,7 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Web.local.config" />
+    <None Include="Web.mnl.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Fanex.RemotingRef\Fanex.RemotingRef.csproj">
