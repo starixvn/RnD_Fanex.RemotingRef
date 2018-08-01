@@ -149,20 +149,6 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Ref\IBCFile.dll" />
-    <Content Include="Ref\NLog.dll" />
-    <Content Include="Ref\NLog.Targets.RabbitMQ.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.Redis.dll" />
-    <Content Include="Ref\ONEbook.Common.Caching.RedisLib.dll" />
-    <Content Include="Ref\ONEbook.Common.DataPlus.dll" />
-    <Content Include="Ref\ONEbook.Product.Site.Common.LocalCache.dll" />
-    <Content Include="Ref\RefDataModel.dll" />
-    <Content Include="Ref\RefNewData.dll" />
-    <Content Include="Ref\RefRelayRemoteStation.dll" />
-    <Content Include="Ref\RemotingRef.dll" />
-    <Content Include="Ref\SPSRemoting.dll" />
-    <Content Include="Ref\StackExchange.Redis.dll" />
     <Content Include="Setting\RedisSetting.mnl.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
@@ -188,6 +174,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.AppSettings.config" />
+    <Content Include="Web.AppSettings.mnl.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
     <Content Include="Web.AppSettings.pro.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
     </Content>
@@ -202,9 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fanex.RemotingRef.Service.ruleset" />
-    <Content Include="Web.AppSettings.mnl.config">
-      <DependentUpon>Web.AppSettings.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fanex.Logging">
