@@ -202,9 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fanex.RemotingRef.Service.ruleset" />
-    <None Include="Web.AppSettings.mnl.config">
+    <Content Include="Web.AppSettings.mnl.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fanex.Logging">

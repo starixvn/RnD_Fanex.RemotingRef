@@ -1,4 +1,6 @@
-﻿namespace Fanex.RemotingRef.Demo
+﻿#pragma warning disable SA1649 // File name must match first type name
+
+namespace Fanex.RemotingRef.Demo
 {
     using System;
     using System.Configuration;
@@ -15,27 +17,25 @@
     using SimpleInjector;
     using SimpleInjector.Integration.Web.Mvc;
 
-#pragma warning disable SA1649 // File name must match first type name
-
     public class MvcApplication : HttpApplication
     {
 #pragma warning disable S2325 // Methods and properties that don't access instance data should be static
 
         protected void Application_Start()
         {
+            var container = new Container();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            var container = new Container();
             RefDataTypeContainer
                 .ConnectTo(new Uri(ConfigurationManager.AppSettings["RemotingRefService"]))
                 .FromApplication("Fanex.RemotingRef.Demo");
+
             container.Register<IRemotingRefService, RemotingRefService>(Lifestyle.Singleton);
             container.Register<IRefData, RefNewDataHandler>(Lifestyle.Singleton);
             container.Register<IRemotingRefDataAccess, RemotingRefDataAccess>(Lifestyle.Singleton);
-
             container.Verify();
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
@@ -50,6 +50,4 @@
 
 #pragma warning restore S2325 // Methods and properties that don't access instance data should be static
     }
-
-#pragma warning restore SA1649 // File name must match first type name
 }

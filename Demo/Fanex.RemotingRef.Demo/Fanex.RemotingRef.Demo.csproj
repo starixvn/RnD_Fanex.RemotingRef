@@ -171,9 +171,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.pro.config" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Fanex.Common">
       <Version>1.1.0.1</Version>
     </PackageReference>
@@ -220,12 +217,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.sit.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Web.uat.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
@@ -239,8 +230,20 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <Content Include="Web.local.config" />
-    <None Include="Web.mnl.config" />
+    <Content Include="Web.AppSettings.config" />
+    <Content Include="Web.AppSettings.mnl.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
+    <Content Include="Web.AppSettings.pro.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
+    <Content Include="Web.AppSettings.sit.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.AppSettings.uat.config">
+      <DependentUpon>Web.AppSettings.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Fanex.RemotingRef\Fanex.RemotingRef.csproj">
