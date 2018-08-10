@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Service.Utilities
 {
+    using System;
     using Fanex.RemotingRef.Service.Models;
 
     internal static class ParameterSetHelpers
@@ -22,7 +23,12 @@
         {
             const string parameterName = "refNo";
 
-            return parameterSet.ContainsKey(parameterName) ? (long?)parameterSet[parameterName] : null;
+            if (parameterSet.ContainsKey(parameterName) && parameterSet[parameterName] != null)
+            {
+                return Convert.ToInt64(parameterSet[parameterName]);
+            }
+
+            return null;
         }
 
         public static string GetSportTypeId(this ParameterSet parameterSet)
@@ -99,14 +105,14 @@
         {
             const string parameterName = "handicap1";
 
-            return parameterSet.ContainsKey(parameterName) ? (int)parameterSet[parameterName] : default(int);
+            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default(int);
         }
 
         public static int GetHandicap2(this ParameterSet parameterSet)
         {
             const string parameterName = "handicap2";
 
-            return parameterSet.ContainsKey(parameterName) ? (int)parameterSet[parameterName] : default(int);
+            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default(int);
         }
 
         public static string GetCodeId(this ParameterSet parameterSet)
