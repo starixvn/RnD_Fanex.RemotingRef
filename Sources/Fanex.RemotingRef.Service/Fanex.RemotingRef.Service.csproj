@@ -121,7 +121,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MessagePackFormatter.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RefController.cs" />
@@ -205,23 +204,20 @@
     <PackageReference Include="MessagePack">
       <Version>1.7.3.4</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.Mvc">
-      <Version>5.2.4</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi">
-      <Version>5.2.4</Version>
+      <Version>5.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client">
-      <Version>5.2.4</Version>
+      <Version>5.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core">
-      <Version>5.2.4</Version>
+      <Version>5.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.WebHost">
-      <Version>5.2.4</Version>
+      <Version>5.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Net.Compilers">
-      <Version>2.7.0</Version>
+      <Version>2.8.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

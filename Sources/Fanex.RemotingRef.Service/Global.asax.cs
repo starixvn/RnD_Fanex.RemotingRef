@@ -1,11 +1,10 @@
 ﻿#pragma warning disable SA1649 // File name must match first type name
 
-namespace Fanex.RemotingRef.Service.MVC
+namespace Fanex.RemotingRef.Service
 {
     using System;
     using System.Web;
     using System.Web.Http;
-    using System.Web.Mvc;
     using Fanex.Logging.Extensions.Web;
 
     public class WebApiApplication : HttpApplication
@@ -14,9 +13,7 @@ namespace Fanex.RemotingRef.Service.MVC
 
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             ExceptionHandler.UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
         }
 

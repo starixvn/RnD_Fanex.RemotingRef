@@ -16,7 +16,7 @@
         <CodeAnalysisRuleSet>$(SolutionDir)\SonarQube\RemotingRefCSharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.3.1.5982">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.3.2.6129">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">

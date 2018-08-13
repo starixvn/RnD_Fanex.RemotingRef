@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Fanex.RemotingRef.Service.MVC.WebApiApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Fanex.RemotingRef.Service.WebApiApplication" Language="C#" %>
