@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service
+﻿namespace Fanex.RemotingRef.Service.Formatters
 {
     using System;
     using System.IO;

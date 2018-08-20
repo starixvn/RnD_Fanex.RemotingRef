@@ -4,7 +4,8 @@
     using System.Web.Http.ModelBinding;
     using System.Web.Http.ModelBinding.Binders;
     using Fanex.RemotingRef.Service.Filters;
-    using Fanex.RemotingRef.Service.Utilities;
+    using Fanex.RemotingRef.Service.Formatters;
+    using Fanex.RemotingRef.Service.ModelBinders;
 
     public static class WebApiConfig
     {

@@ -6,7 +6,7 @@
     using System.Web.Http.ModelBinding;
     using System.Web.Http.ValueProviders;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Utilities;
+    using Fanex.RemotingRef.Service.ModelBinders;
     using NSubstitute;
     using Xunit;
 

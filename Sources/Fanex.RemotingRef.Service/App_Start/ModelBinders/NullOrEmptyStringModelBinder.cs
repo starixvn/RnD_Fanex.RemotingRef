@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service.Utilities
+﻿namespace Fanex.RemotingRef.Service.ModelBinders
 {
     using System.Web.Http.Controllers;
     using System.Web.Http.ModelBinding;

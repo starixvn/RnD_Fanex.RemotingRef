@@ -121,7 +121,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\MessagePackFormatter.cs" />
+    <Compile Include="App_Start\Formatters\MessagePackFormatter.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RefController.cs" />
     <Compile Include="Controllers\RefSyncController.cs" />
@@ -130,7 +130,7 @@
     <Compile Include="Delegates\SyncNeutralResouceDelegate.cs" />
     <Compile Include="Delegates\SyncTranslationDelegate.cs" />
     <Compile Include="Delegates\VerifyTranslationDelegate.cs" />
-    <Compile Include="Filters\GlobalExceptionFilterAttribute.cs" />
+    <Compile Include="App_Start\Filters\GlobalExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -143,7 +143,7 @@
     <Compile Include="Utilities\ParameterSetHelpers.cs" />
     <Compile Include="Utilities\RefData\IRefDataHelper.cs" />
     <Compile Include="Utilities\RefData\RefDataHelper.cs" />
-    <Compile Include="Utilities\NullOrEmptyStringModelBinder.cs" />
+    <Compile Include="App_Start\ModelBinders\NullOrEmptyStringModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
