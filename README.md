@@ -89,8 +89,9 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.Remotin
 | ----------- | ----------------------------- | ------------------------------- |
 | LOCAL       | http://ha.nexdev.net:7258/V1/ | http://ha.nexdev.net:7258/Main/ |
 | SIT         | http://172.16.4.105:6207/V1/  | http://172.16.4.105:6207/Main/  |
-| UAT         | http://10.40.40.73:7207/V1/   | http://10.40.40.73:7207/Main/   |
+| UAT         | http://10.40.40.248:7207/V1/  | http://10.40.40.248:7207/Main/  |
 | PRO         |                               | http://10.40.40.47:7258/        |
+| MANILA      |                               | http://10.2.98.2:7258/          |
 
 ## Configuration & Customization
 
