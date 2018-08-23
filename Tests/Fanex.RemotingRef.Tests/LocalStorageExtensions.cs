@@ -41,15 +41,13 @@
             return (keySet, keySet.BuildKey());
         }
 
-        public static (string, CacheEntry) AddRandomCacheEntry(this LocalStorage storage)
+        public static void AddRandomCacheEntry(this LocalStorage storage)
         {
             var (keySet, key) = CreateRandomKeySet();
             var value = CreateTranslationSet();
             var entry = storage.CreateEntry(key, keySet, value);
 
             storage.Add(entry);
-
-            return (key, entry);
         }
 
         public static TranslationSet CreateTranslationSet()

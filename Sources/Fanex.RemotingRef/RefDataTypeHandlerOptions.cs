@@ -14,6 +14,9 @@
         public int SyncBatchSize { get; set; }
             = 100;
 
+        public int NumberOfRetries { get; set; }
+            = 5;
+
         internal static string ApplicationName { get; set; }
 
         internal static string[] SupportedLanguageCodes

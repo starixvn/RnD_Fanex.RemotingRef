@@ -115,6 +115,117 @@
             Assert.Null(actualResult);
         }
 
+        [Fact]
+        public void RetryIfFailedToGetDataAtTheFirstTime()
+        {
+            // Arrange.
+            var firstTime = true;
+
+            _options.RequestHandler = parameters =>
+            {
+                if (firstTime)
+                {
+                    firstTime = false;
+
+                    return null;
+                }
+
+                return _predefinedTranslationSet;
+            };
+
+            // Act.
+            var actualResult = _handler.Get(_keySet, TestingLanguageCode);
+
+            // Assert.
+            var expectedResult = _predefinedTranslationSet[TestingLanguageCode];
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void NoExceptionRethrownIfFailedToGetDataAtTheFirstTime()
+        {
+            // Arrange.
+            var firstTime = true;
+
+            _options.RequestHandler = parameters =>
+            {
+                if (firstTime)
+                {
+                    firstTime = false;
+
+                    throw new InvalidOperationException();
+                }
+
+                return _predefinedTranslationSet;
+            };
+
+            // Act.
+            var exception = Record.Exception(() => _handler.Get(_keySet, TestingLanguageCode));
+
+            // Assert.
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void ExceptionRethrownAtTheLastFailedRetry()
+        {
+            // Arrange.
+            var callCounter = 0;
+            var expectedException = new InvalidOperationException();
+
+            _options.RequestHandler = parameters =>
+            {
+                callCounter++;
+
+                if (_options.NumberOfRetries == callCounter)
+                {
+                    throw expectedException;
+                }
+
+                return null;
+            };
+
+            // Act.
+            var actualException = Record.Exception(() => _handler.Get(_keySet, TestingLanguageCode));
+
+            // Assert.
+            Assert.Equal(expectedException, actualException);
+        }
+
+        [Fact]
+        public void NumberOfRequestHandlerCallsDoesNotExceedConfiguredNumberOfRetries()
+        {
+            // Arrange.
+            var callCounter = 0;
+
+            _options.RequestHandler = parameters =>
+            {
+                callCounter++;
+
+                return null;
+            };
+
+            // Act.
+            _handler.Get(_keySet, TestingLanguageCode);
+
+            // Assert.
+            Assert.Equal(_options.NumberOfRetries, callCounter);
+        }
+
+        [Fact]
+        public void ReturningNullAfterNumberOfRetriesFailed()
+        {
+            // Arrange.
+            _options.RequestHandler = parameters => null;
+
+            // Act.
+            var actualResult = _handler.Get(_keySet, TestingLanguageCode);
+
+            // Assert.
+            Assert.Null(actualResult);
+        }
+
         public void Dispose()
         {
             _storage.Dispose();

@@ -34,7 +34,7 @@
             }
             else
             {
-                var newTranslationSet = Options.RequestHandler(keySet);
+                var newTranslationSet = RetryGettingTranslationSet(keySet);
 
                 if (newTranslationSet != null)
                 {
@@ -60,6 +60,35 @@
             if (translations.ContainsKey(RefDataTypeHandlerOptions.DefaultLanguage))
             {
                 return translations[RefDataTypeHandlerOptions.DefaultLanguage];
+            }
+
+            return null;
+        }
+
+        private TranslationSet RetryGettingTranslationSet(KeySet keySet)
+        {
+            var retryCounter = 0;
+
+            while (retryCounter < Options.NumberOfRetries)
+            {
+                retryCounter++;
+
+                try
+                {
+                    var translationSet = Options.RequestHandler(keySet);
+
+                    if (translationSet != null)
+                    {
+                        return translationSet;
+                    }
+                }
+                catch
+                {
+                    if (retryCounter == Options.NumberOfRetries)
+                    {
+                        throw;
+                    }
+                }
             }
 
             return null;

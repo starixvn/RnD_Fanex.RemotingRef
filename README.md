@@ -91,7 +91,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.Remotin
 | SIT         | http://172.16.4.105:6207/V1/  | http://172.16.4.105:6207/Main/  |
 | UAT         | http://10.40.40.248:7207/V1/  | http://10.40.40.248:7207/Main/  |
 | PRO         |                               | http://10.40.40.47:7258/        |
-| MANILA      |                               | http://10.2.98.2:7258/          |
+| MANILA      |                               | http://10.11.200.202:7258/      |
 
 ## Configuration & Customization
 
@@ -132,6 +132,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.Remotin
 | CompactionPercentage    | The percentage of item amount that will be removed when high memory or reaching *NumberOfEntriesLimit*                                                                                                                                                                                                   | double   | 0.1 (10%)         |
 | CompactOnMemoryPressure | Enable cleaning cached items when Gargabe Collector runs                                                                                                                                                                                                                                                 | bool     | false             |
 | ExpirationScanFrequency | Time to scan expired cached items                                                                                                                                                                                                                                                                        | Timespan | 1 minute          |
+| NumberOfRetries         | The number of times to repeat connect attempts during requesting translations from Fanex.RemotingRef.Service                                                                                                                                                                                             | int      | 5                 |
 
 ## Special Notes
 
