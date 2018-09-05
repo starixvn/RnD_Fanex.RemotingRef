@@ -1,9 +1,8 @@
 ﻿namespace Fanex.RemotingRef.Service.Filters
 {
     using System;
-    using System.Globalization;
     using System.Web.Http.Filters;
-    using NLog;
+    using Fanex.Logging.Extensions.Web;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public sealed class GlobalExceptionFilterAttribute : ExceptionFilterAttribute
@@ -12,9 +11,7 @@
         {
             base.OnException(actionExecutedContext);
 
-            Logger logger = LogManager.GetCurrentClassLogger();
-
-            logger.Error(CultureInfo.InvariantCulture, actionExecutedContext.Exception);
+            ExceptionHandler.Handle(actionExecutedContext.Exception);
         }
     }
 }
