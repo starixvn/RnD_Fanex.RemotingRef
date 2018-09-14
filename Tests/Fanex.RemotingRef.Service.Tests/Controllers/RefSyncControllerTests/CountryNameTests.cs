@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedCountryNames()
             => FakeSyncedCountryNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedCountryNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedCountryNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedCountryNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

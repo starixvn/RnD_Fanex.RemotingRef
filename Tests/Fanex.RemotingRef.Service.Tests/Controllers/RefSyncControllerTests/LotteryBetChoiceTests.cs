@@ -132,9 +132,7 @@
         private SyncedTranslationResultSet FakeSyncedLotteryBetChoices()
             => FakeSyncedLotteryBetChoices(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedLotteryBetChoices(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedLotteryBetChoices(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedLotteryBetChoiceAndTypeIds = new SyncedTranslationResultSet();
             var specialIndex = -1;

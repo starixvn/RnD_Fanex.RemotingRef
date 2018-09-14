@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedRouletteBetItems()
             => FakeSyncedRouletteBetItems(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedRouletteBetItems(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedRouletteBetItems(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedRouletteBetItems = new SyncedTranslationResultSet();
             var specialIndex = -1;

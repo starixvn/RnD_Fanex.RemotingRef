@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedKenoBetTypes()
             => FakeSyncedKenoBetTypes(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedKenoBetTypes(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedKenoBetTypes(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedKenoBetTypes = new SyncedTranslationResultSet();
             var specialIndex = -1;

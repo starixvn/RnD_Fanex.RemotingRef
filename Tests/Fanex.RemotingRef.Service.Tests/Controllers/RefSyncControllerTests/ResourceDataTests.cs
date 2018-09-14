@@ -126,9 +126,7 @@
         private SyncedTranslationResultSet FakeSyncedResourceData()
             => FakeSyncedResourceData(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedResourceData(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedResourceData(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedResourceData = new SyncedTranslationResultSet();
             var specialIndex = -1;

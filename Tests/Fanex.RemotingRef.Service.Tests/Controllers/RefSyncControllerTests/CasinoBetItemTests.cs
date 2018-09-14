@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedCasinoBetItems()
             => FakeSyncedCasinoBetItems(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedCasinoBetItems(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedCasinoBetItems(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedCasinoBetItems = new SyncedTranslationResultSet();
             var specialIndex = -1;

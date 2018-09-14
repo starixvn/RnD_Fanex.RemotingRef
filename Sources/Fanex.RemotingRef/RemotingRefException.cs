@@ -9,10 +9,7 @@
     [Serializable]
     public class RemotingRefException : Exception
     {
-        public RemotingRefException(
-            string request,
-            HttpStatusCode statusCode,
-            string failedReason)
+        public RemotingRefException(string request, HttpStatusCode statusCode, string failedReason)
             : base(BuildMessage(request, statusCode, failedReason))
         {
             Request = request;
@@ -44,10 +41,7 @@
             base.GetObjectData(info, context);
         }
 
-        private static string BuildMessage(
-            string request,
-            HttpStatusCode statusCode,
-            string failedReason)
+        private static string BuildMessage(string request, HttpStatusCode statusCode, string failedReason)
             => new StringBuilder()
                 .AppendLine("Failed to send request to Fanex.RemotingRef.Service:")
                 .AppendLine($"\tRequest URL: '{request}'")

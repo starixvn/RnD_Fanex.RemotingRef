@@ -118,9 +118,7 @@
         private SyncedTranslationResultSet FakeSyncedParentBetTypeIds()
             => FakeSyncedParentBetTypeIds(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedParentBetTypeIds(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedParentBetTypeIds(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedParentBetTypeIds = new SyncedTranslationResultSet();
             var specialIndex = -1;

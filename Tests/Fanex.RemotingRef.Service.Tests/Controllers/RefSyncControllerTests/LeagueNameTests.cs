@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedLeagueNames()
             => FakeSyncedLeagueNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedLeagueNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedLeagueNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedLeagueNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

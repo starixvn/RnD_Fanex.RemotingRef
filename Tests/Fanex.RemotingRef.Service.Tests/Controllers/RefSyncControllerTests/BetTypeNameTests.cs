@@ -155,9 +155,7 @@
         private SyncedTranslationResultSet FakeSyncedBetTypeNames()
             => FakeSyncedBetTypeNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedBetTypeNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedBetTypeNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedBetTypeNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

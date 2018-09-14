@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedOddsTypeNames()
             => FakeSyncedOddsTypeNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedOddsTypeNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedOddsTypeNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedOddsTypeNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

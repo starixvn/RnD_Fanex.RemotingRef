@@ -6,11 +6,24 @@
 
         string GetBetTypeName(string betTypeId, string languageCode, long refNo);
 
-        string GetBetTypeName(string betTypeId, string languageCode, long refNo, string defaultValue);
+        string GetBetTypeName(
+            string betTypeId,
+            string languageCode,
+            long refNo,
+            string defaultValue);
 
-        string GetBetTypeName(string betTypeId, string languageCode, string defaultValue, string resourceId);
+        string GetBetTypeName(
+            string betTypeId,
+            string languageCode,
+            string defaultValue,
+            string resourceId);
 
-        string GetBetTypeName(string betTypeId, string languageCode, string defaultValue, string resourceId, long refNo);
+        string GetBetTypeName(
+            string betTypeId,
+            string languageCode,
+            string defaultValue,
+            string resourceId,
+            long refNo);
 
         string GetSportName(string sportTypeId, string languageCode);
 
@@ -40,11 +53,20 @@
 
         string GetOddsTypeName(string oddsTypeId, string languageCode, string defaultValue);
 
-        string GetResourceDataByRefIdAndResourceId(string refId, string resourceId, string languageCode, string defaultValue);
+        string GetResourceDataByRefIdAndResourceId(
+            string refId,
+            string resourceId,
+            string languageCode,
+            string defaultValue);
 
         string GetParentIdByBetTypeId(string betTypeId, string defaultValue);
 
-        string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string languageCode);
+        string[] GetCombinationTypeCombo(
+            string betTeam,
+            string betCheck,
+            int handicap1,
+            int handicap2,
+            string languageCode);
 
         string GetHorseTeamName(string codeId, string languageCode);
 
@@ -62,7 +84,11 @@
 
         string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, out string kenoBetTypeId);
 
-        string GetKenoBetChoice(string kenoBetChoiceId, string languageCode, string defaultValue, out string kenoBetTypeId);
+        string GetKenoBetChoice(
+            string kenoBetChoiceId,
+            string languageCode,
+            string defaultValue,
+            out string kenoBetTypeId);
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
@@ -70,7 +96,12 @@
 
         string GetKenoBetType(string kenoBetTypeId, string languageCode, string defaultValue);
 
-        string GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode);
+        string GetFastMarketsChoice(
+            string betTypeId,
+            string betTeam,
+            int handicap1,
+            int handicap2,
+            string languageCode);
 
         string GetFastMarkets225Result(string resultId, string languageCode);
 
@@ -78,7 +109,11 @@
 
         string GetLotteryBetChoice(string lotteryBetChoiceId, string languageCode, out string lotteryBetTypeId);
 
-        string GetLotteryBetChoice(string lotteryBetChoiceId, string languageCode, string defaultValue, out string lotteryBetTypeId);
+        string GetLotteryBetChoice(
+            string lotteryBetChoiceId,
+            string languageCode,
+            string defaultValue,
+            out string lotteryBetTypeId);
 
 #pragma warning restore S3874 // "out" and "ref" parameters should not be used
 
@@ -94,10 +129,23 @@
 
         string GetDisplayedBetTypeName(string betTypeId, long refNo, string languageCode);
 
-        string GetDisplayedBetTypeName(string betTypeId, long refNo, string languageCode, string defaultValue);
+        string GetDisplayedBetTypeName(
+            string betTypeId,
+            long refNo,
+            string languageCode,
+            string defaultValue);
 
-        string GetDisplayedBetTypeName(string betTypeId, string resourceId, string languageCode, string defaultValue);
+        string GetDisplayedBetTypeName(
+            string betTypeId,
+            string resourceId,
+            string languageCode,
+            string defaultValue);
 
-        string GetDisplayedBetTypeName(string betTypeId, string resourceId, long refNo, string languageCode, string defaultValue);
+        string GetDisplayedBetTypeName(
+            string betTypeId,
+            string resourceId,
+            long refNo,
+            string languageCode,
+            string defaultValue);
     }
 }

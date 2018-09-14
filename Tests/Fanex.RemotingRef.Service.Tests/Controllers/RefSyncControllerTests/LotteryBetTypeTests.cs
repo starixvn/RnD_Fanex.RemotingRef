@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedLotteryBetTypes()
             => FakeSyncedLotteryBetTypes(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedLotteryBetTypes(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedLotteryBetTypes(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedBetTypeNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

@@ -2,7 +2,11 @@
 {
     public interface IRefDataHelper
     {
-        string GetBetTypeName(string betTypeId, string resourceId, long? refNo, string language);
+        string GetBetTypeName(
+            string betTypeId,
+            string resourceId,
+            long? refNo,
+            string language);
 
         string GetSportName(string sportTypeId, string language);
 
@@ -22,7 +26,12 @@
 
         string GetParentIdByBetTypeId(string betTypeId);
 
-        string[] GetCombinationTypeCombo(string betTeam, string betCheck, int handicap1, int handicap2, string language);
+        string[] GetCombinationTypeCombo(
+            string betTeam,
+            string betCheck,
+            int handicap1,
+            int handicap2,
+            string language);
 
         string GetHorseTeamName(string codeId, string language);
 
@@ -38,7 +47,12 @@
 
         string GetKenoBetType(string kenoBetTypeId, string language);
 
-        string GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string language);
+        string GetFastMarketsChoice(
+            string betTypeId,
+            string betTeam,
+            int handicap1,
+            int handicap2,
+            string language);
 
         string GetFastMarkets225Result(string resultId, string language);
 

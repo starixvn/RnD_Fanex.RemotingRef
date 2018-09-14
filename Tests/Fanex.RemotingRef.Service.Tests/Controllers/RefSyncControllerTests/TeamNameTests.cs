@@ -121,9 +121,7 @@
         private SyncedTranslationResultSet FakeSyncedTeamNames()
             => FakeSyncedTeamNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedTeamNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedTeamNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedTeamNames = new SyncedTranslationResultSet();
             var specialIndex = -1;

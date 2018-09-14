@@ -25,7 +25,12 @@
         public override bool CanWriteType(Type type)
             => true;
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+        public override Task WriteToStreamAsync(
+            Type type,
+            object value,
+            Stream writeStream,
+            HttpContent content,
+            TransportContext transportContext)
         {
             if (type == null)
             {
@@ -37,12 +42,20 @@
                 throw new ArgumentNullException(nameof(writeStream));
             }
 
-            MessagePackSerializer.NonGeneric.Serialize(type, writeStream, value, ContractlessStandardResolver.Instance);
+            MessagePackSerializer.NonGeneric.Serialize(
+                type,
+                writeStream,
+                value,
+                ContractlessStandardResolver.Instance);
 
             return Task.FromResult(0);
         }
 
-        public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
+        public override Task<object> ReadFromStreamAsync(
+            Type type,
+            Stream readStream,
+            HttpContent content,
+            IFormatterLogger formatterLogger)
         {
             if (type == null)
             {
@@ -54,7 +67,10 @@
                 throw new ArgumentNullException(nameof(readStream));
             }
 
-            var value = MessagePackSerializer.NonGeneric.Deserialize(type, readStream, ContractlessStandardResolver.Instance);
+            var value = MessagePackSerializer.NonGeneric.Deserialize(
+                type,
+                readStream,
+                ContractlessStandardResolver.Instance);
 
             return Task.FromResult(value);
         }
