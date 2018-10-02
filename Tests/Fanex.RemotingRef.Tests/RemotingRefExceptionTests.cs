@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests
 {
+    using System;
     using System.IO;
     using System.Net;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -8,7 +9,7 @@
 
     public class RemotingRefExceptionTests
     {
-        private readonly string _request;
+        private readonly Uri _requestUri;
         private readonly HttpStatusCode _statusCode;
         private readonly string _failedReason;
         private readonly RemotingRefException _exception;
@@ -17,10 +18,10 @@
         {
             var fixture = new Fixture();
 
-            _request = fixture.Create<string>();
+            _requestUri = fixture.Create<Uri>();
             _statusCode = fixture.Create<HttpStatusCode>();
             _failedReason = fixture.Create<string>();
-            _exception = new RemotingRefException(_request, _statusCode, _failedReason);
+            _exception = new RemotingRefException(_requestUri, _statusCode, _failedReason);
         }
 
         [Fact]
@@ -52,7 +53,7 @@
             // Assert.
             var deserializedException = DeserializeException(serializedException);
 
-            Assert.Equal(_request, deserializedException.Request);
+            Assert.Equal(_requestUri, deserializedException.RequestUri);
             Assert.Equal(_statusCode, deserializedException.StatusCode);
             Assert.Equal(_failedReason, deserializedException.FailedReason);
         }

@@ -9,10 +9,10 @@
     [Serializable]
     public class RemotingRefException : Exception
     {
-        public RemotingRefException(string request, HttpStatusCode statusCode, string failedReason)
-            : base(BuildMessage(request, statusCode, failedReason))
+        public RemotingRefException(Uri requestUri, HttpStatusCode statusCode, string failedReason)
+            : base(BuildMessage(requestUri, statusCode, failedReason))
         {
-            Request = request;
+            RequestUri = requestUri;
             StatusCode = statusCode;
             FailedReason = failedReason;
         }
@@ -20,12 +20,12 @@
         protected RemotingRefException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Request = info.GetString(nameof(Request));
+            RequestUri = info.GetValue(nameof(RequestUri), typeof(Uri)) as Uri;
             StatusCode = (HttpStatusCode)info.GetInt32(nameof(StatusCode));
             FailedReason = info.GetString(nameof(FailedReason));
         }
 
-        public string Request { get; }
+        public Uri RequestUri { get; }
 
         public HttpStatusCode StatusCode { get; }
 
@@ -34,17 +34,17 @@
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Request), Request);
+            info.AddValue(nameof(RequestUri), RequestUri);
             info.AddValue(nameof(StatusCode), StatusCode);
             info.AddValue(nameof(FailedReason), FailedReason);
 
             base.GetObjectData(info, context);
         }
 
-        private static string BuildMessage(string request, HttpStatusCode statusCode, string failedReason)
+        private static string BuildMessage(Uri requestUri, HttpStatusCode statusCode, string failedReason)
             => new StringBuilder()
                 .AppendLine("Failed to send request to Fanex.RemotingRef.Service:")
-                .AppendLine($"\tRequest URL: '{request}'")
+                .AppendLine($"\tRequest URL: '{requestUri}'")
                 .AppendLine($"\tResponse's Status Code: {statusCode}")
                 .AppendLine($"\tReason: {failedReason}")
                 .ToString();

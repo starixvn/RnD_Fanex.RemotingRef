@@ -1,6 +1,4 @@
 ﻿#pragma warning disable S1200 // Classes should not be coupled to too many other classes (Single Responsibility Principle)
-#pragma warning disable S3994 // URI Parameters should not be strings
-#pragma warning disable S3995 // URI Parameters should not be strings
 
 namespace Fanex.RemotingRef
 {
@@ -680,8 +678,8 @@ namespace Fanex.RemotingRef
 
         private TranslationSet RequestTranslation<T>(string action, KeySet parameters)
         {
-            var requestUrl = BuildRequestUrl(action, parameters);
-            var response = _client.GetAsync(requestUrl).GetAwaiter().GetResult();
+            var requestRelativePath = BuildRequestRelativePath(action, parameters);
+            var response = _client.GetAsync(requestRelativePath).GetAwaiter().GetResult();
 
             if (response.IsSuccessStatusCode)
             {
@@ -691,10 +689,13 @@ namespace Fanex.RemotingRef
                 return TranslationSet.FromDictionary(result);
             }
 
-            throw new RemotingRefException(requestUrl, response.StatusCode, response.ReasonPhrase);
+            throw new RemotingRefException(
+                response.RequestMessage.RequestUri,
+                response.StatusCode,
+                response.ReasonPhrase);
         }
 
-        private static string BuildRequestUrl(string path, KeySet parameters)
+        private static string BuildRequestRelativePath(string path, KeySet parameters)
         {
             var urlBuilder = new StringBuilder($"{RefController}{path}?");
 
@@ -733,7 +734,9 @@ namespace Fanex.RemotingRef
                 var responseResult = await response.Content.ReadAsStreamAsync();
                 var result = await _serializer.DeserializeAsync<Dictionary<KeySet, Dictionary<string, T>>>(responseResult);
 
-                return result.ToDictionary(pair => pair.Key.BuildKey(), pair => TranslationSet.FromDictionary(pair.Value));
+                return result.ToDictionary(
+                    pair => pair.Key.BuildKey(),
+                    pair => TranslationSet.FromDictionary(pair.Value));
             }
 
             return null;
