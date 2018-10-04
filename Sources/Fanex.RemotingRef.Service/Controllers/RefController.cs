@@ -162,6 +162,12 @@
                 languages);
 
         [HttpGet]
+        public TranslationSet FastMarketsResult(string resultId = null, [FromUri]string[] languages = null)
+            => GetTranslationSet(
+                refLanguagCode => _refData.GetFastMarketsResult(resultId, refLanguagCode),
+                languages);
+
+        [HttpGet]
         public TranslationSet FastMarkets225Result(string resultId = null, [FromUri]string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetFastMarkets225Result(resultId, refLanguagCode),

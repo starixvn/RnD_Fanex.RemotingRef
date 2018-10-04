@@ -19,6 +19,7 @@
         KenoBetChoice,
         KenoBetType,
         FastMarketsChoice,
+        FastMarketsResult,
         FastMarkets225Result,
         LotteryBetChoice,
         LotteryBetType,

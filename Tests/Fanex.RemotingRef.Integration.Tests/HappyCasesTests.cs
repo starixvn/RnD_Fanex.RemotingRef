@@ -366,13 +366,28 @@
         }
 
         [Fact]
+        public void GetFastMarketsResult()
+        {
+            // Arrange.
+            var resultId = "3";
+
+            // Act.
+            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
+
+            // Assert.
+            var expectedResult = "Goal, None";
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
         public void GetFastMarkets225Result()
         {
             // Arrange.
-            var resultId = "163";
+            var betType255ResultId = "163";
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(resultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
 
             // Assert.
             var expectedResult = "Penalty, Throw In, None";

@@ -13,7 +13,7 @@
 
         private RequestSyncFormData _formData;
         private List<ParameterSet> _parameterSets;
-        private List<string> _resultIds;
+        private List<string> _betType255ResultIds;
 
         public FastMarkets225ResultTests()
             => PrepareFormData();
@@ -21,16 +21,16 @@
         private void PrepareFormData()
         {
             _parameterSets = new List<ParameterSet>();
-            _resultIds = new List<string>();
+            _betType255ResultIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingResults; counter++)
             {
-                var resultId = Fixture.Create<string>();
+                var betType255ResultId = Fixture.Create<string>();
 
-                _resultIds.Add(resultId);
+                _betType255ResultIds.Add(betType255ResultId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["resultId"] = resultId
+                    ["resultId"] = betType255ResultId
                 });
             }
 
@@ -70,11 +70,15 @@
             RefSyncController.FastMarkets225Result(_formData);
 
             // Assert.
-            foreach (var resultId in _resultIds)
+            foreach (var betType255ResultId in _betType255ResultIds)
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetFastMarkets225Result(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetFastMarkets225Result(
+                            Arg.Is(betType255ResultId),
+                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -136,21 +140,31 @@
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
                 var fastMarkets225ResultInMultilanguages = new TranslationSet();
-                var resultId = _resultIds[counter];
+                var betType255ResultId = _betType255ResultIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    var fastMarkets225ResultInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
+                    var fastMarkets225ResultInSpecificLanguage =
+                        counter == specialIndex
+                        ? specialValue
+                        : Fixture.Create<string>();
 
                     RefData
-                        .GetFastMarkets225Result(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetFastMarkets225Result(
+                            Arg.Is(betType255ResultId),
+                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(fastMarkets225ResultInSpecificLanguage);
-                    fastMarkets225ResultInMultilanguages.Add(standardLanguageCode, fastMarkets225ResultInSpecificLanguage);
+
+                    fastMarkets225ResultInMultilanguages.Add(
+                        standardLanguageCode,
+                        fastMarkets225ResultInSpecificLanguage);
                 }
 
                 if (ValidateTextSet(fastMarkets225ResultInMultilanguages))
                 {
-                    expectedSyncedFastMarkets225Results.Add(_parameterSets[counter], fastMarkets225ResultInMultilanguages);
+                    expectedSyncedFastMarkets225Results.Add(
+                        _parameterSets[counter],
+                        fastMarkets225ResultInMultilanguages);
                 }
             }
 

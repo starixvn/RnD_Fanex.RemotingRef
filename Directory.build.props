@@ -4,11 +4,11 @@
         <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
         <RepositoryUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>Configurable NumberOfRetries added to allow Fanex.RemotingRef repeats request attemps number of times.</PackageReleaseNotes>
+        <PackageReleaseNotes>Add new method: GetFastMarketsResult</PackageReleaseNotes>
         <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <IncludeSymbols>false</IncludeSymbols>
-        <Version>1.1.1</Version>
+        <Version>1.2.0</Version>
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>AD0001</NoWarn>

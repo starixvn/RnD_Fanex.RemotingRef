@@ -51,7 +51,7 @@
         public ActionResult ResourceDataList()
         {
             var inputData = new[]
-          {
+            {
                 new ResourceDataInput { RefId = "AG_Baccarat", ResourceId = "1" },
                 new ResourceDataInput { RefId = "AG_Baccarat", ResourceId = "11" },
                 new ResourceDataInput { RefId = "AG_Baccarat", ResourceId = "12" },

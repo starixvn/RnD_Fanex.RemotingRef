@@ -181,6 +181,13 @@
                     refLanguageCode));
 
         [HttpPost]
+        public SyncedTranslationResultSet FastMarketsResult([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetFastMarketsResult(parameterSet.GetResultId(), refLanguageCode));
+
+        [HttpPost]
         public SyncedTranslationResultSet FastMarkets225Result([FromBody]RequestSyncFormData formData)
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,

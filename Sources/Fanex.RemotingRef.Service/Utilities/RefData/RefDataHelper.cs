@@ -128,6 +128,9 @@
                 handicap2,
                 language);
 
+        public string GetFastMarketsResult(string resultId, string language)
+            => RefData.GetFastMarketsResult(resultId, language);
+
         public string GetFastMarkets225Result(string resultId, string language)
             => RefData.GetFastMarkets225Result(resultId, language);
 

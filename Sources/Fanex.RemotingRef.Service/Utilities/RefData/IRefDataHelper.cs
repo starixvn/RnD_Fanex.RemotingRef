@@ -54,6 +54,8 @@
             int handicap2,
             string language);
 
+        string GetFastMarketsResult(string resultId, string language);
+
         string GetFastMarkets225Result(string resultId, string language);
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used

@@ -12,13 +12,13 @@
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var resultId = Fixture.Create<string>();
+            var betType255ResultId = Fixture.Create<string>();
 
             // Act.
-            RemotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
+            RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"FastMarkets225Result?resultId={resultId}");
+            string expectedUrl = string.Format(RequestUrlPattern, $"FastMarkets225Result?resultId={betType255ResultId}");
 
             HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }
@@ -27,7 +27,7 @@
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var resultId = Fixture.Create<string>();
+            var betType255ResultId = Fixture.Create<string>();
             var result = Fixture.Create<string>();
 
             Serializer
@@ -35,7 +35,7 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = result });
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(result, actualResult);
@@ -45,14 +45,14 @@
         public void ReturnEmptyStringIfServiceReturnsNull()
         {
             // Arrange.
-            var resultId = Fixture.Create<string>();
+            var betType255ResultId = Fixture.Create<string>();
 
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(resultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualResult);

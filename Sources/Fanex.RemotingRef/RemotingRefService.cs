@@ -450,13 +450,30 @@ namespace Fanex.RemotingRef
                 [nameof(handicap2)] = handicap2,
             };
 
-            var fastMarketChoice = GetTranslationText(
+            var fastMarketsChoice = GetTranslationText(
                 RefDataType.FastMarketsChoice,
                 actionName,
                 keySet,
                 languageCode);
 
-            return fastMarketChoice ?? string.Empty;
+            return fastMarketsChoice ?? string.Empty;
+        }
+
+        public string GetFastMarketsResult(string resultId, string languageCode)
+        {
+            const string actionName = "FastMarketsResult";
+
+            var keySet = new KeySet
+            {
+                [nameof(resultId)] = resultId
+            };
+            var fastMarketsResult = GetTranslationText(
+                RefDataType.FastMarketsResult,
+                actionName,
+                keySet,
+                languageCode);
+
+            return fastMarketsResult ?? string.Empty;
         }
 
         public string GetFastMarkets225Result(string resultId, string languageCode)
@@ -467,13 +484,13 @@ namespace Fanex.RemotingRef
             {
                 [nameof(resultId)] = resultId
             };
-            var fastMarketResult = GetTranslationText(
+            var fastMarkets255Result = GetTranslationText(
                 RefDataType.FastMarkets225Result,
                 actionName,
                 keySet,
                 languageCode);
 
-            return fastMarketResult ?? string.Empty;
+            return fastMarkets255Result ?? string.Empty;
         }
 
 #pragma warning disable S3874 // "out" and "ref" parameters should not be used
