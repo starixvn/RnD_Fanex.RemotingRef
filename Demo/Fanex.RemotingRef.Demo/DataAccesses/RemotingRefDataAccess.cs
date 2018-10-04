@@ -266,6 +266,18 @@
             };
         }
 
+        public RefDataResult GetFastMarketsResult(string resultId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
+
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetFastMarketsResult(resultId, languageCode),
+                TaiwanRefOld = RefData.GetFastMarketsResult(resultId, twLanguage),
+                TaiwanRefNew = _taiwanRefNew.GetFastMarketsResult(resultId, twLanguage)
+            };
+        }
+
         public RefDataResult GetFastMarkets225Result(string resultId, string languageCode = "en-US")
         {
             var twLanguage = Common.GenerateTaiwanLanguage(languageCode);

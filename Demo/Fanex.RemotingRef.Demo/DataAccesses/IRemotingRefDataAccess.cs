@@ -35,6 +35,8 @@
 
         RefDataResult GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode = Common.DefaultLanguage);
 
+        RefDataResult GetFastMarketsResult(string resultId, string languageCode = Common.DefaultLanguage);
+
         RefDataResult GetFastMarkets225Result(string resultId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetLotteryBetType(string betTypeId, string languageCode = Common.DefaultLanguage);

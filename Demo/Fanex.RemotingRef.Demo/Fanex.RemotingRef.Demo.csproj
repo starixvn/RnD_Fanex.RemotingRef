@@ -143,6 +143,7 @@
     <Compile Include="Controllers\BetTypeNameController.cs" />
     <Compile Include="Controllers\CasinoBetItemController.cs" />
     <Compile Include="Controllers\CountryNameController.cs" />
+    <Compile Include="Controllers\FastMarketsResultController.cs" />
     <Compile Include="Controllers\FastMarkets225ResultController.cs" />
     <Compile Include="Controllers\FastMarketsChoiceController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
