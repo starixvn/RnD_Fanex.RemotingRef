@@ -714,37 +714,38 @@ namespace Fanex.RemotingRef
 
         private static string BuildRequestRelativePath(string path, KeySet parameters)
         {
-            var urlBuilder = new StringBuilder($"{RefController}{path}?");
+            var relativePathBuilder = new StringBuilder($"{RefController}{path}?");
 
             foreach (var parameter in parameters)
             {
                 if (parameter.Value != null)
                 {
-                    urlBuilder.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
+                    relativePathBuilder.Append($"{parameter.Key}={Uri.EscapeDataString(parameter.Value.ToString())}&");
                 }
             }
 
             foreach (var language in RefDataTypeHandlerOptions.SupportedLanguageCodes)
             {
-                urlBuilder.Append($"languages={language}&");
+                relativePathBuilder.Append($"languages={language}&");
             }
 
-            urlBuilder.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
+            relativePathBuilder.Append($"applicationName={RefDataTypeHandlerOptions.ApplicationName}");
 
-            return urlBuilder.ToString();
+            return relativePathBuilder.ToString();
         }
 
 #pragma warning disable S3216 // "ConfigureAwait(false)" should be used
 
         private async Task<IDictionary<string, TranslationSet>> SyncTranslationsAsync<T>(string action, IList<KeySet> parameterSets)
         {
-            var formData = new ByteArrayContent(_serializer.Serialize(new
+            var formData = new
             {
                 ParameterSets = parameterSets,
                 Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes,
                 ApplicationName = RefDataTypeHandlerOptions.ApplicationName
-            }));
-            var response = await _client.PostAsync(RefSyncController + action, formData);
+            };
+            var requestContent = new ByteArrayContent(_serializer.Serialize(formData));
+            var response = await _client.PostAsync(RefSyncController + action, requestContent);
 
             if (response.IsSuccessStatusCode)
             {
