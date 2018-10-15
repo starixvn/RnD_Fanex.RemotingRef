@@ -31,8 +31,8 @@
                 _refIdAndResourceIdPairs.Add(new Tuple<string, string>(refId, resourceId));
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["refId"] = refId,
-                    ["resourceId"] = resourceId
+                    [nameof(refId)] = refId,
+                    [nameof(resourceId)] = resourceId
                 });
             }
 
@@ -50,7 +50,12 @@
             RefSyncController.ResourceData(_formData);
 
             // Assert.
-            RefData.Received().GetResourceDataByRefIdAndResourceId(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetResourceDataByRefIdAndResourceId(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>());
         }
 
         [Fact]
@@ -62,7 +67,12 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetResourceDataByRefIdAndResourceId(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetResourceDataByRefIdAndResourceId(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>());
         }
 
         [Fact]
@@ -76,10 +86,12 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetResourceDataByRefIdAndResourceId(
-                        Arg.Is(pair.Item1),
-                        Arg.Is(pair.Item2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetResourceDataByRefIdAndResourceId(
+                            Arg.Is(pair.Item1),
+                            Arg.Is(pair.Item2),
+                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -153,6 +165,7 @@
                             Arg.Is(resourceId),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(resourceInSpecificLanguage);
+
                     resourceInMultilanguages.Add(standardLanguageCode, resourceInSpecificLanguage);
                 }
 

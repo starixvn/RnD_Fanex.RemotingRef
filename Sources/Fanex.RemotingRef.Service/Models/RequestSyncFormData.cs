@@ -7,7 +7,5 @@
         public IList<ParameterSet> ParameterSets { get; set; }
 
         public string[] Languages { get; set; }
-
-        public string ApplicationName { get; set; }
     }
 }

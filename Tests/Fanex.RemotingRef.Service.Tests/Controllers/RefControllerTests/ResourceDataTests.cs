@@ -98,6 +98,7 @@
                         Arg.Is(_resourceId),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(resourceInSpecificLanguage);
+
                 expectedResourceData.Add(resourceInSpecificLanguage);
             }
 

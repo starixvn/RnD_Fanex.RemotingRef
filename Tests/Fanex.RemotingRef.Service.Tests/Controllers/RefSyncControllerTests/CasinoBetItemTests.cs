@@ -30,7 +30,7 @@
                 _itemIds.Add(itemId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["itemId"] = itemId
+                    [nameof(itemId)] = itemId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.CasinoBetItem(_formData);
 
             // Assert.
-            RefData.Received().GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetCasinoBetItem(Arg.Is(itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetCasinoBetItem(Arg.Is(itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetCasinoBetItem(Arg.Is(itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(betItemInSpecificLanguage);
+
                     betItemInMultilanguages.Add(standardLanguageCode, betItemInSpecificLanguage);
                 }
 

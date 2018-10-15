@@ -30,7 +30,7 @@
                 _sportTypeIds.Add(sportTypeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["sportTypeId"] = sportTypeId
+                    [nameof(sportTypeId)] = sportTypeId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.SportName(_formData);
 
             // Assert.
-            RefData.Received().GetSportName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetSportName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetSportName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetSportName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetSportName(Arg.Is(sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetSportName(Arg.Is(sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetSportName(Arg.Is(sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(sportNameInSpecificLanguage);
+
                     sportNameInMultilanguages.Add(standardLanguageCode, sportNameInSpecificLanguage);
                 }
 

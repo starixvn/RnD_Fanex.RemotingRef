@@ -19,7 +19,9 @@
             RefController.ParentIdByBetTypeId(_betTypeId);
 
             // Assert.
-            RefData.Received().GetParentIdByBetTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetParentIdByBetTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.ParentIdByBetTypeId(_betTypeId);
 
             // Assert.
-            RefData.Received(1).GetParentIdByBetTypeId(Arg.Is(_betTypeId));
+            RefData
+                .Received(1)
+                .GetParentIdByBetTypeId(Arg.Is(_betTypeId));
         }
 
         [Fact]
@@ -75,7 +79,9 @@
         {
             var parentBetTypeId = Fixture.Create<string>();
 
-            RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns(parentBetTypeId);
+            RefData
+                .GetParentIdByBetTypeId(Arg.Is(_betTypeId))
+                .Returns(parentBetTypeId);
 
             return new List<string>
             {
@@ -87,7 +93,9 @@
         public void ReturnNullIfResultContainsAllNullValues()
         {
             // Arrange.
-            RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns((string)null);
+            RefData
+                .GetParentIdByBetTypeId(Arg.Is(_betTypeId))
+                .Returns((string)null);
 
             // Act.
             var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);
@@ -100,7 +108,9 @@
         public void ReturnNullIfResultContainsAllEmptyStrings()
         {
             // Arrange.
-            RefData.GetParentIdByBetTypeId(Arg.Is(_betTypeId)).Returns(string.Empty);
+            RefData
+                .GetParentIdByBetTypeId(Arg.Is(_betTypeId))
+                .Returns(string.Empty);
 
             // Act.
             var actualResult = RefController.ParentIdByBetTypeId(_betTypeId);

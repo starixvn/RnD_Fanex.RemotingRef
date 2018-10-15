@@ -141,6 +141,7 @@
                         Arg.Is(_handicap2),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(fastMarketsChoiceInSpecificLanguage);
+
                 expectedFastMarketsChoices.Add(fastMarketsChoiceInSpecificLanguage);
             }
 

@@ -6,8 +6,7 @@
     public class SportNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid sportTypeId | GET: expected sport name")]
-        public void GetSportNameWithValidSportTypeId()
+        public void GetSportNameByValidSportTypeId()
         {
             // Arrange.
             var sportTypeId = "1";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid sportTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidSportTypeId(string sportTypeId)
+        public void GetEmptyStringByInvalidSportTypeId(string sportTypeId)
         {
             // Act.
             var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid sportTypeId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidSportTypeId(string sportTypeId)
+        public void TakeBackDefaultValueWithInvalidSportTypeId(string sportTypeId)
         {
             // Act.
             var actualSportName = RemotingRefService.GetSportName(

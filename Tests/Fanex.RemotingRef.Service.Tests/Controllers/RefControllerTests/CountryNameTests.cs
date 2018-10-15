@@ -19,7 +19,9 @@
             RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetCountryName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetCountryName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetCountryName(Arg.Is(_countryCode), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetCountryName(Arg.Is(_countryCode), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(countryNameInSpecificLanguage);
+
                 expectedCountryNames.Add(countryNameInSpecificLanguage);
             }
 

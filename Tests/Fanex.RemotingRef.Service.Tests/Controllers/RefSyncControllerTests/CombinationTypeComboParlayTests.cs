@@ -33,10 +33,10 @@
 
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["betTeam"] = betTeam,
-                    ["betCheck"] = betCheck,
-                    ["handicap1"] = handicap1,
-                    ["handicap2"] = handicap2
+                    [nameof(betTeam)] = betTeam,
+                    [nameof(betCheck)] = betCheck,
+                    [nameof(handicap1)] = handicap1,
+                    [nameof(handicap2)] = handicap2
                 });
                 _parameterSetsValues.Add(new Tuple<string, string, int, int>(
                     betTeam,
@@ -59,12 +59,14 @@
             RefSyncController.CombinationTypeComboParlay(_formData);
 
             // Assert.
-            RefData.Received().GetCombinationTypeCombo(
-                Arg.Any<string>(),
-                Arg.Any<string>(),
-                Arg.Any<int>(),
-                Arg.Any<int>(),
-                Arg.Any<string>());
+            RefData
+                .Received()
+                .GetCombinationTypeCombo(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<int>(),
+                    Arg.Any<int>(),
+                    Arg.Any<string>());
         }
 
         [Fact]
@@ -177,9 +179,7 @@
         private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays()
             => FakeSyncedCombinationTypeComboParlays(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays(
-            bool requireSpecialValue,
-            string[] specialValue)
+        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays(bool requireSpecialValue, string[] specialValue)
         {
             var expectedSyncedComboNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -206,6 +206,7 @@
                             Arg.Is(parameterSetsValue.Item4),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(comboNamesInSpecificLanguage);
+
                     comboNamesInMultilanguages.Add(standardLanguageCode, comboNamesInSpecificLanguage);
                 }
 

@@ -8,26 +8,29 @@
 
     public class DisplayedTypeIdTests : RemotingRefServiceTestBase
     {
+        private readonly string _betTypeId;
+
+        public DisplayedTypeIdTests()
+            => _betTypeId = Fixture.Create<string>();
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
-            // Arrange.
-            var betTypeId = Fixture.Create<string>();
-
             // Act.
-            RemotingRefService.GetDisplayedTypeId(betTypeId);
+            RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"DisplayedTypeId?betTypeId={betTypeId}");
+            string expectedUrl = string.Format(RequestUrlPattern, $"DisplayedTypeId?betTypeId={_betTypeId}");
 
-            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient
+                .Received()
+                .GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
             var displayTypeId = Fixture.Create<string>();
 
             Serializer
@@ -35,7 +38,7 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = displayTypeId });
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
             Assert.Equal(displayTypeId, actualDisplayTypeId);
@@ -45,17 +48,15 @@
         public void ReturnProvidedBetTypeIdIfServiceReturnsNull()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
-
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
-            Assert.Equal(betTypeId, actualDisplayTypeId);
+            Assert.Equal(_betTypeId, actualDisplayTypeId);
         }
     }
 }

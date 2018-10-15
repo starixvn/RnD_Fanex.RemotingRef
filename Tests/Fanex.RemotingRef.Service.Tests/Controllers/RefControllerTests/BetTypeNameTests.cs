@@ -22,7 +22,11 @@
         public void AlwaysCallGetBetTypeNameOfRefDataHelper()
         {
             // Act.
-            RefController.BetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.BetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -38,7 +42,11 @@
         public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
-            RefController.BetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.BetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -122,6 +130,7 @@
                         Arg.Is(_refNo),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(betTypeNameInSpecificLanguage);
+
                 expectedBetTypeNames.Add(betTypeNameInSpecificLanguage);
             }
 

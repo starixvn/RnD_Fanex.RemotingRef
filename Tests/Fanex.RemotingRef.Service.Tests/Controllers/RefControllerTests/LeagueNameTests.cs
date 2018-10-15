@@ -19,7 +19,9 @@
             RefController.LeagueName(_leagueId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetLeagueName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetLeagueName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.LeagueName(_leagueId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetLeagueName(Arg.Is(_leagueId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetLeagueName(Arg.Is(_leagueId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(leagueNameInSpecificLanguage);
+
                 expectedLeagueNames.Add(leagueNameInSpecificLanguage);
             }
 

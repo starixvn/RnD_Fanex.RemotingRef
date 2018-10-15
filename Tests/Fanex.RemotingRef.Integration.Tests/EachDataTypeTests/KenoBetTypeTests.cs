@@ -6,50 +6,51 @@
     public class KenoBetTypeTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid kenoBetTypeId | GET: expected Keno bet type name")]
-        public void GetKenoBetTypeNameWithValidKenoBetTypeId()
+        public void GetKenoBetTypeNameByValidKenoBetTypeId()
         {
             // Arrange.
             var kenoBetTypeId = "2";
 
             // Act.
-            var actualBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguage);
+            var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedBetTypeName = "Odd/Even";
+            var expectedKenoBetTypeName = "Odd/Even";
 
-            Assert.Equal(expectedBetTypeName, actualBetTypeName);
+            Assert.Equal(expectedKenoBetTypeName, actualKenoBetTypeName);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid kenoBetTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidKenoBetTypeId(string kenoBetTypeId)
+        public void GetEmptyStringByInvalidKenoBetTypeId(string kenoBetTypeId)
         {
             // Act.
-            var actualBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguage);
+            var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualBetTypeName);
+            Assert.Empty(actualKenoBetTypeName);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid kenoBetTypeId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidKenoBetTypeId(string kenoBetTypeId)
+        public void TakeBackDefaultValueWithInvalidKenoBetTypeId(string kenoBetTypeId)
         {
             // Act.
-            var actualBetTypeName = RemotingRefService.GetKenoBetType(
+            var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(
                 kenoBetTypeId,
                 TestingLanguage,
                 DefaultValue);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualBetTypeName);
+            Assert.Equal(DefaultValue, actualKenoBetTypeName);
         }
     }
 }

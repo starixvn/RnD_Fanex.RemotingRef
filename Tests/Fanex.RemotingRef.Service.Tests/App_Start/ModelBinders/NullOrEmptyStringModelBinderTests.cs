@@ -1,4 +1,4 @@
-﻿namespace Fanex.RemotingRef.Service.Tests.Utilities
+﻿namespace Fanex.RemotingRef.Service.Tests.ModelBinders
 {
     using System.Globalization;
     using System.Web.Http.Controllers;

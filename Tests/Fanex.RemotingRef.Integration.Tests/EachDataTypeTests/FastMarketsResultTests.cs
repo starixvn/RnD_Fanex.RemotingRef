@@ -6,8 +6,7 @@
     public class FastMarketsResultTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid resultId | GET: expected Fast Markets result")]
-        public void GetFastMarketsResultWithValidResultId()
+        public void GetFastMarketsResultByValidResultId()
         {
             // Arrange.
             var resultId = "2";
@@ -25,14 +24,14 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: invalid resultId | GET: empty string")]
-        public void GetEmptyStringWithInvalidResultId(string resultId)
+        [InlineData("0")]
+        public void GetEmptyStringByInvalidResultId(string resultId)
         {
             // Act.
-            var actualTeamName = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualTeamName);
+            Assert.Empty(actualResult);
         }
     }
 }

@@ -19,7 +19,9 @@
             RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetHorseTeamName(Arg.Is(_codeId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetHorseTeamName(Arg.Is(_codeId), Arg.Any<string>());
         }
 
         [Fact]
@@ -42,8 +46,8 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                .Received()
-                .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .Received()
+                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -84,6 +88,7 @@
                 RefData
                     .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(horseTeamNameInSpecificLanguage);
+
                 expectedHorseTeamNames.Add(horseTeamNameInSpecificLanguage);
             }
 

@@ -30,7 +30,7 @@
                 _codeIds.Add(codeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["codeId"] = codeId
+                    [nameof(codeId)] = codeId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.HorseTeamName(_formData);
 
             // Assert.
-            RefData.Received().GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetHorseTeamName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetHorseTeamName(Arg.Is(codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetHorseTeamName(Arg.Is(codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -121,9 +127,7 @@
         private SyncedTranslationResultSet FakeSyncedHorseTeamNames()
             => FakeSyncedHorseTeamNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedHorseTeamNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedHorseTeamNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedHorseTeamNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -145,6 +149,7 @@
                     RefData
                         .GetHorseTeamName(Arg.Is(codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(horseTeamNameInSpecificLanguage);
+
                     horseTeamNameInMultilanguages.Add(standardLanguageCode, horseTeamNameInSpecificLanguage);
                 }
 

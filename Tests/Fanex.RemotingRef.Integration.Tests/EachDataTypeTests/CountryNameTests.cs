@@ -6,8 +6,7 @@
     public class CountryNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid countryCode | GET: expected country name")]
-        public void GetCountryNameWithValidCountryCode()
+        public void GetCountryNameByValidCountryCode()
         {
             // Arrange.
             var countryCode = "AUS";
@@ -26,7 +25,7 @@
         [InlineData(null)]
         [InlineData("**CK")]
         [Description("GIVE: (invalid countryCode) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidCountryCode(string countryCode)
+        public void GetEmptyStringByInvalidCountryCode(string countryCode)
         {
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguage);
@@ -40,7 +39,7 @@
         [InlineData(null)]
         [InlineData("**CK")]
         [Description("GIVE: invalid countryCode | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidCountryCode(string countryCode)
+        public void TakeBackDefaultValueWithInvalidCountryCode(string countryCode)
         {
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(

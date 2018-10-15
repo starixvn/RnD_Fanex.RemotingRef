@@ -19,7 +19,9 @@
             RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetSportName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetSportName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetSportName(Arg.Is(_sportTypeId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetSportName(Arg.Is(_sportTypeId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(sportNameInSpecificLanguage);
+
                 expectedSportNames.Add(sportNameInSpecificLanguage);
             }
 

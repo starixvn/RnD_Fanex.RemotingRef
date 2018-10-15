@@ -27,12 +27,13 @@
                 .SupportOnlyDefaultLanguage();
 
             HttpClient = Substitute.For<IHttpHandler>();
-            HttpClient.GetAsync(Arg.Any<string>()).Returns(FakeHttpResponseMessage());
-
-            Fixture = new Fixture();
-
             Serializer = Substitute.For<ISerializer>();
             RemotingRefService = new RemotingRefService(HttpClient, Serializer);
+            Fixture = new Fixture();
+
+            HttpClient
+                .GetAsync(Arg.Any<string>())
+                .Returns(FakeHttpResponseMessage());
         }
 
         protected IHttpHandler HttpClient { get; }

@@ -19,7 +19,9 @@
             RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -73,7 +79,7 @@
 
         private List<string> FakeLeague3rdNames()
         {
-            var expectedLeague3rdNames = new List<string>();
+            var expectedLeagueNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -82,10 +88,11 @@
                 RefData
                     .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(leagueNameInSpecificLanguage);
-                expectedLeague3rdNames.Add(leagueNameInSpecificLanguage);
+
+                expectedLeagueNames.Add(leagueNameInSpecificLanguage);
             }
 
-            return expectedLeague3rdNames;
+            return expectedLeagueNames;
         }
 
         [Fact]

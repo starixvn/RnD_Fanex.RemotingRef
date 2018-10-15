@@ -51,9 +51,9 @@
             _parameterSetsValues.Add(new Tuple<string, string, long?>(betTypeId, resourceId, refNo));
             _parameterSets.Add(new ParameterSet
             {
-                ["betTypeId"] = betTypeId,
-                ["resourceId"] = resourceId,
-                ["refNo"] = refNo
+                [nameof(betTypeId)] = betTypeId,
+                [nameof(resourceId)] = resourceId,
+                [nameof(refNo)] = refNo
             });
         }
 
@@ -181,6 +181,7 @@
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(betTypeNameInSpecificLanguage);
+
                     betTypeNameInMultilanguages.Add(standardLanguageCode, betTypeNameInSpecificLanguage);
                 }
 

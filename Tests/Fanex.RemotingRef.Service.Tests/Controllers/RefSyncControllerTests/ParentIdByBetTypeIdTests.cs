@@ -48,7 +48,9 @@
             RefSyncController.ParentIdByBetTypeId(_formData);
 
             // Assert.
-            RefData.Received().GetParentIdByBetTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetParentIdByBetTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count;
 
-            RefData.Received(expectedNumberOfCalls).GetParentIdByBetTypeId(Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetParentIdByBetTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -72,7 +76,9 @@
             // Assert.
             foreach (var betTypeId in _childBetTypeIds)
             {
-                RefData.Received().GetParentIdByBetTypeId(Arg.Is(betTypeId));
+                RefData
+                    .Received()
+                    .GetParentIdByBetTypeId(Arg.Is(betTypeId));
             }
         }
 

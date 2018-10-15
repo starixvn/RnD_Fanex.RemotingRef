@@ -30,7 +30,7 @@
                 _countryCodes.Add(countryCode);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["countryCode"] = countryCode
+                    [nameof(countryCode)] = countryCode
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.CountryName(_formData);
 
             // Assert.
-            RefData.Received().GetCountryName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetCountryName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetCountryName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetCountryName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetCountryName(Arg.Is(countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetCountryName(Arg.Is(countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetCountryName(Arg.Is(countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(countryNameInSpecificLanguage);
+
                     countryNameInMultilanguages.Add(standardLanguageCode, countryNameInSpecificLanguage);
                 }
 

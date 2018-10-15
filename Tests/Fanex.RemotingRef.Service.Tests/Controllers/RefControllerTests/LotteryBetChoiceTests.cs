@@ -20,7 +20,7 @@
             var betChoiceId = Fixture.Create<string>();
 
             // Act.
-            RefController.LotteryBetChoice(null, betChoiceId, StandardLanguageCodes);
+            RefController.LotteryBetChoice(betChoiceId: betChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -47,7 +47,7 @@
         public void AlwaysCallGetLotteryBetChoiceOfRefDataHelper()
         {
             // Act.
-            RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -59,7 +59,7 @@
         public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
-            RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -71,7 +71,7 @@
         public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
-            RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
@@ -92,7 +92,7 @@
             FakeLotteryBetChoices();
 
             // Act.
-            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             Assert.Equal(StandardLanguageCodes, actualResult.Keys);
@@ -105,7 +105,7 @@
             var expectedLotteryBetChoicesAndBetTypes = FakeLotteryBetChoices();
 
             // Act.
-            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             Assert.Equal(expectedLotteryBetChoicesAndBetTypes, actualResult.Values);
@@ -146,7 +146,7 @@
             FakeLotteryBetChoicesWithSpecialValue(null);
 
             // Act.
-            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             Assert.Null(actualResult);
@@ -159,7 +159,7 @@
             FakeLotteryBetChoicesWithSpecialValue(string.Empty);
 
             // Act.
-            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, null, StandardLanguageCodes);
+            var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
             Assert.Null(actualResult);

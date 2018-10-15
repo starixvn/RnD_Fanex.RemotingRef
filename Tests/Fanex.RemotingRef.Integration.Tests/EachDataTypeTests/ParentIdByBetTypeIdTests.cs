@@ -1,13 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class ParentIdByBetTypeIdTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid betTypeId | GET: expected parent bet type Id")]
-        public void GetParentIdWithValidBetTypeId()
+        public void GetParentIdByValidBetTypeId()
         {
             // Arrange.
             var betTypeId = "178";
@@ -22,8 +20,7 @@
         }
 
         [Fact]
-        [Description("GIVE: betTypeId has parentTypeId is itself | GET: passed betTypeId")]
-        public void GetGivenBetTypeIdWhenParentTypeIdNotExist()
+        public void TakeBackBetTypeIdWhenParentTypeIdNotExist()
         {
             // Arrange.
             var betTypeId = "1";
@@ -39,8 +36,8 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: invalid betTypeId | GET: given defaultValue")]
-        public void GetDefaultValueWithInvalidBetTypeIdId(string betTypeId)
+        [InlineData("0")]
+        public void TakeBackDefaultValueWithInvalidBetTypeId(string betTypeId)
         {
             // Act.
             var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue);

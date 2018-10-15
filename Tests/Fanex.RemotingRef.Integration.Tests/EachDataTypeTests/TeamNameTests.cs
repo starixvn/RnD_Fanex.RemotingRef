@@ -6,8 +6,7 @@
     public class TeamNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid teamId | GET: expected team name")]
-        public void GetTeamNameWithValidTeamId()
+        public void GetTeamNameByValidTeamId()
         {
             // Arrange.
             var teamId = "6";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid teamId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidTeamId(string teamId)
+        public void GetEmptyStringByInvalidTeamId(string teamId)
         {
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid teamId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidTeamId(string teamId)
+        public void TakeBackDefaultValueWithInvalidTeamId(string teamId)
         {
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(

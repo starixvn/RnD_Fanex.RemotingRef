@@ -19,7 +19,9 @@
             RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetRouletteBetItem(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetRouletteBetItem(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetRouletteBetItem(Arg.Is(_itemId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetRouletteBetItem(Arg.Is(_itemId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(rouletteBetItemInSpecificLanguage);
+
                 expectedRouletteBetItems.Add(rouletteBetItemInSpecificLanguage);
             }
 

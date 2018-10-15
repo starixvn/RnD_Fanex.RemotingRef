@@ -29,7 +29,7 @@
                 _matchCodes.Add(matchCode);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["matchCode"] = matchCode
+                    [nameof(matchCode)] = matchCode
                 });
             }
 
@@ -47,7 +47,9 @@
             RefSyncController.BetRadarMatchCodeFormat(_formData);
 
             // Assert.
-            RefData.Received().GetBetRadarMatchCodeFormat(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetBetRadarMatchCodeFormat(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -59,7 +61,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetBetRadarMatchCodeFormat(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetBetRadarMatchCodeFormat(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -73,7 +77,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -107,6 +113,7 @@
                     RefData
                         .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(matchFormatInSpecificLanguage);
+
                     matchFormatInMultilanguages.Add(standardLanguageCode, matchFormatInSpecificLanguage);
                 }
 

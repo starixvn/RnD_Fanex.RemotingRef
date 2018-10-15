@@ -31,7 +31,7 @@
                 _kenoBetChoiceIds.Add(kenoBetChoiceId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["kenoBetChoiceId"] = kenoBetChoiceId
+                    [nameof(kenoBetChoiceId)] = kenoBetChoiceId
                 });
             }
 
@@ -49,7 +49,9 @@
             RefSyncController.KenoBetChoice(_formData);
 
             // Assert.
-            RefData.Received().GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+            RefData
+                .Received()
+                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
         }
 
         [Fact]
@@ -163,6 +165,7 @@
 
                             return kenoBetChoiceNameInSpecificLanguage;
                         });
+
                     kenoBetTypeAndChoiceInMultilanguages.Add(
                         standardLanguageCode,
                         new Tuple<string, string>(kenoBetChoiceNameInSpecificLanguage, kenoBetTypeId));

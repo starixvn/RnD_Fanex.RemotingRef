@@ -30,7 +30,7 @@
                 _league3rdIds.Add(league3rdId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["league3rdId"] = league3rdId
+                    [nameof(league3rdId)] = league3rdId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.LeagueName3rd(_formData);
 
             // Assert.
-            RefData.Received().GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetLeagueName3rd(Arg.Is(league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetLeagueName3rd(Arg.Is(league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetLeagueName3rd(Arg.Is(league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(leagueNameInSpecificLanguage);
+
                     leagueNameInMultilanguages.Add(standardLanguageCode, leagueNameInSpecificLanguage);
                 }
 

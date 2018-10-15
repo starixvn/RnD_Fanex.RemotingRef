@@ -55,9 +55,9 @@
             _parameterSetsValues.Add(new Tuple<string, string, long?>(betTypeId, resourceId, refNo));
             _parameterSets.Add(new ParameterSet
             {
-                ["betTypeId"] = betTypeId,
-                ["resourceId"] = resourceId,
-                ["refNo"] = refNo
+                [nameof(betTypeId)] = betTypeId,
+                [nameof(resourceId)] = resourceId,
+                [nameof(refNo)] = refNo
             });
             _displayedBetTypeIds.Add(displayedBetTypeId);
             RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayedBetTypeId);
@@ -70,7 +70,9 @@
             RefSyncController.DisplayedBetTypeName(_formData);
 
             // Assert.
-            RefData.Received().GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -82,7 +84,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count;
 
-            RefData.Received(expectedNumberOfCalls).GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -186,9 +190,7 @@
         private SyncedTranslationResultSet FakeSyncedDisplayedBetTypeNames()
             => FakeSyncedDisplayedBetTypeNames(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedDisplayedBetTypeNames(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedDisplayedBetTypeNames(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedDisplayedBetTypeNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -215,6 +217,7 @@
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(displayedBetTypeNameInSpecificLanguage);
+
                     displayedBetTypeNameInMultilanguages.Add(standardLanguageCode, displayedBetTypeNameInSpecificLanguage);
                 }
 

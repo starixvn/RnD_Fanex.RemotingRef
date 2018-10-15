@@ -6,8 +6,7 @@
     public class FastMarketsChoiceTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: (valid betTypeId) && (valid betTeam) | GET: expected choice")]
-        public void GetFastMarketChoiceWithValidParameters()
+        public void GetFastMarketChoiceByValidParameters()
         {
             // Arrange.
             var betTypeId = "223";
@@ -32,8 +31,9 @@
         [Theory]
         [InlineData("")]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (betTypeId is not null) && (invalid betTypeId) | GET: string only contains time interval")]
-        public void GetTimeIntervalOnlyWithNonNullInvalidBetTypeId(string betTypeId)
+        public void GetTimeIntervalOnlyByNonNullInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
             var betTeam = "1";
@@ -55,8 +55,7 @@
         }
 
         [Fact]
-        [Description("GIVE: betTypeId is null | GET: empty string")]
-        public void GetEmptyStringWithNullBetTypeId()
+        public void GetEmptyStringByNullBetTypeId()
         {
             // Arrange.
             var betTypeId = (string)null;
@@ -79,8 +78,9 @@
         [Theory]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid betTeam | GET: string only contains time interval")]
-        public void GetTimeIntervalOnlyWithInvalidBetTeamId(string betTeam)
+        public void GetTimeIntervalOnlyByInvalidBetTeamId(string betTeam)
         {
             // Arrange.
             var betTypeId = "223";

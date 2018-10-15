@@ -7,47 +7,47 @@
 
     public class FastMarkets225ResultTests : RefControllerTestBase
     {
-        private readonly string _betType255ResultIds;
+        private readonly string _betType255ResultId;
 
         public FastMarkets225ResultTests()
-            => _betType255ResultIds = Fixture.Create<string>();
+            => _betType255ResultId = Fixture.Create<string>();
 
         [Fact]
         public void AlwaysCallGetFastMarkets225ResultOfRefDataHelper()
         {
             // Act.
-            RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
         public void CallRefDataHelperOncePerLanguage()
         {
             // Act.
-            RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             RefData
                 .Received(StandardLanguageCodes.Length)
-                .GetFastMarkets225Result(Arg.Is(_betType255ResultIds), Arg.Any<string>());
+                .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Any<string>());
         }
 
         [Fact]
         public void CallRefDataHelperWithCorrectArguments()
         {
             // Act.
-            RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
                     .Received()
-                    .GetFastMarkets225Result(
-                        Arg.Is(_betType255ResultIds),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -58,7 +58,7 @@
             FakeFastMarkets225Results();
 
             // Act.
-            var actualResult = RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             Assert.Equal(StandardLanguageCodes, actualResult.Keys);
@@ -71,7 +71,7 @@
             var expectedFastMarkets225Results = FakeFastMarkets225Results();
 
             // Act.
-            var actualResult = RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             Assert.Equal(expectedFastMarkets225Results, actualResult.Values);
@@ -86,10 +86,9 @@
                 var fastMarkets225ResultInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetFastMarkets225Result(
-                        Arg.Is(_betType255ResultIds),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(fastMarkets225ResultInSpecificLanguage);
+
                 expectedFastMarkets225Results.Add(fastMarkets225ResultInSpecificLanguage);
             }
 
@@ -103,7 +102,7 @@
             FakeFastMarkets225ResultsWithSpecialValue(null);
 
             // Act.
-            var actualResult = RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             Assert.Null(actualResult);
@@ -116,7 +115,7 @@
             FakeFastMarkets225ResultsWithSpecialValue(string.Empty);
 
             // Act.
-            var actualResult = RefController.FastMarkets225Result(_betType255ResultIds, StandardLanguageCodes);
+            var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
             Assert.Null(actualResult);
@@ -127,9 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetFastMarkets225Result(
-                        Arg.Is(_betType255ResultIds),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(specialValue);
             }
         }

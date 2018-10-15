@@ -29,7 +29,7 @@
                 _betTypeIds.Add(betTypeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["betTypeId"] = betTypeId
+                    [nameof(betTypeId)] = betTypeId
                 });
             }
 
@@ -47,7 +47,9 @@
             RefSyncController.DisplayedTypeId(_formData);
 
             // Assert.
-            RefData.Received().GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -59,7 +61,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count;
 
-            RefData.Received(expectedNumberOfCalls).GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -73,7 +77,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetDisplayedTypeId(Arg.Is(batTypeId));
+                    RefData
+                        .Received()
+                        .GetDisplayedTypeId(Arg.Is(batTypeId));
                 }
             }
         }
@@ -100,7 +106,10 @@
                 var betTypeId = _betTypeIds[counter];
                 var displayTypeId = Fixture.Create<string>();
 
-                RefData.GetDisplayedTypeId(Arg.Is(betTypeId)).Returns(displayTypeId);
+                RefData
+                    .GetDisplayedTypeId(Arg.Is(betTypeId))
+                    .Returns(displayTypeId);
+
                 expectedSyncedDisplayedBetTypeIds.Add(
                     _parameterSets[counter],
                     new TranslationSet

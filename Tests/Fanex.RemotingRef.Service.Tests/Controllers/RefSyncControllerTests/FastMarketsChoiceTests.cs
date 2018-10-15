@@ -32,10 +32,10 @@
 
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["betTypeId"] = betTypeId,
-                    ["betTeam"] = betTeam,
-                    ["handicap1"] = handicap1,
-                    ["handicap2"] = handicap2
+                    [nameof(betTypeId)] = betTypeId,
+                    [nameof(betTeam)] = betTeam,
+                    [nameof(handicap1)] = handicap1,
+                    [nameof(handicap2)] = handicap2
                 });
                 _parameterSetsValues.Add(new Tuple<string, string, int, int>(
                     betTypeId,
@@ -58,12 +58,14 @@
             RefSyncController.FastMarketsChoice(_formData);
 
             // Assert.
-            RefData.Received().GetFastMarketsChoice(
-                Arg.Any<string>(),
-                Arg.Any<string>(),
-                Arg.Any<int>(),
-                Arg.Any<int>(),
-                Arg.Any<string>());
+            RefData
+                .Received()
+                .GetFastMarketsChoice(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<int>(),
+                    Arg.Any<int>(),
+                    Arg.Any<string>());
         }
 
         [Fact]
@@ -150,9 +152,7 @@
         private SyncedTranslationResultSet FakeSyncedFastMarketsChoices()
             => FakeSyncedFastMarketsChoices(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedFastMarketsChoices(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedFastMarketsChoices(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedFastMartketsChoices = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -179,6 +179,7 @@
                             Arg.Is(parameterSetsValue.Item4),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(choiceNameInSpecificLanguage);
+
                     choiceNameInMultilanguages.Add(standardLanguageCode, choiceNameInSpecificLanguage);
                 }
 

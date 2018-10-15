@@ -19,34 +19,52 @@
             _resourceId = Fixture.Create<string>();
             _refNo = Fixture.Create<long>();
 
-            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns(_displayedBetTypeId);
+            RefData
+                .GetDisplayedTypeId(Arg.Is(_betTypeId))
+                .Returns(_displayedBetTypeId);
         }
 
         [Fact]
         public void AlwaysCallGetDisplayedTypeIdOfRefDataHelper()
         {
             // Act.
-            RefController.DisplayedBetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.DisplayedBetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
         public void AlwaysCallGetDisplayedTypeIdOnlyOnce()
         {
             // Act.
-            RefController.DisplayedBetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.DisplayedBetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(1).GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received(1)
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
         public void AlwaysCallGetBetTypeNameOfRefDataHelper()
         {
             // Act.
-            RefController.DisplayedBetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.DisplayedBetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -62,7 +80,11 @@
         public void CallGettingBetTypeNameOncePerLanguage()
         {
             // Act.
-            RefController.DisplayedBetTypeName(_betTypeId, _resourceId, _refNo, StandardLanguageCodes);
+            RefController.DisplayedBetTypeName(
+                _betTypeId,
+                _resourceId,
+                _refNo,
+                StandardLanguageCodes);
 
             // Assert.
             RefData
@@ -165,6 +187,7 @@
                         Arg.Is(_refNo),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(originalBetTypeNameInSpecificLanguage);
+
                 originalBetTypeNames.Add(originalBetTypeNameInSpecificLanguage);
             }
 
@@ -186,6 +209,7 @@
                         Arg.Is(_refNo),
                         Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(displayedBetTypeNameInSpecificLanguage);
+
                 expectedDisplayedBetTypeNames.Add(displayedBetTypeNameInSpecificLanguage);
             }
 

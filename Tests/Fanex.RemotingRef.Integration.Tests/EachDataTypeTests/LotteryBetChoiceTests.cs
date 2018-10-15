@@ -6,27 +6,25 @@
     public class LotteryBetChoiceTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid lotteryBetChoiceId | GET: expected Lottery bet choice")]
-        public void GetLotteryBetChoiceWithValidBetChoiceId()
+        public void GetLotteryBetChoiceByValidLotteryBetChoiceId()
         {
             // Arrange.
             var lotteryBetChoiceId = "43";
 
             // Act.
-            var actualBetChoice = RemotingRefService.GetLotteryBetChoice(
+            var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
                 out _);
 
             // Assert.
-            var expectedBetChoice = "Big";
+            var expectedLotteryBetChoice = "Big";
 
-            Assert.Equal(expectedBetChoice, actualBetChoice);
+            Assert.Equal(expectedLotteryBetChoice, actualLotteryBetChoice);
         }
 
         [Fact]
-        [Description("GIVE: valid lotteryBetChoiceId | GET: expected Lottery bet type Id")]
-        public void GetLotteryBetTypeIdWithValidBetChoiceId()
+        public void GetLotteryBetTypeIdByValidLotteryBetChoiceId()
         {
             // Arrange.
             var lotteryBetChoiceId = "43";
@@ -35,82 +33,86 @@
             RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
-                out string actualBetTypeId);
+                out string actualLotteryBetTypeId);
 
             // Assert.
-            var expectedBetTypeId = "17";
+            var expectedLotteryBetTypeId = "17";
 
-            Assert.Equal(expectedBetTypeId, actualBetTypeId);
+            Assert.Equal(expectedLotteryBetTypeId, actualLotteryBetTypeId);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet choice")]
-        public void GetEmptyStringAsLotteryBetChoiceWithInvalidBetChoiceId(string lotteryBetChoiceId)
+        public void GetEmptyStringAsLotteryBetChoiceByInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
         {
             // Act.
-            var actualBetChoice = RemotingRefService.GetLotteryBetChoice(
+            var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
                 out _);
 
             // Assert.
-            Assert.Empty(actualBetChoice);
+            Assert.Empty(actualLotteryBetChoice);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet type Id")]
-        public void GetEmptyStringAsLotteryBetTypeIdWithInvalidBetChoiceId(string lotteryBetChoiceId)
+        public void GetEmptyStringAsLotteryBetTypeIdWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
         {
             // Act.
             RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
-                out string actualBetTypeId);
+                out string actualLotteryBetTypeId);
 
             // Assert.
-            Assert.Empty(actualBetTypeId);
+            Assert.Empty(actualLotteryBetTypeId);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid lotteryBetChoiceId | GET: given defaultValue as Lottery bet choice")]
-        public void GetGivenDefaultAsBetChoiceValueWithInvalidBetChoiceId(string lotteryBetChoiceId)
+        public void TakeBackDefaultValueAsLotteryBetChoiceWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
         {
             // Act.
-            var actualBetChoice = RemotingRefService.GetLotteryBetChoice(
+            var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
                 out _);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualBetChoice);
+            Assert.Equal(DefaultValue, actualLotteryBetChoice);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid lotteryBetChoiceId | GET: given defaultValue as Lottery bet type Id")]
-        public void GetGivenDefaultValueAsBetTypeIdWithInvalidBetChoiceId(string lotteryBetChoiceId)
+        public void TakeBackDefaultValueAsLotteryBetTypeIdWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
         {
             // Act.
             RemotingRefService.GetLotteryBetChoice(
                 lotteryBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
-                out string actualBetTypeId);
+                out string actualLotteryBetTypeId);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualBetTypeId);
+            Assert.Equal(DefaultValue, actualLotteryBetTypeId);
         }
     }
 }

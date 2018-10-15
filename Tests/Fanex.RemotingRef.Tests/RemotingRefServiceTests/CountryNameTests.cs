@@ -8,26 +8,29 @@
 
     public class CountryNameTests : RemotingRefServiceTestBase
     {
+        private readonly string _countryCode;
+
+        public CountryNameTests()
+            => _countryCode = Fixture.Create<string>();
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
-            // Arrange.
-            var countryCode = Fixture.Create<string>();
-
             // Act.
-            RemotingRefService.GetCountryName(countryCode, TestingLanguageCode);
+            RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode);
 
             // Assert.
-            var expectedUrl = string.Format(RequestUrlPattern, $"CountryName?countryCode={countryCode}");
+            var expectedUrl = string.Format(RequestUrlPattern, $"CountryName?countryCode={_countryCode}");
 
-            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient
+                .Received()
+                .GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
             var countryName = Fixture.Create<string>();
 
             Serializer
@@ -35,7 +38,7 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = countryName });
 
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguageCode);
+            var actualCountryName = RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(countryName, actualCountryName);
@@ -45,7 +48,6 @@
         public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
             var defaultCountryName = Fixture.Create<string>();
 
             Serializer
@@ -53,7 +55,7 @@
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguageCode, defaultCountryName);
+            var actualCountryName = RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode, defaultCountryName);
 
             // Assert.
             Assert.Equal(defaultCountryName, actualCountryName);
@@ -63,14 +65,12 @@
         public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
-
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguageCode);
+            var actualCountryName = RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualCountryName);

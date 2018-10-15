@@ -19,7 +19,9 @@
             RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetCasinoBetItem(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetCasinoBetItem(Arg.Is(_itemId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetCasinoBetItem(Arg.Is(_itemId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(casinoBetItemInSpecificLanguage);
+
                 expectedCasinoBetItems.Add(casinoBetItemInSpecificLanguage);
             }
 

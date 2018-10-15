@@ -6,8 +6,7 @@
     public class OddsTypeNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid oddsTypeId | GET: expected odds type name")]
-        public void GetOddsTypeNameWithValidOddsTypeId()
+        public void GetOddsTypeNameByValidOddsTypeId()
         {
             // Arrange.
             var oddsTypeId = "1";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid oddsTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidOddsTypeId(string oddsTypeId)
+        public void GetEmptyStringByInvalidOddsTypeId(string oddsTypeId)
         {
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid oddsTypeId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidOddsTypeId(string oddsTypeId)
+        public void TakeBackDefaultValueWithInvalidOddsTypeId(string oddsTypeId)
         {
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(

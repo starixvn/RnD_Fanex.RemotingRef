@@ -30,7 +30,7 @@
                 _oddsTypeIds.Add(oddsTypeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["oddsTypeId"] = oddsTypeId
+                    [nameof(oddsTypeId)] = oddsTypeId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.OddsTypeName(_formData);
 
             // Assert.
-            RefData.Received().GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetOddsTypeName(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(oddsNameInSpecificLanguage);
+
                     oddsNameInMultilanguages.Add(standardLanguageCode, oddsNameInSpecificLanguage);
                 }
 

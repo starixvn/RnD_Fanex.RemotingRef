@@ -25,8 +25,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid betTypeId | GET: empty string")]
-        public void GetEmptyStringWithInvalidBetTypeId(string betTypeId)
+        public void GetEmptyStringByInvalidBetTypeId(string betTypeId)
         {
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(betTypeId, TestingLanguage);
@@ -79,6 +80,7 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) && (no defaultValue provided) | GET: empty string")]
         public void GetEmptyStringWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
         {
@@ -99,8 +101,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
+        public void TakeBackDefaultValueWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
             var refNo = 100_000_000_001L;
@@ -163,8 +166,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (resourceId is not null or empty) && (invalid betTypeId) | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithNonEmptyResourceIdButInvalidBetTypeId(string betTypeId)
+        public void TakeBackDefaultValueWithNonEmptyResourceIdButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
             var resourceId = "10";
@@ -208,8 +212,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (resourceId is not null or empty) && (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithSatisfiedResourceIdAndRefNoButInvalidBetTypeId(string betTypeId)
+        public void TakeBackDefaultValueWithSatisfiedResourceIdAndRefNoButInvalidBetTypeId(string betTypeId)
         {
             // Arrange.
             var resourceId = "10";

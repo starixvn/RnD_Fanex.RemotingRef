@@ -6,8 +6,7 @@
     public class RouletteBetItemTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid itemId | GET: expected roulette bet item")]
-        public void GetRouletteBetItemWithValidItemId()
+        public void GetRouletteBetItemByValidItemId()
         {
             // Arrange.
             var itemId = "3";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid itemId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidItemId(string itemId)
+        public void GetEmptyStringByInvalidItemId(string itemId)
         {
             // Act.
             var actualBetItem = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid itemId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidItemId(string itemId)
+        public void TakeBackDefaultValueWithInvalidItemId(string itemId)
         {
             // Act.
             var actualBetItem = RemotingRefService.GetRouletteBetItem(

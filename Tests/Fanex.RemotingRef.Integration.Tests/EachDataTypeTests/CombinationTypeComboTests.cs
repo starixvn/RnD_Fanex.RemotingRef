@@ -1,13 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class CombinationTypeComboTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: (valid betCheck) && (valid betTeam) && (valid handicap1) && (valid handicap2) | GET: expected combos")]
-        public void GetCombosWithValidParameters()
+        public void GetCombosByValidParameters()
         {
             // Arrange.
             var betTeam = "110";
@@ -30,24 +28,22 @@
         }
 
         [Theory]
-        [InlineData("", 0)]
-        [InlineData(null, -1)]
-        [InlineData("-1", int.MaxValue)]
-        [Description("GIVE: invalid parameters | GET: null")]
-        public void GetNullWithInvalidParameters(string incorrectStringValue, int incorrectIntegerValue)
+        [InlineData("", null, 0, -1)]
+        [InlineData(null, "", -1, 0)]
+        [InlineData("-1", "0", int.MaxValue, int.MinValue)]
+        [InlineData("0", "-1", int.MinValue, int.MaxValue)]
+        public void GetNullByInvalidParameters(
+            string incorrectBetTeam,
+            string incorrectBetCheck,
+            int incorrectHandicap1,
+            int incorrectHandicap2)
         {
-            // Arrange.
-            var betTeam = incorrectStringValue;
-            var betCheck = incorrectStringValue;
-            var handicap1 = incorrectIntegerValue;
-            var handicap2 = incorrectIntegerValue;
-
             // Act.
             var actualCombos = RemotingRefService.GetCombinationTypeCombo(
-                betTeam,
-                betCheck,
-                handicap1,
-                handicap2,
+                incorrectBetTeam,
+                incorrectBetCheck,
+                incorrectHandicap1,
+                incorrectHandicap2,
                 TestingLanguage);
 
             // Assert.

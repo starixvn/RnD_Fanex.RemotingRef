@@ -6,50 +6,51 @@
     public class LeagueName3rdTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid leagueId3rd | GET: expected 3rd league name")]
-        public void Get3rdLeagueNameWithValidLeagueId3rd()
+        public void Get3rdLeagueNameByValid3rdLeagueId()
         {
             // Arrange.
             var leagueId3rd = "1";
 
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName3rd(leagueId3rd, TestingLanguage);
+            var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(leagueId3rd, TestingLanguage);
 
             // Assert.
-            var expectedLeagueName = "KlongHae Songkhla Early";
+            var expected3rdLeagueName = "KlongHae Songkhla Early";
 
-            Assert.Equal(expectedLeagueName, actualLeagueName);
+            Assert.Equal(expected3rdLeagueName, actual3rdLeagueName);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid leagueId3rd) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidLeagueId3rd(string leagueId3rd)
+        public void GetEmptyStringByInvalid3rdLeagueId(string leagueId3rd)
         {
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName3rd(leagueId3rd, TestingLanguage);
+            var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(leagueId3rd, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualLeagueName);
+            Assert.Empty(actual3rdLeagueName);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("-100")]
+        [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid leagueId3rd | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidLeagueId3rd(string leagueId3rd)
+        public void TakeBackDefaultValueWithInvalid3rdLeagueId(string leagueId3rd)
         {
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName3rd(
+            var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(
                 leagueId3rd,
                 TestingLanguage,
                 DefaultValue);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualLeagueName);
+            Assert.Equal(DefaultValue, actual3rdLeagueName);
         }
     }
 }

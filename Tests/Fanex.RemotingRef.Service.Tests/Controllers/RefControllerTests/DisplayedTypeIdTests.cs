@@ -19,7 +19,9 @@
             RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            RefData.Received().GetDisplayedTypeId(Arg.Any<string>());
+            RefData
+                .Received()
+                .GetDisplayedTypeId(Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            RefData.Received(1).GetDisplayedTypeId(Arg.Is(_betTypeId));
+            RefData
+                .Received(1)
+                .GetDisplayedTypeId(Arg.Is(_betTypeId));
         }
 
         [Fact]
@@ -39,7 +43,9 @@
             RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            RefData.Received().GetDisplayedTypeId(Arg.Is(_betTypeId));
+            RefData
+                .Received()
+                .GetDisplayedTypeId(Arg.Is(_betTypeId));
         }
 
         [Fact]
@@ -72,7 +78,9 @@
         {
             var displayedTypeId = Fixture.Create<string>();
 
-            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns(displayedTypeId);
+            RefData
+                .GetDisplayedTypeId(Arg.Is(_betTypeId))
+                .Returns(displayedTypeId);
 
             return new List<string>
             {
@@ -84,7 +92,9 @@
         public void ReturnNullIfResultIsNullValue()
         {
             // Arrange.
-            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns((string)null);
+            RefData
+                .GetDisplayedTypeId(Arg.Is(_betTypeId))
+                .Returns((string)null);
 
             // Act.
             var actualResult = RefController.DisplayedTypeId(_betTypeId);
@@ -97,7 +107,9 @@
         public void ReturnNullIfResultIsEmptyString()
         {
             // Arrange.
-            RefData.GetDisplayedTypeId(Arg.Is(_betTypeId)).Returns(string.Empty);
+            RefData
+                .GetDisplayedTypeId(Arg.Is(_betTypeId))
+                .Returns(string.Empty);
 
             // Act.
             var actualResult = RefController.DisplayedTypeId(_betTypeId);

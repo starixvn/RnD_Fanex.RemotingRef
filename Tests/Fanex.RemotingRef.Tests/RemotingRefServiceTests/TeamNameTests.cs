@@ -8,26 +8,29 @@
 
     public class TeamNameTests : RemotingRefServiceTestBase
     {
+        private readonly string _teamId;
+
+        public TeamNameTests()
+            => _teamId = Fixture.Create<string>();
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
-            // Arrange.
-            var teamId = Fixture.Create<string>();
-
             // Act.
-            RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            RemotingRefService.GetTeamName(_teamId, TestingLanguageCode);
 
             // Assert.
-            var expectedUrl = string.Format(RequestUrlPattern, $"TeamName?teamId={teamId}");
+            var expectedUrl = string.Format(RequestUrlPattern, $"TeamName?teamId={_teamId}");
 
-            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient
+                .Received()
+                .GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var teamId = Fixture.Create<string>();
             var teamName = Fixture.Create<string>();
 
             Serializer
@@ -35,7 +38,7 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = teamName });
 
             // Act.
-            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            var actualTeamName = RemotingRefService.GetTeamName(_teamId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(teamName, actualTeamName);
@@ -45,7 +48,6 @@
         public void ReturnProvidedDefaultValueIfServiceReturnsNull()
         {
             // Arrange.
-            var teamId = Fixture.Create<string>();
             var defaultTeamName = Fixture.Create<string>();
 
             Serializer
@@ -54,7 +56,7 @@
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(
-                teamId,
+                _teamId,
                 TestingLanguageCode,
                 defaultTeamName);
 
@@ -66,14 +68,12 @@
         public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
         {
             // Arrange.
-            var teamId = Fixture.Create<string>();
-
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguageCode);
+            var actualTeamName = RemotingRefService.GetTeamName(_teamId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualTeamName);

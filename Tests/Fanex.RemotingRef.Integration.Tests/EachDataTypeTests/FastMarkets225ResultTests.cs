@@ -1,13 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class FastMarkets225ResultTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid resultId | GET: expected Fast Markets result")]
-        public void GetFastMarkets225ResultWithValidResultId()
+        public void GetBetType225ResultByValidResultId()
         {
             // Arrange.
             var betType255ResultId = "164";
@@ -25,14 +23,14 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
-        [Description("GIVE: invalid resultId | GET: empty string")]
-        public void GetEmptyStringWithInvalidResultId(string betType255ResultId)
+        [InlineData("0")]
+        public void GetEmptyStringByInvalidResultId(string betType255ResultId)
         {
             // Act.
-            var actualTeamName = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualTeamName);
+            Assert.Empty(actualResult);
         }
     }
 }

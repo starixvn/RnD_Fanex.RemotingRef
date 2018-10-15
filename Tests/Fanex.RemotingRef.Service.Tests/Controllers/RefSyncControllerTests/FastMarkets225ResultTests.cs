@@ -48,7 +48,9 @@
             RefSyncController.FastMarkets225Result(_formData);
 
             // Assert.
-            RefData.Received().GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetFastMarkets225Result(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -76,9 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetFastMarkets225Result(
-                            Arg.Is(betType255ResultId),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetFastMarkets225Result(Arg.Is(betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -125,9 +127,7 @@
         private SyncedTranslationResultSet FakeSyncedFastMarkets225Results()
             => FakeSyncedFastMarkets225Results(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedFastMarkets225Results(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedFastMarkets225Results(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedFastMarkets225Results = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -144,27 +144,18 @@
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    var fastMarkets225ResultInSpecificLanguage =
-                        counter == specialIndex
-                        ? specialValue
-                        : Fixture.Create<string>();
+                    var fastMarkets225ResultInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetFastMarkets225Result(
-                            Arg.Is(betType255ResultId),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetFastMarkets225Result(Arg.Is(betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(fastMarkets225ResultInSpecificLanguage);
 
-                    fastMarkets225ResultInMultilanguages.Add(
-                        standardLanguageCode,
-                        fastMarkets225ResultInSpecificLanguage);
+                    fastMarkets225ResultInMultilanguages.Add(standardLanguageCode, fastMarkets225ResultInSpecificLanguage);
                 }
 
                 if (ValidateTextSet(fastMarkets225ResultInMultilanguages))
                 {
-                    expectedSyncedFastMarkets225Results.Add(
-                        _parameterSets[counter],
-                        fastMarkets225ResultInMultilanguages);
+                    expectedSyncedFastMarkets225Results.Add(_parameterSets[counter], fastMarkets225ResultInMultilanguages);
                 }
             }
 

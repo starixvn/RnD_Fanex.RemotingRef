@@ -24,7 +24,9 @@
                 RequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri)
             };
 
-            HttpClient.GetAsync(Arg.Any<string>()).Returns(httpResponseMessage);
+            HttpClient
+                .GetAsync(Arg.Any<string>())
+                .Returns(httpResponseMessage);
 
             // Act.
             var exception = Record.Exception(() => RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode));
@@ -52,7 +54,9 @@
             // Assert.
             var expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
 
-            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient
+                .Received()
+                .GetAsync(Arg.Is(expectedUrl));
         }
     }
 }

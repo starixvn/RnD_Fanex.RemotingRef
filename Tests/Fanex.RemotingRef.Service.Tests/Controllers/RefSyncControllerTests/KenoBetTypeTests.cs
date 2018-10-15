@@ -30,7 +30,7 @@
                 _kenoBetTypeIds.Add(kenoBetTypeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["kenoBetTypeId"] = kenoBetTypeId
+                    [nameof(kenoBetTypeId)] = kenoBetTypeId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.KenoBetType(_formData);
 
             // Assert.
-            RefData.Received().GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -143,6 +149,7 @@
                     RefData
                         .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(kenoBetTypeNameInSpecificLanguage);
+
                     kenoBetTypeNameInMultilanguages.Add(standardLanguageCode, kenoBetTypeNameInSpecificLanguage);
                 }
 

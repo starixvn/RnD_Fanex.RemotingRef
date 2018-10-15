@@ -19,7 +19,9 @@
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetTeamName3rd(Arg.Is(_team3rdId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -73,7 +79,7 @@
 
         private List<string> FakeTeam3rdNames()
         {
-            var expectedTeam3rdNames = new List<string>();
+            var expectedTeamNames = new List<string>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -82,10 +88,11 @@
                 RefData
                     .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(teamNameInSpecificLanguage);
-                expectedTeam3rdNames.Add(teamNameInSpecificLanguage);
+
+                expectedTeamNames.Add(teamNameInSpecificLanguage);
             }
 
-            return expectedTeam3rdNames;
+            return expectedTeamNames;
         }
 
         [Fact]

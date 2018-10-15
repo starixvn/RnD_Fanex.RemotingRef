@@ -1,13 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class BetRadarMatchCodeFormatTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid matchCode | GET: expected match name")]
-        public void GetMatchNameWithValidMatchCode()
+        public void GetMatchNameByValidMatchCode()
         {
             // Arrange.
             var matchCode = "123 {8}";
@@ -22,8 +20,7 @@
         }
 
         [Fact]
-        [Description("GIVE: invalid teamId | GET: empty string")]
-        public void GetGivenMatchCodeIfNoDataFound()
+        public void TakeBackMatchCodeWithInvalidMatchCode()
         {
             // Arrange.
             var matchCode = "123";

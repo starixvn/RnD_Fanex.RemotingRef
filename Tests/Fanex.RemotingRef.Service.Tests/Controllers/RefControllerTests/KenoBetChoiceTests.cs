@@ -20,7 +20,9 @@
             RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+            RefData
+                .Received()
+                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
         }
 
         [Fact]
@@ -30,7 +32,9 @@
             RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Any<string>(), out _);
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Any<string>(), out _);
         }
 
         [Fact]
@@ -44,7 +48,10 @@
             {
                 RefData
                     .Received()
-                    .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]), out _);
+                    .GetKenoBetChoice(
+                        Arg.Is(_kenoBetChoiceId),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
+                        out _);
             }
         }
 
@@ -84,13 +91,17 @@
                 var kenoBetTypeInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]), out _)
+                    .GetKenoBetChoice(
+                        Arg.Is(_kenoBetChoiceId),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
+                        out _)
                     .Returns(parameters =>
                     {
                         parameters[2] = kenoBetTypeInSpecificLanguage;
 
                         return kenoBetChoiceInSpecificLanguage;
                     });
+
                 expectedKenoBetChoicesAndBetTypes.Add(
                     new Tuple<string, string>(kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
             }
@@ -129,7 +140,10 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]), out _)
+                    .GetKenoBetChoice(
+                        Arg.Is(_kenoBetChoiceId),
+                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
+                        out _)
                     .Returns(parameters =>
                     {
                         parameters[2] = specialValue;

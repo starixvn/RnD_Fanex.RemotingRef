@@ -6,8 +6,7 @@
     public class LeagueNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid leagueId | GET: expected league name")]
-        public void GetLeagueNameWithValidLeagueId()
+        public void GetLeagueNameByValidLeagueId()
         {
             // Arrange.
             var leagueId = "13";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-100")]
+        [InlineData("0")]
         [Description("GIVE: (invalid leagueId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidLeagueId(string leagueId)
+        public void GetEmptyStringByInvalidLeagueId(string leagueId)
         {
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName(leagueId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-100")]
+        [InlineData("0")]
         [Description("GIVE: invalid leagueId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidLeagueId(string leagueId)
+        public void TakeBackDefaultValueWithInvalidLeagueId(string leagueId)
         {
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName(

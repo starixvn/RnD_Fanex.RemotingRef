@@ -6,8 +6,7 @@
     public class CasinoBetItemTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid itemId | GET: expected bet item")]
-        public void GetCasinoBetItemWithValidItemId()
+        public void GetCasinoBetItemByValidItemId()
         {
             // Arrange.
             var itemId = "2";
@@ -25,8 +24,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: (invalid itemId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithInvalidItemId(string itemId)
+        public void GetEmptyStringByInvalidItemId(string itemId)
         {
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(itemId, TestingLanguage);
@@ -39,8 +39,9 @@
         [InlineData("")]
         [InlineData(null)]
         [InlineData("-1")]
+        [InlineData("0")]
         [Description("GIVE: invalid itemId | GET: given defaultValue")]
-        public void GetGivenDefaultValueWithInvalidItemId(string itemId)
+        public void TakeBackDefaultValueWithInvalidItemId(string itemId)
         {
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(

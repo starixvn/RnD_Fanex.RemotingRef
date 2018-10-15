@@ -19,7 +19,9 @@
             RefController.KenoBetType(_kenoBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received().GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetKenoBetType(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -29,7 +31,9 @@
             RefController.KenoBetType(_kenoBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            RefData.Received(StandardLanguageCodes.Length).GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Any<string>());
+            RefData
+                .Received(StandardLanguageCodes.Length)
+                .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Any<string>());
         }
 
         [Fact]
@@ -41,7 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData.Received().GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                RefData
+                    .Received()
+                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
             }
         }
 
@@ -82,6 +88,7 @@
                 RefData
                     .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                     .Returns(kenoBetTypeInSpecificLanguage);
+
                 expectedKenoBetTypes.Add(kenoBetTypeInSpecificLanguage);
             }
 

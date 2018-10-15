@@ -1,13 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class DisplayedTypeIdTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid betTypeId | GET: expected display bet type Id")]
-        public void GetDisplayedTypeIdWithValidTeamId()
+        public void GetDisplayedTypeIdByValidBetTypeId()
         {
             // Arrange.
             var betTypeId = "303";
@@ -16,14 +14,13 @@
             var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
-            var expectedBetTypeId = "7";
+            var expectedDisplayedBetTypeId = "7";
 
-            Assert.Equal(expectedBetTypeId, actualDisplayedBetTypeId);
+            Assert.Equal(expectedDisplayedBetTypeId, actualDisplayedBetTypeId);
         }
 
         [Fact]
-        [Description("GIVE: betTypeId has displayedTypeId is itself | GET: passed betTypeId")]
-        public void GetGivenBetTypeIdWhenDisplayedTypeIdNotExist()
+        public void TakeBackBetTypeIdWhenDisplayedTypeIdNotExist()
         {
             // Arrange.
             var betTypeId = "1";

@@ -8,43 +8,44 @@
 
     public class BetRadarMatchCodeFormatTests : RemotingRefServiceTestBase
     {
+        private readonly string _matchCode;
+
+        public BetRadarMatchCodeFormatTests()
+            => _matchCode = Fixture.Create<string>();
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
-            // Arrange.
-            var matchCode = Fixture.Create<string>();
-
             // Act.
-            RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
+            RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"BetRadarMatchCodeFormat?matchCode={matchCode}");
+            string expectedUrl = string.Format(RequestUrlPattern, $"BetRadarMatchCodeFormat?matchCode={_matchCode}");
 
-            HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
+            HttpClient
+                .Received()
+                .GetAsync(Arg.Is(expectedUrl));
         }
 
         [Fact]
         public void ReturnMatchCodeIfServiceReturnsNull()
         {
             // Arrange.
-            var matchCode = Fixture.Create<string>();
-
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
+            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
 
             // Assert.
-            Assert.Equal(matchCode, actualMatchFormat);
+            Assert.Equal(_matchCode, actualMatchFormat);
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var matchCode = Fixture.Create<string>();
             var matchFormat = Fixture.Create<string>();
 
             Serializer
@@ -52,7 +53,7 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = matchFormat });
 
             // Act.
-            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
+            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(matchFormat, actualMatchFormat);

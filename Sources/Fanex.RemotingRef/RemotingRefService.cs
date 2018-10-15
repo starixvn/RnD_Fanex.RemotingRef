@@ -741,8 +741,7 @@ namespace Fanex.RemotingRef
             var formData = new
             {
                 ParameterSets = parameterSets,
-                Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes,
-                ApplicationName = RefDataTypeHandlerOptions.ApplicationName
+                Languages = RefDataTypeHandlerOptions.SupportedLanguageCodes
             };
             var requestContent = new ByteArrayContent(_serializer.Serialize(formData));
             var response = await _client.PostAsync(RefSyncController + action, requestContent);

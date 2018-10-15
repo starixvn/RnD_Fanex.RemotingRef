@@ -30,7 +30,7 @@
                 _resultIds.Add(resultId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["resultId"] = resultId
+                    [nameof(resultId)] = resultId
                 });
             }
 
@@ -48,7 +48,9 @@
             RefSyncController.FastMarketsResult(_formData);
 
             // Assert.
-            RefData.Received().GetFastMarketsResult(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetFastMarketsResult(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetFastMarketsResult(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetFastMarketsResult(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -74,7 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetFastMarketsResult(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -121,9 +127,7 @@
         private SyncedTranslationResultSet FakeSyncedFastMarketsResults()
             => FakeSyncedFastMarketsResults(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedFastMarketsResults(
-            bool requireSpecialValue,
-            string specialValue)
+        private SyncedTranslationResultSet FakeSyncedFastMarketsResults(bool requireSpecialValue, string specialValue)
         {
             var expectedSyncedFastMarketsResults = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -145,6 +149,7 @@
                     RefData
                         .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
                         .Returns(fastMarketsResultInSpecificLanguage);
+
                     fastMarketsResultInMultilanguages.Add(standardLanguageCode, fastMarketsResultInSpecificLanguage);
                 }
 
