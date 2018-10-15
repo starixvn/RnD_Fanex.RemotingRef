@@ -27,7 +27,11 @@
             long? refNo = null,
             [FromUri]string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetBetTypeName(betTypeId, resourceId, refNo, refLanguagCode),
+                refLanguagCode => _refData.GetBetTypeName(
+                    betTypeId,
+                    resourceId,
+                    refNo,
+                    refLanguagCode),
                 languages);
 
         [HttpGet]
@@ -73,10 +77,7 @@
                 languages);
 
         [HttpGet]
-        public TranslationSet ResourceData(
-            string refId = null,
-            string resourceId = null,
-            [FromUri]string[] languages = null)
+        public TranslationSet ResourceData(string refId = null, string resourceId = null, [FromUri]string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, refLanguagCode),
                 languages);
@@ -97,7 +98,12 @@
                 => combos != null && combos.Any(combo => !string.IsNullOrEmpty(combo));
 
             return GetTranslationSet(
-                refLanguageCode => _refData.GetCombinationTypeCombo(betTeam, betCheck, handicap1, handicap2, refLanguageCode),
+                refLanguageCode => _refData.GetCombinationTypeCombo(
+                    betTeam,
+                    betCheck,
+                    handicap1,
+                    handicap2,
+                    refLanguageCode),
                 languages,
                 VerifyComboList);
         }
@@ -158,7 +164,12 @@
             int handicap2 = 0,
             [FromUri]string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, refLanguagCode),
+                refLanguagCode => _refData.GetFastMarketsChoice(
+                    betTypeId,
+                    betTeam,
+                    handicap1,
+                    handicap2,
+                    refLanguagCode),
                 languages);
 
         [HttpGet]
@@ -173,12 +184,21 @@
                 refLanguagCode => _refData.GetFastMarkets225Result(resultId, refLanguagCode),
                 languages);
 
+        // We accept both `lotteryBetChoiceId` and `betChoiceId` to give Fanex.RemotingRef-1.3.0 or higher verion ability to standardize
+        // parameters in its requests, as well as let Fanex.RemotingRef-1.2.0 or lower version be happy with new Fanex.RemotingRef.Service.
+        // We are planning to cleanup this mess once all sites upgrade to the latest version of Fanex.RemotingRef.
         [HttpGet]
-        public TranslationSet LotteryBetChoice(string betChoiceId = null, [FromUri]string[] languages = null)
+        public TranslationSet LotteryBetChoice(
+            string lotteryBetChoiceId = null,
+            string betChoiceId = null,
+            [FromUri]string[] languages = null)
         {
             Tuple<string, string> GetLotteryBetChoiceAndType(string refLanguageCode)
             {
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(betChoiceId, refLanguageCode, out string lotteryBetTypeId);
+                var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                    lotteryBetChoiceId ?? betChoiceId,
+                    refLanguageCode,
+                    out string lotteryBetTypeId);
 
                 if (string.IsNullOrEmpty(lotteryBetChoice) && string.IsNullOrEmpty(lotteryBetTypeId))
                 {
@@ -194,10 +214,16 @@
                 choiceAndTypePair => choiceAndTypePair != null);
         }
 
+        // We accept both `lotteryBetTypeId` and `betTypeId` to give Fanex.RemotingRef-1.3.0 or higher version ability to standardize
+        // parameters in its requests, as well as let Fanex.RemotingRef-1.2.0 or lower version be happy with new Fanex.RemotingRef.Service.
+        // We are planning to cleanup this mess once all sites upgrade to the latest version of Fanex.RemotingRef.
         [HttpGet]
-        public TranslationSet LotteryBetType(string betTypeId = null, [FromUri]string[] languages = null)
+        public TranslationSet LotteryBetType(
+            string lotteryBetTypeId = null,
+            string betTypeId = null,
+            [FromUri]string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetLotteryBetType(betTypeId, refLanguagCode),
+                refLanguagCode => _refData.GetLotteryBetType(lotteryBetTypeId ?? betTypeId, refLanguagCode),
                 languages);
 
         [HttpGet]
@@ -220,7 +246,11 @@
             var displayedBetTypeId = _refData.GetDisplayedTypeId(betTypeId);
 
             return GetTranslationSet(
-                refLanguagCode => _refData.GetBetTypeName(displayedBetTypeId, resourceId, refNo, refLanguagCode),
+                refLanguagCode => _refData.GetBetTypeName(
+                    displayedBetTypeId,
+                    resourceId,
+                    refNo,
+                    refLanguagCode),
                 languages);
         }
 

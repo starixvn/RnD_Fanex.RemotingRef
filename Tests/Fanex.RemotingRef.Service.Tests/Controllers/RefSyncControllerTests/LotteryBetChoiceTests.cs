@@ -14,7 +14,7 @@
 
         private RequestSyncFormData _formData;
         private List<ParameterSet> _parameterSets;
-        private List<string> _betChoiceId;
+        private List<string> _lotteryBetChoiceIds;
 
         public LotteryBetChoiceTests()
             => PrepareFormData();
@@ -22,16 +22,16 @@
         private void PrepareFormData()
         {
             _parameterSets = new List<ParameterSet>();
-            _betChoiceId = new List<string>();
+            _lotteryBetChoiceIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingLotteryBetChoices; counter++)
             {
-                var betChoiceId = Fixture.Create<string>();
+                var lotteryBetChoiceId = Fixture.Create<string>();
 
-                _betChoiceId.Add(betChoiceId);
+                _lotteryBetChoiceIds.Add(lotteryBetChoiceId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["betChoiceId"] = betChoiceId
+                    [nameof(lotteryBetChoiceId)] = lotteryBetChoiceId
                 });
             }
 
@@ -43,13 +43,65 @@
         }
 
         [Fact]
+        public void StillAcceptBetChoiceIdInParameterSets()
+        {
+            // Arrange.
+            var betChoiceId = Fixture.Create<string>();
+            var parameterSet = new ParameterSet
+            {
+                [nameof(betChoiceId)] = betChoiceId
+            };
+            var formData = new RequestSyncFormData
+            {
+                ParameterSets = new List<ParameterSet> { parameterSet },
+                Languages = StandardLanguageCodes
+            };
+
+            // Act.
+            RefSyncController.LotteryBetChoice(formData);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetLotteryBetChoice(Arg.Is(betChoiceId), Arg.Any<string>(), out _);
+        }
+
+        [Fact]
+        public void PrioritizeLotteryBetChoiceIdOverBetChoiceIdInParameterSets()
+        {
+            // Arrange.
+            var betChoiceId = Fixture.Create<string>();
+            var lotteryBetChoiceId = Fixture.Create<string>();
+            var parameterSet = new ParameterSet
+            {
+                [nameof(betChoiceId)] = betChoiceId,
+                [nameof(lotteryBetChoiceId)] = lotteryBetChoiceId
+            };
+            var formData = new RequestSyncFormData
+            {
+                ParameterSets = new List<ParameterSet> { parameterSet },
+                Languages = StandardLanguageCodes
+            };
+
+            // Act.
+            RefSyncController.LotteryBetChoice(formData);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetLotteryBetChoice(Arg.Is(lotteryBetChoiceId), Arg.Any<string>(), out _);
+        }
+
+        [Fact]
         public void AlwaysCallGetLotteryBetChoiceOfRefDataHelper()
         {
             // Act.
             RefSyncController.LotteryBetChoice(_formData);
 
             // Assert.
-            RefData.Received().GetLotteryBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+            RefData
+                .Received()
+                .GetLotteryBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
         }
 
         [Fact]
@@ -76,14 +128,14 @@
             RefSyncController.LotteryBetChoice(_formData);
 
             // Assert.
-            foreach (var betChoiceId in _betChoiceId)
+            foreach (var lotteryBetChoiceId in _lotteryBetChoiceIds)
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
                     RefData
                         .Received()
                         .GetLotteryBetChoice(
-                            Arg.Is(betChoiceId),
+                            Arg.Is(lotteryBetChoiceId),
                             Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
                             out _);
                 }
@@ -145,7 +197,7 @@
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
                 var lotteryBetTypeAndChoiceInMultilanguages = new TranslationSet();
-                var lotteryBetChoiceId = _betChoiceId[counter];
+                var lotteryBetChoiceId = _lotteryBetChoiceIds[counter];
                 var lotteryBetTypeId = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)

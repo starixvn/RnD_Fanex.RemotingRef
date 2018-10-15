@@ -194,13 +194,17 @@
                 formData.Languages,
                 (parameterSet, refLanguageCode) => _refData.GetFastMarkets225Result(parameterSet.GetResultId(), refLanguageCode));
 
+        // We look for both `lotteryBetChoiceId` and `betChoiceId` in `formData` in this phase to give Fanex.RemotingRef-1.3.0 or newer ability
+        // to standardize parameters in its requests, as well as let Fanex.RemotingRef-1.2.0 or lower version be happy with new Fanex.RemotingRef.Service.
+        // We are planning to cleanup this mess once all sites upgrade to the latest version of Fanex.RemotingRef.
         [HttpPost]
         public SyncedTranslationResultSet LotteryBetChoice([FromBody] RequestSyncFormData formData)
         {
             Tuple<string, string> GetLotteryBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
+                var lotteryBetChoiceId = parameterSet.GetLotteryBetChoiceId() ?? parameterSet.GetBetChoiceId();
                 var lotteryBetChoice = _refData.GetLotteryBetChoice(
-                    parameterSet.GetBetChoiceId(),
+                    lotteryBetChoiceId,
                     refLanguageCode,
                     out string lotteryBetTypeId);
 
@@ -219,12 +223,20 @@
                 choiceAndTypePair => choiceAndTypePair != null);
         }
 
+        // We look for both `lotteryBetTypeId` and `betTypeId` in `formData` in this phase to give Fanex.RemotingRef-1.3.0 or newer ability
+        // to standardize parameters in its requests, as well as let Fanex.RemotingRef-1.2.0 or lower version be happy with new Fanex.RemotingRef.Service.
+        // We are planning to cleanup this mess once all sites upgrade to the latest version of Fanex.RemotingRef.
         [HttpPost]
         public SyncedTranslationResultSet LotteryBetType([FromBody]RequestSyncFormData formData)
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetLotteryBetType(parameterSet.GetBetTypeId(), refLanguageCode));
+                (parameterSet, refLanguageCode) =>
+                {
+                    var lotteryBetTypeId = parameterSet.GetLotteryBetTypeId() ?? parameterSet.GetBetTypeId();
+
+                    return _refData.GetLotteryBetType(lotteryBetTypeId, refLanguageCode);
+                });
 
         [HttpPost]
         public SyncedTranslationResultSet BetRadarMatchCodeFormat([FromBody]RequestSyncFormData formData)

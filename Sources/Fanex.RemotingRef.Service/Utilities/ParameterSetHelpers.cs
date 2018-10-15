@@ -150,6 +150,20 @@
             return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
         }
 
+        public static string GetLotteryBetChoiceId(this ParameterSet parameterSet)
+        {
+            const string parameterName = "lotteryBetChoiceId";
+
+            return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
+        }
+
+        public static string GetLotteryBetTypeId(this ParameterSet parameterSet)
+        {
+            const string parameterName = "lotteryBetTypeId";
+
+            return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
+        }
+
         public static string GetBetChoiceId(this ParameterSet parameterSet)
         {
             const string parameterName = "betChoiceId";

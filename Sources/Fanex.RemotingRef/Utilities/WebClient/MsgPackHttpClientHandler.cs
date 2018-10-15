@@ -38,10 +38,10 @@ namespace Fanex.RemotingRef.Utilities.WebClient
         }
 
         public HttpResponseMessage Get(string url)
-            => GetAsync(url).Result;
+            => GetAsync(url).GetAwaiter().GetResult();
 
         public HttpResponseMessage Post(string url, HttpContent content)
-            => PostAsync(url, content).Result;
+            => PostAsync(url, content).GetAwaiter().GetResult();
 
         public Task<HttpResponseMessage> GetAsync(string url)
             => Client.GetAsync(url);

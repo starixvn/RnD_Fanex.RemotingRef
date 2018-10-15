@@ -15,9 +15,7 @@
         public const string MimeType = "application/x-msgpack";
 
         public MessagePackFormatter()
-        {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(MimeType));
-        }
+            => SupportedMediaTypes.Add(new MediaTypeHeaderValue(MimeType));
 
         public override bool CanReadType(Type type)
             => true;

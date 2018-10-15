@@ -182,7 +182,10 @@
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var entry = _storage.CreateEntry(keySet.BuildKey(), keySet, LocalStorageExtensions.CreateTranslationSet());
+                var entry = _storage.CreateEntry(
+                    keySet.BuildKey(),
+                    keySet,
+                    LocalStorageExtensions.CreateTranslationSet());
 
                 _storage.Add(entry);
             }

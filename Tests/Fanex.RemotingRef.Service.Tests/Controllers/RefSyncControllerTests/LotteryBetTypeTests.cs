@@ -13,7 +13,7 @@
 
         private RequestSyncFormData _formData;
         private List<ParameterSet> _parameterSets;
-        private List<string> _betTypeIds;
+        private List<string> _lotteryBetTypeIds;
 
         public LotteryBetTypeTests()
             => PrepareFormData();
@@ -21,16 +21,16 @@
         private void PrepareFormData()
         {
             _parameterSets = new List<ParameterSet>();
-            _betTypeIds = new List<string>();
+            _lotteryBetTypeIds = new List<string>();
 
             for (var counter = 0; counter < NumberOfTestingLotteryBetTypes; counter++)
             {
-                var betTypeId = Fixture.Create<string>();
+                var lotteryBetTypeId = Fixture.Create<string>();
 
-                _betTypeIds.Add(betTypeId);
+                _lotteryBetTypeIds.Add(lotteryBetTypeId);
                 _parameterSets.Add(new ParameterSet
                 {
-                    ["betTypeId"] = betTypeId
+                    [nameof(lotteryBetTypeId)] = lotteryBetTypeId
                 });
             }
 
@@ -42,13 +42,65 @@
         }
 
         [Fact]
+        public void StillAcceptBetTypeIdInParameterSets()
+        {
+            // Arrange.
+            var betTypeId = Fixture.Create<string>();
+            var parameterSet = new ParameterSet
+            {
+                [nameof(betTypeId)] = betTypeId
+            };
+            var formData = new RequestSyncFormData
+            {
+                ParameterSets = new List<ParameterSet> { parameterSet },
+                Languages = StandardLanguageCodes
+            };
+
+            // Act.
+            RefSyncController.LotteryBetType(formData);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetLotteryBetType(Arg.Is(betTypeId), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void PrioritizeLotteryBetTypeIdOverBetTypeIdInParameterSets()
+        {
+            // Arrange.
+            var betTypeId = Fixture.Create<string>();
+            var lotteryBetTypeId = Fixture.Create<string>();
+            var parameterSet = new ParameterSet
+            {
+                [nameof(betTypeId)] = betTypeId,
+                [nameof(lotteryBetTypeId)] = lotteryBetTypeId
+            };
+            var formData = new RequestSyncFormData
+            {
+                ParameterSets = new List<ParameterSet> { parameterSet },
+                Languages = StandardLanguageCodes
+            };
+
+            // Act.
+            RefSyncController.LotteryBetType(formData);
+
+            // Assert.
+            RefData
+                .Received()
+                .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Any<string>());
+        }
+
+        [Fact]
         public void AlwaysCallGetLotteryBetTypeOfRefDataHelper()
         {
             // Act.
             RefSyncController.LotteryBetType(_formData);
 
             // Assert.
-            RefData.Received().GetLotteryBetType(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received()
+                .GetLotteryBetType(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -60,7 +112,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData.Received(expectedNumberOfCalls).GetLotteryBetType(Arg.Any<string>(), Arg.Any<string>());
+            RefData
+                .Received(expectedNumberOfCalls)
+                .GetLotteryBetType(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -70,11 +124,13 @@
             RefSyncController.LotteryBetType(_formData);
 
             // Assert.
-            foreach (var betTypeId in _betTypeIds)
+            foreach (var lotteryBetTypeId in _lotteryBetTypeIds)
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData.Received().GetLotteryBetType(Arg.Is(betTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    RefData
+                        .Received()
+                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
                 }
             }
         }
@@ -123,7 +179,7 @@
 
         private SyncedTranslationResultSet FakeSyncedLotteryBetTypes(bool requireSpecialValue, string specialValue)
         {
-            var expectedSyncedBetTypeNames = new SyncedTranslationResultSet();
+            var expectedSyncedLotteryBetTypeNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
 
             if (requireSpecialValue)
@@ -133,26 +189,27 @@
 
             for (var counter = 1; counter < _parameterSets.Count; counter++)
             {
-                var betTypeNameInMultilanguages = new TranslationSet();
-                var betTypeId = _betTypeIds[counter];
+                var lotteryBetTypeNameInMultilanguages = new TranslationSet();
+                var lotteryBetTypeId = _lotteryBetTypeIds[counter];
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    var betTypeNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
+                    var lotteryBetTypeNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetLotteryBetType(Arg.Is(betTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
-                        .Returns(betTypeNameInSpecificLanguage);
-                    betTypeNameInMultilanguages.Add(standardLanguageCode, betTypeNameInSpecificLanguage);
+                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .Returns(lotteryBetTypeNameInSpecificLanguage);
+
+                    lotteryBetTypeNameInMultilanguages.Add(standardLanguageCode, lotteryBetTypeNameInSpecificLanguage);
                 }
 
-                if (ValidateTextSet(betTypeNameInMultilanguages))
+                if (ValidateTextSet(lotteryBetTypeNameInMultilanguages))
                 {
-                    expectedSyncedBetTypeNames.Add(_parameterSets[counter], betTypeNameInMultilanguages);
+                    expectedSyncedLotteryBetTypeNames.Add(_parameterSets[counter], lotteryBetTypeNameInMultilanguages);
                 }
             }
 
-            return expectedSyncedBetTypeNames;
+            return expectedSyncedLotteryBetTypeNames;
         }
     }
 }

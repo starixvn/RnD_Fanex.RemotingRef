@@ -19,7 +19,7 @@
             RemotingRefService.GetLotteryBetChoice(lotteryBetChoiceId, TestingLanguageCode, out _);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"LotteryBetChoice?betChoiceId={lotteryBetChoiceId}");
+            string expectedUrl = string.Format(RequestUrlPattern, $"LotteryBetChoice?lotteryBetChoiceId={lotteryBetChoiceId}");
 
             HttpClient.Received().GetAsync(Arg.Is(expectedUrl));
         }

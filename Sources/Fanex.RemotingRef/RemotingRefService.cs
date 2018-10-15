@@ -516,7 +516,7 @@ namespace Fanex.RemotingRef
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
             var keySet = new KeySet
             {
-                ["betChoiceId"] = lotteryBetChoiceId
+                [nameof(lotteryBetChoiceId)] = lotteryBetChoiceId
             };
             var choiceAndBetType = handler.Get(keySet, languageCode) as Tuple<string, string>;
 
@@ -536,7 +536,7 @@ namespace Fanex.RemotingRef
 
             var keySet = new KeySet
             {
-                ["betTypeId"] = lotteryBetTypeId
+                [nameof(lotteryBetTypeId)] = lotteryBetTypeId
             };
             var lotteryBetTypeName = GetTranslationText(
                 RefDataType.LotteryBetType,
