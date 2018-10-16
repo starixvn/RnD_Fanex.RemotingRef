@@ -11,6 +11,8 @@
         private readonly ConcurrentDictionary<RefDataType, IRefDataTypeHandler> _registeredDataTypeHandlers;
         private readonly Uri _remotingRefServiceUri;
 
+        private static Uri _serviceUri;
+
         private RefDataTypeContainer(Uri remotingRefServiceUri)
         {
             _registeredDataTypeHandlerOptions = new ConcurrentDictionary<RefDataType, RefDataTypeHandlerOptions>();
@@ -24,9 +26,14 @@
         {
             get
             {
-                VerifyConfiguration();
+                if (_serviceUri == null)
+                {
+                    VerifyConfiguration();
 
-                return CurrentInstance._remotingRefServiceUri;
+                    _serviceUri = CurrentInstance._remotingRefServiceUri;
+                }
+
+                return _serviceUri;
             }
         }
 
@@ -36,6 +43,8 @@
         {
             Register(RefDataType.TeamName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 100_000 });
             Register(RefDataType.LeagueName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17_000 });
+            Register(RefDataType.BetTypeName, new RefDataTypeHandlerOptions { NumberOfEntriesLimit = 2_000 });
+            Register(RefDataType.DisplayedBetTypeName, new RefDataTypeHandlerOptions { NumberOfEntriesLimit = 2_000 });
         }
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
@@ -52,6 +61,7 @@
 
         internal static void Reset()
         {
+            _serviceUri = null;
             CurrentInstance = null;
             RefDataTypeHandlerOptions.ApplicationName = null;
             RefDataTypeHandlerOptions.IsMultiLanguagesSupported = true;
