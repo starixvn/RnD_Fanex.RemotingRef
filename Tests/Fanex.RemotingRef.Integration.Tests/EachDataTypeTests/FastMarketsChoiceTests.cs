@@ -1,6 +1,5 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class FastMarketsChoiceTests : ServiceIntegrationTestBase
@@ -28,21 +27,18 @@
             Assert.Equal(expectedChoice, actualChoice);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (betTypeId is not null) && (invalid betTypeId) | GET: string only contains time interval")]
-        public void GetTimeIntervalOnlyByNonNullInvalidBetTypeId(string betTypeId)
+        [Fact]
+        public void GetTimeIntervalOnlyByUnexistingBetTypeId()
         {
             // Arrange.
+            var unexistingBetTypeId = "-1";
             var betTeam = "1";
             var handicap1 = 1;
             var handicap2 = 1;
 
             // Act.
             var actualChoice = RemotingRefService.GetFastMarketsChoice(
-                betTypeId,
+                unexistingBetTypeId,
                 betTeam,
                 handicap1,
                 handicap2,
@@ -55,42 +51,18 @@
         }
 
         [Fact]
-        public void GetEmptyStringByNullBetTypeId()
-        {
-            // Arrange.
-            var betTypeId = (string)null;
-            var betTeam = "2";
-            var handicap1 = 3;
-            var handicap2 = 4;
-
-            // Act.
-            var actualChoice = RemotingRefService.GetFastMarketsChoice(
-                betTypeId,
-                betTeam,
-                handicap1,
-                handicap2,
-                TestingLanguage);
-
-            // Assert.
-            Assert.Empty(actualChoice);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid betTeam | GET: string only contains time interval")]
-        public void GetTimeIntervalOnlyByInvalidBetTeamId(string betTeam)
+        public void GetTimeIntervalOnlyByIncorrectBetTeamId()
         {
             // Arrange.
             var betTypeId = "223";
+            var incorrectBetTeam = "-1";
             var handicap1 = 5;
             var handicap2 = 6;
 
             // Act.
             var actualChoice = RemotingRefService.GetFastMarketsChoice(
                 betTypeId,
-                betTeam,
+                incorrectBetTeam,
                 handicap1,
                 handicap2,
                 TestingLanguage);

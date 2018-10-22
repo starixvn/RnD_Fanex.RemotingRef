@@ -6,13 +6,14 @@
     public class SportNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetSportNameByValidSportTypeId()
+        [Description("GIVE: existing sportTypeId | GET: expected sport name")]
+        public void GetSportNameByExistingSportTypeId()
         {
             // Arrange.
-            var sportTypeId = "1";
+            var existingSportTypeId = "1";
 
             // Act.
-            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguage);
+            var actualSportName = RemotingRefService.GetSportName(existingSportTypeId, TestingLanguage);
 
             // Assert.
             var expectedSportName = "Soccer";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedSportName, actualSportName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid sportTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidSportTypeId(string sportTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting sportTypeId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingSportTypeId()
         {
+            // Arrange.
+            var unexistingSportTypeId = "-1";
+
             // Act.
-            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguage);
+            var actualSportName = RemotingRefService.GetSportName(unexistingSportTypeId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualSportName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid sportTypeId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidSportTypeId(string sportTypeId)
+        [Fact]
+        [Description("GIVE: unexisting sportTypeId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingSportTypeId()
         {
+            // Arrange.
+            var unexistingSportTypeId = "-2";
+
             // Act.
             var actualSportName = RemotingRefService.GetSportName(
-                sportTypeId,
+                unexistingSportTypeId,
                 TestingLanguage,
                 DefaultValue);
 

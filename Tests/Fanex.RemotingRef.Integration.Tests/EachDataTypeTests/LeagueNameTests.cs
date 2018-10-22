@@ -6,13 +6,14 @@
     public class LeagueNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetLeagueNameByValidLeagueId()
+        [Description("GIVE: existing leagueId | GET: expected league name")]
+        public void GetLeagueNameByExistingLeagueId()
         {
             // Arrange.
-            var leagueId = "13";
+            var existingLeagueId = "13";
 
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName(leagueId, TestingLanguage);
+            var actualLeagueName = RemotingRefService.GetLeagueName(existingLeagueId, TestingLanguage);
 
             // Assert.
             var expectedLeagueName = "UEFA CHAMPIONS LEAGUE QUALIFIERS";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedLeagueName, actualLeagueName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-100")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid leagueId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidLeagueId(string leagueId)
+        [Fact]
+        [Description("GIVE: (unexisting leagueId) && (no default value provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingLeagueId()
         {
+            // Arrange.
+            var unexistingLeagueId = "-100";
+
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName(leagueId, TestingLanguage);
+            var actualLeagueName = RemotingRefService.GetLeagueName(unexistingLeagueId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualLeagueName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-100")]
-        [InlineData("0")]
-        [Description("GIVE: invalid leagueId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidLeagueId(string leagueId)
+        [Fact]
+        [Description("GIVE: unexisting leagueId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingLeagueId()
         {
+            // Arrange.
+            var unexistingLeagueId = "-100";
+
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName(
-                leagueId,
+                unexistingLeagueId,
                 TestingLanguage,
                 DefaultValue);
 

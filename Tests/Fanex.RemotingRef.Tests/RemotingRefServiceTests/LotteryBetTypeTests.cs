@@ -8,29 +8,30 @@
 
     public class LotteryBetTypeTests : RemotingRefServiceTestBase
     {
-        private readonly string _lotteryBetTypeId;
-
-        public LotteryBetTypeTests()
-            => _lotteryBetTypeId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var lotteryBetTypeId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetLotteryBetType(_lotteryBetTypeId, TestingLanguageCode);
+            RemotingRefService.GetLotteryBetType(lotteryBetTypeId, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"LotteryBetType?lotteryBetTypeId={_lotteryBetTypeId}");
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"LotteryBetType?lotteryBetTypeId={lotteryBetTypeId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var lotteryBetTypeId = Fixture.Create<string>();
             var lotteryBetTypeName = Fixture.Create<string>();
 
             Serializer
@@ -38,16 +39,17 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = lotteryBetTypeName });
 
             // Act.
-            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(_lotteryBetTypeId, TestingLanguageCode);
+            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(lotteryBetTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(lotteryBetTypeName, actualLotteryBetTypeName);
         }
 
         [Fact]
-        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var lotteryBetTypeId = Fixture.Create<string>();
             var defaultLotteryBetTypeName = Fixture.Create<string>();
 
             Serializer
@@ -56,7 +58,26 @@
 
             // Act.
             var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(
-                _lotteryBetTypeId,
+                lotteryBetTypeId,
+                TestingLanguageCode,
+                defaultLotteryBetTypeName);
+
+            // Assert.
+            Assert.Equal(defaultLotteryBetTypeName, actualLotteryBetTypeName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ReturnDefaultValueForUnacceptableLotteryBetTypeId(string unacceptableLotteryBetTypeId)
+        {
+            // Arrange.
+            var defaultLotteryBetTypeName = Fixture.Create<string>();
+
+            // Act.
+            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(
+                unacceptableLotteryBetTypeId,
                 TestingLanguageCode,
                 defaultLotteryBetTypeName);
 
@@ -65,15 +86,13 @@
         }
 
         [Fact]
-        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void TakeEmptyStringAsDefaultValueWhenNotProvided()
         {
             // Arrange.
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            var unacceptableLotteryBetTypeId = string.Empty;
 
             // Act.
-            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(_lotteryBetTypeId, TestingLanguageCode);
+            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(unacceptableLotteryBetTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualLotteryBetTypeName);

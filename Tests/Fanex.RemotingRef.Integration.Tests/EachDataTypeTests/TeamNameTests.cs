@@ -6,13 +6,14 @@
     public class TeamNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetTeamNameByValidTeamId()
+        [Description("GIVE: existing teamId | GET: expected team name")]
+        public void GetTeamNameByExistingTeamId()
         {
             // Arrange.
-            var teamId = "6";
+            var existingTeamId = "6";
 
             // Act.
-            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguage);
+            var actualTeamName = RemotingRefService.GetTeamName(existingTeamId, TestingLanguage);
 
             // Assert.
             var expectedTeamName = "Arsenal";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedTeamName, actualTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid teamId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidTeamId(string teamId)
+        [Fact]
+        [Description("GIVE: (unexisting teamId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingTeamId()
         {
+            // Arrange.
+            var unexistingTeamId = "-1";
+
             // Act.
-            var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguage);
+            var actualTeamName = RemotingRefService.GetTeamName(unexistingTeamId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid teamId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidTeamId(string teamId)
+        [Fact]
+        [Description("GIVE: unexisting teamId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingTeamId()
         {
+            // Arrange.
+            var unexistingTeamId = "-2";
+
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(
-                teamId,
+                unexistingTeamId,
                 TestingLanguage,
                 DefaultValue);
 

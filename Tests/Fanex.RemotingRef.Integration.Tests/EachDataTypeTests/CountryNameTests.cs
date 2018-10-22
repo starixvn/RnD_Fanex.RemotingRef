@@ -6,13 +6,14 @@
     public class CountryNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetCountryNameByValidCountryCode()
+        [Description("GIVE: existing countryCode | GET: expected country name")]
+        public void GetCountryNameByExistingCountryCode()
         {
             // Arrange.
-            var countryCode = "AUS";
+            var existingCountryCode = "AUS";
 
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguage);
+            var actualCountryName = RemotingRefService.GetCountryName(existingCountryCode, TestingLanguage);
 
             // Assert.
             var expectedCountryName = "Australia";
@@ -20,30 +21,30 @@
             Assert.Equal(expectedCountryName, actualCountryName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("**CK")]
-        [Description("GIVE: (invalid countryCode) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidCountryCode(string countryCode)
+        [Fact]
+        [Description("GIVE: (unexisting countryCode) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingCountryCode()
         {
+            // Arrange.
+            var unexistingCountryCode = "**CK";
+
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguage);
+            var actualCountryName = RemotingRefService.GetCountryName(unexistingCountryCode, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualCountryName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("**CK")]
-        [Description("GIVE: invalid countryCode | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidCountryCode(string countryCode)
+        [Fact]
+        [Description("GIVE: unexisting countryCode | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingCountryCode()
         {
+            // Arrange.
+            var unexistingCountryCode = "SH**";
+
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(
-                countryCode,
+                unexistingCountryCode,
                 TestingLanguage,
                 DefaultValue);
 

@@ -8,10 +8,10 @@
         public void GetDisplayedTypeIdByValidBetTypeId()
         {
             // Arrange.
-            var betTypeId = "303";
+            var validBetTypeId = "303";
 
             // Act.
-            var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(validBetTypeId);
 
             // Assert.
             var expectedDisplayedBetTypeId = "7";
@@ -20,7 +20,20 @@
         }
 
         [Fact]
-        public void TakeBackBetTypeIdWhenDisplayedTypeIdNotExist()
+        public void TakeBackBetTypeIdWhenItselfDoesNotExist()
+        {
+            // Arrange.
+            var unexistingBetTypeId = "-1";
+
+            // Act.
+            var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(unexistingBetTypeId);
+
+            // Assert.
+            Assert.Equal(unexistingBetTypeId, actualDisplayedBetTypeId);
+        }
+
+        [Fact]
+        public void TakeBackBetTypeIdWhenDisplayedTypeIdDoesNotExist()
         {
             // Arrange.
             var betTypeId = "1";

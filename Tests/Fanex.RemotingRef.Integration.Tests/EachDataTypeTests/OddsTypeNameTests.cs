@@ -6,13 +6,14 @@
     public class OddsTypeNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetOddsTypeNameByValidOddsTypeId()
+        [Description("GIVE: existing oddsTypeId | GET: expected odds type name")]
+        public void GetOddsTypeNameByExistingOddsTypeId()
         {
             // Arrange.
-            var oddsTypeId = "1";
+            var existingOddsTypeId = "1";
 
             // Act.
-            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguage);
+            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(existingOddsTypeId, TestingLanguage);
 
             // Assert.
             var expectedOddsTypeName = "Dec";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedOddsTypeName, actualOddsTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid oddsTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidOddsTypeId(string oddsTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting oddsTypeId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingOddsTypeId()
         {
+            // Arrange.
+            var unexistingOddsTypeId = "-1";
+
             // Act.
-            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguage);
+            var actualOddsTypeName = RemotingRefService.GetOddsTypeName(unexistingOddsTypeId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualOddsTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid oddsTypeId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidOddsTypeId(string oddsTypeId)
+        [Fact]
+        [Description("GIVE: unexisting oddsTypeId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingOddsTypeId()
         {
+            // Arrange.
+            var unexistingOddsTypeId = "-2";
+
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(
-                oddsTypeId,
+                unexistingOddsTypeId,
                 TestingLanguage,
                 DefaultValue);
 

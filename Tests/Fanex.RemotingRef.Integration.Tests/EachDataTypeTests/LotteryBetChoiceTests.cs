@@ -6,14 +6,15 @@
     public class LotteryBetChoiceTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetLotteryBetChoiceByValidLotteryBetChoiceId()
+        [Description("GIVE: existing lotteryBetChoiceId | GET: expected Lottery bet choice")]
+        public void GetLotteryBetChoiceByExistingLotteryBetChoiceId()
         {
             // Arrange.
-            var lotteryBetChoiceId = "43";
+            var existingLotteryBetChoiceId = "43";
 
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                existingLotteryBetChoiceId,
                 TestingLanguage,
                 out _);
 
@@ -24,14 +25,15 @@
         }
 
         [Fact]
-        public void GetLotteryBetTypeIdByValidLotteryBetChoiceId()
+        [Description("GIVE: existing lotteryBetChoiceId | GET: expected Lottery bet type ID")]
+        public void GetLotteryBetTypeIdByExistingLotteryBetChoiceId()
         {
             // Arrange.
-            var lotteryBetChoiceId = "43";
+            var existingLotteryBetChoiceId = "43";
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                existingLotteryBetChoiceId,
                 TestingLanguage,
                 out string actualLotteryBetTypeId);
 
@@ -41,17 +43,16 @@
             Assert.Equal(expectedLotteryBetTypeId, actualLotteryBetTypeId);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet choice")]
-        public void GetEmptyStringAsLotteryBetChoiceByInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
+        [Fact]
+        [Description("GIVE: (unexisting lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet choice")]
+        public void GetEmptyStringAsLotteryBetChoiceByUnexistingLotteryBetChoiceId()
         {
+            // Arrange.
+            var unexistingLotteryBetChoiceId = "-1";
+
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                unexistingLotteryBetChoiceId,
                 TestingLanguage,
                 out _);
 
@@ -59,17 +60,16 @@
             Assert.Empty(actualLotteryBetChoice);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet type Id")]
-        public void GetEmptyStringAsLotteryBetTypeIdWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
+        [Fact]
+        [Description("GIVE: (unexisting lotteryBetChoiceId) && (no defaultValue provided) | GET: empty string as Lottery bet type ID")]
+        public void GetEmptyStringAsLotteryBetTypeIdByUnexistingLotteryBetChoiceId()
         {
+            // Arrange.
+            var unexistingLotteryBetChoiceId = "-1";
+
             // Act.
             RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                unexistingLotteryBetChoiceId,
                 TestingLanguage,
                 out string actualLotteryBetTypeId);
 
@@ -77,17 +77,16 @@
             Assert.Empty(actualLotteryBetTypeId);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid lotteryBetChoiceId | GET: given defaultValue as Lottery bet choice")]
-        public void TakeBackDefaultValueAsLotteryBetChoiceWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
+        [Fact]
+        [Description("GIVE: unexisting lotteryBetChoiceId | GET: given defaultValue as Lottery bet choice")]
+        public void TakeBackDefaultValueAsLotteryBetChoiceWithUnexistingLotteryBetChoiceId()
         {
+            // Arrange.
+            var unexistingLotteryBetChoiceId = "-2";
+
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                unexistingLotteryBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
                 out _);
@@ -96,17 +95,16 @@
             Assert.Equal(DefaultValue, actualLotteryBetChoice);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid lotteryBetChoiceId | GET: given defaultValue as Lottery bet type Id")]
-        public void TakeBackDefaultValueAsLotteryBetTypeIdWithInvalidLotteryBetChoiceId(string lotteryBetChoiceId)
+        [Fact]
+        [Description("GIVE: unexisting lotteryBetChoiceId | GET: given defaultValue as Lottery bet type ID")]
+        public void TakeBackDefaultValueAsLotteryBetTypeIdWithUnexistingLotteryBetChoiceId()
         {
+            // Arrange.
+            var unexistingLotteryBetChoiceId = "-2";
+
             // Act.
             RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                unexistingLotteryBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
                 out string actualLotteryBetTypeId);

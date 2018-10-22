@@ -4,11 +4,11 @@
         <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
         <RepositoryUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>Add new method: GetFastMarketsResult</PackageReleaseNotes>
+        <PackageReleaseNotes>Verify IDs before sending requests to Fanex.RemotingRef.Service</PackageReleaseNotes>
         <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <IncludeSymbols>false</IncludeSymbols>
-        <Version>1.2.0</Version>
+        <Version>1.3.0-beta2</Version>
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>AD0001</NoWarn>

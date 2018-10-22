@@ -6,13 +6,14 @@
     public class LotteryBetTypeTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetLotteryBetTypeNameByValidLotteryBetTypeId()
+        [Description("GIVE: existing lotteryBetTypeId | GET: expected Lottery bet type name")]
+        public void GetLotteryBetTypeNameByExistingLotteryBetTypeId()
         {
             // Arrange.
-            var lotteryBetTypeId = "2";
+            var existingLotteryBetTypeId = "2";
 
             // Act.
-            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(lotteryBetTypeId, TestingLanguage);
+            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(existingLotteryBetTypeId, TestingLanguage);
 
             // Assert.
             var expectedLotteryBetTypeName = "1st Digit Odd/Even";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedLotteryBetTypeName, actualLotteryBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid lotteryBetTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidLotteryBetTypeId(string lotteryBetTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting lotteryBetTypeId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingLotteryBetTypeId()
         {
+            // Arrange.
+            var unexistingLotteryBetTypeId = "-1";
+
             // Act.
-            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(lotteryBetTypeId, TestingLanguage);
+            var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(unexistingLotteryBetTypeId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualLotteryBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid lotteryBetTypeId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidLotteryBetTypeId(string lotteryBetTypeId)
+        [Fact]
+        [Description("GIVE: unexisting lotteryBetTypeId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingLotteryBetTypeId()
         {
+            // Arrange.
+            var unexistingLotteryBetTypeId = "-2";
+
             // Act.
             var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(
-                lotteryBetTypeId,
+                unexistingLotteryBetTypeId,
                 TestingLanguage,
                 DefaultValue);
 

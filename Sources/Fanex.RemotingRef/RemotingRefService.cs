@@ -90,6 +90,11 @@ namespace Fanex.RemotingRef
             string languageCode,
             string defaultValue)
         {
+            if (IsUnacceptableNumericId(betTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "BetTypeName";
 
             var keySet = new KeySet
@@ -121,6 +126,11 @@ namespace Fanex.RemotingRef
 
         public string GetSportName(string sportTypeId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(sportTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "SportName";
 
             var keySet = new KeySet
@@ -141,6 +151,11 @@ namespace Fanex.RemotingRef
 
         public string GetTeamName(string teamId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(teamId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "TeamName";
 
             var keySet = new KeySet
@@ -161,6 +176,11 @@ namespace Fanex.RemotingRef
 
         public string GetTeamName3rd(string team3rdId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(team3rdId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "TeamName3rd";
 
             var keySet = new KeySet
@@ -181,6 +201,11 @@ namespace Fanex.RemotingRef
 
         public string GetLeagueName(string leagueId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(leagueId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "LeagueName";
 
             var keySet = new KeySet
@@ -201,6 +226,11 @@ namespace Fanex.RemotingRef
 
         public string GetLeagueName3rd(string league3rdId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(league3rdId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "LeagueName3rd";
 
             var keySet = new KeySet
@@ -221,6 +251,11 @@ namespace Fanex.RemotingRef
 
         public string GetCountryName(string countryCode, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableTextualId(countryCode))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "CountryName";
 
             var keySet = new KeySet
@@ -241,6 +276,11 @@ namespace Fanex.RemotingRef
 
         public string GetOddsTypeName(string oddsTypeId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(oddsTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "OddsTypeName";
 
             var keySet = new KeySet
@@ -262,6 +302,11 @@ namespace Fanex.RemotingRef
             string languageCode,
             string defaultValue)
         {
+            if (IsUnacceptableTextualId(refId) || IsUnacceptableTextualId(resourceId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "ResourceData";
 
             var keySet = new KeySet
@@ -280,6 +325,11 @@ namespace Fanex.RemotingRef
 
         public string GetParentIdByBetTypeId(string betTypeId, string defaultValue)
         {
+            if (IsUnacceptableNumericId(betTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "ParentIdByBetTypeId";
 
             var keySet = new KeySet
@@ -305,7 +355,7 @@ namespace Fanex.RemotingRef
             const string actionName = "CombinationTypeComboParlay";
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
-                RefDataType.CombinationTypeCombo,
+                RefDataType.CombinationTypeComboParlay,
                 parameters => RequestTranslation<string[]>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<string[]>(actionName, parameterSets));
             var keySet = new KeySet
@@ -324,6 +374,11 @@ namespace Fanex.RemotingRef
 
         public string GetHorseTeamName(string codeId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(codeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "HorseTeamName";
 
             var keySet = new KeySet
@@ -344,6 +399,11 @@ namespace Fanex.RemotingRef
 
         public string GetCasinoBetItem(string itemId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableTextualId(itemId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "CasinoBetItem";
 
             var keySet = new KeySet
@@ -364,6 +424,11 @@ namespace Fanex.RemotingRef
 
         public string GetRouletteBetItem(string itemId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableTextualId(itemId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "RouletteBetItem";
 
             var keySet = new KeySet
@@ -394,6 +459,13 @@ namespace Fanex.RemotingRef
             string defaultValue,
             out string kenoBetTypeId)
         {
+            if (IsUnacceptableNumericId(kenoBetChoiceId))
+            {
+                kenoBetTypeId = defaultValue;
+
+                return defaultValue;
+            }
+
             const string actionName = "KenoBetChoice";
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
@@ -418,6 +490,11 @@ namespace Fanex.RemotingRef
 
         public string GetKenoBetType(string kenoBetTypeId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(kenoBetTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "KenoBetType";
 
             var keySet = new KeySet
@@ -440,6 +517,11 @@ namespace Fanex.RemotingRef
             int handicap2,
             string languageCode)
         {
+            if (IsUnacceptableNumericId(betTypeId) || IsUnacceptableTextualId(betTeam))
+            {
+                return string.Empty;
+            }
+
             const string actionName = "FastMarketsChoice";
 
             var keySet = new KeySet
@@ -461,6 +543,11 @@ namespace Fanex.RemotingRef
 
         public string GetFastMarketsResult(string resultId, string languageCode)
         {
+            if (IsUnacceptableNumericId(resultId))
+            {
+                return string.Empty;
+            }
+
             const string actionName = "FastMarketsResult";
 
             var keySet = new KeySet
@@ -478,6 +565,11 @@ namespace Fanex.RemotingRef
 
         public string GetFastMarkets225Result(string resultId, string languageCode)
         {
+            if (IsUnacceptableNumericId(resultId))
+            {
+                return string.Empty;
+            }
+
             const string actionName = "FastMarkets225Result";
 
             var keySet = new KeySet
@@ -508,6 +600,13 @@ namespace Fanex.RemotingRef
             string defaultValue,
             out string lotteryBetTypeId)
         {
+            if (IsUnacceptableNumericId(lotteryBetChoiceId))
+            {
+                lotteryBetTypeId = defaultValue;
+
+                return defaultValue;
+            }
+
             const string actionName = "LotteryBetChoice";
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
@@ -532,6 +631,11 @@ namespace Fanex.RemotingRef
 
         public string GetLotteryBetType(string lotteryBetTypeId, string languageCode, string defaultValue)
         {
+            if (IsUnacceptableNumericId(lotteryBetTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "LotteryBetType";
 
             var keySet = new KeySet
@@ -549,6 +653,11 @@ namespace Fanex.RemotingRef
 
         public string GetBetRadarMatchCodeFormat(string matchCode, string languageCode)
         {
+            if (IsUnacceptableTextualId(matchCode))
+            {
+                return matchCode;
+            }
+
             const string actionName = "BetRadarMatchCodeFormat";
 
             var keySet = new KeySet
@@ -566,6 +675,11 @@ namespace Fanex.RemotingRef
 
         public string GetDisplayedTypeId(string betTypeId)
         {
+            if (IsUnacceptableNumericId(betTypeId))
+            {
+                return betTypeId;
+            }
+
             const string actionName = "DisplayedTypeId";
 
             var keySet = new KeySet
@@ -641,6 +755,11 @@ namespace Fanex.RemotingRef
             string languageCode,
             string defaultValue)
         {
+            if (IsUnacceptableNumericId(betTypeId))
+            {
+                return defaultValue;
+            }
+
             const string actionName = "DisplayedBetTypeName";
 
             var keySet = new KeySet
@@ -666,6 +785,12 @@ namespace Fanex.RemotingRef
 
             return displayedBetTypeName ?? defaultValue;
         }
+
+        private static bool IsUnacceptableNumericId(string id)
+            => id == "0" || string.IsNullOrEmpty(id);
+
+        private static bool IsUnacceptableTextualId(string id)
+            => string.IsNullOrEmpty(id);
 
         private string GetTranslationText(
             RefDataType dataType,

@@ -5,13 +5,13 @@
     public class FastMarkets225ResultTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetBetType225ResultByValidResultId()
+        public void GetBetType225ResultByExistingResultId()
         {
             // Arrange.
-            var betType255ResultId = "164";
+            var existingBetType255ResultId = "164";
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(existingBetType255ResultId, TestingLanguage);
 
             // Assert.
             var expectedResult = "Penalty, Throw In, Corner";
@@ -19,15 +19,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        public void GetEmptyStringByInvalidResultId(string betType255ResultId)
+        [Fact]
+        public void GetEmptyStringByUnexistingResultId()
         {
+            // Arrange.
+            var unexistingBetType255ResultId = "-1";
+
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(unexistingBetType255ResultId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualResult);

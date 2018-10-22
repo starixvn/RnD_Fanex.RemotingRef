@@ -8,29 +8,28 @@
 
     public class FastMarketsResultTests : RemotingRefServiceTestBase
     {
-        private readonly string _resultId;
-
-        public FastMarketsResultTests()
-            => _resultId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var resultId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetFastMarketsResult(_resultId, TestingLanguageCode);
+            RemotingRefService.GetFastMarketsResult(resultId, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"FastMarketsResult?resultId={_resultId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"FastMarketsResult?resultId={resultId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var resultId = Fixture.Create<string>();
             var result = Fixture.Create<string>();
 
             Serializer
@@ -38,22 +37,37 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = result });
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarketsResult(_resultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(result, actualResult);
         }
 
         [Fact]
-        public void ReturnEmptyStringIfServiceReturnsNull()
+        public void ReturnEmptyStringWhenServiceReturnsNull()
         {
             // Arrange.
+            var resultId = Fixture.Create<string>();
+
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarketsResult(_resultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguageCode);
+
+            // Assert.
+            Assert.Empty(actualResult);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ReturnEmptyStringForUnacceptableResultId(string unacceptableResultId)
+        {
+            // Act.
+            var actualResult = RemotingRefService.GetFastMarketsResult(unacceptableResultId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualResult);

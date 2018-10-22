@@ -104,11 +104,11 @@
             RefDataTypeContainer.ConnectTo(_serviceUri);
 
             // Act.
-            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
+            var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
             // Assert.
-            Assert.Equal(100_000, handler.Options.NumberOfEntriesLimit);
-            Assert.True(handler.Options.CompactOnMemoryPressure);
+            Assert.Equal(100_000, observingHandler.Options.NumberOfEntriesLimit);
+            Assert.True(observingHandler.Options.CompactOnMemoryPressure);
         }
 
         [Fact]
@@ -140,7 +140,8 @@
             fluentInstance.Register(RefDataType.TeamName, newOptions);
 
             // Assert.
-            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler).Options;
+            var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
+            var currentAffectedOptions = observingHandler.Options;
 
             Assert.NotEqual(100_000, currentAffectedOptions.NumberOfEntriesLimit);
         }
@@ -160,7 +161,8 @@
             fluentInstance.Register(RefDataType.SportName, newOptions);
 
             // Assert.
-            var currentAffectedOptions = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.SportName, _requestHandler, _syncHandler).Options;
+            var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.SportName, _requestHandler, _syncHandler);
+            var currentAffectedOptions = observingHandler.Options;
 
             Assert.Same(newOptions, currentAffectedOptions);
         }
@@ -222,17 +224,19 @@
         }
 
         [Fact]
-        public void RegisterApplicationNameOverwritesApplicationNameOfRefDataTypeHandlerOptions()
+        public void RegisterApplicationNameAppendsApplicationNameWithVersion()
         {
             // Arrange.
             var fluentInstance = RefDataTypeContainer.ConnectTo(_serviceUri);
             var applicationName = "an application name";
 
             // Act.
-            fluentInstance.SupportMultiLanguages().FromApplication(applicationName);
+            fluentInstance.FromApplication(applicationName);
 
             // Assert.
-            Assert.Equal(applicationName, RefDataTypeHandlerOptions.ApplicationName);
+            var expectedApplicationName = $"{applicationName}-{RefDataTypeContainer.GetVersion()}";
+
+            Assert.Equal(expectedApplicationName, RefDataTypeHandlerOptions.ApplicationName);
         }
 
         [Fact]
@@ -269,7 +273,9 @@
             var supportLanguages = new[] { "first", "second" };
 
             // Act.
-            fluentInstance.SupportMultiLanguages().RegisterSupportedLanguages(supportLanguages);
+            fluentInstance
+                .SupportMultiLanguages()
+                .RegisterSupportedLanguages(supportLanguages);
 
             // Assert.
             Assert.Equal(supportLanguages, RefDataTypeHandlerOptions.SupportedLanguageCodes);

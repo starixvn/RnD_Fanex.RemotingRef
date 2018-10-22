@@ -6,14 +6,14 @@
     public class DisplayedBetTypeNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        [Description("GIVE: valid betTypeId | GET: expected displayed bet type name")]
-        public void GetDisplayedBetTypeNameByValidBetTypeId()
+        [Description("GIVE: existing betTypeId | GET: expected displayed bet type name")]
+        public void GetDisplayedBetTypeNameByExistingBetTypeId()
         {
             // Arrange.
-            var betTypeId = "406";
+            var existingBetTypeId = "406";
 
             // Act.
-            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(betTypeId, TestingLanguage);
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(existingBetTypeId, TestingLanguage);
 
             // Assert.
             var expectedDisplayedBetTypeName = "Exact Total Goals";
@@ -21,16 +21,15 @@
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid betTypeId | GET: empty string")]
-        public void GetEmptyStringByInvalidBetTypeId(string betTypeId)
+        [Fact]
+        [Description("GIVE: unexisting betTypeId | GET: empty string")]
+        public void GetEmptyStringByUnexistingBetTypeId()
         {
+            // Arrange.
+            var unexistingBetTypeId = "-1";
+
             // Act.
-            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(betTypeId, TestingLanguage);
+            var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(unexistingBetTypeId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualDisplayedBetTypeName);
@@ -41,13 +40,13 @@
         public void GetDisplayedViaLuckyBetTypeNameWithOverOneHundredBillionRefNo()
         {
             // Arrange.
-            var betTypeId = "406";
-            var refNo = 100_000_000_001L;
+            var existingBetTypeId = "406";
+            var satisfiedRefNo = 100_000_000_001L;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                refNo,
+                existingBetTypeId,
+                satisfiedRefNo,
                 TestingLanguage);
 
             // Assert.
@@ -61,13 +60,13 @@
         public void GetOriginalDisplayedNameWithUnderOneHundredBillionRefNo()
         {
             // Arrange.
-            var betTypeId = "406";
-            var refNo = 99_000_000_000L;
+            var existingBetTypeId = "406";
+            var unsatisfiedRefNo = 99_000_000_000L;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                refNo,
+                existingBetTypeId,
+                unsatisfiedRefNo,
                 TestingLanguage);
 
             // Assert.
@@ -76,42 +75,36 @@
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting betTypeId) && (refNo > one hundred billions) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var refNo = 100_000_000_001L;
+            var unexistingBetTypeId = "-2";
+            var satisfiedRefNo = 100_000_000_002L;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                refNo,
+                unexistingBetTypeId,
+                satisfiedRefNo,
                 TestingLanguage);
 
             // Assert.
             Assert.Empty(actualDisplayedBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithSatisfiedRefNoButInvalidBetTypeId(string betTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting betTypeId) && (refNo > one hundred billions) | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var refNo = 100_000_000_001L;
+            var unexistingBetTypeId = "-3";
+            var satisfiedRefNo = 100_000_000_003L;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                refNo,
+                unexistingBetTypeId,
+                satisfiedRefNo,
                 TestingLanguage,
                 DefaultValue);
 
@@ -120,17 +113,17 @@
         }
 
         [Fact]
-        [Description("GIVE: nonnull or non-empty resourceId | GET: displayed bet type with any X, Y, or Z replaced by resourceId")]
+        [Description("GIVE: nonnull or non-empty resourceId | GET: displayed bet type name with any X, Y, or Z replaced by resourceId")]
         public void GetDisplayedBetTypeNameWithPlaceholdersReplacedByResourceId()
         {
             // Arrange.
-            var betTypeId = "1311";
-            var resourceId = "10";
+            var existingBetTypeId = "1311";
+            var validResourceId = "10";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                resourceId,
+                existingBetTypeId,
+                validResourceId,
                 TestingLanguage,
                 DefaultValue);
 
@@ -143,16 +136,16 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [Description("GIVE: null or empty resourceId | GET: original displayed bet type with any X, Y, or Z not replaced")]
-        public void GetOriginalDisplayedNameWithNullOrEmptyResourceId(string resourceId)
+        [Description("GIVE: null or empty resourceId | GET: original displayed bet type name with any X, Y, or Z not replaced")]
+        public void GetOriginalDisplayedNameWithNullOrEmptyResourceId(string invalidResourceId)
         {
             // Arrange.
-            var betTypeId = "1311";
+            var existingBetTypeId = "1311";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                resourceId,
+                existingBetTypeId,
+                invalidResourceId,
                 TestingLanguage,
                 DefaultValue);
 
@@ -162,21 +155,18 @@
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (resourceId is not null or empty) && (invalid betTypeId) | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithNonEmptyResourceIdButInvalidBetTypeId(string betTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting betTypeId) && (resourceId is not null or not empty) | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithNonEmptyResourceIdButUnexistingBetTypeId()
         {
             // Arrange.
-            var resourceId = "10";
+            var unexistingBetTypeId = "-4";
+            var validResourceId = "10";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                resourceId,
+                unexistingBetTypeId,
+                validResourceId,
                 TestingLanguage,
                 DefaultValue);
 
@@ -190,15 +180,15 @@
         public void GetDisplayedViaLuckyBetTypeNameWithPlaceholdersReplacedByResourceId()
         {
             // Arrange.
-            var betTypeId = "1311";
-            var resourceId = "10";
-            var refNo = 100_000_000_001L;
+            var existingBetTypeId = "1311";
+            var validResourceId = "10";
+            var satisfiedRefNo = 100_000_000_004L;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                resourceId,
-                refNo,
+                existingBetTypeId,
+                validResourceId,
+                satisfiedRefNo,
                 TestingLanguage,
                 DefaultValue);
 
@@ -208,23 +198,20 @@
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (resourceId is not null or empty) && (refNo > one hundred billions) && (invalid betTypeId) | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithSatisfiedResourceIdAndRefNoButInvalidBetTypeId(string betTypeId)
+        [Fact]
+        [Description("GIVE: (unexisting betTypeId) && (resourceId is not null or empty) && (refNo > one hundred billions) | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithSatisfiedResourceIdAndRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var resourceId = "10";
-            var refNo = 100_000_000_001L;
+            var unexistingBetTypeId = "-5";
+            var validResourceId = "10";
+            var satisfiedRefNo = 100_000_000_005L;
 
             // Act.
             var actualDisplyedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
-                betTypeId,
-                resourceId,
-                refNo,
+                unexistingBetTypeId,
+                validResourceId,
+                satisfiedRefNo,
                 TestingLanguage,
                 DefaultValue);
 

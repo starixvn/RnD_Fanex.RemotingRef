@@ -9,54 +9,78 @@
 
     public class LotteryBetChoiceTests : RemotingRefServiceTestBase
     {
-        private readonly string _lotteryBetChoiceId;
-
-        public LotteryBetChoiceTests()
-            => _lotteryBetChoiceId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var lotteryBetChoiceId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetLotteryBetChoice(_lotteryBetChoiceId, TestingLanguageCode, out _);
+            RemotingRefService.GetLotteryBetChoice(lotteryBetChoiceId, TestingLanguageCode, out _);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"LotteryBetChoice?lotteryBetChoiceId={_lotteryBetChoiceId}");
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"LotteryBetChoice?lotteryBetChoiceId={lotteryBetChoiceId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
-        public void ReturnNonNullValueGotFromService()
+        public void ReturnLotteryBetChoiceNameGotFromService()
         {
             // Arrange.
+            var lotteryBetChoiceId = Fixture.Create<string>();
             var lotteryBetChoiceName = Fixture.Create<string>();
+
+            Serializer
+                .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
+                .Returns(new Dictionary<string, Tuple<string, string>>
+                {
+                    [TestingLanguageCode] = new Tuple<string, string>(lotteryBetChoiceName, null)
+                });
+
+            // Act.
+            var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
+                lotteryBetChoiceId,
+                TestingLanguageCode,
+                out _);
+
+            // Assert.
+            Assert.Equal(lotteryBetChoiceName, actualLotteryBetChoiceName);
+        }
+
+        [Fact]
+        public void SetLotteryBetTypeIdGotFromServiceAsOutput()
+        {
+            // Arrange.
+            var lotteryBetChoiceId = Fixture.Create<string>();
             var lotteryBetTypeId = Fixture.Create<string>();
 
             Serializer
                 .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
                 .Returns(new Dictionary<string, Tuple<string, string>>
                 {
-                    [TestingLanguageCode] = new Tuple<string, string>(lotteryBetChoiceName, lotteryBetTypeId)
+                    [TestingLanguageCode] = new Tuple<string, string>(null, lotteryBetTypeId)
                 });
 
             // Act.
-            var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
-                _lotteryBetChoiceId,
+            RemotingRefService.GetLotteryBetChoice(
+                lotteryBetChoiceId,
                 TestingLanguageCode,
                 out string actualLotteryBetTypeId);
 
             // Assert.
-            Assert.Equal(lotteryBetChoiceName, actualLotteryBetChoiceName);
             Assert.Equal(lotteryBetTypeId, actualLotteryBetTypeId);
         }
 
         [Fact]
-        public void SetProvidedDefaultValueAsOutputAndReturnIfServiceReturnsNull()
+        public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var lotteryBetChoiceId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
 
             Serializer
@@ -65,32 +89,91 @@
 
             // Act.
             var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
-                _lotteryBetChoiceId,
+                lotteryBetChoiceId,
                 TestingLanguageCode,
                 defaultValue,
-                out string actualLotteryBetTypeId);
+                out _);
 
             // Assert.
             Assert.Equal(defaultValue, actualLotteryBetChoiceName);
-            Assert.Equal(defaultValue, actualLotteryBetTypeId);
         }
 
         [Fact]
-        public void SetEmptyStringAsOutputAndReturnIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void SetDefaultValueAsOutputWhenServiceReturnsNull()
         {
             // Arrange.
+            var lotteryBetChoiceId = Fixture.Create<string>();
+            var defaultValue = Fixture.Create<string>();
+
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualTeamName = RemotingRefService.GetLotteryBetChoice(
-                _lotteryBetChoiceId,
+            RemotingRefService.GetLotteryBetChoice(
+                lotteryBetChoiceId,
+                TestingLanguageCode,
+                defaultValue,
+                out string actualLotteryBetTypeId);
+
+            // Assert.
+            Assert.Equal(defaultValue, actualLotteryBetTypeId);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ReturnDefaultValueForUnacceptableLotteryBetChoiceId(string unacceptableLotteryBetChoiceId)
+        {
+            // Arrange.
+            var defaultValue = Fixture.Create<string>();
+
+            // Act.
+            var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
+                unacceptableLotteryBetChoiceId,
+                TestingLanguageCode,
+                defaultValue,
+                out _);
+
+            // Assert.
+            Assert.Equal(defaultValue, actualLotteryBetChoiceName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void SetDefaultValueAsOutputForUnacceptableLotteryBetChoiceId(string unacceptableLotteryBetChoiceId)
+        {
+            // Arrange.
+            var defaultValue = Fixture.Create<string>();
+
+            // Act.
+            RemotingRefService.GetLotteryBetChoice(
+                unacceptableLotteryBetChoiceId,
+                TestingLanguageCode,
+                defaultValue,
+                out string actualLotteryBetTypeId);
+
+            // Assert.
+            Assert.Equal(defaultValue, actualLotteryBetTypeId);
+        }
+
+        [Fact]
+        public void TakeEmptyStringAsDefaultValueWhenNotProvided()
+        {
+            // Arrange.
+            var unacceptableLotteryBetChoiceId = string.Empty;
+
+            // Act.
+            var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
+                unacceptableLotteryBetChoiceId,
                 TestingLanguageCode,
                 out string actualLotteryBetTypeId);
 
             // Assert.
-            Assert.Empty(actualTeamName);
+            Assert.Empty(actualLotteryBetChoice);
             Assert.Empty(actualLotteryBetTypeId);
         }
     }

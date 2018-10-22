@@ -8,13 +8,13 @@
         public void GetResourceDataByValidRefIdAndResourceId()
         {
             // Arrange.
-            var refId = "AG_SicBo";
-            var resourceId = "41";
+            var validRefId = "AG_SicBo";
+            var validResourceId = "41";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                validRefId,
+                validResourceId,
                 TestingLanguage,
                 DefaultValue);
 
@@ -24,20 +24,17 @@
             Assert.Equal(expectedResource, actualResource);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        public void TakeBackDefaultValueWithInvalidRefId(string refId)
+        [Fact]
+        public void TakeBackDefaultValueWithInvalidRefId()
         {
             // Arrange.
-            var resourceId = "41";
+            var invalidRefId = "-1";
+            var validResourceId = "41";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                invalidRefId,
+                validResourceId,
                 TestingLanguage,
                 DefaultValue);
 
@@ -45,20 +42,17 @@
             Assert.Equal(DefaultValue, actualResource);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        public void TakeBackDefaultValueWithInvalidResourceId(string resourceId)
+        [Fact]
+        public void TakeBackDefaultValueWithInvalidResourceId()
         {
             // Arrange.
-            var refId = "AG_SicBo";
+            var validRefId = "AG_SicBo";
+            var invalidResourceId = "-1";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                validRefId,
+                invalidResourceId,
                 TestingLanguage,
                 DefaultValue);
 

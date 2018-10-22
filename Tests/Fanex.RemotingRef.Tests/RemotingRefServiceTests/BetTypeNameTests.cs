@@ -8,29 +8,28 @@
 
     public class BetTypeNameTests : RemotingRefServiceTestBase
     {
-        private readonly string _betTypeId;
-
-        public BetTypeNameTests()
-            => _betTypeId = Fixture.Create<string>();
-
         [Fact]
         public void ByBetTypeId_SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var betTypeId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetBetTypeName(_betTypeId, TestingLanguageCode);
+            RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={_betTypeId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ByBetTypeId_ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var betTypeName = Fixture.Create<string>();
 
             Serializer
@@ -38,22 +37,37 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = betTypeName });
 
             // Act.
-            var actualBetTypeName = RemotingRefService.GetBetTypeName(_betTypeId, TestingLanguageCode);
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(betTypeName, actualBetTypeName);
         }
 
         [Fact]
-        public void ByBetTypeId_ReturnEmptyStringIfServiceReturnsNull()
+        public void ByBetTypeId_ReturnEmptyStringWhenServiceReturnsNull()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
+
             Serializer
                 .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualBetTypeName = RemotingRefService.GetBetTypeName(_betTypeId, TestingLanguageCode);
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode);
+
+            // Assert.
+            Assert.Empty(actualBetTypeName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ByUnacceptableBetTypeId_ReturnEmptyString(string unacceptableBetTypeId)
+        {
+            // Act.
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(unacceptableBetTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualBetTypeName);
@@ -63,26 +77,30 @@
         public void ByBetTypeIdAndRefNo_SendRequestWithCorrectParameters()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
 
             // Act.
             RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 refNo);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={_betTypeId}&refNo={refNo}");
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"BetTypeName?betTypeId={betTypeId}&refNo={refNo}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ByBetTypeIdAndRefNo_ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
             var betTypeName = Fixture.Create<string>();
 
@@ -92,7 +110,7 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 refNo);
 
@@ -101,9 +119,10 @@
         }
 
         [Fact]
-        public void ByBetTypeIdAndRefNo_ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ByBetTypeIdAndRefNo_ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
             var defaultBetTypeName = Fixture.Create<string>();
 
@@ -113,7 +132,28 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
+                TestingLanguageCode,
+                refNo,
+                defaultBetTypeName);
+
+            // Assert.
+            Assert.Equal(defaultBetTypeName, actualBetTypeName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ByUnacceptableBetTypeIdAndRefNo_ReturnDefaultValue(string unacceptableBetTypeId)
+        {
+            // Arrange.
+            var refNo = Fixture.Create<long>();
+            var defaultBetTypeName = Fixture.Create<string>();
+
+            // Act.
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(
+                unacceptableBetTypeId,
                 TestingLanguageCode,
                 refNo,
                 defaultBetTypeName);
@@ -123,18 +163,15 @@
         }
 
         [Fact]
-        public void ByBetTypeIdAndRefNo_ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void ByBetTypeIdAndRefNo_TakeEmptyStringAsDefaultValueWhenNotProvided()
         {
             // Arrange.
+            var unacceptableBetTypeId = string.Empty;
             var refNo = Fixture.Create<long>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                unacceptableBetTypeId,
                 TestingLanguageCode,
                 refNo);
 
@@ -146,28 +183,32 @@
         public void ByBetTypeIdAndResourceId_SendRequestWithCorrectParameters()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var defaultBetTypeName = Fixture.Create<string>();
 
             // Act.
             RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={_betTypeId}&resourceId={resourceId}");
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"BetTypeName?betTypeId={betTypeId}&resourceId={resourceId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ByBetTypeIdAndResourceId_ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var defaultBetTypeName = Fixture.Create<string>();
             var betTypeName = Fixture.Create<string>();
@@ -178,7 +219,7 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId);
@@ -188,9 +229,10 @@
         }
 
         [Fact]
-        public void ByBetTypeIdAndResourceId_ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ByBetTypeIdAndResourceId_ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var defaultBetTypeName = Fixture.Create<string>();
 
@@ -200,7 +242,28 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
+                TestingLanguageCode,
+                defaultBetTypeName,
+                resourceId);
+
+            // Assert.
+            Assert.Equal(defaultBetTypeName, actualBetTypeName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ByUnacceptableBetTypeIdAndResourceId_ReturnDefaultValue(string unacceptableBetTypeId)
+        {
+            // Arrange.
+            var resourceId = Fixture.Create<string>();
+            var defaultBetTypeName = Fixture.Create<string>();
+
+            // Act.
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(
+                unacceptableBetTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId);
@@ -213,30 +276,34 @@
         public void ByBetTypeIdResourceIdAndRefNo_SendRequestWithCorrectParameters()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
             var defaultBetTypeName = Fixture.Create<string>();
 
             // Act.
             RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId,
                 refNo);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={_betTypeId}&resourceId={resourceId}&refNo={refNo}");
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"BetTypeName?betTypeId={betTypeId}&resourceId={resourceId}&refNo={refNo}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ByBetTypeIdResourceIdAndRefNo_ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
             var defaultBetTypeName = Fixture.Create<string>();
@@ -248,7 +315,7 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId,
@@ -259,9 +326,10 @@
         }
 
         [Fact]
-        public void ByBetTypeIdResourceIdAndRefNo_ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ByBetTypeIdResourceIdAndRefNo_ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var betTypeId = Fixture.Create<string>();
             var resourceId = Fixture.Create<string>();
             var refNo = Fixture.Create<long>();
             var defaultBetTypeName = Fixture.Create<string>();
@@ -272,7 +340,30 @@
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
-                _betTypeId,
+                betTypeId,
+                TestingLanguageCode,
+                defaultBetTypeName,
+                resourceId,
+                refNo);
+
+            // Assert.
+            Assert.Equal(defaultBetTypeName, actualBetTypeName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ByUnacceptableBetTypeIdResourceIdAndRefNo_ReturnDefaultValue(string unacceptableBetTypeId)
+        {
+            // Arrange.
+            var resourceId = Fixture.Create<string>();
+            var refNo = Fixture.Create<long>();
+            var defaultBetTypeName = Fixture.Create<string>();
+
+            // Act.
+            var actualBetTypeName = RemotingRefService.GetBetTypeName(
+                unacceptableBetTypeId,
                 TestingLanguageCode,
                 defaultBetTypeName,
                 resourceId,

@@ -12,7 +12,7 @@
         OddsTypeName,
         RefResource,
         ParentBetTypeId,
-        CombinationTypeCombo,
+        CombinationTypeComboParlay,
         HorseTeamName,
         CasinoBetItem,
         RouletteBetItem,

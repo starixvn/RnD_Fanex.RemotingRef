@@ -6,13 +6,14 @@
     public class HorseTeamNameTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetHorseTeamNameByValidCodeId()
+        [Description("GIVE: existing codeId | GET: expected horse team name")]
+        public void GetHorseTeamNameByExistingCodeId()
         {
             // Arrange.
-            var codeId = "53438";
+            var existingCodeId = "53438";
 
             // Act.
-            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguage);
+            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(existingCodeId, TestingLanguage);
 
             // Assert.
             var expectedHorseTeamName = "T Keddy";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedHorseTeamName, actualHorseTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid codeId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidCodeId(string codeId)
+        [Fact]
+        [Description("GIVE: (unexisting codeId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingCodeId()
         {
+            // Arrange.
+            var unexistingCodeId = "-1";
+
             // Act.
-            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguage);
+            var actualHorseTeamName = RemotingRefService.GetHorseTeamName(unexistingCodeId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualHorseTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid codeId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidCodeId(string codeId)
+        [Fact]
+        [Description("GIVE: unexisting codeId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingCodeId()
         {
+            // Arrange.
+            var unexistingCodeId = "-2";
+
             // Act.
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(
-                codeId,
+                unexistingCodeId,
                 TestingLanguage,
                 DefaultValue);
 

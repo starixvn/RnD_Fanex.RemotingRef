@@ -8,29 +8,28 @@
 
     public class RouletteBetItemTests : RemotingRefServiceTestBase
     {
-        private readonly string _itemId;
-
-        public RouletteBetItemTests()
-            => _itemId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var itemId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetRouletteBetItem(_itemId, TestingLanguageCode);
+            RemotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
 
             // Assert.
-            string expectedUrl = string.Format(RequestUrlPattern, $"RouletteBetItem?itemId={_itemId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"RouletteBetItem?itemId={itemId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var itemId = Fixture.Create<string>();
             var rouletteBetItemName = Fixture.Create<string>();
 
             Serializer
@@ -38,16 +37,17 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = rouletteBetItemName });
 
             // Act.
-            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(_itemId, TestingLanguageCode);
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(rouletteBetItemName, actualRouletteBetItemName);
         }
 
         [Fact]
-        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var itemId = Fixture.Create<string>();
             var defaultRouletteBetItemName = Fixture.Create<string>();
 
             Serializer
@@ -56,7 +56,25 @@
 
             // Act.
             var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(
-                _itemId,
+                itemId,
+                TestingLanguageCode,
+                defaultRouletteBetItemName);
+
+            // Assert.
+            Assert.Equal(defaultRouletteBetItemName, actualRouletteBetItemName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void ReturnDefaultValueForUnacceptableItemId(string unacceptableItemId)
+        {
+            // Arrange.
+            var defaultRouletteBetItemName = Fixture.Create<string>();
+
+            // Act.
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(
+                unacceptableItemId,
                 TestingLanguageCode,
                 defaultRouletteBetItemName);
 
@@ -65,15 +83,13 @@
         }
 
         [Fact]
-        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void TakeEmptyStringAsDefaultValueWhenNotProvided()
         {
             // Arrange.
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            var unacceptableItemId = string.Empty;
 
             // Act.
-            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(_itemId, TestingLanguageCode);
+            var actualRouletteBetItemName = RemotingRefService.GetRouletteBetItem(unacceptableItemId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualRouletteBetItemName);

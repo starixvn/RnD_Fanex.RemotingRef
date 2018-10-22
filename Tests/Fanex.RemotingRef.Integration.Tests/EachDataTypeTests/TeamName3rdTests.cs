@@ -6,13 +6,14 @@
     public class TeamName3rdTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void Get3rdTeamNameByValid3rdTeamId()
+        [Description("GIVE: existing team3rdId | GET: expected 3rd team name")]
+        public void Get3rdTeamNameByExistingTeam3rdId()
         {
             // Arrange.
-            var teamId3rd = "1";
+            var existingTeam3rdId = "1";
 
             // Act.
-            var actual3rdTeamName = RemotingRefService.GetTeamName3rd(teamId3rd, TestingLanguage);
+            var actual3rdTeamName = RemotingRefService.GetTeamName3rd(existingTeam3rdId, TestingLanguage);
 
             // Assert.
             var expected3rdTeamName = "Langsad SriHaYuth (DanYai)";
@@ -20,32 +21,30 @@
             Assert.Equal(expected3rdTeamName, actual3rdTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid teamId3rd) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalid3rdTeamId(string teamId3rd)
+        [Fact]
+        [Description("GIVE: (unexisting team3rdId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingTeam3rdId()
         {
+            // Arrange.
+            var unexistingTeam3rdId = "-1";
+
             // Act.
-            var actual3rdTeamName = RemotingRefService.GetTeamName(teamId3rd, TestingLanguage);
+            var actual3rdTeamName = RemotingRefService.GetTeamName3rd(unexistingTeam3rdId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actual3rdTeamName);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid teamId3rd | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalid3rdTeamId(string teamId3rd)
+        [Fact]
+        [Description("GIVE: unexisting team3rdId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingTeam3rdId()
         {
+            // Arrange.
+            var unexistingTeam3rdId = "-2";
+
             // Act.
-            var actual3rdTeamName = RemotingRefService.GetTeamName(
-                teamId3rd,
+            var actual3rdTeamName = RemotingRefService.GetTeamName3rd(
+                unexistingTeam3rdId,
                 TestingLanguage,
                 DefaultValue);
 

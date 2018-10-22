@@ -122,7 +122,7 @@
         {
             if (!string.IsNullOrEmpty(applicationName))
             {
-                RefDataTypeHandlerOptions.ApplicationName = applicationName;
+                RefDataTypeHandlerOptions.ApplicationName = $"{applicationName}-{GetVersion()}";
             }
 
             return this;
@@ -151,6 +151,9 @@
 
             return this;
         }
+
+        internal static Version GetVersion()
+            => typeof(RefDataTypeContainer).Assembly.GetName().Version;
 
         private static void VerifyConfiguration()
         {

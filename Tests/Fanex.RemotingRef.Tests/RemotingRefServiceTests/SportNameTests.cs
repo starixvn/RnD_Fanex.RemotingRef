@@ -8,29 +8,28 @@
 
     public class SportNameTests : RemotingRefServiceTestBase
     {
-        private readonly string _sportTypeId;
-
-        public SportNameTests()
-            => _sportTypeId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var sportTypeId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetSportName(_sportTypeId, TestingLanguageCode);
+            RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
 
             // Assert.
-            var expectedUrl = string.Format(RequestUrlPattern, $"SportName?sportTypeId={_sportTypeId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"SportName?sportTypeId={sportTypeId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var sportTypeId = Fixture.Create<string>();
             var sportTypeName = Fixture.Create<string>();
 
             Serializer
@@ -38,16 +37,17 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = sportTypeName });
 
             // Act.
-            var actualSportName = RemotingRefService.GetSportName(_sportTypeId, TestingLanguageCode);
+            var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(sportTypeName, actualSportName);
         }
 
         [Fact]
-        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var sportTypeId = Fixture.Create<string>();
             var defaultSportTypeName = Fixture.Create<string>();
 
             Serializer
@@ -55,22 +55,42 @@
                 .Returns((Dictionary<string, string>)null);
 
             // Act.
-            var actualSportName = RemotingRefService.GetSportName(_sportTypeId, TestingLanguageCode, defaultSportTypeName);
+            var actualSportName = RemotingRefService.GetSportName(
+                sportTypeId,
+                TestingLanguageCode,
+                defaultSportTypeName);
+
+            // Assert.
+            Assert.Equal(defaultSportTypeName, actualSportName);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ReturnDefaultValueForUnacceptableSportTypeId(string unacceptableSportTypeId)
+        {
+            // Arrange.
+            var defaultSportTypeName = Fixture.Create<string>();
+
+            // Act.
+            var actualSportName = RemotingRefService.GetSportName(
+                unacceptableSportTypeId,
+                TestingLanguageCode,
+                defaultSportTypeName);
 
             // Assert.
             Assert.Equal(defaultSportTypeName, actualSportName);
         }
 
         [Fact]
-        public void RetursEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void TakeEmptyStringAsDefaultValueWhenNotProvided()
         {
             // Arrange.
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            var unacceptableSportTypeId = string.Empty;
 
             // Act.
-            var actualSportName = RemotingRefService.GetSportName(_sportTypeId, TestingLanguageCode);
+            var actualSportName = RemotingRefService.GetSportName(unacceptableSportTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualSportName);

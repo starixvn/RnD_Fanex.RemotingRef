@@ -6,13 +6,14 @@
     public class RouletteBetItemTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetRouletteBetItemByValidItemId()
+        [Description("GIVE: existing itemId | GET: expected Roulette bet item")]
+        public void GetRouletteBetItemByExistingItemId()
         {
             // Arrange.
-            var itemId = "3";
+            var existingItemId = "3";
 
             // Act.
-            var actualBetItem = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguage);
+            var actualBetItem = RemotingRefService.GetRouletteBetItem(existingItemId, TestingLanguage);
 
             // Assert.
             var expectedBetItem = "2";
@@ -20,32 +21,30 @@
             Assert.Equal(expectedBetItem, actualBetItem);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid itemId) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringByInvalidItemId(string itemId)
+        [Fact]
+        [Description("GIVE: (unexisting itemId) && (no defaultValue provided) | GET: empty string")]
+        public void GetEmptyStringByUnexistingItemId()
         {
+            // Arrange.
+            var unexistingItemId = "-1";
+
             // Act.
-            var actualBetItem = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguage);
+            var actualBetItem = RemotingRefService.GetRouletteBetItem(unexistingItemId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualBetItem);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid itemId | GET: given defaultValue")]
-        public void TakeBackDefaultValueWithInvalidItemId(string itemId)
+        [Fact]
+        [Description("GIVE: unexisting itemId | GET: given defaultValue")]
+        public void TakeBackDefaultValueWithUnexistingItemId()
         {
+            // Arrange.
+            var unexistingItemId = "-2";
+
             // Act.
             var actualBetItem = RemotingRefService.GetRouletteBetItem(
-                itemId,
+                unexistingItemId,
                 TestingLanguage,
                 DefaultValue);
 

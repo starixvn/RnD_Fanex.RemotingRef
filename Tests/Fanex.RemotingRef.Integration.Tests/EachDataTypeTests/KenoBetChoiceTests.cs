@@ -6,14 +6,15 @@
     public class KenoBetChoiceTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetKenoBetChoiceByValidKenoBetChoiceId()
+        [Description("GIVE: existing kenoBetChoiceId | GET: expected Keno bet choice")]
+        public void GetKenoBetChoiceByExistingKenoBetChoiceId()
         {
             // Arrange.
-            var kenoBetChoiceId = "2";
+            var existingKenoBetChoiceId = "2";
 
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                existingKenoBetChoiceId,
                 TestingLanguage,
                 out _);
 
@@ -24,14 +25,15 @@
         }
 
         [Fact]
-        public void GetKenoBetTypeIdByValidKenoBetChoiceId()
+        [Description("GIVE: existing kenoBetChoiceId | GET: expected Keno bet type ID")]
+        public void GetKenoBetTypeIdByExistingKenoBetChoiceId()
         {
             // Arrange.
-            var kenoBetChoiceId = "2";
+            var existingKenoBetChoiceId = "2";
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                existingKenoBetChoiceId,
                 TestingLanguage,
                 out string actualKenoBetTypeId);
 
@@ -41,17 +43,16 @@
             Assert.Equal(expectedKenoBetTypeId, actualKenoBetTypeId);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid kenoBetChoiceId) && (no defaultValue provided) | GET: empty string as Keno bet choice")]
-        public void GetEmptyStringAsKenoBetChoiceByInvalidKenoBetChoiceId(string kenoBetChoiceId)
+        [Fact]
+        [Description("GIVE: (unexisting kenoBetChoiceId) && (no defaultValue provided) | GET: empty string as Keno bet choice")]
+        public void GetEmptyStringAsKenoBetChoiceByUnexistingKenoBetChoiceId()
         {
+            // Arrange.
+            var unexistingKenoBetChoiceId = "-1";
+
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                unexistingKenoBetChoiceId,
                 TestingLanguage,
                 out _);
 
@@ -59,17 +60,16 @@
             Assert.Empty(actualKenoBetChoice);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: (invalid kenoBetChoiceId) && (no defaultValue provided) | GET: empty string as Keno bet type Id")]
-        public void GetEmptyStringAsKenoBetTypeIdByInvalidKenoBetChoiceId(string kenoBetChoiceId)
+        [Fact]
+        [Description("GIVE: (unexisting kenoBetChoiceId) && (no defaultValue provided) | GET: empty string as Keno bet type ID")]
+        public void GetEmptyStringAsKenoBetTypeIdByUnexistingKenoBetChoiceId()
         {
+            // Arrange.
+            var unexistingKenoBetChoiceId = "-1";
+
             // Act.
             RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                unexistingKenoBetChoiceId,
                 TestingLanguage,
                 out string actualKenoBetTypeId);
 
@@ -77,17 +77,16 @@
             Assert.Empty(actualKenoBetTypeId);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid kenoBetChoiceId | GET: given defaultValue as Keno bet choice")]
-        public void TakeBackDefaultValueAsKenoBetChoiceWithInvalidKenoBetChoiceId(string kenoBetChoiceId)
+        [Fact]
+        [Description("GIVE: unexisting kenoBetChoiceId | GET: given defaultValue as Keno bet choice")]
+        public void TakeBackDefaultValueAsKenoBetChoiceWithUnexistingKenoBetChoiceId()
         {
+            // Arrange.
+            var unexistingKenoBetChoiceId = "-2";
+
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                unexistingKenoBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
                 out _);
@@ -96,17 +95,16 @@
             Assert.Equal(DefaultValue, actualKenoBetChoice);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        [Description("GIVE: invalid kenoBetChoiceId | GET: given defaultValue as Keno bet type Id")]
-        public void TakeBackDefaultValueAsKenoBetTypeIdWithInvalidKenoBetChoiceId(string kenoBetChoiceId)
+        [Fact]
+        [Description("GIVE: unexisting kenoBetChoiceId | GET: given defaultValue as Keno bet type ID")]
+        public void TakeBackDefaultValueAsKenoBetTypeIdWithUnexistingKenoBetChoiceId()
         {
+            // Arrange.
+            var unexistingKenoBetChoiceId = "-2";
+
             // Act.
             RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                unexistingKenoBetChoiceId,
                 TestingLanguage,
                 DefaultValue,
                 out string actualKenoBetTypeId);

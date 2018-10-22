@@ -15,17 +15,18 @@
         protected const string ApplicationName = "UnitTest_AppName";
         protected const string TestingLanguageCode = RefDataTypeHandlerOptions.DefaultLanguage;
 
-        protected static readonly string RequestUrlPattern = $"api/ref/{{0}}&languages=en-US&applicationName={ApplicationName}";
-
         private bool _disposed;
 
         protected RemotingRefServiceTestBase()
         {
+            var version = RefDataTypeContainer.GetVersion();
+
             RefDataTypeContainer
                 .ConnectTo(new Uri("http://localhost:10000"))
                 .FromApplication(ApplicationName)
                 .SupportOnlyDefaultLanguage();
 
+            RequestRelativePathPattern = $"api/ref/{{0}}&languages=en-US&applicationName={ApplicationName}-{version}";
             HttpClient = Substitute.For<IHttpHandler>();
             Serializer = Substitute.For<ISerializer>();
             RemotingRefService = new RemotingRefService(HttpClient, Serializer);
@@ -35,6 +36,8 @@
                 .GetAsync(Arg.Any<string>())
                 .Returns(FakeHttpResponseMessage());
         }
+
+        protected string RequestRelativePathPattern { get; }
 
         protected IHttpHandler HttpClient { get; }
 

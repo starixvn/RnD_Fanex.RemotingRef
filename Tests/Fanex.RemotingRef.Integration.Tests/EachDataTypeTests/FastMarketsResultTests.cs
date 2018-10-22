@@ -1,18 +1,17 @@
 ﻿namespace Fanex.RemotingRef.Integration.Tests
 {
-    using System.ComponentModel;
     using Xunit;
 
     public class FastMarketsResultTests : ServiceIntegrationTestBase
     {
         [Fact]
-        public void GetFastMarketsResultByValidResultId()
+        public void GetFastMarketsResultByExistingResultId()
         {
             // Arrange.
-            var resultId = "2";
+            var existingResultId = "2";
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarketsResult(existingResultId, TestingLanguage);
 
             // Assert.
             var expectedResult = "Goal";
@@ -20,15 +19,14 @@
             Assert.Equal(expectedResult, actualResult);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        public void GetEmptyStringByInvalidResultId(string resultId)
+        [Fact]
+        public void GetEmptyStringByUnexistingResultId()
         {
+            // Arrange.
+            var unexistingResultId = "-1";
+
             // Act.
-            var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
+            var actualResult = RemotingRefService.GetFastMarketsResult(unexistingResultId, TestingLanguage);
 
             // Assert.
             Assert.Empty(actualResult);

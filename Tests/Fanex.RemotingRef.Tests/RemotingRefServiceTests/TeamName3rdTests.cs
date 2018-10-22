@@ -8,29 +8,28 @@
 
     public class TeamName3rdTests : RemotingRefServiceTestBase
     {
-        private readonly string _team3rdId;
-
-        public TeamName3rdTests()
-            => _team3rdId = Fixture.Create<string>();
-
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            var team3rdId = Fixture.Create<string>();
+
             // Act.
-            RemotingRefService.GetTeamName3rd(_team3rdId, TestingLanguageCode);
+            RemotingRefService.GetTeamName3rd(team3rdId, TestingLanguageCode);
 
             // Assert.
-            var expectedUrl = string.Format(RequestUrlPattern, $"TeamName3rd?team3rdId={_team3rdId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"TeamName3rd?team3rdId={team3rdId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
+            var team3rdId = Fixture.Create<string>();
             var teamName3rd = Fixture.Create<string>();
 
             Serializer
@@ -38,16 +37,17 @@
                 .Returns(new Dictionary<string, string> { [TestingLanguageCode] = teamName3rd });
 
             // Act.
-            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(_team3rdId, TestingLanguageCode);
+            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(team3rdId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(teamName3rd, actualTeamName3rd);
         }
 
         [Fact]
-        public void ReturnProvidedDefaultValueIfServiceReturnsNull()
+        public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
+            var team3rdId = Fixture.Create<string>();
             var defaultTeamName3rd = Fixture.Create<string>();
 
             Serializer
@@ -56,7 +56,26 @@
 
             // Act.
             var actualTeamName3rd = RemotingRefService.GetTeamName3rd(
-                _team3rdId,
+                team3rdId,
+                TestingLanguageCode,
+                defaultTeamName3rd);
+
+            // Assert.
+            Assert.Equal(defaultTeamName3rd, actualTeamName3rd);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0")]
+        public void ReturnDefaultValueForUnacceptableTeam3rdId(string unacceptableTeam3rdId)
+        {
+            // Arrange.
+            var defaultTeamName3rd = Fixture.Create<string>();
+
+            // Act.
+            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(
+                unacceptableTeam3rdId,
                 TestingLanguageCode,
                 defaultTeamName3rd);
 
@@ -65,15 +84,13 @@
         }
 
         [Fact]
-        public void ReturnEmptyStringIfServiceReturnsNullAndNoDefaultValueProvided()
+        public void TakeEmptyStringAsDefaultValueWhenNotProvided()
         {
             // Arrange.
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            var unacceptableTeam3rdId = string.Empty;
 
             // Act.
-            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(_team3rdId, TestingLanguageCode);
+            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(unacceptableTeam3rdId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualTeamName3rd);

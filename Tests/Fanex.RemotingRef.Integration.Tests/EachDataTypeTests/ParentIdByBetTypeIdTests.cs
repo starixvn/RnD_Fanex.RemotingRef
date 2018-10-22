@@ -8,10 +8,10 @@
         public void GetParentIdByValidBetTypeId()
         {
             // Arrange.
-            var betTypeId = "178";
+            var validBetTypeId = "178";
 
             // Act.
-            var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue);
+            var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(validBetTypeId, DefaultValue);
 
             // Assert.
             var expectedParentBetTypeId = "18";
@@ -20,7 +20,7 @@
         }
 
         [Fact]
-        public void TakeBackBetTypeIdWhenParentTypeIdNotExist()
+        public void TakeBackBetTypeIdWhenParentTypeIdDoesNotExist()
         {
             // Arrange.
             var betTypeId = "1";
@@ -32,15 +32,14 @@
             Assert.Equal(betTypeId, actualParentBetTypeId);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("-1")]
-        [InlineData("0")]
-        public void TakeBackDefaultValueWithInvalidBetTypeId(string betTypeId)
+        [Fact]
+        public void TakeBackDefaultValueWithUnexistingBetTypeId()
         {
+            // Arrange.
+            var unexistingBetTypeId = "-1";
+
             // Act.
-            var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue);
+            var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(unexistingBetTypeId, DefaultValue);
 
             // Assert.
             Assert.Equal(DefaultValue, actualParentBetTypeId);

@@ -33,13 +33,13 @@
                 TestingLanguageCode);
 
             // Assert.
-            var expectedUrl = string.Format(
-                RequestUrlPattern,
+            var expectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
                 $"CombinationTypeComboParlay?betTeam={_betTeam}&betCheck={_betCheck}&handicap1={_handicap1}&handicap2={_handicap2}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
 
         [Fact]
@@ -65,7 +65,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfServiceReturnsNull()
+        public void ReturnNullWhenServiceReturnsNull()
         {
             // Arrange.
             Serializer

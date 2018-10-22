@@ -16,7 +16,7 @@
             var betTypeId = Fixture.Create<string>();
             var statusCode = Fixture.Create<HttpStatusCode>();
             var failedReason = Fixture.Create<string>();
-            var requestRelativePath = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
+            var requestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
             var requestUri = new Uri(RefDataTypeContainer.ServiceUri, requestRelativePath);
             var httpResponseMessage = new HttpResponseMessage(statusCode)
             {
@@ -49,14 +49,18 @@
             string resourceId = null;
 
             // Act.
-            RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode, defaultValue, resourceId);
+            RemotingRefService.GetBetTypeName(
+                betTypeId,
+                TestingLanguageCode,
+                defaultValue,
+                resourceId);
 
             // Assert.
-            var expectedUrl = string.Format(RequestUrlPattern, $"BetTypeName?betTypeId={betTypeId}");
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
 
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedUrl));
+                .GetAsync(Arg.Is(expectedRequestRelativePath));
         }
     }
 }
