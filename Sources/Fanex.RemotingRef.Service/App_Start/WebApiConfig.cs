@@ -28,6 +28,8 @@
                 typeof(ModelBinderProvider),
                 0,
                 new SimpleModelBinderProvider(typeof(string), new NullOrEmptyStringModelBinder()));
+
+            MetricsConfig.Register(config);
         }
     }
 }
