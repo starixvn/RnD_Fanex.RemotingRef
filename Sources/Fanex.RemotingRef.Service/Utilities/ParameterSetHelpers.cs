@@ -105,14 +105,14 @@
         {
             const string parameterName = "handicap1";
 
-            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default(int);
+            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default;
         }
 
         public static int GetHandicap2(this ParameterSet parameterSet)
         {
             const string parameterName = "handicap2";
 
-            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default(int);
+            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default;
         }
 
         public static string GetCodeId(this ParameterSet parameterSet)
