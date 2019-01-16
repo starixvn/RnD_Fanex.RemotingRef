@@ -553,5 +553,24 @@
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
+
+        [Fact]
+        public void GetBetBuilderSelectionNames()
+        {
+            // Arrange.
+            var selectionIds = new[] { 68, 69 };
+
+            // Act.
+            var actualBetBuilderSelectionNames = RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguage);
+
+            // Assert.
+            var expectedBetBuilderSelectionNames = new[]
+            {
+                "Correct score - St Etienne 2-0",
+                "Player goals - Romain Hamouma score anytime"
+            };
+
+            Assert.Equal(expectedBetBuilderSelectionNames, actualBetBuilderSelectionNames);
+        }
     }
 }

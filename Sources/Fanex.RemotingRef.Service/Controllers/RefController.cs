@@ -254,6 +254,14 @@
                 languages);
         }
 
+        [HttpGet]
+        public TranslationSet BetBuilderSelectionName(int selectionId = 0, [FromUri]string[] languages = null)
+        {
+            return GetTranslationSet(
+                refLanguageCode => _refData.GetBetBuilderSelectionName(selectionId, refLanguageCode),
+                languages);
+        }
+
         private static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
         {
             var text = textGetter();

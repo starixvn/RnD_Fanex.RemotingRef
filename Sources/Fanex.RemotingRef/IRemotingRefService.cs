@@ -149,5 +149,7 @@
             long refNo,
             string languageCode,
             string defaultValue);
+
+        string[] GetBetBuilderSelectionNames(int[] selectionIds, string languageCode);
     }
 }

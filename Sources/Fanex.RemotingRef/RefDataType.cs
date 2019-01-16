@@ -25,6 +25,7 @@
         LotteryBetType,
         BetRadarMatchCodeFormat,
         DisplayedTypeId,
-        DisplayedBetTypeName
+        DisplayedBetTypeName,
+        BetBuilderSelectionName
     }
 }

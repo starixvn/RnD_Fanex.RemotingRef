@@ -5,6 +5,7 @@ namespace Fanex.RemotingRef.Service
     using System;
     using System.Web;
     using System.Web.Http;
+    using Fanex.Logging.Extensions;
     using Fanex.Logging.Extensions.Web;
 
     public class WebApiApplication : HttpApplication

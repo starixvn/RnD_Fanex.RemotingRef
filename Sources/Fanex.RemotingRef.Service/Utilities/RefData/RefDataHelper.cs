@@ -153,5 +153,12 @@
 
         public string GetDisplayedTypeId(string betTypeId)
             => RefData.GetDisplayedTypeId(betTypeId);
+
+        public string GetBetBuilderSelectionName(int selectionId, string language)
+        {
+            var selectionNames = RefData.GetBetBuilderSelectionName(new[] { selectionId }, language);
+
+            return selectionNames.Length > 0 ? selectionNames[0] : default;
+        }
     }
 }

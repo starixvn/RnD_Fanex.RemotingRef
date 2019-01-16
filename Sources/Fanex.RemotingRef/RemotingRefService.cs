@@ -786,6 +786,50 @@ namespace Fanex.RemotingRef
             return displayedBetTypeName ?? defaultValue;
         }
 
+        public string[] GetBetBuilderSelectionNames(int[] selectionIds, string languageCode)
+        {
+            if (selectionIds == null || selectionIds.Length == 0)
+            {
+                return default;
+            }
+
+            var betBuilderSelectionNames = new List<string>();
+
+            foreach (var selectionId in selectionIds)
+            {
+                var betBuilderSelectionName = GetBetBuilderSelectionName(selectionId, languageCode);
+
+                if (!string.IsNullOrEmpty(betBuilderSelectionName))
+                {
+                    betBuilderSelectionNames.Add(betBuilderSelectionName);
+                }
+            }
+
+            return betBuilderSelectionNames.ToArray();
+        }
+
+        public string GetBetBuilderSelectionName(int selectionId, string languageCode)
+        {
+            if (selectionId == 0)
+            {
+                return default;
+            }
+
+            const string actionName = "BetBuilderSelectionName";
+
+            var keySet = new KeySet
+            {
+                [nameof(selectionId)] = selectionId
+            };
+            var betBuilderSelectionName = GetTranslationText(
+                RefDataType.BetBuilderSelectionName,
+                actionName,
+                keySet,
+                languageCode);
+
+            return betBuilderSelectionName;
+        }
+
         private static bool IsUnacceptableNumericId(string id)
             => id == "0" || string.IsNullOrEmpty(id);
 

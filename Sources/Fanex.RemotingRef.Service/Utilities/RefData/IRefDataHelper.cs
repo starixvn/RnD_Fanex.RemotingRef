@@ -69,5 +69,7 @@
         string GetBetRadarMatchCodeFormat(string matchCode, string language);
 
         string GetDisplayedTypeId(string betTypeId);
+
+        string GetBetBuilderSelectionName(int selectionId, string language);
     }
 }

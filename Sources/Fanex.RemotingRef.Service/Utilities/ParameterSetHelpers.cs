@@ -177,5 +177,12 @@
 
             return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
         }
+
+        public static int GetSelectionId(this ParameterSet parameterSet)
+        {
+            const string parameterName = "selectionId";
+
+            return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default;
+        }
     }
 }

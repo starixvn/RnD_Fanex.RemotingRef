@@ -288,6 +288,15 @@
             return syncedResultSet;
         }
 
+        [HttpPost]
+        public SyncedTranslationResultSet BetBuilderSelectionName([FromBody]RequestSyncFormData formData)
+        {
+            return GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetBetBuilderSelectionName(parameterSet.GetSelectionId(), refLanguageCode));
+        }
+
         private static SyncedTranslationResultSet GetSyncedNeutralTextSet(IList<ParameterSet> parameterSets, SyncNeutralResouceDelegate<string> textGetter)
         {
             var syncedResultSet = new SyncedTranslationResultSet();

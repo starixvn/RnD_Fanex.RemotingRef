@@ -45,6 +45,7 @@
             Register(RefDataType.LeagueName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 17_000 });
             Register(RefDataType.BetTypeName, new RefDataTypeHandlerOptions { NumberOfEntriesLimit = 2_000 });
             Register(RefDataType.DisplayedBetTypeName, new RefDataTypeHandlerOptions { NumberOfEntriesLimit = 2_000 });
+            Register(RefDataType.BetBuilderSelectionName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 10_000 });
         }
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
