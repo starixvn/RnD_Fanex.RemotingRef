@@ -13,23 +13,21 @@
         public void RequestTranslationReturningFailedResponseThrowsRemotingRefException()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
-            var statusCode = Fixture.Create<HttpStatusCode>();
+            var teamId = Fixture.Create<string>();
             var failedReason = Fixture.Create<string>();
-            var requestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
+            var statusCode = HttpStatusCode.InternalServerError;
+            var requestRelativePath = string.Format(RequestRelativePathPattern, $"TeamName?teamId={teamId}");
             var requestUri = new Uri(RefDataTypeContainer.ServiceUri, requestRelativePath);
-            var httpResponseMessage = new HttpResponseMessage(statusCode)
-            {
-                ReasonPhrase = failedReason,
-                RequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri)
-            };
 
+            Response.StatusCode = statusCode;
+            Response.ReasonPhrase = failedReason;
+            Response.RequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
             HttpClient
-                .GetAsync(Arg.Any<string>())
-                .Returns(httpResponseMessage);
+                .GetAsync(Arg.Is(requestRelativePath))
+                .Returns(Response);
 
             // Act.
-            var exception = Record.Exception(() => RemotingRefService.GetBetTypeName(betTypeId, TestingLanguageCode));
+            var exception = Record.Exception(() => RemotingRefService.GetTeamName(teamId, TestingLanguageCode));
 
             // Assert.
             var remotingRefException = exception as RemotingRefException;
@@ -44,9 +42,15 @@
         public void NullParameterIsNotIncludedInRequest()
         {
             // Arrange.
+            string resourceId = null;
             var betTypeId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
-            string resourceId = null;
+            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
+
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+            HttpClient
+                .GetAsync(Arg.Is(expectedRequestRelativePath))
+                .Returns(Response);
 
             // Act.
             RemotingRefService.GetBetTypeName(
@@ -56,8 +60,6 @@
                 resourceId);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetTypeName?betTypeId={betTypeId}");
-
             HttpClient
                 .Received()
                 .GetAsync(Arg.Is(expectedRequestRelativePath));

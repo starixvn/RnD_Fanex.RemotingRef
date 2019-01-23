@@ -1,43 +1,48 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class DisplayedTypeIdTests : RemotingRefServiceTestBase
     {
+        private readonly string _betTypeId;
+
+        public DisplayedTypeIdTests()
+        {
+            _betTypeId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"DisplayedTypeId?betTypeId={_betTypeId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetDisplayedTypeId(betTypeId);
+            RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"DisplayedTypeId?betTypeId={betTypeId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
             var displayTypeId = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = displayTypeId });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(displayTypeId));
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
             Assert.Equal(displayTypeId, actualDisplayTypeId);
@@ -47,17 +52,13 @@
         public void ReturnProvidedBetTypeIdWhenServiceReturnsNull()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
-            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
+            var actualDisplayTypeId = RemotingRefService.GetDisplayedTypeId(_betTypeId);
 
             // Assert.
-            Assert.Equal(betTypeId, actualDisplayTypeId);
+            Assert.Equal(_betTypeId, actualDisplayTypeId);
         }
 
         [Theory]

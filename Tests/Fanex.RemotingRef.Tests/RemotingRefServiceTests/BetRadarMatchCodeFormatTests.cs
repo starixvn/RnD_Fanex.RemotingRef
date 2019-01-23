@@ -1,65 +1,64 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class BetRadarMatchCodeFormatTests : RemotingRefServiceTestBase
     {
+        private readonly string _matchCode;
+
+        public BetRadarMatchCodeFormatTests()
+        {
+            _matchCode = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetRadarMatchCodeFormat?matchCode={_matchCode}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var matchCode = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
+            RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"BetRadarMatchCodeFormat?matchCode={matchCode}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
-        }
-
-        [Fact]
-        public void ReturnMatchCodeWhenServiceReturnsNull()
-        {
-            // Arrange.
-            var matchCode = Fixture.Create<string>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
-
-            // Act.
-            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
-
-            // Assert.
-            Assert.Equal(matchCode, actualMatchFormat);
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var matchCode = Fixture.Create<string>();
             var matchFormat = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = matchFormat });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(matchFormat));
 
             // Act.
-            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguageCode);
+            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(matchFormat, actualMatchFormat);
+        }
+
+        [Fact]
+        public void ReturnMatchCodeWhenServiceReturnsNull()
+        {
+            // Arrange.
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
+
+            // Act.
+            var actualMatchFormat = RemotingRefService.GetBetRadarMatchCodeFormat(_matchCode, TestingLanguageCode);
+
+            // Assert.
+            Assert.Equal(_matchCode, actualMatchFormat);
         }
 
         [Theory]

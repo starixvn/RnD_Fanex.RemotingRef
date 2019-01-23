@@ -1,45 +1,50 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class FastMarkets225ResultTests : RemotingRefServiceTestBase
     {
+        private readonly string _betType255ResultId;
+
+        public FastMarkets225ResultTests()
+        {
+            _betType255ResultId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"FastMarkets225Result?resultId={_betType255ResultId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betType255ResultId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
+            RemotingRefService.GetFastMarkets225Result(_betType255ResultId, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"FastMarkets225Result?resultId={betType255ResultId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betType255ResultId = Fixture.Create<string>();
             var result = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = result });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(result));
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(_betType255ResultId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(result, actualResult);
@@ -49,14 +54,10 @@
         public void ReturnEmptyStringWhenServiceReturnsNull()
         {
             // Arrange.
-            var betType255ResultId = Fixture.Create<string>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
-            var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguageCode);
+            var actualResult = RemotingRefService.GetFastMarkets225Result(_betType255ResultId, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualResult);

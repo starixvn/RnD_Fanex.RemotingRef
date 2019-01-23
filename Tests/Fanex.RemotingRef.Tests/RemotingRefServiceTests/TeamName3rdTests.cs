@@ -1,43 +1,48 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class TeamName3rdTests : RemotingRefServiceTestBase
     {
+        private readonly string _team3rdId;
+
+        public TeamName3rdTests()
+        {
+            _team3rdId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"TeamName3rd?team3rdId={_team3rdId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var team3rdId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetTeamName3rd(team3rdId, TestingLanguageCode);
+            RemotingRefService.GetTeamName3rd(_team3rdId, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"TeamName3rd?team3rdId={team3rdId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var team3rdId = Fixture.Create<string>();
             var teamName3rd = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = teamName3rd });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(teamName3rd));
 
             // Act.
-            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(team3rdId, TestingLanguageCode);
+            var actualTeamName3rd = RemotingRefService.GetTeamName3rd(_team3rdId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(teamName3rd, actualTeamName3rd);
@@ -47,16 +52,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var team3rdId = Fixture.Create<string>();
             var defaultTeamName3rd = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualTeamName3rd = RemotingRefService.GetTeamName3rd(
-                team3rdId,
+                _team3rdId,
                 TestingLanguageCode,
                 defaultTeamName3rd);
 

@@ -1,7 +1,5 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
@@ -19,11 +17,21 @@
             _betCheck = Fixture.Create<string>();
             _handicap1 = Fixture.Create<int>();
             _handicap2 = Fixture.Create<int>();
+
+            ExpectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"CombinationTypeComboParlay?betTeam={_betTeam}&betCheck={_betCheck}&handicap1={_handicap1}&handicap2={_handicap2}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
         }
 
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
+            // Arrange.
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string[]>()));
+
             // Act.
             RemotingRefService.GetCombinationTypeCombo(
                 _betTeam,
@@ -33,13 +41,9 @@
                 TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"CombinationTypeComboParlay?betTeam={_betTeam}&betCheck={_betCheck}&handicap1={_handicap1}&handicap2={_handicap2}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
@@ -48,9 +52,7 @@
             // Arrange.
             var combinationTypes = Fixture.Create<string[]>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string[]>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string[]> { [TestingLanguageCode] = combinationTypes });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(combinationTypes));
 
             // Act.
             var actualCombinationTypes = RemotingRefService.GetCombinationTypeCombo(
@@ -68,9 +70,7 @@
         public void ReturnNullWhenServiceReturnsNull()
         {
             // Arrange.
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualCombinationTypes = RemotingRefService.GetCombinationTypeCombo(

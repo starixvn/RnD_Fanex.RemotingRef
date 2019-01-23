@@ -1,43 +1,48 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class CountryNameTests : RemotingRefServiceTestBase
     {
+        private readonly string _countryCode;
+
+        public CountryNameTests()
+        {
+            _countryCode = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"CountryName?countryCode={_countryCode}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetCountryName(countryCode, TestingLanguageCode);
+            RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"CountryName?countryCode={countryCode}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
             var countryName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = countryName });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(countryName));
 
             // Act.
-            var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguageCode);
+            var actualCountryName = RemotingRefService.GetCountryName(_countryCode, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(countryName, actualCountryName);
@@ -47,16 +52,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var countryCode = Fixture.Create<string>();
             var defaultCountryName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(
-                countryCode,
+                _countryCode,
                 TestingLanguageCode,
                 defaultCountryName);
 

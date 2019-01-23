@@ -1,50 +1,50 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class KenoBetChoiceTests : RemotingRefServiceTestBase
     {
+        private readonly string _kenoBetChoiceId;
+
+        public KenoBetChoiceTests()
+        {
+            _kenoBetChoiceId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"KenoBetChoice?kenoBetChoiceId={_kenoBetChoiceId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var kenoBetChoiceId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<Tuple<string, string>>()));
 
             // Act.
-            RemotingRefService.GetKenoBetChoice(kenoBetChoiceId, TestingLanguageCode, out _);
+            RemotingRefService.GetKenoBetChoice(_kenoBetChoiceId, TestingLanguageCode, out _);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"KenoBetChoice?kenoBetChoiceId={kenoBetChoiceId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnKenoBetChoiceGotFromService()
         {
             // Arrange.
-            var kenoBetChoiceId = Fixture.Create<string>();
             var kenoBetChoiceName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, Tuple<string, string>>
-                {
-                    [TestingLanguageCode] = new Tuple<string, string>(kenoBetChoiceName, null)
-                });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(new Tuple<string, string>(kenoBetChoiceName, null)));
 
             // Act.
             var actualKenoBetChoiceName = RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                _kenoBetChoiceId,
                 TestingLanguageCode,
                 out _);
 
@@ -56,19 +56,13 @@
         public void SetKenoBetTypeIdGotFromServiceAsOutput()
         {
             // Arrange.
-            var kenoBetChoiceId = Fixture.Create<string>();
             var kenoBetTypeId = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, Tuple<string, string>>
-                {
-                    [TestingLanguageCode] = new Tuple<string, string>(null, kenoBetTypeId)
-                });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(new Tuple<string, string>(null, kenoBetTypeId)));
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                _kenoBetChoiceId,
                 TestingLanguageCode,
                 out string actualKenoBetTypeId);
 
@@ -80,16 +74,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var kenoBetChoiceId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualKenoBetChoiceName = RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                _kenoBetChoiceId,
                 TestingLanguageCode,
                 defaultValue,
                 out _);
@@ -102,16 +93,13 @@
         public void SetDefaultValueAsOutputWhenServiceReturnsNull()
         {
             // Arrange.
-            var kenoBetChoiceId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
-                kenoBetChoiceId,
+                _kenoBetChoiceId,
                 TestingLanguageCode,
                 defaultValue,
                 out string actualKenoBetTypeId);

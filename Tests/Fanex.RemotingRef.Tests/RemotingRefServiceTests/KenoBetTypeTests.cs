@@ -1,43 +1,48 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class KenoBetTypeTests : RemotingRefServiceTestBase
     {
+        private readonly string _kenoBetTypeId;
+
+        public KenoBetTypeTests()
+        {
+            _kenoBetTypeId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"KenoBetType?kenoBetTypeId={_kenoBetTypeId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var kenoBetTypeId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguageCode);
+            RemotingRefService.GetKenoBetType(_kenoBetTypeId, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"KenoBetType?kenoBetTypeId={kenoBetTypeId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var kenoBetTypeId = Fixture.Create<string>();
             var kenoBetTypeName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = kenoBetTypeName });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(kenoBetTypeName));
 
             // Act.
-            var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguageCode);
+            var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(_kenoBetTypeId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(kenoBetTypeName, actualKenoBetTypeName);
@@ -47,16 +52,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var kenoBetTypeId = Fixture.Create<string>();
             var defaultKenoBetTypeName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(
-                kenoBetTypeId,
+                _kenoBetTypeId,
                 TestingLanguageCode,
                 defaultKenoBetTypeName);
 

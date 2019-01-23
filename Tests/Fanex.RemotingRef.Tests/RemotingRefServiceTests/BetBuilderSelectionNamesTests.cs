@@ -1,43 +1,55 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
+    using System.Net.Http;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class BetBuilderSelectionNamesTests : RemotingRefServiceTestBase
     {
+        private const string RelativePath = "BetBuilderSelectionName?selectionId=";
+
+        private readonly int[] _selectionIds;
+
+        public BetBuilderSelectionNamesTests()
+        {
+            _selectionIds = Fixture.Create<int[]>();
+
+            HttpClient
+                .GetAsync(Arg.Is<string>(requestRelativePath => requestRelativePath.Contains(RelativePath)))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestForEachSelectionId()
         {
             // Arrange.
-            var selectionIds = Fixture.Create<int[]>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
+            RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
-            HttpClient.Received(selectionIds.Length);
+            HttpClient.Received(_selectionIds.Length);
         }
 
         [Fact]
         public void SendRequestWithCorrectParametersForEachSelectionId()
         {
             // Arrange.
-            var selectionIds = Fixture.Create<int[]>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
+            RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
-            foreach (var selectionId in selectionIds)
+            foreach (var selectionId in _selectionIds)
             {
-                var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"BetBuilderSelectionName?selectionId={selectionId}");
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + selectionId);
 
                 HttpClient
                     .Received()
-                    .GetAsync(Arg.Is(expectedRequestRelativePath));
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath));
             }
         }
 
@@ -45,15 +57,26 @@
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var selectionIds = Fixture.Create<int[]>();
-            var selectionNames = Fixture.Create<string[]>();
+            var selectionNames = new string[_selectionIds.Length];
 
-            Serializer
-                .Deserialize<Dictionary<string, string[]>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string[]> { [TestingLanguageCode] = selectionNames });
+            for (var index = 0; index < _selectionIds.Length; index++)
+            {
+                var selectionName = Fixture.Create<string>();
+                var response = new HttpResponseMessage
+                {
+                    Content = FakeResponseContent(SerializeTranslationSet(selectionName))
+                };
+
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + _selectionIds[index]);
+                HttpClient
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                    .Returns(response);
+
+                selectionNames[index] = selectionName;
+            }
 
             // Act.
-            var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
+            var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(selectionNames, actualSelectioNames);
@@ -63,17 +86,33 @@
         public void ReturnEmptyWhenServiceReturnsNull()
         {
             // Arrange.
-            var selectionIds = Fixture.Create<int[]>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
-            var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
+            var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
             Assert.Empty(actualSelectioNames);
+        }
+
+        [Fact]
+        public void DoNotSendRequestForInvalidSelectionId()
+        {
+            // Arrange.
+            var validSelectionId = Fixture.Create<int>();
+            var invalidSelectionId = 0;
+            var selectionIds = new[] { validSelectionId, invalidSelectionId };
+
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+
+            // Act.
+            RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
+
+            // Assert.
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + validSelectionId);
+            HttpClient
+                .Received(1)
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Theory]

@@ -1,50 +1,50 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class ParentIdByBetTypeIdTests : RemotingRefServiceTestBase
     {
+        private readonly string _betTypeId;
         private readonly string _defaultParentTypeId;
 
         public ParentIdByBetTypeIdTests()
-            => _defaultParentTypeId = Fixture.Create<string>();
+        {
+            _betTypeId = Fixture.Create<string>();
+            _defaultParentTypeId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"ParentIdByBetTypeId?betTypeId={_betTypeId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
 
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetParentIdByBetTypeId(betTypeId, _defaultParentTypeId);
+            RemotingRefService.GetParentIdByBetTypeId(_betTypeId, _defaultParentTypeId);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"ParentIdByBetTypeId?betTypeId={betTypeId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
             var parentTypeId = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = parentTypeId });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(parentTypeId));
 
             // Act.
-            var actualParentTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, _defaultParentTypeId);
+            var actualParentTypeId = RemotingRefService.GetParentIdByBetTypeId(_betTypeId, _defaultParentTypeId);
 
             // Assert.
             Assert.Equal(parentTypeId, actualParentTypeId);
@@ -54,14 +54,10 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var betTypeId = Fixture.Create<string>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
-            var actualParentTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, _defaultParentTypeId);
+            var actualParentTypeId = RemotingRefService.GetParentIdByBetTypeId(_betTypeId, _defaultParentTypeId);
 
             // Assert.
             Assert.Equal(_defaultParentTypeId, actualParentTypeId);

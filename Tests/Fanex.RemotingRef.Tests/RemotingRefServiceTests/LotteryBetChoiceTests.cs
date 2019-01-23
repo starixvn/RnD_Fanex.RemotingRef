@@ -1,50 +1,52 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class LotteryBetChoiceTests : RemotingRefServiceTestBase
     {
+        private readonly string _lotteryBetChoiceId;
+
+        public LotteryBetChoiceTests()
+        {
+            _lotteryBetChoiceId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(
+                RequestRelativePathPattern,
+                $"LotteryBetChoice?lotteryBetChoiceId={_lotteryBetChoiceId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var lotteryBetChoiceId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<Tuple<string, string>>()));
 
             // Act.
-            RemotingRefService.GetLotteryBetChoice(lotteryBetChoiceId, TestingLanguageCode, out _);
+            RemotingRefService.GetLotteryBetChoice(_lotteryBetChoiceId, TestingLanguageCode, out _);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"LotteryBetChoice?lotteryBetChoiceId={lotteryBetChoiceId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnLotteryBetChoiceNameGotFromService()
         {
             // Arrange.
-            var lotteryBetChoiceId = Fixture.Create<string>();
             var lotteryBetChoiceName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, Tuple<string, string>>
-                {
-                    [TestingLanguageCode] = new Tuple<string, string>(lotteryBetChoiceName, null)
-                });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(new Tuple<string, string>(lotteryBetChoiceName, null)));
 
             // Act.
             var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                _lotteryBetChoiceId,
                 TestingLanguageCode,
                 out _);
 
@@ -56,19 +58,13 @@
         public void SetLotteryBetTypeIdGotFromServiceAsOutput()
         {
             // Arrange.
-            var lotteryBetChoiceId = Fixture.Create<string>();
             var lotteryBetTypeId = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, Tuple<string, string>>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, Tuple<string, string>>
-                {
-                    [TestingLanguageCode] = new Tuple<string, string>(null, lotteryBetTypeId)
-                });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(new Tuple<string, string>(null, lotteryBetTypeId)));
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                _lotteryBetChoiceId,
                 TestingLanguageCode,
                 out string actualLotteryBetTypeId);
 
@@ -80,16 +76,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var lotteryBetChoiceId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualLotteryBetChoiceName = RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                _lotteryBetChoiceId,
                 TestingLanguageCode,
                 defaultValue,
                 out _);
@@ -102,16 +95,13 @@
         public void SetDefaultValueAsOutputWhenServiceReturnsNull()
         {
             // Arrange.
-            var lotteryBetChoiceId = Fixture.Create<string>();
             var defaultValue = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
-                lotteryBetChoiceId,
+                _lotteryBetChoiceId,
                 TestingLanguageCode,
                 defaultValue,
                 out string actualLotteryBetTypeId);

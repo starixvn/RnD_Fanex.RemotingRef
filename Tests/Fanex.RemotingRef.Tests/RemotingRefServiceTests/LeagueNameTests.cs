@@ -1,43 +1,48 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class LeagueNameTests : RemotingRefServiceTestBase
     {
+        private readonly string _leagueId;
+
+        public LeagueNameTests()
+        {
+            _leagueId = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"LeagueName?leagueId={_leagueId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
+
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var leagueId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
-            RemotingRefService.GetLeagueName(leagueId, TestingLanguageCode);
+            RemotingRefService.GetLeagueName(_leagueId, TestingLanguageCode);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"LeagueName?leagueId={leagueId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var leagueId = Fixture.Create<string>();
             var leagueName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = leagueName });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(leagueName));
 
             // Act.
-            var actualLeagueName = RemotingRefService.GetLeagueName(leagueId, TestingLanguageCode);
+            var actualLeagueName = RemotingRefService.GetLeagueName(_leagueId, TestingLanguageCode);
 
             // Assert.
             Assert.Equal(leagueName, actualLeagueName);
@@ -47,16 +52,13 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var leagueId = Fixture.Create<string>();
             var defaultLeagueName = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName(
-                leagueId,
+                _leagueId,
                 TestingLanguageCode,
                 defaultLeagueName);
 

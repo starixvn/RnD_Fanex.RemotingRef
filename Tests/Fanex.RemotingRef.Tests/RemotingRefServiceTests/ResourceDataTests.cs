@@ -1,58 +1,58 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
-    using System.Collections.Generic;
-    using System.IO;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
 
     public class ResourceDataTests : RemotingRefServiceTestBase
     {
+        private readonly string _refId;
+        private readonly string _resourceId;
         private readonly string _defaultResourceData;
 
         public ResourceDataTests()
-            => _defaultResourceData = Fixture.Create<string>();
+        {
+            _refId = Fixture.Create<string>();
+            _resourceId = Fixture.Create<string>();
+            _defaultResourceData = Fixture.Create<string>();
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, $"ResourceData?refId={_refId}&resourceId={_resourceId}");
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(Response);
+        }
 
         [Fact]
         public void SendRequestWithCorrectParameters()
         {
             // Arrange.
-            var refId = Fixture.Create<string>();
-            var resourceId = Fixture.Create<string>();
+            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
 
             // Act.
             RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                _refId,
+                _resourceId,
                 TestingLanguageCode,
                 _defaultResourceData);
 
             // Assert.
-            var expectedRequestRelativePath = string.Format(
-                RequestRelativePathPattern,
-                $"ResourceData?refId={refId}&resourceId={resourceId}");
-
             HttpClient
                 .Received()
-                .GetAsync(Arg.Is(expectedRequestRelativePath));
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath));
         }
 
         [Fact]
         public void ReturnNonNullValueGotFromService()
         {
             // Arrange.
-            var refId = Fixture.Create<string>();
-            var resourceId = Fixture.Create<string>();
             var resourceData = Fixture.Create<string>();
 
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns(new Dictionary<string, string> { [TestingLanguageCode] = resourceData });
+            Response.Content = FakeResponseContent(SerializeTranslationSet(resourceData));
 
             // Act.
             var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                _refId,
+                _resourceId,
                 TestingLanguageCode,
                 _defaultResourceData);
 
@@ -64,17 +64,12 @@
         public void ReturnDefaultValueWhenServiceReturnsNull()
         {
             // Arrange.
-            var refId = Fixture.Create<string>();
-            var resourceId = Fixture.Create<string>();
-
-            Serializer
-                .Deserialize<Dictionary<string, string>>(Arg.Any<Stream>())
-                .Returns((Dictionary<string, string>)null);
+            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
             var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
-                resourceId,
+                _refId,
+                _resourceId,
                 TestingLanguageCode,
                 _defaultResourceData);
 
@@ -87,12 +82,9 @@
         [InlineData("")]
         public void ReturnDefaultValueForNullOrEmptyRefId(string invalidResourceId)
         {
-            // Arrange.
-            var refId = Fixture.Create<string>();
-
             // Act.
             var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
-                refId,
+                _refId,
                 invalidResourceId,
                 TestingLanguageCode,
                 _defaultResourceData);
@@ -106,13 +98,10 @@
         [InlineData("")]
         public void ReturnDefaultValueForNullOrEmptyResourceId(string invalidRefId)
         {
-            // Arrange.
-            var resourceId = Fixture.Create<string>();
-
             // Act.
             var actualResourceData = RemotingRefService.GetResourceDataByRefIdAndResourceId(
                 invalidRefId,
-                resourceId,
+                _resourceId,
                 TestingLanguageCode,
                 _defaultResourceData);
 
