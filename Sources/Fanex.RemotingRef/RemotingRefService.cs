@@ -797,7 +797,7 @@ namespace Fanex.RemotingRef
 
             foreach (var selectionId in selectionIds)
             {
-                var betBuilderSelectionName = GetBetBuilderSelectionName(selectionId, languageCode);
+                var betBuilderSelectionName = GetBetBuilderSelectionNameInternal(selectionId, languageCode);
 
                 if (!string.IsNullOrEmpty(betBuilderSelectionName))
                 {
@@ -808,7 +808,7 @@ namespace Fanex.RemotingRef
             return betBuilderSelectionNames.ToArray();
         }
 
-        public string GetBetBuilderSelectionName(int selectionId, string languageCode)
+        private string GetBetBuilderSelectionNameInternal(int selectionId, string languageCode)
         {
             if (selectionId == 0)
             {
