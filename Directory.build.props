@@ -1,11 +1,11 @@
 <Project>
     <PropertyGroup>
         <Authors>R&amp;D Team</Authors>
-        <PackageProjectUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
-        <RepositoryUrl>https://gitlab.nexcel.vn/RnD/Fanex.RemotingRef</RepositoryUrl>
+        <PackageProjectUrl>https://gitlab.nexdev.net/RnD/Fanex.RemotingRef/wikis/home</PackageProjectUrl>
+        <RepositoryUrl>https://gitlab.nexdev.net/RnD/Fanex.RemotingRef</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>Add new method named GetBetBuilderSelectionNames</PackageReleaseNotes>
-        <PackageIconUrl>https://gitlab.nexcel.vn/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
+        <PackageIconUrl>https://gitlab.nexdev.net/uploads/-/system/project/avatar/100/new-idea.png</PackageIconUrl>
         <DefaultLanguage>en-US</DefaultLanguage>
         <LangVersion>latest</LangVersion>
         <IncludeSymbols>false</IncludeSymbols>
@@ -17,10 +17,10 @@
         <CodeAnalysisRuleSet>$(SolutionDir)\SonarQube\RemotingRefCSharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.10.0.7896">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.14.0.8411">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>

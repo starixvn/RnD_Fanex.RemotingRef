@@ -25,7 +25,7 @@
 
             if (options.CompactOnMemoryPressure)
             {
-                GcNotification.Register(DoMemoryPreassureCollection, this);
+                RegisterMemoryPreassureCollection();
             }
         }
 
@@ -151,6 +151,9 @@
                 }
             }
         }
+
+        private void RegisterMemoryPreassureCollection()
+            => GcNotification.Register(DoMemoryPreassureCollection, this);
 
         private void TriggerOvercapacityCompaction()
             => ThreadPool.QueueUserWorkItem(state => DoMemoryPreassureCollection(state), this);
