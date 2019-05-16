@@ -5,6 +5,8 @@
 
     public class RefDataTypeHandlerOptions : LocalStorageOptions
     {
+        public const int DefaultSyncBatchSize = 100;
+        public const int DefaultNumberOfRetries = 5;
         public const string DefaultLanguage = "en-US";
 
         internal static readonly string[] DefaultSupportedLanguageCodes =
@@ -22,10 +24,10 @@
         private static string[] supportedLanguageCodes = DefaultSupportedLanguageCodes;
 
         public int SyncBatchSize { get; set; }
-            = 100;
+            = DefaultSyncBatchSize;
 
         public int NumberOfRetries { get; set; }
-            = 5;
+            = DefaultNumberOfRetries;
 
         internal static string ApplicationName { get; set; }
 

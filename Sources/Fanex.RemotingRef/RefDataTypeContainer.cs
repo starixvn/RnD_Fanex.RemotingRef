@@ -39,6 +39,8 @@
 
         private static RefDataTypeContainer CurrentInstance { get; set; }
 
+#pragma warning disable S109 // Magic numbers should not be used
+
         private void PreRegisterSpecialDataTypes()
         {
             Register(RefDataType.TeamName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 100_000 });
@@ -47,6 +49,8 @@
             Register(RefDataType.DisplayedBetTypeName, new RefDataTypeHandlerOptions { NumberOfEntriesLimit = 2_000 });
             Register(RefDataType.BetBuilderSelectionName, new RefDataTypeHandlerOptions { CompactOnMemoryPressure = true, NumberOfEntriesLimit = 10_000 });
         }
+
+#pragma warning restore S109 // Magic numbers should not be used
 
         public static RefDataTypeContainer ConnectTo(Uri remotingRefServiceUri)
         {
