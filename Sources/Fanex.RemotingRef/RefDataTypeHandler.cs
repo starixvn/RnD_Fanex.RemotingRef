@@ -75,7 +75,7 @@
 
                 try
                 {
-                    var translationSet = Options.RequestHandler(keySet);
+                    var translationSet = Task.Run(() => Options.RequestHandler(keySet)).GetAwaiter().GetResult();
 
                     if (translationSet != null)
                     {
@@ -91,7 +91,7 @@
                 }
             }
 
-            return null;
+            return default;
         }
 
         private void TriggerSyncDataProcess(CacheEntry rootEntry)

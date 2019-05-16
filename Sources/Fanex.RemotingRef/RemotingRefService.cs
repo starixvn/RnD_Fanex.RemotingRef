@@ -356,7 +356,7 @@ namespace Fanex.RemotingRef
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.CombinationTypeComboParlay,
-                parameters => RequestTranslation<string[]>(actionName, parameters),
+                parameters => RequestTranslationAsync<string[]>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<string[]>(actionName, parameterSets));
             var keySet = new KeySet
             {
@@ -470,7 +470,7 @@ namespace Fanex.RemotingRef
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.KenoBetChoice,
-                parameters => RequestTranslation<Tuple<string, string>>(actionName, parameters),
+                parameters => RequestTranslationAsync<Tuple<string, string>>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
             var keySet = new KeySet
             {
@@ -611,7 +611,7 @@ namespace Fanex.RemotingRef
 
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 RefDataType.LotteryBetChoice,
-                parameters => RequestTranslation<Tuple<string, string>>(actionName, parameters),
+                parameters => RequestTranslationAsync<Tuple<string, string>>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
             var keySet = new KeySet
             {
@@ -855,30 +855,11 @@ namespace Fanex.RemotingRef
         {
             var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
                 dataType,
-                parameters => RequestTranslation<T>(actionName, parameters),
+                parameters => RequestTranslationAsync<T>(actionName, parameters),
                 parameterSets => SyncTranslationsAsync<T>(actionName, parameterSets));
             var result = (T)handler.Get(keySet, languageCode);
 
             return result;
-        }
-
-        private TranslationSet RequestTranslation<T>(string action, KeySet parameters)
-        {
-            var requestRelativePath = BuildRequestRelativePath(action, parameters);
-            var response = _client.GetAsync(requestRelativePath).GetAwaiter().GetResult();
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseResult = response.Content?.ReadAsStreamAsync().GetAwaiter().GetResult();
-                var result = _serializer.Deserialize<Dictionary<string, T>>(responseResult);
-
-                return TranslationSet.FromDictionary(result);
-            }
-
-            throw new RemotingRefException(
-                response.RequestMessage.RequestUri,
-                response.StatusCode,
-                response.ReasonPhrase);
         }
 
         private static string BuildRequestRelativePath(string path, KeySet parameters)
@@ -904,6 +885,25 @@ namespace Fanex.RemotingRef
         }
 
 #pragma warning disable S3216 // "ConfigureAwait(false)" should be used
+
+        private async Task<TranslationSet> RequestTranslationAsync<T>(string action, KeySet parameters)
+        {
+            var requestRelativePath = BuildRequestRelativePath(action, parameters);
+            var response = await _client.GetAsync(requestRelativePath);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseResult = await response.Content?.ReadAsStreamAsync();
+                var result = await _serializer.DeserializeAsync<Dictionary<string, T>>(responseResult);
+
+                return TranslationSet.FromDictionary(result);
+            }
+
+            throw new RemotingRefException(
+                response.RequestMessage.RequestUri,
+                response.StatusCode,
+                response.ReasonPhrase);
+        }
 
         private async Task<IDictionary<string, TranslationSet>> SyncTranslationsAsync<T>(string action, IList<KeySet> parameterSets)
         {

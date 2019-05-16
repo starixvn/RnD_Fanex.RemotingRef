@@ -1,6 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Delegates
 {
+    using System.Threading.Tasks;
     using Fanex.RemotingRef.TranslationStorage;
 
-    internal delegate TranslationSet RequestTranslationSetDelegate(KeySet parameters);
+    internal delegate Task<TranslationSet> RequestTranslationSetDelegate(KeySet parameters);
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.RemotingRef.Tests.Mocks;
     using Fanex.RemotingRef.TranslationStorage;
     using Xunit;
@@ -30,7 +31,7 @@
                 [TestingLanguageCode] = "Chinese",
                 [RefDataTypeHandlerOptions.DefaultLanguage] = "English"
             });
-            _options.RequestHandler = (parameters) => _predefinedTranslationSet;
+            _options.RequestHandler = (parameters) => Task.FromResult(_predefinedTranslationSet);
             (_keySet, _) = LocalStorageExtensions.CreateKeySet();
         }
 
@@ -50,7 +51,7 @@
         public void ReturningNullRequestHandlerMakesGetReturnNull()
         {
             // Arrange.
-            _options.RequestHandler = (parameters) => null;
+            _options.RequestHandler = (parameters) => Task.FromResult(default(TranslationSet));
 
             // Act.
             var actualResult = _handler.Get(_keySet, TestingLanguageCode);
@@ -106,7 +107,7 @@
             // Arrange.
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
-            _options.RequestHandler = (parameters) => value;
+            _options.RequestHandler = (parameters) => Task.FromResult(value);
 
             // Act.
             var actualResult = _handler.Get(_keySet, null);
@@ -130,7 +131,7 @@
                     return null;
                 }
 
-                return _predefinedTranslationSet;
+                return Task.FromResult(_predefinedTranslationSet);
             };
 
             // Act.
@@ -157,7 +158,7 @@
                     throw new InvalidOperationException();
                 }
 
-                return _predefinedTranslationSet;
+                return Task.FromResult(_predefinedTranslationSet);
             };
 
             // Act.
@@ -203,7 +204,7 @@
             {
                 callCounter++;
 
-                return null;
+                return Task.FromResult(default(TranslationSet));
             };
 
             // Act.
@@ -217,7 +218,7 @@
         public void ReturningNullAfterNumberOfRetriesFailed()
         {
             // Arrange.
-            _options.RequestHandler = parameters => null;
+            _options.RequestHandler = parameters => Task.FromResult(default(TranslationSet));
 
             // Act.
             var actualResult = _handler.Get(_keySet, TestingLanguageCode);

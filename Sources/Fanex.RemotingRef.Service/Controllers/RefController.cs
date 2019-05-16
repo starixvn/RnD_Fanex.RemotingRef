@@ -274,7 +274,7 @@
                 };
             }
 
-            return null;
+            return default;
         }
 
         private static TranslationSet GetTranslationSet(GetTranslationDelegate<string> translatedTextGetter, string[] standardLanguageCodes)

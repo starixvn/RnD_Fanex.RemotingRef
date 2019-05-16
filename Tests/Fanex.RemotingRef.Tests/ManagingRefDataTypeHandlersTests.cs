@@ -17,7 +17,7 @@
         public ManagingRefDataTypeHandlersTests()
         {
             _serviceUri = new Uri("http://localhost:9999");
-            _requestHandler = keySet => TranslationSet.FromDictionary(new Dictionary<string, string>());
+            _requestHandler = keySet => Task.FromResult(TranslationSet.FromDictionary(new Dictionary<string, string>()));
             _syncHandler = async (keySets) => await Task.FromResult(new Dictionary<string, TranslationSet>());
         }
 
