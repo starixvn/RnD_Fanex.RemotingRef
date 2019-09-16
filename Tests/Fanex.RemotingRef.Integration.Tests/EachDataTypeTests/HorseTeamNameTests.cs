@@ -10,13 +10,13 @@
         public void GetHorseTeamNameByExistingCodeId()
         {
             // Arrange.
-            var existingCodeId = "53438";
+            const string existingCodeId = "53438";
 
             // Act.
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(existingCodeId, TestingLanguage);
 
             // Assert.
-            var expectedHorseTeamName = "T Keddy";
+            const string expectedHorseTeamName = "T Keddy";
 
             Assert.Equal(expectedHorseTeamName, actualHorseTeamName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingCodeId()
         {
             // Arrange.
-            var unexistingCodeId = "-1";
+            const string unexistingCodeId = "-1";
 
             // Act.
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(unexistingCodeId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingCodeId()
         {
             // Arrange.
-            var unexistingCodeId = "-2";
+            const string unexistingCodeId = "-2";
 
             // Act.
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(

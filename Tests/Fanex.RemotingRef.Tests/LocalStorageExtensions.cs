@@ -17,7 +17,7 @@
         public static string CreateKey()
             => Fixture.Create<string>();
 
-        public static (KeySet, string) CreateKeySet()
+        public static (KeySet keySet, string builtKey) CreateKeySet()
         {
             var key = Fixture.Create<string>();
             var value = Fixture.Create<string>();
@@ -29,7 +29,7 @@
             return (keySet, keySet.BuildKey());
         }
 
-        public static (KeySet, string) CreateRandomKeySet()
+        public static (KeySet keySet, string builtKey) CreateRandomKeySet()
         {
             var key = Fixture.Create<int>().ToString(CultureInfo.InvariantCulture);
             var value = key;
@@ -60,7 +60,7 @@
             });
         }
 
-        public static (string, CacheEntry) CreateCacheEntry(this LocalStorage storage)
+        public static (string key, CacheEntry entry) CreateCacheEntry(this LocalStorage storage)
         {
             var (keySet, key) = CreateKeySet();
             var value = CreateTranslationSet();
@@ -69,7 +69,7 @@
             return (key, entry);
         }
 
-        public static (string, CacheEntry) AddCacheEntry(this LocalStorage storage)
+        public static (string key, CacheEntry entry) AddCacheEntry(this LocalStorage storage)
         {
             var (key, entry) = CreateCacheEntry(storage);
 

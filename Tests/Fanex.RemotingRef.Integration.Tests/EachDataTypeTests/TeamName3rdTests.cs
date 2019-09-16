@@ -10,13 +10,13 @@
         public void Get3rdTeamNameByExistingTeam3rdId()
         {
             // Arrange.
-            var existingTeam3rdId = "1";
+            const string existingTeam3rdId = "1";
 
             // Act.
             var actual3rdTeamName = RemotingRefService.GetTeamName3rd(existingTeam3rdId, TestingLanguage);
 
             // Assert.
-            var expected3rdTeamName = "Langsad SriHaYuth (DanYai)";
+            const string expected3rdTeamName = "Langsad SriHaYuth (DanYai)";
 
             Assert.Equal(expected3rdTeamName, actual3rdTeamName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingTeam3rdId()
         {
             // Arrange.
-            var unexistingTeam3rdId = "-1";
+            const string unexistingTeam3rdId = "-1";
 
             // Act.
             var actual3rdTeamName = RemotingRefService.GetTeamName3rd(unexistingTeam3rdId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingTeam3rdId()
         {
             // Arrange.
-            var unexistingTeam3rdId = "-2";
+            const string unexistingTeam3rdId = "-2";
 
             // Act.
             var actual3rdTeamName = RemotingRefService.GetTeamName3rd(

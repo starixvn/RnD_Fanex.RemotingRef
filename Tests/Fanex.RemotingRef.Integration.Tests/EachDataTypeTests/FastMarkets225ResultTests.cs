@@ -8,13 +8,13 @@
         public void GetBetType225ResultByExistingResultId()
         {
             // Arrange.
-            var existingBetType255ResultId = "164";
+            const string existingBetType255ResultId = "164";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarkets225Result(existingBetType255ResultId, TestingLanguage);
 
             // Assert.
-            var expectedResult = "Penalty, Throw In, Corner";
+            const string expectedResult = "Penalty, Throw In, Corner";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -23,7 +23,7 @@
         public void GetEmptyStringByUnexistingResultId()
         {
             // Arrange.
-            var unexistingBetType255ResultId = "-1";
+            const string unexistingBetType255ResultId = "-1";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarkets225Result(unexistingBetType255ResultId, TestingLanguage);

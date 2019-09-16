@@ -10,13 +10,13 @@
         public void GetDisplayedBetTypeNameByExistingBetTypeId()
         {
             // Arrange.
-            var existingBetTypeId = "406";
+            const string existingBetTypeId = "406";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(existingBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Exact Total Goals";
+            const string expectedDisplayedBetTypeName = "Exact Total Goals";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingBetTypeId()
         {
             // Arrange.
-            var unexistingBetTypeId = "-1";
+            const string unexistingBetTypeId = "-1";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(unexistingBetTypeId, TestingLanguage);
@@ -40,8 +40,8 @@
         public void GetDisplayedViaLuckyBetTypeNameWithOverOneHundredBillionRefNo()
         {
             // Arrange.
-            var existingBetTypeId = "406";
-            var satisfiedRefNo = 100_000_000_001L;
+            const string existingBetTypeId = "406";
+            const long satisfiedRefNo = 100_000_000_001;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -50,7 +50,7 @@
                 TestingLanguage);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Exact Total Goals (Via Lucky)";
+            const string expectedDisplayedBetTypeName = "Exact Total Goals (Via Lucky)";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -60,8 +60,8 @@
         public void GetOriginalDisplayedNameWithUnderOneHundredBillionRefNo()
         {
             // Arrange.
-            var existingBetTypeId = "406";
-            var unsatisfiedRefNo = 99_000_000_000L;
+            const string existingBetTypeId = "406";
+            const long unsatisfiedRefNo = 99_000_000_000;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -70,7 +70,7 @@
                 TestingLanguage);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Exact Total Goals";
+            const string expectedDisplayedBetTypeName = "Exact Total Goals";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -80,8 +80,8 @@
         public void GetEmptyStringWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var unexistingBetTypeId = "-2";
-            var satisfiedRefNo = 100_000_000_002L;
+            const string unexistingBetTypeId = "-2";
+            const long satisfiedRefNo = 100_000_000_002;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -98,8 +98,8 @@
         public void TakeBackDefaultValueWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var unexistingBetTypeId = "-3";
-            var satisfiedRefNo = 100_000_000_003L;
+            const string unexistingBetTypeId = "-3";
+            const long satisfiedRefNo = 100_000_000_003;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -117,8 +117,8 @@
         public void GetDisplayedBetTypeNameWithPlaceholdersReplacedByResourceId()
         {
             // Arrange.
-            var existingBetTypeId = "1311";
-            var validResourceId = "10";
+            const string existingBetTypeId = "1311";
+            const string validResourceId = "10";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -128,7 +128,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Set 10 Winner";
+            const string expectedDisplayedBetTypeName = "Set 10 Winner";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -140,7 +140,7 @@
         public void GetOriginalDisplayedNameWithNullOrEmptyResourceId(string invalidResourceId)
         {
             // Arrange.
-            var existingBetTypeId = "1311";
+            const string existingBetTypeId = "1311";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -150,7 +150,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Set x Winner";
+            const string expectedDisplayedBetTypeName = "Set x Winner";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -160,8 +160,8 @@
         public void TakeBackDefaultValueWithNonEmptyResourceIdButUnexistingBetTypeId()
         {
             // Arrange.
-            var unexistingBetTypeId = "-4";
-            var validResourceId = "10";
+            const string unexistingBetTypeId = "-4";
+            const string validResourceId = "10";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -180,9 +180,9 @@
         public void GetDisplayedViaLuckyBetTypeNameWithPlaceholdersReplacedByResourceId()
         {
             // Arrange.
-            var existingBetTypeId = "1311";
-            var validResourceId = "10";
-            var satisfiedRefNo = 100_000_000_004L;
+            const string existingBetTypeId = "1311";
+            const string validResourceId = "10";
+            const long satisfiedRefNo = 100_000_000_004;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -193,7 +193,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Set 10 Winner (Via Lucky)";
+            const string expectedDisplayedBetTypeName = "Set 10 Winner (Via Lucky)";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -203,9 +203,9 @@
         public void TakeBackDefaultValueWithSatisfiedResourceIdAndRefNoButUnexistingBetTypeId()
         {
             // Arrange.
-            var unexistingBetTypeId = "-5";
-            var validResourceId = "10";
-            var satisfiedRefNo = 100_000_000_005L;
+            const string unexistingBetTypeId = "-5";
+            const string validResourceId = "10";
+            const long satisfiedRefNo = 100_000_000_005;
 
             // Act.
             var actualDisplyedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(

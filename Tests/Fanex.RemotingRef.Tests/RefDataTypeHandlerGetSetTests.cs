@@ -64,7 +64,7 @@
         public void RetrievingUndefinedLanguageCodeReturnsEnglish()
         {
             // Arrange.
-            var undefinedLanguageCode = "Undefined Language Code";
+            const string undefinedLanguageCode = "Undefined Language Code";
 
             // Act.
             var actualResult = _handler.Get(_keySet, undefinedLanguageCode);

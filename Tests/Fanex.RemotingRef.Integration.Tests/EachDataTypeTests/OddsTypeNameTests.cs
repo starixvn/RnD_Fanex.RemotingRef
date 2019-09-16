@@ -10,13 +10,13 @@
         public void GetOddsTypeNameByExistingOddsTypeId()
         {
             // Arrange.
-            var existingOddsTypeId = "1";
+            const string existingOddsTypeId = "1";
 
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(existingOddsTypeId, TestingLanguage);
 
             // Assert.
-            var expectedOddsTypeName = "Dec";
+            const string expectedOddsTypeName = "Dec";
 
             Assert.Equal(expectedOddsTypeName, actualOddsTypeName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingOddsTypeId()
         {
             // Arrange.
-            var unexistingOddsTypeId = "-1";
+            const string unexistingOddsTypeId = "-1";
 
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(unexistingOddsTypeId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingOddsTypeId()
         {
             // Arrange.
-            var unexistingOddsTypeId = "-2";
+            const string unexistingOddsTypeId = "-2";
 
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(

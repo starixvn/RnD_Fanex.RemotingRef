@@ -9,13 +9,13 @@
         public void ReturnEnForUnmappedLanguageCodes()
         {
             // Arrange.
-            var unmappedLanguageCode = "fr-FR";
+            const string unmappedLanguageCode = "fr-FR";
 
             // Act.
             var actualRefLanguageCode = LanguageHelpers.ToRefLanguageCode(unmappedLanguageCode);
 
             // Assert.
-            var expectedRefLanguageCode = "en";
+            const string expectedRefLanguageCode = "en";
 
             Assert.Equal(expectedRefLanguageCode, actualRefLanguageCode);
         }

@@ -10,7 +10,7 @@
         public void GetLotteryBetChoiceByExistingLotteryBetChoiceId()
         {
             // Arrange.
-            var existingLotteryBetChoiceId = "43";
+            const string existingLotteryBetChoiceId = "43";
 
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
@@ -19,7 +19,7 @@
                 out _);
 
             // Assert.
-            var expectedLotteryBetChoice = "Big";
+            const string expectedLotteryBetChoice = "Big";
 
             Assert.Equal(expectedLotteryBetChoice, actualLotteryBetChoice);
         }
@@ -29,7 +29,7 @@
         public void GetLotteryBetTypeIdByExistingLotteryBetChoiceId()
         {
             // Arrange.
-            var existingLotteryBetChoiceId = "43";
+            const string existingLotteryBetChoiceId = "43";
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
@@ -38,7 +38,7 @@
                 out string actualLotteryBetTypeId);
 
             // Assert.
-            var expectedLotteryBetTypeId = "17";
+            const string expectedLotteryBetTypeId = "17";
 
             Assert.Equal(expectedLotteryBetTypeId, actualLotteryBetTypeId);
         }
@@ -48,7 +48,7 @@
         public void GetEmptyStringAsLotteryBetChoiceByUnexistingLotteryBetChoiceId()
         {
             // Arrange.
-            var unexistingLotteryBetChoiceId = "-1";
+            const string unexistingLotteryBetChoiceId = "-1";
 
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
@@ -65,7 +65,7 @@
         public void GetEmptyStringAsLotteryBetTypeIdByUnexistingLotteryBetChoiceId()
         {
             // Arrange.
-            var unexistingLotteryBetChoiceId = "-1";
+            const string unexistingLotteryBetChoiceId = "-1";
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
@@ -82,7 +82,7 @@
         public void TakeBackDefaultValueAsLotteryBetChoiceWithUnexistingLotteryBetChoiceId()
         {
             // Arrange.
-            var unexistingLotteryBetChoiceId = "-2";
+            const string unexistingLotteryBetChoiceId = "-2";
 
             // Act.
             var actualLotteryBetChoice = RemotingRefService.GetLotteryBetChoice(
@@ -100,7 +100,7 @@
         public void TakeBackDefaultValueAsLotteryBetTypeIdWithUnexistingLotteryBetChoiceId()
         {
             // Arrange.
-            var unexistingLotteryBetChoiceId = "-2";
+            const string unexistingLotteryBetChoiceId = "-2";
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(

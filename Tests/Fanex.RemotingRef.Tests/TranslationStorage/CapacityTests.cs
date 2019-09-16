@@ -31,7 +31,7 @@
         public void NegativeNumberOfEntriesLimitThrowsArgumentOutOfRangeException()
         {
             // Arrange.
-            var negativeNumberOfEntriesLimit = -1;
+            const int negativeNumberOfEntriesLimit = -1;
 
             // Act.
             var exception = Record.Exception(() => new LocalStorageOptions
@@ -62,11 +62,13 @@
         public async Task ExceedsCapacityCompactsTheStorage()
         {
             // Arrange.
+            const double fullCompaction = 1;
+
             var (_, firstEntry) = _storage.AddCacheEntry();
             var (_, secondEntry) = _storage.CreateCacheEntry();
             var semaphore = new SemaphoreSlim(0, 1);
 
-            _storageOptions.CompactionPercentage = 1;
+            _storageOptions.CompactionPercentage = fullCompaction;
             secondEntry.PostEvictionCallback = () =>
             {
                 semaphore.Release();

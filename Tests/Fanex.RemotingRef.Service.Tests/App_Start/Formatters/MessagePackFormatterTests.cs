@@ -25,7 +25,7 @@
         public void RegisterMsgPackAsMimeType()
         {
             // Assert.
-            var expectedMimeType = new MediaTypeHeaderValue("application/x-msgpack");
+            var expectedMimeType = new MediaTypeHeaderValue(MessagePackFormatter.MimeType);
 
             Assert.Contains(expectedMimeType, _formatter.SupportedMediaTypes);
         }
@@ -114,7 +114,7 @@
                 null,
                 null);
 
-            byte[] actualBinary = writeStream.ToArray();
+            var actualBinary = writeStream.ToArray();
 
             writeStream.Dispose();
 

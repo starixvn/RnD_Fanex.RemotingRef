@@ -9,13 +9,13 @@
         public void GetBetTypeName()
         {
             // Arrange.
-            var betTypeId = "2";
+            const string betTypeId = "2";
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(betTypeId, TestingLanguage);
 
             // Assert.
-            var expectedBetTypeName = "Odd/Even";
+            const string expectedBetTypeName = "Odd/Even";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -24,8 +24,8 @@
         public void GetViaLuckyBetTypeName()
         {
             // Arrange.
-            var betTypeId = "2";
-            var refNo = 100_000_000_001L;
+            const string betTypeId = "2";
+            const long refNo = 100_000_000_001;
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
@@ -34,7 +34,7 @@
                 refNo);
 
             // Assert.
-            var expectedBetTypeName = "Odd/Even (Via Lucky)";
+            const string expectedBetTypeName = "Odd/Even (Via Lucky)";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -44,8 +44,8 @@
         public void GetBetTypeNameContaingPlaceholders()
         {
             // Arrange.
-            var betTypeId = "607";
-            var resourceId = "01";
+            const string betTypeId = "607";
+            const string resourceId = "01";
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
@@ -55,7 +55,7 @@
                 resourceId);
 
             // Assert.
-            var expectedBetTypeName = "2H Race To 1 Points";
+            const string expectedBetTypeName = "2H Race To 1 Points";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -65,9 +65,9 @@
         public void GetViaLuckyBetTypeNameContainingPlaceholders()
         {
             // Arrange.
-            var betTypeId = "607";
-            var resourceId = "02";
-            var refNo = 100_000_000_001L;
+            const string betTypeId = "607";
+            const string resourceId = "02";
+            const long refNo = 100_000_000_001;
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetBetTypeName(
@@ -78,7 +78,7 @@
                 refNo);
 
             // Assert.
-            var expectedBetTypeName = "2H Race To 2 Points (Via Lucky)";
+            const string expectedBetTypeName = "2H Race To 2 Points (Via Lucky)";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -87,13 +87,13 @@
         public void GetSportName()
         {
             // Arrange.
-            var sportTypeId = "2";
+            const string sportTypeId = "2";
 
             // Act.
             var actualSportName = RemotingRefService.GetSportName(sportTypeId, TestingLanguage);
 
             // Assert.
-            var expectedSportName = "Basketball";
+            const string expectedSportName = "Basketball";
 
             Assert.Equal(expectedSportName, actualSportName);
         }
@@ -102,13 +102,13 @@
         public void GetTeamName()
         {
             // Arrange.
-            var teamId = "5";
+            const string teamId = "5";
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(teamId, TestingLanguage);
 
             // Assert.
-            var expectedTeamName = "Manchester United";
+            const string expectedTeamName = "Manchester United";
 
             Assert.Equal(expectedTeamName, actualTeamName);
         }
@@ -117,13 +117,13 @@
         public void GetTeamName3rd()
         {
             // Arrange.
-            var teamId3rd = "2";
+            const string teamId3rd = "2";
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName3rd(teamId3rd, TestingLanguage);
 
             // Assert.
-            var expectedTeamName = "Dukdang SamChay (KhaoNoi)";
+            const string expectedTeamName = "Dukdang SamChay (KhaoNoi)";
 
             Assert.Equal(expectedTeamName, actualTeamName);
         }
@@ -132,13 +132,13 @@
         public void GetLeagueName()
         {
             // Arrange.
-            var leagueId = "3";
+            const string leagueId = "3";
 
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName(leagueId, TestingLanguage);
 
             // Assert.
-            var expectedLeagueName = "*ENGLISH PREMIER LEAGUE";
+            const string expectedLeagueName = "*ENGLISH PREMIER LEAGUE";
 
             Assert.Equal(expectedLeagueName, actualLeagueName);
         }
@@ -147,13 +147,13 @@
         public void GetLeagueName3rd()
         {
             // Arrange.
-            var leagueId3rd = "2";
+            const string leagueId3rd = "2";
 
             // Act.
             var actualLeagueName = RemotingRefService.GetLeagueName3rd(leagueId3rd, TestingLanguage);
 
             // Assert.
-            var expectedLeagueName = "KlongHae Songkhla";
+            const string expectedLeagueName = "KlongHae Songkhla";
 
             Assert.Equal(expectedLeagueName, actualLeagueName);
         }
@@ -162,13 +162,13 @@
         public void GetCountryName()
         {
             // Arrange.
-            var countryCode = "KOR";
+            const string countryCode = "KOR";
 
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(countryCode, TestingLanguage);
 
             // Assert.
-            var expectedCountryName = "Korea (Rep)";
+            const string expectedCountryName = "Korea (Rep)";
 
             Assert.Equal(expectedCountryName, actualCountryName);
         }
@@ -177,13 +177,13 @@
         public void GetOddsTypeName()
         {
             // Arrange.
-            var oddsTypeId = "2";
+            const string oddsTypeId = "2";
 
             // Act.
             var actualOddsTypeName = RemotingRefService.GetOddsTypeName(oddsTypeId, TestingLanguage);
 
             // Assert.
-            var expectedOddsTypeName = "HK";
+            const string expectedOddsTypeName = "HK";
 
             Assert.Equal(expectedOddsTypeName, actualOddsTypeName);
         }
@@ -192,8 +192,8 @@
         public void GetResourceDataByRefIdAndResourceId()
         {
             // Arrange.
-            var refId = "AG_Baccarat";
-            var resourceId = "1";
+            const string refId = "AG_Baccarat";
+            const string resourceId = "1";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
@@ -203,7 +203,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedResource = "Tie";
+            const string expectedResource = "Tie";
 
             Assert.Equal(expectedResource, actualResource);
         }
@@ -212,13 +212,13 @@
         public void GetParentIdByBetTypeId()
         {
             // Arrange.
-            var betTypeId = "157";
+            const string betTypeId = "157";
 
             // Act.
             var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue);
 
             // Assert.
-            var expectedParentBetTypeId = "2";
+            const string expectedParentBetTypeId = "2";
 
             Assert.Equal(expectedParentBetTypeId, actualParentBetTypeId);
         }
@@ -227,10 +227,10 @@
         public void GetCombinationTypeCombo()
         {
             // Arrange.
-            var betTeam = "120";
-            var betCheck = "4";
-            var handicap1 = 1;
-            var handicap2 = 3;
+            const string betTeam = "120";
+            const string betCheck = "4";
+            const int handicap1 = 1;
+            const int handicap2 = 3;
 
             // Act.
             var actualCombos = RemotingRefService.GetCombinationTypeCombo(
@@ -250,13 +250,13 @@
         public void GetHorseTeamName()
         {
             // Arrange.
-            var codeId = "33231";
+            const string codeId = "33231";
 
             // Act.
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguage);
 
             // Assert.
-            var expectedHorseTeamName = "SUN KING";
+            const string expectedHorseTeamName = "SUN KING";
 
             Assert.Equal(expectedHorseTeamName, actualHorseTeamName);
         }
@@ -265,13 +265,13 @@
         public void GetCasinoBetItem()
         {
             // Arrange.
-            var itemId = "1";
+            const string itemId = "1";
 
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(itemId, TestingLanguage);
 
             // Assert.
-            var expectedBetItem = "Banker";
+            const string expectedBetItem = "Banker";
 
             Assert.Equal(expectedBetItem, actualBetItem);
         }
@@ -280,13 +280,13 @@
         public void GetRouletteBetItem()
         {
             // Arrange.
-            var itemId = "2";
+            const string itemId = "2";
 
             // Act.
             var actualBetItem = RemotingRefService.GetRouletteBetItem(itemId, TestingLanguage);
 
             // Assert.
-            var expectedBetItem = "1";
+            const string expectedBetItem = "1";
 
             Assert.Equal(expectedBetItem, actualBetItem);
         }
@@ -295,7 +295,7 @@
         public void GetKenoBetChoice()
         {
             // Arrange.
-            var kenoBetChoiceId = "1";
+            const string kenoBetChoiceId = "1";
 
             // Act.
             var actualBetChoice = RemotingRefService.GetKenoBetChoice(
@@ -304,7 +304,7 @@
                 out _);
 
             // Assert.
-            var expectedBetChoice = "Big";
+            const string expectedBetChoice = "Big";
 
             Assert.Equal(expectedBetChoice, actualBetChoice);
         }
@@ -313,7 +313,7 @@
         public void GetKenoBetTypeIdFromBetChoiceId()
         {
             // Arrange.
-            var kenoBetChoiceId = "1";
+            const string kenoBetChoiceId = "1";
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
@@ -322,7 +322,7 @@
                 out string actualBetTypeId);
 
             // Assert.
-            var expectedBetTypeId = "1";
+            const string expectedBetTypeId = "1";
 
             Assert.Equal(expectedBetTypeId, actualBetTypeId);
         }
@@ -331,13 +331,13 @@
         public void GetKenoBetType()
         {
             // Arrange.
-            var kenoBetTypeId = "1";
+            const string kenoBetTypeId = "1";
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetKenoBetType(kenoBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedBetTypeName = "Big/Small";
+            const string expectedBetTypeName = "Big/Small";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -346,10 +346,10 @@
         public void GetFastMarketsChoice()
         {
             // Arrange.
-            var betTypeId = "222";
-            var betTeam = "2";
-            var handicap1 = 3;
-            var handicap2 = 4;
+            const string betTypeId = "222";
+            const string betTeam = "2";
+            const int handicap1 = 3;
+            const int handicap2 = 4;
 
             // Act.
             var actualChoice = RemotingRefService.GetFastMarketsChoice(
@@ -360,7 +360,7 @@
                 TestingLanguage);
 
             // Assert.
-            var expectedChoice = "Corner - Yes (03:00-07:59)";
+            const string expectedChoice = "Corner - Yes (03:00-07:59)";
 
             Assert.Equal(expectedChoice, actualChoice);
         }
@@ -369,13 +369,13 @@
         public void GetFastMarketsResult()
         {
             // Arrange.
-            var resultId = "3";
+            const string resultId = "3";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
 
             // Assert.
-            var expectedResult = "Goal, None";
+            const string expectedResult = "Goal, None";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -384,13 +384,13 @@
         public void GetFastMarkets225Result()
         {
             // Arrange.
-            var betType255ResultId = "163";
+            const string betType255ResultId = "163";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
 
             // Assert.
-            var expectedResult = "Penalty, Throw In, None";
+            const string expectedResult = "Penalty, Throw In, None";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -399,7 +399,7 @@
         public void GetLotteryBetChoice()
         {
             // Arrange.
-            var lotteryBetChoiceId = "40";
+            const string lotteryBetChoiceId = "40";
 
             // Act.
             var actualBetChoice = RemotingRefService.GetLotteryBetChoice(
@@ -408,7 +408,7 @@
                 out _);
 
             // Assert.
-            var expectedBetChoice = "Green";
+            const string expectedBetChoice = "Green";
 
             Assert.Equal(expectedBetChoice, actualBetChoice);
         }
@@ -417,7 +417,7 @@
         public void GetLotteryBetTypeIdFromBetChoiceId()
         {
             // Arrange.
-            var lotteryBetChoiceId = "40";
+            const string lotteryBetChoiceId = "40";
 
             // Act.
             RemotingRefService.GetLotteryBetChoice(
@@ -426,7 +426,7 @@
                 out string actualBetTypeId);
 
             // Assert.
-            var expectedBetTypeId = "16";
+            const string expectedBetTypeId = "16";
 
             Assert.Equal(expectedBetTypeId, actualBetTypeId);
         }
@@ -435,13 +435,13 @@
         public void GetLotteryBetType()
         {
             // Arrange.
-            var lotteryBetTypeId = "1";
+            const string lotteryBetTypeId = "1";
 
             // Act.
             var actualBetTypeName = RemotingRefService.GetLotteryBetType(lotteryBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedBetTypeName = "1st Digit Big/Small";
+            const string expectedBetTypeName = "1st Digit Big/Small";
 
             Assert.Equal(expectedBetTypeName, actualBetTypeName);
         }
@@ -450,13 +450,13 @@
         public void GetBetRadarMatchCodeFormat()
         {
             // Arrange.
-            var matchCode = "101090 {10}";
+            const string matchCode = "101090 {10}";
 
             // Act.
             var actualMatch = RemotingRefService.GetBetRadarMatchCodeFormat(matchCode, TestingLanguage);
 
             // Assert.
-            var expectedMatch = "101090 Match Day 3 Groups C&D";
+            const string expectedMatch = "101090 Match Day 3 Groups C&D";
 
             Assert.Equal(expectedMatch, actualMatch);
         }
@@ -465,13 +465,13 @@
         public void GetDisplayedTypeId()
         {
             // Arrange.
-            var betTypeId = "157";
+            const string betTypeId = "157";
 
             // Act.
             var actualDisplayedBetTypeId = RemotingRefService.GetDisplayedTypeId(betTypeId);
 
             // Assert.
-            var expectedBetTypeId = "2";
+            const string expectedBetTypeId = "2";
 
             Assert.Equal(expectedBetTypeId, actualDisplayedBetTypeId);
         }
@@ -480,13 +480,13 @@
         public void GetDisplayedBetTypeName()
         {
             // Arrange.
-            var betTypeId = "407";
+            const string betTypeId = "407";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(betTypeId, TestingLanguage);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Exact Home Team Goals";
+            const string expectedDisplayedBetTypeName = "Exact Home Team Goals";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -495,8 +495,8 @@
         public void GetDisplayedViaLuckyBetTypeName()
         {
             // Arrange.
-            var betTypeId = "407";
-            var refNo = 100_000_000_001L;
+            const string betTypeId = "407";
+            const long refNo = 100_000_000_001;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -505,7 +505,7 @@
                 TestingLanguage);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Exact Home Team Goals (Via Lucky)";
+            const string expectedDisplayedBetTypeName = "Exact Home Team Goals (Via Lucky)";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -515,8 +515,8 @@
         public void GetDisplayedBetTypeNameContaingPlaceholders()
         {
             // Arrange.
-            var betTypeId = "1316";
-            var resourceId = "01";
+            const string betTypeId = "1316";
+            const string resourceId = "01";
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -526,7 +526,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Set 1 Game Handicap";
+            const string expectedDisplayedBetTypeName = "Set 1 Game Handicap";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -536,9 +536,9 @@
         public void GetDisplayedViaLuckyBetTypeNameContainingPlaceholders()
         {
             // Arrange.
-            var betTypeId = "1316";
-            var resourceId = "02";
-            var refNo = 100_000_000_001L;
+            const string betTypeId = "1316";
+            const string resourceId = "02";
+            const long refNo = 100_000_000_001;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -549,7 +549,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedDisplayedBetTypeName = "Set 2 Game Handicap (Via Lucky)";
+            const string expectedDisplayedBetTypeName = "Set 2 Game Handicap (Via Lucky)";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }

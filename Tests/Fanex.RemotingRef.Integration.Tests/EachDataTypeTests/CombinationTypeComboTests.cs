@@ -10,10 +10,11 @@
         public void GetMixParlayCombinatioTypeByHandicap2()
         {
             // Arrange.
+            const int handicap1 = 0;
+            const int handicap2 = 21;
+
             var betTeam = string.Empty;
             var betCheck = string.Empty;
-            var handicap1 = 0;
-            var handicap2 = 21;
 
             // Act.
             var actualCombinationType = RemotingRefService.GetCombinationTypeCombo(
@@ -35,10 +36,11 @@
         public void GetComboParlayCombinationTypsByHandicap1AndSatisfyBetCheck()
         {
             // Arrange.
+            const string betCheck = "1026";
+            const int handicap1 = 1;
+            const int handicap2 = 12;
+
             var betTeam = string.Empty;
-            var betCheck = "1026";
-            var handicap1 = 1;
-            var handicap2 = 12;
 
             // Act.
             var actualCombos = RemotingRefService.GetCombinationTypeCombo(
@@ -59,10 +61,11 @@
         public void GetOldSingleCombinationTypeByBetTeam()
         {
             // Arrange.
-            var betTeam = "110";
+            const string betTeam = "110";
+            const int handicap1 = 0;
+            const int handicap2 = 0;
+
             var betCheck = string.Empty;
-            var handicap1 = 0;
-            var handicap2 = 0;
 
             // Act.
             var actualCombos = RemotingRefService.GetCombinationTypeCombo(

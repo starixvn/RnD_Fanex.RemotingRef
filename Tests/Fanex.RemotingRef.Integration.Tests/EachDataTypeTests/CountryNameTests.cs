@@ -10,13 +10,13 @@
         public void GetCountryNameByExistingCountryCode()
         {
             // Arrange.
-            var existingCountryCode = "AUS";
+            const string existingCountryCode = "AUS";
 
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(existingCountryCode, TestingLanguage);
 
             // Assert.
-            var expectedCountryName = "Australia";
+            const string expectedCountryName = "Australia";
 
             Assert.Equal(expectedCountryName, actualCountryName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingCountryCode()
         {
             // Arrange.
-            var unexistingCountryCode = "**CK";
+            const string unexistingCountryCode = "**CK";
 
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(unexistingCountryCode, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingCountryCode()
         {
             // Arrange.
-            var unexistingCountryCode = "SH**";
+            const string unexistingCountryCode = "SH**";
 
             // Act.
             var actualCountryName = RemotingRefService.GetCountryName(

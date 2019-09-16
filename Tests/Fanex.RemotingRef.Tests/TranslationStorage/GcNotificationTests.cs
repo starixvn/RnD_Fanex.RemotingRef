@@ -128,7 +128,9 @@
 
         private static void GcCollectAndWait()
         {
-            GC.Collect(2, GCCollectionMode.Forced, true);
+            const int oldestGenerationToBeCollected = 2;
+
+            GC.Collect(oldestGenerationToBeCollected, GCCollectionMode.Forced, true);
             GC.WaitForPendingFinalizers();
         }
 

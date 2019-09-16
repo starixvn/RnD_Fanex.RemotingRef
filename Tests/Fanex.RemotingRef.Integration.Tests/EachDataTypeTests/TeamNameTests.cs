@@ -10,13 +10,13 @@
         public void GetTeamNameByExistingTeamId()
         {
             // Arrange.
-            var existingTeamId = "6";
+            const string existingTeamId = "6";
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(existingTeamId, TestingLanguage);
 
             // Assert.
-            var expectedTeamName = "Arsenal";
+            const string expectedTeamName = "Arsenal";
 
             Assert.Equal(expectedTeamName, actualTeamName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingTeamId()
         {
             // Arrange.
-            var unexistingTeamId = "-1";
+            const string unexistingTeamId = "-1";
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(unexistingTeamId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingTeamId()
         {
             // Arrange.
-            var unexistingTeamId = "-2";
+            const string unexistingTeamId = "-2";
 
             // Act.
             var actualTeamName = RemotingRefService.GetTeamName(

@@ -8,13 +8,13 @@
         public void GetFastMarketsResultByExistingResultId()
         {
             // Arrange.
-            var existingResultId = "2";
+            const string existingResultId = "2";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarketsResult(existingResultId, TestingLanguage);
 
             // Assert.
-            var expectedResult = "Goal";
+            const string expectedResult = "Goal";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -23,7 +23,7 @@
         public void GetEmptyStringByUnexistingResultId()
         {
             // Arrange.
-            var unexistingResultId = "-1";
+            const string unexistingResultId = "-1";
 
             // Act.
             var actualResult = RemotingRefService.GetFastMarketsResult(unexistingResultId, TestingLanguage);

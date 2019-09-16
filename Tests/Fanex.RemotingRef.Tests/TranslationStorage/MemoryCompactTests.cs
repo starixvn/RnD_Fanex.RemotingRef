@@ -8,13 +8,19 @@
 
     public sealed class MemoryCompactTests : IDisposable
     {
+        private const double CompactPercentage = 0.5;
+
         private readonly TestClock _clock;
 
         private LocalStorage _storage;
 
         public MemoryCompactTests()
         {
-            var storageOptions = new LocalStorageOptions();
+            var storageOptions = new LocalStorageOptions
+            {
+                CompactOnMemoryPressure = true,
+                CompactionPercentage = CompactPercentage
+            };
 
             _clock = new TestClock();
             _storage = new LocalStorage(storageOptions, _clock);
@@ -59,7 +65,9 @@
             InitializeCacheData();
 
             // Act.
-            _storage.Compact(1.0);
+            const double fullCompaction = 1;
+
+            _storage.Compact(fullCompaction);
 
             // Assert.
             Assert.Equal(0, _storage.Count);
@@ -72,7 +80,9 @@
             var cachedKeys = InitializeCacheData();
 
             // Act.
-            _storage.Compact(0.90);
+            const double highCompaction = 0.9;
+
+            _storage.Compact(highCompaction);
 
             // Assert.
             bool found = _storage.TryGet(cachedKeys.Last(), out _);
@@ -85,14 +95,6 @@
         public void CompactOnMemoryPressureTriggersDoMemoryPreassureCollection()
         {
             // Arrange.
-            var storageOptions = new LocalStorageOptions
-            {
-                CompactOnMemoryPressure = true,
-                CompactionPercentage = 0.5
-            };
-
-            _storage = new LocalStorage(storageOptions, _clock);
-
             var cachedKeys = InitializeCacheData();
 
             // Act.
@@ -106,22 +108,13 @@
         public void DoMemoryPreassureCollectionTriesToSatisfyRemovalCountTarget()
         {
             // Arrange.
-            const double compactPercentage = 0.5;
-            var storageOptions = new LocalStorageOptions
-            {
-                CompactOnMemoryPressure = true,
-                CompactionPercentage = compactPercentage
-            };
-
-            _storage = new LocalStorage(storageOptions, _clock);
-
             var cachedKeys = InitializeCacheData();
 
             // Act.
             TriggerGargabeCollectionInItsOwnScope();
 
             // Assert.
-            var expectedCount = cachedKeys.Length - (int)(compactPercentage * cachedKeys.Length);
+            var expectedCount = cachedKeys.Length - (int)(CompactPercentage * cachedKeys.Length);
 
             Assert.True(expectedCount >= _storage.Count);
         }
@@ -130,7 +123,9 @@
 
         private static void TriggerGargabeCollectionInItsOwnScope()
         {
-            GC.Collect(2, GCCollectionMode.Forced, true);
+            const int oldestGenerationToBeCollected = 2;
+
+            GC.Collect(oldestGenerationToBeCollected, GCCollectionMode.Forced, true);
             GC.WaitForPendingFinalizers();
         }
 
@@ -138,7 +133,8 @@
 
         private string[] InitializeCacheData()
         {
-            var expectedLength = 4;
+            const int expectedLength = 4;
+
             var createdKeys = new string[expectedLength];
             var creationInterval = TimeSpan.FromSeconds(1);
 

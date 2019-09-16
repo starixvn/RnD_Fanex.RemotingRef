@@ -20,7 +20,7 @@
             var actualResult = keySet.BuildKey();
 
             // Assert.
-            var expectedPattern = @"{([^\}]*)\}{([^\}]*)\}";
+            const string expectedPattern = @"{([^\}]*)\}{([^\}]*)\}";
 
             Assert.Matches(expectedPattern, actualResult);
         }
@@ -38,7 +38,7 @@
             var actualResult = keySet.BuildKey();
 
             // Assert.
-            var expectedExistingString = "Key:Value";
+            const string expectedExistingString = "Key:Value";
 
             Assert.Contains(expectedExistingString, actualResult, StringComparison.InvariantCulture);
         }
@@ -57,7 +57,7 @@
             var actualResult = keySet.BuildKey();
 
             // Assert.
-            var expectedResult = "{Key1:Value1}{Key2:Value2}";
+            const string expectedResult = "{Key1:Value1}{Key2:Value2}";
 
             Assert.Equal(expectedResult, actualResult);
         }

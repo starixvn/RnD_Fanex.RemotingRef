@@ -10,13 +10,13 @@
         public void Get3rdLeagueNameByExistingLeague3rdId()
         {
             // Arrange.
-            var existingLeague3rdId = "1";
+            const string existingLeague3rdId = "1";
 
             // Act.
             var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(existingLeague3rdId, TestingLanguage);
 
             // Assert.
-            var expected3rdLeagueName = "KlongHae Songkhla Early";
+            const string expected3rdLeagueName = "KlongHae Songkhla Early";
 
             Assert.Equal(expected3rdLeagueName, actual3rdLeagueName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingLeague3rdId()
         {
             // Arrange.
-            var unexistingLeague3rdId = "-1";
+            const string unexistingLeague3rdId = "-1";
 
             // Act.
             var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(unexistingLeague3rdId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingLeague3rdId()
         {
             // Arrange.
-            var unexistingLeague3rdId = "-2";
+            const string unexistingLeague3rdId = "-2";
 
             // Act.
             var actual3rdLeagueName = RemotingRefService.GetLeagueName3rd(

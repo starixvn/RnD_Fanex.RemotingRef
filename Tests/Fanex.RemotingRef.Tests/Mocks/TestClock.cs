@@ -12,5 +12,11 @@
 
         public void Add(TimeSpan addedTime)
             => UtcNow = UtcNow + addedTime;
+
+        public void AddSeconds(double seconds)
+            => Add(TimeSpan.FromSeconds(seconds));
+
+        public void AddMinutes(double minutes)
+            => Add(TimeSpan.FromMinutes(minutes));
     }
 }

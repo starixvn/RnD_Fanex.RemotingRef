@@ -8,8 +8,8 @@
         public void GetResourceDataByValidRefIdAndResourceId()
         {
             // Arrange.
-            var validRefId = "AG_SicBo";
-            var validResourceId = "41";
+            const string validRefId = "AG_SicBo";
+            const string validResourceId = "41";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
@@ -19,7 +19,7 @@
                 DefaultValue);
 
             // Assert.
-            var expectedResource = "Big";
+            const string expectedResource = "Big";
 
             Assert.Equal(expectedResource, actualResource);
         }
@@ -28,8 +28,8 @@
         public void TakeBackDefaultValueWithInvalidRefId()
         {
             // Arrange.
-            var invalidRefId = "-1";
-            var validResourceId = "41";
+            const string invalidRefId = "-1";
+            const string validResourceId = "41";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(
@@ -46,8 +46,8 @@
         public void TakeBackDefaultValueWithInvalidResourceId()
         {
             // Arrange.
-            var validRefId = "AG_SicBo";
-            var invalidResourceId = "-1";
+            const string validRefId = "AG_SicBo";
+            const string invalidResourceId = "-1";
 
             // Act.
             var actualResource = RemotingRefService.GetResourceDataByRefIdAndResourceId(

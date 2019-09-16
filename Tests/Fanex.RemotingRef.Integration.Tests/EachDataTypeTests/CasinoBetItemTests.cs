@@ -10,13 +10,13 @@
         public void GetCasinoBetItemByExistingItemId()
         {
             // Arrange.
-            var existingItemId = "2";
+            const string existingItemId = "2";
 
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(existingItemId, TestingLanguage);
 
             // Assert.
-            var expectedBetItem = "Player";
+            const string expectedBetItem = "Player";
 
             Assert.Equal(expectedBetItem, actualBetItem);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingItemId()
         {
             // Arrange.
-            var unexistingItemId = "-1";
+            const string unexistingItemId = "-1";
 
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(unexistingItemId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingItemId()
         {
             // Arrange.
-            var unexistingItemId = "-2";
+            const string unexistingItemId = "-2";
 
             // Act.
             var actualBetItem = RemotingRefService.GetCasinoBetItem(

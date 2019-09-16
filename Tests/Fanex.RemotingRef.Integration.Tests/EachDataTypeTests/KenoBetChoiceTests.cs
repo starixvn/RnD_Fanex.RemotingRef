@@ -10,7 +10,7 @@
         public void GetKenoBetChoiceByExistingKenoBetChoiceId()
         {
             // Arrange.
-            var existingKenoBetChoiceId = "2";
+            const string existingKenoBetChoiceId = "2";
 
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
@@ -19,7 +19,7 @@
                 out _);
 
             // Assert.
-            var expectedKenoBetChoice = "Small";
+            const string expectedKenoBetChoice = "Small";
 
             Assert.Equal(expectedKenoBetChoice, actualKenoBetChoice);
         }
@@ -29,7 +29,7 @@
         public void GetKenoBetTypeIdByExistingKenoBetChoiceId()
         {
             // Arrange.
-            var existingKenoBetChoiceId = "2";
+            const string existingKenoBetChoiceId = "2";
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
@@ -38,7 +38,7 @@
                 out string actualKenoBetTypeId);
 
             // Assert.
-            var expectedKenoBetTypeId = "1";
+            const string expectedKenoBetTypeId = "1";
 
             Assert.Equal(expectedKenoBetTypeId, actualKenoBetTypeId);
         }
@@ -48,7 +48,7 @@
         public void GetEmptyStringAsKenoBetChoiceByUnexistingKenoBetChoiceId()
         {
             // Arrange.
-            var unexistingKenoBetChoiceId = "-1";
+            const string unexistingKenoBetChoiceId = "-1";
 
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
@@ -65,7 +65,7 @@
         public void GetEmptyStringAsKenoBetTypeIdByUnexistingKenoBetChoiceId()
         {
             // Arrange.
-            var unexistingKenoBetChoiceId = "-1";
+            const string unexistingKenoBetChoiceId = "-1";
 
             // Act.
             RemotingRefService.GetKenoBetChoice(
@@ -82,7 +82,7 @@
         public void TakeBackDefaultValueAsKenoBetChoiceWithUnexistingKenoBetChoiceId()
         {
             // Arrange.
-            var unexistingKenoBetChoiceId = "-2";
+            const string unexistingKenoBetChoiceId = "-2";
 
             // Act.
             var actualKenoBetChoice = RemotingRefService.GetKenoBetChoice(
@@ -100,7 +100,7 @@
         public void TakeBackDefaultValueAsKenoBetTypeIdWithUnexistingKenoBetChoiceId()
         {
             // Arrange.
-            var unexistingKenoBetChoiceId = "-2";
+            const string unexistingKenoBetChoiceId = "-2";
 
             // Act.
             RemotingRefService.GetKenoBetChoice(

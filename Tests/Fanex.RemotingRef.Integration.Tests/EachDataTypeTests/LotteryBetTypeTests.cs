@@ -10,13 +10,13 @@
         public void GetLotteryBetTypeNameByExistingLotteryBetTypeId()
         {
             // Arrange.
-            var existingLotteryBetTypeId = "2";
+            const string existingLotteryBetTypeId = "2";
 
             // Act.
             var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(existingLotteryBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedLotteryBetTypeName = "1st Digit Odd/Even";
+            const string expectedLotteryBetTypeName = "1st Digit Odd/Even";
 
             Assert.Equal(expectedLotteryBetTypeName, actualLotteryBetTypeName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingLotteryBetTypeId()
         {
             // Arrange.
-            var unexistingLotteryBetTypeId = "-1";
+            const string unexistingLotteryBetTypeId = "-1";
 
             // Act.
             var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(unexistingLotteryBetTypeId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingLotteryBetTypeId()
         {
             // Arrange.
-            var unexistingLotteryBetTypeId = "-2";
+            const string unexistingLotteryBetTypeId = "-2";
 
             // Act.
             var actualLotteryBetTypeName = RemotingRefService.GetLotteryBetType(

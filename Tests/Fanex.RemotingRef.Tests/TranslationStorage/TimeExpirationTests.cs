@@ -30,7 +30,7 @@
             var negativeSlidingTimeout = TimeSpan.FromSeconds(-1);
 
             // Act.
-            Exception exception = Record.Exception(() => new LocalStorageOptions
+            var exception = Record.Exception(() => new LocalStorageOptions
             {
                 SlidingTimeout = negativeSlidingTimeout
             });
@@ -46,7 +46,7 @@
             var zeroSlidingTimeout = TimeSpan.Zero;
 
             // Act.
-            Exception exception = Record.Exception(() => new LocalStorageOptions
+            var exception = Record.Exception(() => new LocalStorageOptions
             {
                 SlidingTimeout = zeroSlidingTimeout
             });
@@ -67,10 +67,12 @@
 
             // Act.
             // Background expiration checks are triggered when TryGet is called no matter what the key is.
-            var anyKey = LocalStorageExtensions.CreateKey();
+            const double numberOfMunitesPassedToMakeKeyBeExpired = 20;
 
-            _clock.Add(TimeSpan.FromMinutes(20));
-            _storage.TryGet(anyKey, out _);
+            var anyOtherKey = LocalStorageExtensions.CreateKey();
+
+            _clock.AddMinutes(numberOfMunitesPassedToMakeKeyBeExpired);
+            _storage.TryGet(anyOtherKey, out _);
 
             // Assert.
             var waitingTime = TimeSpan.FromSeconds(30);
@@ -89,9 +91,12 @@
             Assert.True(found);
             Assert.Same(entry, addedEntry);
 
-            // Assert.
-            _clock.Add(TimeSpan.FromMinutes(1));
+            // Act.
+            const double numberOfMunitesPassedToMakeKeyBeExpired = 1;
 
+            _clock.AddMinutes(numberOfMunitesPassedToMakeKeyBeExpired);
+
+            // Assert.
             found = _storage.TryGet(key, out addedEntry);
 
             Assert.False(found);
@@ -105,11 +110,15 @@
             var (key, entry) = _storage.AddCacheEntry();
 
             // Act - touched after 5 seconds.
-            _clock.Add(TimeSpan.FromSeconds(5));
+            const double timePassedForFirstTouch = 5;
+
+            _clock.AddSeconds(timePassedForFirstTouch);
             _storage.TryGet(key, out _);
 
             // Assert - after 9 seconds from last touch.
-            _clock.Add(TimeSpan.FromSeconds(9));
+            const double timePassedForLastTouch = 9;
+
+            _clock.AddSeconds(timePassedForLastTouch);
 
             var found = _storage.TryGet(key, out CacheEntry addedEntry);
 
@@ -124,9 +133,11 @@
             var (key, firstEntry) = _storage.AddCacheEntry();
 
             // Act.
+            const double numberOfSecondsPassedToMakeKeysBeExpired = 30;
+
             var secondEntry = _storage.CloneCacheEntry(firstEntry);
 
-            _clock.Add(TimeSpan.FromSeconds(30));
+            _clock.AddSeconds(numberOfSecondsPassedToMakeKeysBeExpired);
             _storage.Add(secondEntry);
 
             // Assert.

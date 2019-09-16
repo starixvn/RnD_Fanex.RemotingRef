@@ -10,13 +10,13 @@
         public void GetSportNameByExistingSportTypeId()
         {
             // Arrange.
-            var existingSportTypeId = "1";
+            const string existingSportTypeId = "1";
 
             // Act.
             var actualSportName = RemotingRefService.GetSportName(existingSportTypeId, TestingLanguage);
 
             // Assert.
-            var expectedSportName = "Soccer";
+            const string expectedSportName = "Soccer";
 
             Assert.Equal(expectedSportName, actualSportName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingSportTypeId()
         {
             // Arrange.
-            var unexistingSportTypeId = "-1";
+            const string unexistingSportTypeId = "-1";
 
             // Act.
             var actualSportName = RemotingRefService.GetSportName(unexistingSportTypeId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingSportTypeId()
         {
             // Arrange.
-            var unexistingSportTypeId = "-2";
+            const string unexistingSportTypeId = "-2";
 
             // Act.
             var actualSportName = RemotingRefService.GetSportName(

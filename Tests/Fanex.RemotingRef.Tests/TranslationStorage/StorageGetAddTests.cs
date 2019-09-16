@@ -42,8 +42,9 @@
         public void ArgumentExceptionIsThrownIfCreateEntryTakesNullAsKeySet()
         {
             // Arrange.
+            const string key = "anyKey";
+
             KeySet keySet = null;
-            var key = "anyKey";
             var value = TranslationSet.FromDictionary(new Dictionary<string, string>());
 
             // Act.

@@ -10,6 +10,8 @@
     [Collection("SharedContainer")]
     public sealed class ManagingRefDataTypeHandlersTests : IDisposable
     {
+        private const string ApplicationName = "application name";
+
         private readonly Uri _serviceUri;
         private readonly RequestTranslationSetDelegate _requestHandler;
         private readonly SyncTranslationSetsDelegate _syncHandler;
@@ -60,7 +62,7 @@
             // Arrange.
             RefDataTypeContainer
                 .ConnectTo(_serviceUri)
-                .FromApplication("AnApplicationName");
+                .FromApplication(ApplicationName);
 
             // Act.
             var actualUri = RefDataTypeContainer.ServiceUri;
@@ -107,7 +109,9 @@
             var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
 
             // Assert.
-            Assert.Equal(100_000, observingHandler.Options.NumberOfEntriesLimit);
+            const int expectedNumberOfEntriesLimit = 100_000;
+
+            Assert.Equal(expectedNumberOfEntriesLimit, observingHandler.Options.NumberOfEntriesLimit);
             Assert.True(observingHandler.Options.CompactOnMemoryPressure);
         }
 
@@ -140,10 +144,12 @@
             fluentInstance.Register(RefDataType.TeamName, newOptions);
 
             // Assert.
+            const int expectedNumberOfEntriesLimit = 100_000;
+
             var observingHandler = RefDataTypeContainer.TryResolveDataTypeHandler(RefDataType.TeamName, _requestHandler, _syncHandler);
             var currentAffectedOptions = observingHandler.Options;
 
-            Assert.NotEqual(100_000, currentAffectedOptions.NumberOfEntriesLimit);
+            Assert.NotEqual(expectedNumberOfEntriesLimit, currentAffectedOptions.NumberOfEntriesLimit);
         }
 
         [Fact]
@@ -228,13 +234,12 @@
         {
             // Arrange.
             var fluentInstance = RefDataTypeContainer.ConnectTo(_serviceUri);
-            var applicationName = "an application name";
 
             // Act.
-            fluentInstance.FromApplication(applicationName);
+            fluentInstance.FromApplication(ApplicationName);
 
             // Assert.
-            var expectedApplicationName = $"{applicationName}-{RefDataTypeContainer.GetVersion()}";
+            var expectedApplicationName = $"{ApplicationName}-{RefDataTypeContainer.GetVersion()}";
 
             Assert.Equal(expectedApplicationName, RefDataTypeHandlerOptions.ApplicationName);
         }
@@ -246,7 +251,7 @@
             var fluentInstance = RefDataTypeContainer.ConnectTo(_serviceUri);
 
             // Act.
-            var returnedInstance = fluentInstance.FromApplication("an application name");
+            var returnedInstance = fluentInstance.FromApplication(ApplicationName);
 
             // Assert.
             Assert.Same(fluentInstance, returnedInstance);

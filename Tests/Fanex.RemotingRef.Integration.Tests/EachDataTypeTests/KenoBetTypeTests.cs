@@ -10,13 +10,13 @@
         public void GetKenoBetTypeNameByExistingKenoBetTypeId()
         {
             // Arrange.
-            var existingKenoBetTypeId = "2";
+            const string existingKenoBetTypeId = "2";
 
             // Act.
             var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(existingKenoBetTypeId, TestingLanguage);
 
             // Assert.
-            var expectedKenoBetTypeName = "Odd/Even";
+            const string expectedKenoBetTypeName = "Odd/Even";
 
             Assert.Equal(expectedKenoBetTypeName, actualKenoBetTypeName);
         }
@@ -26,7 +26,7 @@
         public void GetEmptyStringByUnexistingKenoBetTypeId()
         {
             // Arrange.
-            var unexistingKenoBetTypeId = "-1";
+            const string unexistingKenoBetTypeId = "-1";
 
             // Act.
             var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(unexistingKenoBetTypeId, TestingLanguage);
@@ -40,7 +40,7 @@
         public void TakeBackDefaultValueWithUnexistingKenoBetTypeId()
         {
             // Arrange.
-            var unexistingKenoBetTypeId = "-2";
+            const string unexistingKenoBetTypeId = "-2";
 
             // Act.
             var actualKenoBetTypeName = RemotingRefService.GetKenoBetType(

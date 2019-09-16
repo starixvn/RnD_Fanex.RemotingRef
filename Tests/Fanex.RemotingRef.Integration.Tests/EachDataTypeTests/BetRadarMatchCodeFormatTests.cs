@@ -10,13 +10,13 @@
         public void GetMatchNameByValidMatchCode()
         {
             // Arrange.
-            var validMatchCode = "123 {8}";
+            const string validMatchCode = "123 {8}";
 
             // Act.
             var actualMatch = RemotingRefService.GetBetRadarMatchCodeFormat(validMatchCode, TestingLanguage);
 
             // Assert.
-            var expectedMatch = "123 Match Day 2 Groups E&F";
+            const string expectedMatch = "123 Match Day 2 Groups E&F";
 
             Assert.Equal(expectedMatch, actualMatch);
         }
@@ -26,7 +26,7 @@
         public void TakeBackMatchCodeWithInvalidMatchCode()
         {
             // Arrange.
-            var invalidMatchCode = "123";
+            const string invalidMatchCode = "123";
 
             // Act.
             var actualMatchName = RemotingRefService.GetBetRadarMatchCodeFormat(invalidMatchCode, TestingLanguage);
