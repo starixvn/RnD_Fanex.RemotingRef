@@ -99,8 +99,9 @@
         public void DoNotSendRequestForInvalidSelectionId()
         {
             // Arrange.
+            const int invalidSelectionId = 0;
+
             var validSelectionId = Fixture.Create<int>();
-            var invalidSelectionId = 0;
             var selectionIds = new[] { validSelectionId, invalidSelectionId };
 
             Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));

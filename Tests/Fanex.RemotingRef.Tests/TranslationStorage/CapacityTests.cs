@@ -80,7 +80,7 @@
             // Assert.
             var waitingTime = TimeSpan.FromSeconds(30);
 
-            Assert.True(await semaphore.WaitAsync(waitingTime));
+            Assert.True(await semaphore.WaitAsync(waitingTime).ConfigureAwait(false));
             Assert.Equal(0, _storage.Count);
         }
 

@@ -20,7 +20,7 @@
         {
             _serviceUri = new Uri("http://localhost:9999");
             _requestHandler = keySet => Task.FromResult(TranslationSet.FromDictionary(new Dictionary<string, string>()));
-            _syncHandler = async (keySets) => await Task.FromResult(new Dictionary<string, TranslationSet>());
+            _syncHandler = async (keySets) => await Task.FromResult(new Dictionary<string, TranslationSet>()).ConfigureAwait(false);
         }
 
         [Fact]

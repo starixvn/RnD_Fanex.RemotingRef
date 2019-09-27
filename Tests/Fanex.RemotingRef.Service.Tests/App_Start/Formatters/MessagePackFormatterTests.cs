@@ -65,12 +65,14 @@
             var writeStream = new MemoryStream();
 
             // Act.
-            var exception = await Record.ExceptionAsync(() => _formatter.WriteToStreamAsync(
-                type,
-                value,
-                writeStream,
-                null,
-                null));
+            var exception = await Record
+                .ExceptionAsync(() => _formatter.WriteToStreamAsync(
+                    type,
+                    value,
+                    writeStream,
+                    null,
+                    null))
+                .ConfigureAwait(false);
 
             writeStream.Dispose();
 
@@ -87,12 +89,14 @@
             Stream writeStream = null;
 
             // Act.
-            var exception = await Record.ExceptionAsync(() => _formatter.WriteToStreamAsync(
-                type,
-                value,
-                writeStream,
-                null,
-                null));
+            var exception = await Record
+                .ExceptionAsync(() => _formatter.WriteToStreamAsync(
+                    type,
+                    value,
+                    writeStream,
+                    null,
+                    null))
+                .ConfigureAwait(false);
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -107,12 +111,14 @@
             var writeStream = new MemoryStream();
 
             // Act.
-            await _formatter.WriteToStreamAsync(
-                type,
-                value,
-                writeStream,
-                null,
-                null);
+            await _formatter
+                .WriteToStreamAsync(
+                    type,
+                    value,
+                    writeStream,
+                    null,
+                    null)
+                .ConfigureAwait(false);
 
             var actualBinary = writeStream.ToArray();
 
@@ -132,11 +138,13 @@
             var readStream = new MemoryStream();
 
             // Act.
-            var exception = await Record.ExceptionAsync(() => _formatter.ReadFromStreamAsync(
-                type,
-                readStream,
-                null,
-                null));
+            var exception = await Record
+                .ExceptionAsync(() => _formatter.ReadFromStreamAsync(
+                    type,
+                    readStream,
+                    null,
+                    null))
+                .ConfigureAwait(false);
 
             readStream.Dispose();
 
@@ -152,11 +160,13 @@
             Stream readStream = null;
 
             // Act.
-            var exception = await Record.ExceptionAsync(() => _formatter.ReadFromStreamAsync(
-                type,
-                readStream,
-                null,
-                null));
+            var exception = await Record
+                .ExceptionAsync(() => _formatter.ReadFromStreamAsync(
+                    type,
+                    readStream,
+                    null,
+                    null))
+                .ConfigureAwait(false);
 
             // Assert.
             Assert.IsType<ArgumentNullException>(exception);
@@ -172,11 +182,13 @@
             var readStream = new MemoryStream(binary);
 
             // Act.
-            var actualValue = await _formatter.ReadFromStreamAsync(
-                type,
-                readStream,
-                null,
-                null);
+            var actualValue = await _formatter
+                .ReadFromStreamAsync(
+                    type,
+                    readStream,
+                    null,
+                    null)
+                .ConfigureAwait(false);
 
             readStream.Dispose();
 

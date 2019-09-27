@@ -30,7 +30,7 @@
         public void NegativeCompactionPercentageThrowsArgumentOutOfRangeException()
         {
             // Arrange.
-            var negativeCompactionPercentage = -0.1;
+            const double negativeCompactionPercentage = -0.1;
 
             // Act.
             var exception = Record.Exception(() => new LocalStorageOptions
@@ -46,7 +46,7 @@
         public void GreaterThanOneCompactionPercentageThrowsArgumentOutOfRangeException()
         {
             // Arrange.
-            var outOfRangeCompactionPercentage = 1.1;
+            const double outOfRangeCompactionPercentage = 1.1;
 
             // Act.
             var exception = Record.Exception(() => new LocalStorageOptions

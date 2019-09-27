@@ -237,7 +237,7 @@
             // Assert.
             var waitingTime = TimeSpan.FromSeconds(30);
 
-            Assert.True(await semaphore.WaitAsync(waitingTime));
+            Assert.True(await semaphore.WaitAsync(waitingTime).ConfigureAwait(false));
             metrics.ReportRunner.Received().RunAllAsync();
 
             scheduler.Dispose();
