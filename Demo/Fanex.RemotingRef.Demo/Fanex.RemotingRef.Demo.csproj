@@ -148,6 +148,8 @@
     <Compile Include="Controllers\FastMarketsChoiceController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TableGamesBetChoiceController.cs" />
+    <Compile Include="Controllers\TableGamesBetTypeController.cs" />
     <Compile Include="Controllers\KenoBetTypeController.cs" />
     <Compile Include="Controllers\LeagueName3rdController.cs" />
     <Compile Include="Controllers\LeagueNameController.cs" />
@@ -263,7 +265,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50301</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50301/</IISUrl>
+          <IISUrl>http://localhost:50302/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

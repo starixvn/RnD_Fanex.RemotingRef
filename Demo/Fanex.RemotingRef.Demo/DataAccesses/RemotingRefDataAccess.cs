@@ -254,6 +254,26 @@
             };
         }
 
+        public RefDataResult GetTableGamesBetType(string tableGamesBetTypeId, string languageCode = "en-US")
+        {
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetTableGamesBetType(tableGamesBetTypeId, languageCode, DefaultValue),
+                TaiwanRefOld = string.Empty,
+                TaiwanRefNew = string.Empty
+            };
+        }
+
+        public RefDataResult GetTableGamesBetChoice(string tableGamesBetChoiceId, string languageCode = "en-US")
+        {
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetTableGamesBetChoice(tableGamesBetChoiceId, languageCode,out string DefaultValue),
+                TaiwanRefOld = string.Empty,
+                TaiwanRefNew = string.Empty
+            };
+        }
+
         public RefDataResult GetFastMarketsChoice(string betTypeId, string betTeam, int handicap1, int handicap2, string languageCode = "en-US")
         {
             var twLanguage = Common.GenerateTaiwanLanguage(languageCode);

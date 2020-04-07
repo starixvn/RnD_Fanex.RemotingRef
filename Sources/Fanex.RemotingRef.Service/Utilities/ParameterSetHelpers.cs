@@ -184,5 +184,19 @@
 
             return parameterSet.ContainsKey(parameterName) ? Convert.ToInt32(parameterSet[parameterName]) : default;
         }
+
+        public static string GetTableGamesBetChoiceId(this ParameterSet parameterSet)
+        {
+            const string parameterName = "TableGamesBetChoiceId";
+
+            return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
+        }
+
+        public static string GetTableGamesBetTypeId(this ParameterSet parameterSet)
+        {
+            const string parameterName = "tableGamesBetTypeId";
+
+            return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName] as string : null;
+        }
     }
 }

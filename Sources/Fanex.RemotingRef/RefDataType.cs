@@ -26,6 +26,8 @@
         BetRadarMatchCodeFormat,
         DisplayedTypeId,
         DisplayedBetTypeName,
-        BetBuilderSelectionName
+        BetBuilderSelectionName,
+        TableGamesBetChoice,
+        TableGamesBetType
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Fanex.RemotingRef.Service.Utilities.RefData
 {
     using global::RemotingRef;
+    using RefNewData;
 
     public class RefDataHelper : IRefDataHelper
     {
@@ -10,6 +11,7 @@
         /// and client will cache empty string, so we use NULL to make client dont cache it.
         /// </summary>
         private const string DefaultValue = null;
+        private readonly RefNewDataHandler refNewDataHandler = new RefNewDataHandler();
 
         public string GetBetTypeName(
             string betTypeId,
@@ -160,5 +162,15 @@
 
             return selectionNames.Length > 0 ? selectionNames[0] : default;
         }
+
+        public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId)
+            => refNewDataHandler.GetTabletGameBetChoice(
+                tableGamesBetChoiceId,
+                language,
+                DefaultValue,
+                out tableGamesBetTypeId);
+
+        public string GetTableGamesBetType(string tableGamesBetTypeId, string language)
+            => refNewDataHandler.GetTableGameBettype(tableGamesBetTypeId, language, DefaultValue);
     }
 }

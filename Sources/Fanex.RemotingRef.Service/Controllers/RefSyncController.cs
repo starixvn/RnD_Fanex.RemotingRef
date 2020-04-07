@@ -297,6 +297,38 @@
                 (parameterSet, refLanguageCode) => _refData.GetBetBuilderSelectionName(parameterSet.GetSelectionId(), refLanguageCode));
         }
 
+        [HttpPost]
+        public SyncedTranslationResultSet TableGamesBetChoice([FromBody] RequestSyncFormData formData)
+        {
+            Tuple<string, string> GetTableGamesBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
+            {
+                var tableGamesBetChoice = _refData.GetTableGamesBetChoice(
+                    parameterSet.GetTableGamesBetChoiceId(),
+                    refLanguageCode,
+                    out string tableGamesBetTypeId);
+
+                if (string.IsNullOrEmpty(tableGamesBetChoice) && string.IsNullOrEmpty(tableGamesBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(tableGamesBetChoice, tableGamesBetTypeId);
+            }
+
+            return GetSyncedTranslationResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                GetTableGamesBetChoiceAndType,
+                choiceAndTypePair => choiceAndTypePair != null);
+        }
+
+        [HttpPost]
+        public SyncedTranslationResultSet TableGamesBetType([FromBody]RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
+                formData.ParameterSets,
+                formData.Languages,
+                (parameterSet, refLanguageCode) => _refData.GetKenoBetType(parameterSet.GetTableGamesBetTypeId(), refLanguageCode));
+
         private static SyncedTranslationResultSet GetSyncedNeutralTextSet(IList<ParameterSet> parameterSets, SyncNeutralResouceDelegate<string> textGetter)
         {
             var syncedResultSet = new SyncedTranslationResultSet();

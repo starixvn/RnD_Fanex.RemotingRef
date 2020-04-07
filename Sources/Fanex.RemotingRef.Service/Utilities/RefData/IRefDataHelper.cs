@@ -71,5 +71,13 @@
         string GetDisplayedTypeId(string betTypeId);
 
         string GetBetBuilderSelectionName(int selectionId, string language);
+
+#pragma warning disable S3874 // "out" and "ref" parameters should not be used
+
+        string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId);
+
+#pragma warning restore S3874 // "out" and "ref" parameters should not be used
+
+        string GetTableGamesBetType(string tableGamesBetTypeId, string language);
     }
 }

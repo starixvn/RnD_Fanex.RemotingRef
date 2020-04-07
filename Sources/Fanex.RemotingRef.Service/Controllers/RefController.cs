@@ -262,6 +262,36 @@
                 languages);
         }
 
+        [HttpGet]
+        public TranslationSet TableGamesBetChoice(string tableGamesBetChoiceId = null, [FromUri]string[] languages = null)
+        {
+            Tuple<string, string> GetTableGamesBetChoiceAndType(string refLanguageCode)
+            {
+                var tableGamesBetChoice = _refData.GetTableGamesBetChoice(
+                    tableGamesBetChoiceId,
+                    refLanguageCode,
+                    out string tableGamesBetTypeId);
+
+                if (string.IsNullOrEmpty(tableGamesBetChoice) && string.IsNullOrEmpty(tableGamesBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(tableGamesBetChoice, tableGamesBetTypeId);
+            }
+
+            return GetTranslationSet(
+                GetTableGamesBetChoiceAndType,
+                languages,
+                choiceAndTypePair => choiceAndTypePair != null);
+        }
+
+        [HttpGet]
+        public TranslationSet TableGamesBetType(string tableGamesBetTypeId = null, [FromUri]string[] languages = null)
+            => GetTranslationSet(
+                refLanguagCode => _refData.GetTableGamesBetType(tableGamesBetTypeId, refLanguagCode),
+                languages);
+
         private static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
         {
             var text = textGetter();

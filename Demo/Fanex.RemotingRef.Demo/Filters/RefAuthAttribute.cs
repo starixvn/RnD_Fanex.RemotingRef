@@ -14,19 +14,19 @@
             var request = filterContext.HttpContext.Request;
             var token = request.QueryString["token"];
 
-            if (request.IsLocal)
-            {
+            //if (request.IsLocal)
+            //{
                 StoreCookie(filterContext, "allow");
                 return;
-            }
+            //}
 
-            if (!string.IsNullOrEmpty(token) && IsValidToken(token))
-            {
-                StoreCookie(filterContext, token);
-                return;
-            }
+            //if (!string.IsNullOrEmpty(token) && IsValidToken(token))
+            //{
+            //    StoreCookie(filterContext, token);
+            //    return;
+            //}
 
-            filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl ?? "~/Error/Unauthorized");
+            //filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl ?? "~/Error/Unauthorized");
         }
 
         private static void StoreCookie(AuthorizationContext filterContext, string token)

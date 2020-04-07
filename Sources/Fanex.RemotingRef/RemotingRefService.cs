@@ -748,6 +748,72 @@ namespace Fanex.RemotingRef
                 languageCode,
                 defaultValue);
 
+#pragma warning disable S3874 // "out" and "ref" parameters should not be used
+
+        public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string languageCode, out string tableGamesBetTypeId)
+            => GetTableGamesBetChoice(
+                tableGamesBetChoiceId,
+                languageCode,
+                string.Empty,
+                out tableGamesBetTypeId);
+
+        public string GetTableGamesBetChoice(
+            string tableGamesBetChoiceId,
+            string languageCode,
+            string defaultValue,
+            out string tableGamesBetTypeId)
+        {
+            if (IsUnacceptableNumericId(tableGamesBetChoiceId))
+            {
+                tableGamesBetTypeId = defaultValue;
+
+                return defaultValue;
+            }
+
+            const string actionName = "TableGamesBetChoice";
+
+            var handler = RefDataTypeContainer.TryResolveDataTypeHandler(
+                RefDataType.TableGamesBetChoice,
+                parameters => RequestTranslationAsync<Tuple<string, string>>(actionName, parameters),
+                parameterSets => SyncTranslationsAsync<Tuple<string, string>>(actionName, parameterSets));
+            var keySet = new KeySet
+            {
+                [nameof(tableGamesBetChoiceId)] = tableGamesBetChoiceId
+            };
+            var choiceAndBetType = handler.Get(keySet, languageCode) as Tuple<string, string>;
+
+            tableGamesBetTypeId = choiceAndBetType?.Item2 ?? defaultValue;
+
+            return choiceAndBetType?.Item1 ?? defaultValue;
+        }
+
+#pragma warning restore S3874 // "out" and "ref" parameters should not be used
+
+        public string GetTableGamesBetType(string tableGamesBetTypeId, string languageCode)
+            => GetTableGamesBetType(tableGamesBetTypeId, languageCode, string.Empty);
+
+        public string GetTableGamesBetType(string tableGamesBetTypeId, string languageCode, string defaultValue)
+        {
+            if (IsUnacceptableNumericId(tableGamesBetTypeId))
+            {
+                return defaultValue;
+            }
+
+            const string actionName = "TableGamesBetType";
+
+            var keySet = new KeySet
+            {
+                [nameof(tableGamesBetTypeId)] = tableGamesBetTypeId
+            };
+            var tableGamesBetTypeName = GetTranslationText(
+                RefDataType.TableGamesBetType,
+                actionName,
+                keySet,
+                languageCode);
+
+            return tableGamesBetTypeName ?? defaultValue;
+        }
+
         private string GetDisplayedBetTypeNameInternal(
             string betTypeId,
             string resourceId,

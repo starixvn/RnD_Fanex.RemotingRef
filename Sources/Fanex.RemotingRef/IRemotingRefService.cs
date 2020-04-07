@@ -151,5 +151,21 @@
             string defaultValue);
 
         string[] GetBetBuilderSelectionNames(int[] selectionIds, string languageCode);
+
+#pragma warning disable S3874 // "out" and "ref" parameters should not be used
+
+        string GetTableGamesBetChoice(string tableGamesBetChoiceId, string languageCode, out string tableGamesBetTypeId);
+
+        string GetTableGamesBetChoice(
+            string tableGamesBetChoiceId,
+            string languageCode,
+            string defaultValue,
+            out string tableGamesBetTypeId);
+
+#pragma warning restore S3874 // "out" and "ref" parameters should not be used
+
+        string GetTableGamesBetType(string tableGamesBetTypeId, string languageCode);
+
+        string GetTableGamesBetType(string tableGamesBetTypeId, string languageCode, string defaultValue);
     }
 }
