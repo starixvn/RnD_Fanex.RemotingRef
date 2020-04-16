@@ -191,6 +191,7 @@
     <Content Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="deployment.ignore" />
     <None Include="Fanex.RemotingRef.Service.ruleset" />
   </ItemGroup>
   <ItemGroup>
