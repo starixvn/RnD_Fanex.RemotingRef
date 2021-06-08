@@ -186,6 +186,9 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Setting\RedisSetting.aws.xml">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
     <Content Include="Setting\RedisSetting.mnl.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>

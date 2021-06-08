@@ -187,14 +187,17 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Setting\RedisSetting.aws.xml">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
     <Content Include="Setting\RedisSetting.mnl.xml">
+      <DependentUpon>RedisSetting.xml</DependentUpon>
+    </Content>
+    <Content Include="Setting\RedisSetting.pro.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
     <Content Include="Setting\RedisSetting.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Setting\RedisSetting.pro.xml">
-      <DependentUpon>RedisSetting.xml</DependentUpon>
     </Content>
     <Content Include="Setting\RedisSetting.sit.xml">
       <DependentUpon>RedisSetting.xml</DependentUpon>
@@ -218,7 +221,7 @@
     <Content Include="Web.AppSettings.pro.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
     </Content>
-	<Content Include="Web.AppSettings.aws.config">
+    <Content Include="Web.AppSettings.aws.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
     </Content>
     <Content Include="Web.AppSettings.sit.config">
