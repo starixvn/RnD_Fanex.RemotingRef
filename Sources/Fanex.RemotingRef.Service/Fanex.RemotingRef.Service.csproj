@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--<PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0</VSToolsPath>
+  </PropertyGroup>-->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -45,9 +49,15 @@
     <CodeAnalysisRuleSet>Fanex.RemotingRef.Service.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IBCCrypt">
+      <HintPath>..\..\SharedAssemblies\IBCCrypt.dll</HintPath>
+    </Reference>
     <Reference Include="IBCFile, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharedAssemblies\IBCFile.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>..\..\SharedAssemblies\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -78,6 +88,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll</HintPath>
     </Reference>
+    <Reference Include="Pipelines.Sockets.Unofficial">
+      <HintPath>..\..\SharedAssemblies\Pipelines.Sockets.Unofficial.dll</HintPath>
+    </Reference>
+    <Reference Include="RefBaseProvider">
+      <HintPath>..\..\SharedAssemblies\RefBaseProvider.dll</HintPath>
+    </Reference>
     <Reference Include="RefDataModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharedAssemblies\RefDataModel.dll</HintPath>
@@ -89,6 +105,9 @@
     <Reference Include="RefRelayRemoteStation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharedAssemblies\RefRelayRemoteStation.dll</HintPath>
+    </Reference>
+    <Reference Include="RefRelayStation">
+      <HintPath>..\..\SharedAssemblies\RefRelayStation.dll</HintPath>
     </Reference>
     <Reference Include="RemotingRef, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -103,8 +122,26 @@
       <HintPath>..\..\SharedAssemblies\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers">
+      <HintPath>..\..\SharedAssemblies\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.PerformanceCounter">
+      <HintPath>..\..\SharedAssemblies\System.Diagnostics.PerformanceCounter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression">
+      <HintPath>..\..\SharedAssemblies\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipelines">
+      <HintPath>..\..\SharedAssemblies\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\..\SharedAssemblies\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels">
+      <HintPath>..\..\SharedAssemblies\System.Threading.Channels.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -187,6 +224,7 @@
     </Content>
     <Content Include="Web.AppSettings.uat.config">
       <DependentUpon>Web.AppSettings.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="nlog.config" />
   </ItemGroup>
@@ -209,6 +247,9 @@
     </PackageReference>
     <PackageReference Include="Fanex.Logging.Extensions.Web">
       <Version>1.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Fanex.Logging.RabbitMQ">
+      <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="MessagePack">
       <Version>1.7.3.7</Version>
