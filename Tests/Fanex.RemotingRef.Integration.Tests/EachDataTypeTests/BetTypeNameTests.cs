@@ -77,7 +77,7 @@
 
         [Fact]
         [Description("GIVE: (unexisting betTypeId) && (refNo > one hundred billions) && (no defaultValue provided) | GET: empty string")]
-        public void GetEmptyStringWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
+        public void GetViaLuckyWithOverOneHundredBillionRefNoButUnexistingBetTypeId()
         {
             // Arrange.
             const string unexistingBetTypeId = "-2";
@@ -90,7 +90,7 @@
                 satisfiedRefNo);
 
             // Assert.
-            Assert.Empty(actualBetTypeName);
+            Assert.Equal(" (Via Lucky)", actualBetTypeName);
         }
 
         [Fact]
@@ -109,7 +109,7 @@
                 DefaultValue);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualBetTypeName);
+            Assert.Equal(" (Via Lucky)", actualBetTypeName);
         }
 
         [Fact]
@@ -199,7 +199,7 @@
         }
 
         [Fact]
-        [Description("GIVE: (unexisting betTypeId) && (resourceId is not null or empty) && (refNo > one hundred billions) | GET: given defaultValue")]
+        [Description("GIVE: (unexisting betTypeId) && (resourceId is not null or empty) && (refNo > one hundred billions) | GET: given Via Lucky")]
         public void TakeBackDefaultValueWithSatisfiedResourceIdAndRefNoButUnexistingBetTypeId()
         {
             // Arrange.
@@ -216,7 +216,7 @@
                 satisfiedRefNo);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualBetTypeName);
+            Assert.Equal(" (Via Lucky)", actualBetTypeName);
         }
     }
 }
