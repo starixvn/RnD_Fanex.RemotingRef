@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net5.0;</TargetFrameworks>
+        <AssemblyName>Fanex.RemotingRef</AssemblyName>
+        <Description>RemotingRef client which works with service that wraps RemotingRef API 2.0.</Description>
+        <PackageTags>fanex.remotingref;remotingref</PackageTags>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Include="..\Fanex.RemotingRef\Delegates\RequestTranslationSetDelegate.cs" Link="Delegates\RequestTranslationSetDelegate.cs" />
+      <Compile Include="..\Fanex.RemotingRef\Delegates\SyncTranslationSetsDelegate.cs" Link="Delegates\SyncTranslationSetsDelegate.cs" />
+      <Compile Include="..\Fanex.RemotingRef\IRefDataTypeHandler.cs" Link="IRefDataTypeHandler.cs" />
+      <Compile Include="..\Fanex.RemotingRef\IRemotingRefService.cs" Link="IRemotingRefService.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RefDataType.cs" Link="RefDataType.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RefDataTypeContainer.cs" Link="RefDataTypeContainer.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RefDataTypeHandler.cs" Link="RefDataTypeHandler.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RefDataTypeHandlerOptions.cs" Link="RefDataTypeHandlerOptions.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RemotingRefException.cs" Link="RemotingRefException.cs" />
+      <Compile Include="..\Fanex.RemotingRef\RemotingRefService.cs" Link="RemotingRefService.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\CacheEntry.cs" Link="TranslationStorage\CacheEntry.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\GcNotification.cs" Link="TranslationStorage\GcNotification.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\IStorage.cs" Link="TranslationStorage\IStorage.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\ISystemClock.cs" Link="TranslationStorage\ISystemClock.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\KeySet.cs" Link="TranslationStorage\KeySet.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\LocalStorage.cs" Link="TranslationStorage\LocalStorage.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\LocalStorageOptions.cs" Link="TranslationStorage\LocalStorageOptions.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\SystemClock.cs" Link="TranslationStorage\SystemClock.cs" />
+      <Compile Include="..\Fanex.RemotingRef\TranslationStorage\TranslationSet.cs" Link="TranslationStorage\TranslationSet.cs" />
+      <Compile Include="..\Fanex.RemotingRef\Utilities\Serialization\ISerializer.cs" Link="Utilities\Serialization\ISerializer.cs" />
+      <Compile Include="..\Fanex.RemotingRef\Utilities\WebClient\IHttpHandler.cs" Link="Utilities\WebClient\IHttpHandler.cs" />
+      <Compile Include="..\Fanex.RemotingRef\Utilities\WebClient\MsgPackHttpClientHandler.cs" Link="Utilities\WebClient\MsgPackHttpClientHandler.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="MessagePack" Version="2.4.35" />
+      <PackageReference Include="System.Net.Http" Version="4.3.4" />
+      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Delegates\" />
+      <Folder Include="TranslationStorage\" />
+      <Folder Include="Utilities\WebClient\" />
+    </ItemGroup>
+</Project>

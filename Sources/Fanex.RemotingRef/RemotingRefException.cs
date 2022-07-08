@@ -31,7 +31,6 @@
 
         public string FailedReason { get; }
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(RequestUri), RequestUri);
