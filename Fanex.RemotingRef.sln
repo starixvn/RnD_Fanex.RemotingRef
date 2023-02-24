@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32413.511
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{09417347-4309-456D-92C2-B720C5BB02BA}"
 EndProject
@@ -14,8 +14,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef", "Source
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFB678FA-8D25-4723-AC05-257E38B7667B}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitlab-ci.yml = .gitlab-ci.yml
 		build.ps1 = build.ps1
 		Directory.build.props = Directory.build.props
+		Dockerfile = Dockerfile
+		NuGet.Config = NuGet.Config
 		README.md = README.md
 		SonarQube.Analysis.xml = SonarQube.Analysis.xml
 	EndProjectSection
@@ -56,10 +60,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedAssemblies", "SharedA
 		SharedAssemblies\StackExchange.Redis.dll = SharedAssemblies\StackExchange.Redis.dll
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRefNetCore", "Sources\Fanex.RemotingRef.NetCore\Fanex.RemotingRefNetCore.csproj", "{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net5Demo", "Demo\Net5Demo\Net5Demo.csproj", "{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,14 +90,6 @@ Global
 		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56E8B40-6415-4D28-BE88-65A07CBD76F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,8 +101,6 @@ Global
 		{168B6C76-1135-4961-9DB2-0126AF91BED0} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{24180F1D-0405-4122-ADA1-02C09413DFA5} = {09417347-4309-456D-92C2-B720C5BB02BA}
 		{C56E8B40-6415-4D28-BE88-65A07CBD76F2} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
-		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC} = {09417347-4309-456D-92C2-B720C5BB02BA}
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {949DBAC3-3A94-4139-814E-7FF3361D43A8}
