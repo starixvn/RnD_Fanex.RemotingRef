@@ -7,12 +7,12 @@
     public class MessagePackSerializer : ISerializer
     {
         public byte[] Serialize<T>(T obj)
-            => MessagePack.MessagePackSerializer.Serialize(obj, ContractlessStandardResolver.Instance);
+            => MessagePack.MessagePackSerializer.Serialize<T>(obj);
 
         public T Deserialize<T>(Stream readStream)
-            => MessagePack.MessagePackSerializer.Deserialize<T>(readStream, ContractlessStandardResolver.Instance);
+            => MessagePack.MessagePackSerializer.Deserialize<T>(readStream);
 
-        public Task<T> DeserializeAsync<T>(Stream readStream)
-            => MessagePack.MessagePackSerializer.DeserializeAsync<T>(readStream, ContractlessStandardResolver.Instance);
+        public ValueTask<T> DeserializeAsync<T>(Stream readStream)
+            => MessagePack.MessagePackSerializer.DeserializeAsync<T>(readStream);
     }
 }
