@@ -1,0 +1,560 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RefData.Common</name>
+    </assembly>
+    <members>
+        <member name="M:RefDataModelStandard.Collection.ResourceDataModelCollection.TryGetResourceDictionary(System.String,System.Collections.Generic.Dictionary{System.String,RefDataModelStandard.DataModels.ResourceDataModel}@)">
+            <summary>
+                返回制定的 RedId之下的所有 ResourceModels
+            </summary>
+            <param name="refId">僅可傳入 RefIdSet物件</param>
+            <param name="dictionary">找不到指定 RefId時回傳空 Dictionary</param>
+            <returns></returns>
+        </member>
+        <member name="T:RefDataModelStandard.DataModels.BetTypeDataModel">
+            <summary>
+                BetTypeModel rename property
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.DataModels.BetTypeDataModel.BetTypeNameFillParameter(RefDataModelStandard.Models.Request.GetBetTypeNameModel)">
+            <summary>
+                Replace bet type name, ex : 第 X 局首先獲得 Y 分
+            </summary>
+            <param name="getBetTypeNameModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RefDataModelStandard.DataModels.ColumnAttributeTypeMapper`1">
+            <summary>
+            Uses the Name value of the <see cref="T:RefDataModelStandard.DataModels.ColumnAttribute"/> specified to determine
+            the association between the name of the column in the query results and the member to
+            which it will be extracted. If no column mapping is present all members are mapped as
+            usual.
+            </summary>
+            <typeparam name="T">The type of the object that this association between the mapper applies to.</typeparam>
+        </member>
+        <member name="T:RefDataModelStandard.DataModels.ExchangeDataModel">
+            <summary>
+            不可將 double改成 decimal，部分貨幣的匯率小於 decimal.MinValue
+            </summary>
+        </member>
+        <member name="T:RefDataModelStandard.DataModels.FinancialPrecisionDataModel">
+            <summary>
+                金融資產精度 model
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.FinancialPrecisionDataModel.AssetId">
+            <summary>
+                資產 ID
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.FinancialPrecisionDataModel.Precision">
+            <summary>
+                精度
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.ISiteConfigDataModel.SiteId">
+            <summary>
+            Message site id, ex : 4100, 4200, 4200100......
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.LeagueInfoDataModel.Logo">
+            <summary>
+            get from other service
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.LicenseeSiteSettingDataModel.SiteId">
+            <summary>
+            Message site id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.DataModels.MaxPayoutDataModel.LiveIndicator">
+            <summary>
+            判斷 is live
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Dtos.DisabledControlDto.IsDisabled(System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                依照 sportType, leagueId, matchId, oddsId判斷是否被 disable，若其中之一被 disable，則回傳 true
+            </summary>
+            <param name="isLive"></param>
+            <param name="sportType"></param>
+            <param name="leagueId"></param>
+            <param name="matchId"></param>
+            <param name="oddsId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataModelStandard.Dtos.DisabledControlDto.LiveIsDisable(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                依照 sportType, leagueId, matchId, oddsId判斷是否被 disable，若其中之一被 disable，則回傳 true
+            </summary>
+            <param name="sportType"></param>
+            <param name="leagueId"></param>
+            <param name="matchId"></param>
+            <param name="oddsId"></param>
+            <param name="leagueGroupId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataModelStandard.Dtos.DisabledControlDto.NonLiveIsDisable(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                依照 sportType, leagueId, matchId, oddsId判斷是否被 disable，若其中之一被 disable，則回傳 true
+            </summary>
+            <param name="sportType"></param>
+            <param name="leagueId"></param>
+            <param name="matchId"></param>
+            <param name="oddsId"></param>
+            <param name="leagueGroupId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RefDataModelStandard.Enums.BetCheckEnum">
+            <summary>
+            Parlay[x] : x串一
+            </summary>
+        </member>
+        <member name="T:RefDataModelStandard.Enums.BetCheckEnum2">
+            <summary>
+            Combo Parlay Type Name
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.BetTeamEnum.H">
+            <summary>
+            Home
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.BetTeamEnum.A">
+            <summary>
+            Away
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.BetTeamEnum.O">
+            <summary>
+            Over
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.BetTeamEnum.U">
+            <summary>
+            Under
+            </summary>
+        </member>
+        <member name="T:RefDataModelStandard.Enums.ErrorEnum">
+            <summary>
+                Error
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.ErrorEnum.Success">
+            <summary>
+                Success
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.ErrorEnum.ModelValidateError">
+            <summary>
+                模型驗證錯誤
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.ErrorEnum.InternalServerError">
+            <summary>
+                InternalServerError
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.ErrorEnum.ParameterError">
+            <summary>
+                輸入參數錯誤，屬於執行階段檢查
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.Goal">
+            <summary>
+            進球
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.Corner">
+            <summary>
+            角球
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.FreeKick">
+            <summary>
+            任意球
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.GoalKick">
+            <summary>
+            龍門球
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.ThrowIn">
+            <summary>
+            界外球
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.Booking">
+            <summary>
+            罰牌
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Enums.FastMarketBetOptionsEnum.Penalty">
+            <summary>
+            點球
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Extensions.CacheKeyExtensions.CacheKey(System.Object)">
+            <summary>
+            取得 model的 cache key
+            </summary>
+            <param name="model"></param>
+            <returns>"ex : {property1}_{property2}"</returns>
+            <exception cref="T:System.InvalidOperationException">model 的其中一個 property必須含有 CacheKeyAttribute，否則會拋出 exception</exception>
+        </member>
+        <member name="M:RefDataModelStandard.Extensions.MergeDictionaryExtensions.Merge``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+                合併兩個 dictionary的資料，當有相同的 key存在時，otherDictionary會覆蓋 originDictionary
+            </summary>
+            <param name="originDictionary"></param>
+            <param name="otherDictionary"></param>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetAvailabilityGroupIpModel.SiteDbGroupId">
+            <summary>
+                0 or 1
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetAvailabilityGroupIpModel.Site">
+            <summary>
+                Site Name
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetAvailabilityGroupIpModel.SiteId">
+            <summary>
+                Agent site id
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Models.Request.ParameterTypeEnum.Site">
+            <summary>
+                Query by site name
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.Models.Request.ParameterTypeEnum.SiteId">
+            <summary>
+                Query by agent site id (3碼)
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetBetBuilderSelectionNameModel.SelectionIdList">
+            <summary>
+            在資料庫中名字是 SelectionType
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.GetBetradarMatchCodeFormatModel.GetMatchCodeSymbolList">
+            <summary>
+            return match and group
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.GetBetradarMatchCodeFormatModel.GetMatchCodeFormat(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Replace match code symbol, ex : "{9}, {22} 25935" => "比賽日3 A組和B組, 亞洲盃 25935"
+            </summary>
+            <param name="words">key : match, value : replace symbol</param>
+            <returns></returns>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetBetTypeNameModel.BetTypeReplaceSymbol">
+            <summary>
+                不需要 replace symbol可略過這個 item
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.GetBetTypeNameModel.CreateModel(System.Int32,PublicEnum.Language.LanguageEnum,System.String)">
+            <summary>
+                <para>If betTypeId between 9400 and 9606, resourceId length should be 5 or 3, 6, 9</para>
+                <para>else resourceId length should be 2, 4, 6</para>
+            </summary>
+            <param name="betTypeId"></param>
+            <param name="language"></param>
+            <param name="resourceId">N7 Sport不用給 resource id</param>
+            <returns></returns>
+        </member>
+        <member name="T:RefDataModelStandard.Models.Request.BetTypeReplaceSymbolModel">
+            <summary>
+                Replace bet type name, ex : 第 X 局首先獲得 Y 分 (不需要的 symbol可直接略過)
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel.BetCheck">
+            <summary>
+            下注的 parlay的組合
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel.Hdp1">
+            <summary>
+            IsComboParlay, 1: true, 0 ; false
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel.Hdp2">
+            <summary>
+            User下注幾場 ( TicketCount)
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel2.BinaryBetCheck">
+            <summary>
+            <para>正確的用法 : 輸入 binary的 BetCheck, ex : 110, 代表 Trixie</para>
+            <para>錯誤的用法 : 但以往大家都直接傳 BetTeam，這實際上是無法 work的用法</para>
+            <para>當使用 BetCheck找不到對應的 description時，才會嘗試用 BinaryBetCheck查詢 description，正常不會用到這個參數</para>
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel2.BetCheck">
+            <summary>
+            下注的 parlay的組合
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetCombinationTypeComboModel2.TicketCount">
+            <summary>
+            User 下幾張票
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetDisabledControlModel.SiteId">
+            <summary>
+            MessageSiteId, ex : 4100, 4200, 4200100......
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetFastMarketsChoiceModel.Hour">
+            <summary>
+                原本的 Hdp1
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetFastMarketsChoiceModel.FastMarketBetOptionsEnum">
+            <summary>
+                原本的 Hdp2
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.GetFastMarketsResultModel.GetSelectedFastMarketBetOptions">
+            <summary>
+                回傳所選的 fast market bet options並轉成 int
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetLicenseeSiteSettingModel.SiteId">
+            <summary>
+            Message site id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetParlayMaxPayoutModel.IsLive">
+            <summary>
+            判斷 is live
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetPeakHourSpreadListBySiteIdAndSportTypeModel.SiteId">
+            <summary>
+            可以為空
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetPeakHourSpreadListBySiteIdModel.SiteId">
+            <summary>
+                可以為空
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.GetScoreBoxInfoModel.CreateModel(RefDataModelStandard.Enums.BetTeamEnum,PublicEnum.Language.LanguageEnum,System.String)">
+            <summary>
+            scoreText僅接受以下格式字串, ex : 2:-7.02,1:-2.19,0:-0.5,-1:1.18,-2:3.77
+            </summary>
+            <param name="betTeam"></param>
+            <param name="language"></param>
+            <param name="scoreText"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteBetLimitModel.SiteId">
+            <summary>
+            Message Site Id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteConfigModelBase.SiteId">
+            <summary>
+                Message Site Id
+            </summary>
+        </member>
+        <member name="T:RefDataModelStandard.Models.Request.GetSiteConfigModel">
+            <summary>
+                string 型態的 ApName, Platform, Environment
+            </summary>
+        </member>
+        <member name="T:RefDataModelStandard.Models.Request.GetSiteConfigEnumModel">
+            <summary>
+                enum 型態的 ApName, Platform, Environment
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteLeagueModel.SiteId">
+            <summary>
+            MessageSiteId
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteMatchModel.SiteId">
+            <summary>
+            Message Site Id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteOddsModel.SiteId">
+            <summary>
+            Message Site Id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetSiteTypeModel.SiteId">
+            <summary>
+            Agent Site Id
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetThirdPartyLeagueNameModel.Language">
+            <summary>
+            Never use
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.Request.GetThirdPartyTeamNameModel.Language">
+            <summary>
+            Never use
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Models.Request.ScoreBoxItemModel2.#ctor(System.String)">
+            <summary>
+            split ScoreBoxItemText, ex : 3:1.71 => Score = 3, Odds = 1.71
+            </summary>
+            <param name="scoreBoxItemText"></param>
+        </member>
+        <member name="P:RefDataModelStandard.Models.ClientConfigModel.WriteToLocalRedis">
+            <summary>
+                Optional
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.ClientConfigModel.RefDataWebApiUrl">
+            <summary>
+                Required
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.ClientConfigModel.RefDataLocalRedisConfiguration">
+            <summary>
+                Required
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.ClientConfigModel.HttpClientFactory">
+            <summary>
+                Optional, or use default static http client
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.RefDataOption.Timeout">
+            <summary>
+            Seconds
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.RefDataWebApiUrl.Url">
+            <summary>
+                Required
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.RedisConfiguration.Host">
+            <summary>
+                Required
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.RedisConfiguration.DatabaseId">
+            <summary>
+                Required
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_FncIndex">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_OddsType">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_OddsTypeFullName">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_CountryCode">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_RefKey">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_CombinationType">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_CasinoBetItems">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_RouletteBetItems">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_SettlementStatus">
+            <summary>
+                Resource data
+            </summary>
+        </member>
+        <member name="P:RefDataModelStandard.Models.OddsDatabaseConfig.Dot_Member_GetRef_BetBuilderSelection">
+            <summary>
+                2022/11/10 從 DB02移到 OddsDb
+            </summary>
+        </member>
+        <member name="M:RefDataModelStandard.Proxies.IRedisProxy.HashScanAsync``1(System.String,System.String)">
+            <summary>
+                Search redis hash and return specify field
+                先 get keys，再逐一取得 value比較快，實行時間約 100~200 ms
+                HashScan 比較慢，實行時間約 4~5 s
+            </summary>
+            <param name="key"></param>
+            <param name="pattern"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataModelStandard.Proxies.IRedisProxy.HashDelete(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+                刪除多餘的 HashKey
+            </summary>
+            <param name="hashField"></param>
+            <param name="existKeys">既存的 HashKeys, 除此之外都會被刪除</param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataModelStandard.Proxies.RedisProxy.HashScanAsync``1(System.String,System.String)">
+            <summary>
+                Search redis hash and return specify field
+                先 get keys，再逐一取得 value比較快，實行時間約 100~200 ms
+                HashScan 比較慢，實行時間約 4~5 s
+            </summary>
+            <param name="key"></param>
+            <param name="pattern"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:RefDataModelStandard.RefKeys.RefIdSet" -->
+        <member name="F:RefDataModelStandard.RefKeys.RefIdSet.CombinationType20dn">
+            <summary>
+                20 combo 以下的 parlay
+            </summary>
+        </member>
+        <member name="F:RefDataModelStandard.RefKeys.RefIdSet.CombinationType21up">
+            <summary>
+                21 combo 以上的 parlay
+            </summary>
+        </member>
+        <member name="P:RefDataWebApi.Services.GetFinancialPrecisionModel.AssetId">
+            <summary>
+            金融資產 Id
+            </summary>
+        </member>
+        <member name="P:RefDataWebApi.Services.GetSiteSpreadModel.SiteId">
+            <summary>
+            Agent Site Id
+            </summary>
+        </member>
+    </members>
+</doc>

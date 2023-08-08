@@ -1,0 +1,363 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RefDataWebApi</name>
+    </assembly>
+    <members>
+        <member name="P:RefDataWebApi.Attributes.CacheResultAttribute.Duration">
+            <summary>
+            Milliseconds, default 6 minutes
+            </summary>
+        </member>
+        <member name="M:RefDataWebApi.Collections.SiteLeagueCollection.TryGetValue(System.String,System.Collections.Generic.List{RefDataModelStandard.DataModels.SiteLeagueDataDataDataModel}@)">
+            <summary>
+            
+            </summary>
+            <param name="siteId">Message site id</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Collections.SiteLeagueGroupCollection.TryGetValue(System.String,System.Collections.Generic.List{RefDataModelStandard.DataModels.SiteLeagueGroupDataDataModel}@)">
+            <summary>
+            
+            </summary>
+            <param name="siteId">Message site id</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetSystemAndLuckyParlayDescription(RefDataModelStandard.Models.Request.GetSystemParlayDescriptionModel)">
+            <summary>
+                原本的 GetCombinationType
+            </summary>
+            <param name="getSystemParlayDescriptionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetOddsTypeNameDictionary(RefDataModelStandard.Models.Request.GetOddsTypeDictionaryModel)">
+            <summary>
+                key : odds type
+                value : odds type name, ex : Dec, My......
+            </summary>
+            <param name="getOddsTypeDictionaryModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetOddsTypeFullNameDictionary(RefDataModelStandard.Models.Request.GetOddsTypeDictionaryModel)">
+            <summary>
+                key : odds type
+                value : odds type full name, ex : Decimal, Malay......
+            </summary>
+            <param name="getOddsTypeDictionaryModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetBetTypeNameList(RefDataModelStandard.Models.Request.GetBetTypeNameListModel)">
+            <summary>
+                回傳所有的 BetTypeNames
+                key : bet type
+                value : bet type name
+            </summary>
+            <param name="getBetTypeNameListModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetParlayMaxPayout(RefDataModelStandard.Models.Request.GetParlayMaxPayoutModel)">
+            <summary>
+                Return parlay max payout setting, if not found, return parent site setting
+            </summary>
+            <param name="getParlayMaxPayoutModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetBetradarMatchCodeFormat(RefDataModelStandard.Models.Request.GetBetradarMatchCodeFormatModel)">
+            <summary>
+                "{9}, {22} 25935" => "比賽日3 A組和B組, 亞洲盃 25935"
+            </summary>
+            <param name="getBetradarMatchCodeFormatModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetFinancialIndexName(RefDataModelStandard.Models.Request.GetFinancialIndexNameModel)">
+            <summary>
+                取得財經指數的名稱，僅限 SportType 201使用
+            </summary>
+            <param name="getFinancialIndexNameModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetFinancialPrecision(RefDataWebApi.Services.GetFinancialPrecisionModel)">
+            <summary>
+                取得金融資產精度
+            </summary>
+            <param name="getFinancialPrecisionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetFastMarketBetOptionName(RefDataModelStandard.Models.Request.GetFastMarketsResultModel)">
+            <summary>
+                用來取得 FastMarket的 Bet Options的方法
+                等同以前的 GetFastMarketsResult
+            </summary>
+            <param name="getFastMarketsResultModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.BettingController.GetFastMarketBetOptionNameOfBetType225(RefDataModelStandard.Models.Request.GetFastMarketsResultModel)">
+            <summary>
+                For bet type 225 : Next 1 Minute Set Piece
+                會排除掉 Goal跟 Kick Goal，並至少會回傳 None
+            </summary>
+            <param name="getFastMarketsResultModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.LeagueController.GetThirdPartyLeagueName(RefDataModelStandard.Models.Request.GetThirdPartyLeagueNameModel)">
+            <summary>
+                Third party only english league name
+            </summary>
+            <param name="getThirdPartyLeagueNameModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RefDataWebApi.Controllers.RefDataController">
+            <summary>
+                [HttpPost(Name = nameof(""))] means open api name
+            </summary>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetRefKey(RefDataModelStandard.Models.Request.GetRefKeyModel)">
+            <summary>
+                從 [RefResource]取得 RefId == 'RefKey' and ResourceId == 'SettingKey'的值
+                通常是作為某一種開關或設定使用，只會在 Resource_en 塞入 ture/false或數值
+            </summary>
+            <param name="getRefKeyModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetDisableSportControl(RefDataModelStandard.Models.Request.GetDisabledControlModel)">
+            <summary>
+                回傳 SiteSport中，Enable設定為 false的 Sport
+            </summary>
+            <param name="getDisabledControlModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetSiteDisableKeyList">
+            <summary>
+                todo : 好像沒人 call過，確認後移除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetSiteType(RefDataModelStandard.Models.Request.GetSiteTypeModel)">
+            <summary>
+                Return site type
+            </summary>
+            <param name="getSiteTypeModel">Agent site id</param>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetSiteSpread(RefDataWebApi.Services.GetSiteSpreadModel)">
+            <summary>
+                回傳指定的 Site的 UserGroup Spread
+            </summary>
+            <param name="getSiteSpreadModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetMemberSiteSetting(RefDataModelStandard.Models.Request.GetMemberSiteSettingModel)">
+            <summary>
+                裡面沒資料
+            </summary>
+            <param name="getMemberSiteSettingModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetCloseAgentSchedule(RefDataModelStandard.Models.Request.GetCloseAgentScheduleModel)">
+            <summary>
+                裡面只有 2015年的資料
+            </summary>
+            <param name="getCloseAgentScheduleModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.IsExistCloseCountrySchedule(RefDataModelStandard.Models.Request.IsExistCloseCountryScheduleModel)">
+            <summary>
+                裡面只有 2015年的資料
+            </summary>
+            <param name="isExistCloseCountryScheduleModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetRaceChannel">
+            <summary>
+                產品已停用 (Return null)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetSiteConfig(RefDataModelStandard.Models.Request.GetSiteConfigModel)">
+            <summary>
+                key : site config key, value : site config value
+            </summary>
+            <param name="getSiteConfigModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.GetSiteDomain(RefDataModelStandard.Models.Request.GetSiteDomainModel)">
+            <summary>
+                Get site domain model
+            </summary>
+            <param name="getSiteDomainModel">site domain, ex : nova88.com</param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.RefDataController.IsApplyDepSpread(RefDataModelStandard.Models.Request.GetLicenseeSiteSettingModel)">
+            <summary>
+                GetLicenseeSiteSettingOfApplyDepSpread
+                正面表列，只有 apply 的才會放在 setting中
+            </summary>
+            <param name="getLicenseeSiteSettingModel"></param>
+        </member>
+        <member name="M:RefDataWebApi.Controllers.TeamController.GetThirdPartyTeamName(RefDataModelStandard.Models.Request.GetThirdPartyTeamNameModel)">
+            <summary>
+                Third party only english team name
+            </summary>
+            <param name="getThirdPartyTeamNameModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Extensions.MergeDictionaryExtensions.Merge``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+                合併兩個 dictionary的資料，當有相同的 key存在時，otherDictionary會覆蓋 originDictionary
+            </summary>
+            <param name="originDictionary"></param>
+            <param name="otherDictionary"></param>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Interceptor.CacheInterceptor.InterceptAsync``1(Castle.DynamicProxy.IInvocation,Castle.DynamicProxy.IInvocationProceedInfo,System.Func{Castle.DynamicProxy.IInvocation,Castle.DynamicProxy.IInvocationProceedInfo,System.Threading.Tasks.Task{``0}})">
+            <summary>
+                Async method interceptor, provide by AsyncInterceptorBase
+            </summary>
+            <param name="invocation"></param>
+            <param name="proceedInfo"></param>
+            <param name="proceed"></param>
+            <typeparam name="TResult"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Interceptor.AsyncCacheInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+                同步的攔截方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:RefDataWebApi.Interceptor.AsyncCacheInterceptor.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+                非同步的攔截方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:RefDataWebApi.Interceptor.AsyncCacheInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)">
+            <summary>
+                非同步有回傳值的攔截方法
+            </summary>
+            <param name="invocation"></param>
+            <typeparam name="TResult"></typeparam>
+        </member>
+        <member name="T:RefDataWebApi.Job.BaseJob.BaseJobService`1">
+            <summary>
+                Base job service, 提供 error retry功能
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:RefDataWebApi.Job.BaseJob.BaseJobService`1.Execute(Quartz.IJobExecutionContext)">
+            <summary>
+                啟動 job
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:RefDataWebApi.Job.BaseJob.BaseJobService`1.ExecuteJob(Quartz.IJobExecutionContext)">
+            <summary>
+                子類別可複寫這個 method
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:RefDataWebApi.Job.BaseJob.BaseJobService`1.RecordJobExecuteMetrics(System.Int64)">
+            <summary>
+                record for Metrics
+            </summary>
+            <param name="time"></param>
+        </member>
+        <member name="M:RefDataWebApi.Repository.SiteSettingRepository.DynamicParametersConvertToObject``1(``0,Dapper.DynamicParameters)">
+            <summary>
+                SQL Server 資料類型對應
+                https://docs.microsoft.com/zh-tw/dotnet/framework/data/adonet/sql-server-data-type-mappings
+            </summary>
+            <param name="model"></param>
+            <param name="param"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Services.ITeamService.GetTeamName(RefDataModelStandard.Models.Request.GetTeamNameModel)">
+            <summary>
+            GetTeam
+            </summary>
+            <param name="getTeamNameModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.MathUtils.BinaryCombination(System.Int64)">
+            <summary>
+            <para>拆解 data由那些二的次方構成(效能比舊版的好)</para>
+            <para>0 (0000) => 0</para>
+            <para>1 (0001) => 1</para>
+            <para>2 (0010) => 2</para>
+            <para>3 (0011) => 1,2</para>
+            <para>4 (0100) => 4</para>
+            <para>5 (0101) => 1,4</para>
+            <para>6 (0110) => 2,4</para>
+            <para>7 (0111) => 1,2,4</para>
+            <para>8 (1000) => 8</para>
+            <para>9 (1001) => 1,8</para>
+            <para>10 (1010) => 2,8</para>
+            <para>11 (1011) => 1,2,8</para>
+            <para>12 (1100) => 4,8</para>
+            <para>13 (1101) => 1,4,8</para>
+            <para>14 (1110) => 2,4,8</para>
+            <para>15 (1111)=> 1,2,4,8</para>
+            <para>16 => 16</para>
+            <para>17 => 1,16</para>
+            <para>18 => 2,16</para>
+            <para>19 => 1,2,16</para>
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.MathUtils.CalculationCombination(System.Int32,System.Int32)">
+            <summary>
+            依照目前的票數，回傳可以下幾張 combo的票，ex : TicketCount=3，則可以下 3張 Double，公式如下 : ticketCount! / (minTicketCount!)*(ticketCount-minTicketCount!) 
+            </summary>
+            <param name="ticketCount">目前下注幾張</param>
+            <param name="minTicketCount">要形成此種 parlay串法最少下注幾張</param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.MathUtils.Factorial(System.Int32)">
+            <summary>
+            計算 N! 結果
+            </summary>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.MathUtils.GetParentSiteIdList(System.Int32)">
+            <summary>
+            取得上層 site id, 例如 : 4200100 -> 4200000 -> 4000000
+            </summary>
+            <param name="siteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.SiteConfigUtils.DisableLeagueRule(System.Collections.Generic.IEnumerable{RefDataModelStandard.DataModels.SiteLeagueDataDataDataModel},RefDataModelStandard.Models.Request.GetDisabledControlPlatformModel,System.Func{RefDataModelStandard.DataModels.SiteLeagueDataDataDataModel,System.Boolean})">
+            <summary>
+                <para>回傳 disable league, 子site league必須放在主site前面</para>
+                >
+                <para>主site : operatorId == "", 子site : operatorId != "" </para>
+            </summary>
+            <param name="siteLeagueModels">所有的 site league config</param>
+            <param name="getDisabledControlPlatformModel">查詢條件: site id, operator id, platform</param>
+            <param name="checkDisable">disable 的條件(live 與非 live不同，傳 Func決定條件)</param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.SiteConfigUtils.RemoveDuplicateLeague(System.Collections.Generic.IEnumerable{RefDataModelStandard.DataModels.SiteLeagueDataDataDataModel})">
+            <summary>
+                如果查詢子 site設定時，發現同樣 league有重複設定，則使用第一個子 site的設定
+            </summary>
+            <param name="siteLeagueModels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RefDataWebApi.Utils.SiteConfigUtils.DisableRule``1(System.Collections.Generic.IEnumerable{``0},RefDataModelStandard.Models.Request.GetDisabledControlModel,System.Func{``0,System.Boolean})">
+            <summary>
+                <para>回傳 disable league, 子site 必須放在主site前面</para>
+                <para>主site : operatorId == "", 子site : operatorId != "" </para>
+            </summary>
+            <param name="siteConfigModels">所有的 site sport config</param>
+            <param name="getDisabledControlPlatformModel">查詢條件: site id, operator id, platform</param>
+            <param name="checkDisable"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
