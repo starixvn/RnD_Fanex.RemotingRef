@@ -56,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedAssemblies", "SharedA
 		SharedAssemblies\StackExchange.Redis.dll = SharedAssemblies\StackExchange.Redis.dll
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRefNetCore", "Sources\Fanex.RemotingRef.NetCore\Fanex.RemotingRefNetCore.csproj", "{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRefNetCore", "Sources\Fanex.RemotingRef.NetCore\Fanex.RemotingRef.NetCore.csproj", "{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net5Demo", "Demo\Net5Demo\Net5Demo.csproj", "{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}"
 EndProject
