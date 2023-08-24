@@ -10,11 +10,4 @@
         public string[] Languages { get; set; }
 
     }
-
-[MessagePackObject]
-     public class RequestSyncFormData1
-    {
-        [Key(0)]
-        public string Languages { get; set; }
-    }
 }

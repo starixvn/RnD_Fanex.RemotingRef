@@ -11,10 +11,7 @@ COPY Sources/Fanex.RemotingRef.NetCore ./Fanex.RemotingRef.NetCore/
 WORKDIR /Sources/Fanex.RemotingRef.NetCore
 RUN dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
 
-RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
-RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
-RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /usr/lib/ssl/openssl.cnf
-RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.cnf
+FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine as base
 
 # Don’t run as root
 RUN adduser --disabled-password \
@@ -24,9 +21,9 @@ USER dotnetuser
 #
 
 # final stage/image
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0
+
 WORKDIR /app
-COPY --from=builder /app ./
+COPY --from=builder /app .
 ENV TZ="America/La_Paz"
 
 ENTRYPOINT ["dotnet", "Fanex.RemotingRef.NetCore.dll"]

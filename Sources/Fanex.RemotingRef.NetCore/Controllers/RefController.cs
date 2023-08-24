@@ -1,6 +1,5 @@
 ﻿namespace Fanex.RemotingRef.NetCore.Controllers
 {
-    using System;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Fanex.RemotingRef.NetCore.Delegates;
@@ -10,83 +9,83 @@
 
     [ApiController]
     [Route("/api/[controller]")]
-    public class RefController : ControllerBase
+    public class RefController : Controller
     {
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
-        [HttpPost("BetTypeName")]
+        [HttpGet("BetTypeName")]
         public TranslationSet BetTypeName(
             string betTypeId = null,
             string resourceId = null,
             long? refNo = null,
-            [FromBody] string[] languages = null)
+            [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetBetTypeName(
                     betTypeId,
                     resourceId,
                     refNo,
                     refLanguagCode),
-                languages);        
+                languages);
 
-        [HttpPost("SportName")]
-        public TranslationSet SportName(string sportTypeId = null, string languages = "en-us")
+        [HttpGet("SportName")]
+        public TranslationSet SportName(string sportTypeId = null, [FromQuery] string[] languages = null)
                     => GetTranslationSet(
                         refLanguagCode => _refData.GetSportName(sportTypeId, refLanguagCode),
-                        languages.Split(','));
+                        languages);
 
-        [HttpPost("TeamName")]
-        public TranslationSet TeamName(string teamId = null, string languages = "en-us")
+        [HttpGet("TeamName")]
+        public TranslationSet TeamName(string teamId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetTeamName(teamId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("TeamName3rd")]
-        public TranslationSet TeamName3rd(string team3rdId = null, string languages = "en-us")
+        [HttpGet("TeamName3rd")]
+        public TranslationSet TeamName3rd(string team3rdId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetTeamName3rd(team3rdId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("LeagueName")]
-        public TranslationSet LeagueName(string leagueId = null, string languages = "en-us")
+        [HttpGet("LeagueName")]
+        public TranslationSet LeagueName(string leagueId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetLeagueName(leagueId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("LeagueName3rd")]
-        public TranslationSet LeagueName3rd(string league3rdId = null, string languages = "en-us")
+        [HttpGet("LeagueName3rd")]
+        public TranslationSet LeagueName3rd(string league3rdId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetLeagueName3rd(league3rdId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("CountryName")]
-        public TranslationSet CountryName(string countryCode = null, string languages = "en-us")
+        [HttpGet("CountryName")]
+        public TranslationSet CountryName(string countryCode = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetCountryName(countryCode, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("OddsTypeName")]
-        public TranslationSet OddsTypeName(string oddsTypeId = null, string languages = "en-us")
+        [HttpGet("OddsTypeName")]
+        public TranslationSet OddsTypeName(string oddsTypeId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetOddsTypeName(oddsTypeId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("ResourceData")]
-        public TranslationSet ResourceData(string refId = null, string resourceId = null, string languages = "en-us")
+        [HttpGet("ResourceData")]
+        public TranslationSet ResourceData(string refId = null, string resourceId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("ParentIdByBetTypeId")]
+        [HttpGet("ParentIdByBetTypeId")]
         public TranslationSet ParentIdByBetTypeId(string betTypeId = null)
             => GetNeutralText(() => _refData.GetParentIdByBetTypeId(betTypeId));
 
-        [HttpPost("CombinationTypeComboParlay")]
+        [HttpGet("CombinationTypeComboParlay")]
         public TranslationSet CombinationTypeComboParlay(
             string betTeam = null,
             string betCheck = null,
             int handicap1 = 0,
             int handicap2 = 0,
-            [FromBody] string languages = "en-us")
+            [FromQuery] string[] languages = null)
         {
             bool VerifyComboList(string[] combos)
                 => combos != null && combos.Any(combo => !string.IsNullOrEmpty(combo));
@@ -98,30 +97,30 @@
                     handicap1,
                     handicap2,
                     refLanguageCode),
-                languages.Split(','),
+                languages,
                 VerifyComboList);
         }
 
-        [HttpPost("HorseTeamName")]
-        public TranslationSet HorseTeamName(string codeId = null, string languages = "en-us")
+        [HttpGet("HorseTeamName")]
+        public TranslationSet HorseTeamName(string codeId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetHorseTeamName(codeId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("CasinoBetItem")]
-        public TranslationSet CasinoBetItem(string itemId = null, string languages = "en-us")
+        [HttpGet("CasinoBetItem")]
+        public TranslationSet CasinoBetItem(string itemId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetCasinoBetItem(itemId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("RouletteBetItem")]
-        public TranslationSet RouletteBetItem(string itemId = null, string languages = "en-us")
+        [HttpGet("RouletteBetItem")]
+        public TranslationSet RouletteBetItem(string itemId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetRouletteBetItem(itemId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("KenoBetChoice")]
-        public TranslationSet KenoBetChoice(string kenoBetChoiceId = null, string languages = "en-us")
+        [HttpGet("KenoBetChoice")]
+        public TranslationSet KenoBetChoice(string kenoBetChoiceId = null, [FromQuery] string[] languages = null)
         {
             string GetKenoBetChoiceAndType(string refLanguageCode)
             {
@@ -134,23 +133,23 @@
 
             return GetTranslationSet(
                 GetKenoBetChoiceAndType,
-                languages.Split(','),
+                languages,
                 choiceAndTypePair => choiceAndTypePair != null);
         }
 
-        [HttpPost("KenoBetType")]
-        public TranslationSet KenoBetType(string kenoBetTypeId = null, string languages = "en-us")
+        [HttpGet("KenoBetType")]
+        public TranslationSet KenoBetType(string kenoBetTypeId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetKenoBetType(kenoBetTypeId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("FastMarketsChoice")]
+        [HttpGet("FastMarketsChoice")]
         public TranslationSet FastMarketsChoice(
              string betTypeId = null,
              string betTeam = null,
              int handicap1 = 0,
              int handicap2 = 0,
-             [FromBody] string languages = "en-us")
+             [FromQuery] string[] languages = null)
              => GetTranslationSet(
                  refLanguagCode => _refData.GetFastMarketsChoice(
                      betTypeId,
@@ -158,25 +157,25 @@
                      handicap1,
                      handicap2,
                      refLanguagCode),
-                 languages.Split(','));
+                 languages);
 
-        [HttpPost("FastMarketsResult")]
-        public TranslationSet FastMarketsResult(string resultId = null, string languages = "en-us")
+        [HttpGet("FastMarketsResult")]
+        public TranslationSet FastMarketsResult(string resultId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetFastMarketsResult(resultId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
-        [HttpPost("FastMarkets225Result")]
-        public TranslationSet FastMarkets225Result(string resultId = null, string languages = "en-us")
+        [HttpGet("FastMarkets225Result")]
+        public TranslationSet FastMarkets225Result(string resultId = null, [FromQuery] string[] languages = null)
              => GetTranslationSet(
                  refLanguagCode => _refData.GetFastMarkets225Result(resultId, refLanguagCode),
-                 languages.Split(','));
+                 languages);
 
-        [HttpPost("LotteryBetChoice")]
+        [HttpGet("LotteryBetChoice")]
         public TranslationSet LotteryBetChoice(
             string lotteryBetChoiceId = null,
             string betChoiceId = null,
-            [FromBody] string languages = "en-us")
+            [FromQuery] string[] languages = null)
         {
             string GetLotteryBetChoiceAndType(string refLanguageCode)
             {
@@ -189,35 +188,35 @@
 
             return GetTranslationSet(
                 GetLotteryBetChoiceAndType,
-                languages.Split(','),
+                languages,
                 choiceAndTypePair => choiceAndTypePair != null);
         }
 
-        [HttpPost("LotteryBetType")]
+        [HttpGet("LotteryBetType")]
         public TranslationSet LotteryBetType(
              string lotteryBetTypeId = null,
              string betTypeId = null,
-             [FromBody] string languages = "en-us")
+             [FromQuery] string[] languages = null)
              => GetTranslationSet(
                  refLanguagCode => _refData.GetLotteryBetType(lotteryBetTypeId ?? betTypeId, refLanguagCode),
-                 languages.Split(','));
+                 languages);
 
-        [HttpPost("BetRadarMatchCodeFormat")]
-        public TranslationSet BetRadarMatchCodeFormat(string matchCode = null, string languages = "en-us")
+        [HttpGet("BetRadarMatchCodeFormat")]
+        public TranslationSet BetRadarMatchCodeFormat(string matchCode = null, [FromQuery] string[] languages = null)
              => GetTranslationSet(
                  refLanguagCode => _refData.GetBetRadarMatchCodeFormat(matchCode, refLanguagCode),
-                 languages.Split(','));
+                 languages);
 
-        [HttpPost("DisplayedTypeId")]
+        [HttpGet("DisplayedTypeId")]
         public TranslationSet DisplayedTypeId(string betTypeId = null)
             => GetNeutralText(() => _refData.GetDisplayedTypeId(betTypeId));
 
-        [HttpPost("DisplayedBetTypeName")]
+        [HttpGet("DisplayedBetTypeName")]
         public TranslationSet DisplayedBetTypeName(
             string betTypeId = null,
             string resourceId = null,
             long? refNo = null,
-            [FromBody] string languages = "en-us")
+            [FromQuery] string[] languages = null)
         {
             var displayedBetTypeId = _refData.GetDisplayedTypeId(betTypeId);
 
@@ -227,19 +226,19 @@
                     resourceId,
                     refNo,
                     refLanguagCode),
-                languages.Split(','));
+                languages);
         }
 
-        [HttpPost("BetBuilderSelectionName")]
-        public TranslationSet BetBuilderSelectionName(int selectionId = 0, string languages = "en-us")
+        [HttpGet("BetBuilderSelectionName")]
+        public TranslationSet BetBuilderSelectionName(int selectionId = 0, [FromQuery] string[] languages = null)
         {
             return GetTranslationSet(
                 refLanguageCode => _refData.GetBetBuilderSelectionName(selectionId, refLanguageCode),
-                languages.Split(','));
+                languages);
         }
 
-        [HttpPost("TableGamesBetChoice")]
-        public TranslationSet TableGamesBetChoice(string tableGamesBetChoiceId = null, string languages = "en-us")
+        [HttpGet("TableGamesBetChoice")]
+        public TranslationSet TableGamesBetChoice(string tableGamesBetChoiceId = null, [FromQuery] string[] languages = null)
         {
             string GetTableGamesBetChoiceAndType(string refLanguageCode)
             {
@@ -252,15 +251,15 @@
 
             return GetTranslationSet(
                 GetTableGamesBetChoiceAndType,
-                languages.Split(','),
+                languages,
                 choiceAndTypePair => choiceAndTypePair != null);
         }
 
-        [HttpPost("TableGamesBetType")]
-        public TranslationSet TableGamesBetType(string tableGamesBetTypeId = null, string languages = "en-us")
+        [HttpGet("TableGamesBetType")]
+        public TranslationSet TableGamesBetType(string tableGamesBetTypeId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
                 refLanguagCode => _refData.GetTableGamesBetType(tableGamesBetTypeId, refLanguagCode),
-                languages.Split(','));
+                languages);
 
         private static TranslationSet GetNeutralText(GetNeutralResouceDelegate<string> textGetter)
         {

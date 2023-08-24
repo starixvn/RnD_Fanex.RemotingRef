@@ -1,6 +1,5 @@
 ﻿namespace Fanex.RemotingRef.NetCore
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
@@ -11,20 +10,20 @@
 
     [ApiController]
     [Route("/api/[controller]")]
-    public class RefSyncController : ControllerBase
+    public class RefSyncController : Controller
     {
         private readonly IRefDataHelper _refData = new RefDataHelper();
 
         [HttpPost("BetTypeName")]
-        public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)
-            => GetSyncedTranslatedTextResultSet(
+        public IActionResult BetTypeName(RequestSyncFormData formData)
+            => Json(GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
                 (parameterSet, refLanguageCode) => _refData.GetBetTypeName(
                     parameterSet.GetBetTypeId(),
                     parameterSet.GetResourceId(),
                     parameterSet.GetRefNo(),
-                    refLanguageCode));
+                    refLanguageCode)));
 
         [HttpPost("SportName")]
         public SyncedTranslationResultSet SportName(RequestSyncFormData formData)
