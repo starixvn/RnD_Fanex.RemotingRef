@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Diagnostics;
 using MessagePack.Resolvers;
 using MessagePack.AspNetCoreMvcFormatter;
 
@@ -15,11 +14,13 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddEndpointsApiExplorer()
+        .AddFanexLogging(Configuration)
+        .AddApplicationServices()
+        .AddSwaggerGen()
+        .AddControllers();
+
         services.AddHealthChecks();
-        services.AddFanexLogging(Configuration);
         services.AddMvc().AddMvcOptions(option =>
         {
             option.OutputFormatters.Clear();
@@ -31,33 +32,6 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseHsts();
-
-        }
-
-        app.UseExceptionHandler(appError =>
-        {
-            appError.Run(async context =>
-            {
-                var ex = context.Features.Get<IExceptionHandlerFeature>();
-                if (ex == null)
-                {
-                    await context.Response.WriteAsync(ex.Error.Message);
-                    return;
-                }
-
-
-
-                throw ex.Error;
-            });
-        });
-
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseHttpLogging();

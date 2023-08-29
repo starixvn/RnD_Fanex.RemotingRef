@@ -9,6 +9,6 @@
 
         T Deserialize<T>(Stream readStream);
 
-        Task<T> DeserializeAsync<T>(Stream readStream);
+        ValueTask<T> DeserializeAsync<T>(Stream readStream);
     }
 }

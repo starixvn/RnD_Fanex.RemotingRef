@@ -11,7 +11,10 @@
     [Route("/api/[controller]")]
     public class RefController : Controller
     {
-        private readonly IRefDataHelper _refData = new RefDataHelper();
+        private readonly IRefDataHelper _refData;
+
+        public RefController(IRefDataHelper refData)
+        => _refData = refData;
 
         [HttpGet("BetTypeName")]
         public TranslationSet BetTypeName(

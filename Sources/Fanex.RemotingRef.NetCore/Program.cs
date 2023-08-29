@@ -11,4 +11,9 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
+            var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+            if (!isDevelopment)
+            {
+                webBuilder.UseUrls("http://0.0.0.0:5000");
+            }
         });

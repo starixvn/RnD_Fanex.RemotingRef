@@ -12,18 +12,21 @@
     [Route("/api/[controller]")]
     public class RefSyncController : Controller
     {
-        private readonly IRefDataHelper _refData = new RefDataHelper();
+        private readonly IRefDataHelper _refData;
+
+        public RefSyncController(IRefDataHelper refData)
+        => _refData = refData;
 
         [HttpPost("BetTypeName")]
-        public IActionResult BetTypeName(RequestSyncFormData formData)
-            => Json(GetSyncedTranslatedTextResultSet(
+        public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)
+            => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
                 (parameterSet, refLanguageCode) => _refData.GetBetTypeName(
                     parameterSet.GetBetTypeId(),
                     parameterSet.GetResourceId(),
                     parameterSet.GetRefNo(),
-                    refLanguageCode)));
+                    refLanguageCode));
 
         [HttpPost("SportName")]
         public SyncedTranslationResultSet SportName(RequestSyncFormData formData)

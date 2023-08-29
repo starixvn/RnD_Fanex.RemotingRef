@@ -1,13 +1,12 @@
-﻿namespace Fanex.RemotingRef.NetCore.Utilities.RefData
-{
-    using RefClient.Service.IService;
-    using RefDataModelStandard.Models.Request;
-    using RefClient.Factory;
-    using RefClient.Service;
-    using PublicEnum.Language;
-    using RefDataModelStandard.Enums;
-    using System.Linq;
+﻿using RefClient.Service.IService;
+using RefDataModelStandard.Models.Request;
+using RefClient.Factory;
+using RefClient.Service;
+using PublicEnum.Language;
+using RefDataModelStandard.Enums;
 
+namespace Fanex.RemotingRef.NetCore.Utilities.RefData
+{
     public class RefDataHelper : IRefDataHelper
     {
         private const string DefaultValue = null;
@@ -16,6 +15,9 @@
         private IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
         private IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
 
+        //public RefDataHelper(IBetRefClientService betRefClientService)
+        //=> (_betRefClient) = (betRefClientService);
+
         public string GetBetTypeName(
             string betTypeId,
             string resourceId,
@@ -23,60 +25,77 @@
             string language)
         {
             var languageEnum = language.ConvertCultureToEnum();
-            var bettypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(int.Parse(betTypeId), languageEnum, resourceId));
-            var luckyVia = refNo.HasValue && refNo > 100000000000 ?
-                _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
-                string.Empty;
+            if (int.TryParse(betTypeId, out int id))
+            {
+                var bettypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
+                var luckyVia = refNo.HasValue && refNo > 100000000000 ?
+                    _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
+                    string.Empty;
 
-            return string.IsNullOrEmpty(luckyVia) ? bettypeName : $"{bettypeName} {luckyVia}";
+                return string.IsNullOrEmpty(luckyVia) ? bettypeName : $"{bettypeName} {luckyVia}";
+            }
+
+            return DefaultValue;
         }
 
         public string GetSportName(string sportTypeId, string language)
-        => _refDataClient.GetSportName(new GetSportNameModel
-        {
-            SportType = int.Parse(sportTypeId),
-            Language = language.ConvertCultureToEnum()
-        })
-            .ConfigureAwait(false)
-            .GetAwaiter()
-            .GetResult();
+        => int.TryParse(sportTypeId, out int id) ?
+                _refDataClient.GetSportName(new GetSportNameModel
+                {
+                    SportType = id,
+                    Language = language.ConvertCultureToEnum()
+                })
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult()
+                : DefaultValue;
 
         public string GetTeamName(string teamId, string language)
-        => _refDataClient.GetTeamName(new GetTeamNameModel
-        {
-            TeamId = int.Parse(teamId),
-            Language = language.ConvertCultureToEnum()
-        })
-            .ConfigureAwait(false)
-            .GetAwaiter()
-            .GetResult();
+        => int.TryParse(teamId, out int id) ?
+             _refDataClient.GetTeamName(new GetTeamNameModel
+             {
+                 TeamId = id,
+                 Language = language.ConvertCultureToEnum()
+             })
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult()
+            : DefaultValue;
 
         public string GetTeamName3rd(string team3rdId, string language)
-        => _refDataClient.GetThirdPartyTeamName(new GetThirdPartyTeamNameModel
-        {
-            ThirdPartyTeamId = int.Parse(team3rdId),
-            Language = language.ConvertCultureToEnum()
-        })
-            .ConfigureAwait(false)
-            .GetAwaiter()
-            .GetResult();
+        => int.TryParse(team3rdId, out int id) ?
+             _refDataClient.GetThirdPartyTeamName(new GetThirdPartyTeamNameModel
+             {
+                 ThirdPartyTeamId = id,
+                 Language = language.ConvertCultureToEnum()
+             })
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult()
+            : DefaultValue;
 
         public string GetLeagueName(string leagueId, string language)
-        => _refDataClient.GetLeagueName(new GetLeagueNameModel
-        {
-            LeagueId = int.Parse(leagueId),
-            Language = language.ConvertCultureToEnum()
-        })
-        .ConfigureAwait(false)
-        .GetAwaiter()
-        .GetResult();
+        => int.TryParse(leagueId, out int id) ?
+            _refDataClient.GetLeagueName(new GetLeagueNameModel
+            {
+                LeagueId = id,
+                Language = language.ConvertCultureToEnum()
+            })
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult()
+            : DefaultValue;
+
 
         public string GetLeagueName3rd(string league3rdId, string language)
-        => _thirdPartyRefClientService.GetThirdPartyLeagueName(new GetThirdPartyLeagueNameModel
-        {
-            ThirdPartyLeagueId = int.Parse(league3rdId),
-            Language = language.ConvertCultureToEnum()
-        });
+        => int.TryParse(league3rdId, out int id) ?
+             _thirdPartyRefClientService.GetThirdPartyLeagueName(new GetThirdPartyLeagueNameModel
+             {
+                 ThirdPartyLeagueId = id,
+                 Language = language.ConvertCultureToEnum()
+             })
+            : DefaultValue;
+
 
         public string GetCountryName(string countryCode, string language)
           => _refDataClient.GetCountryName(new GetCountryNameModel
@@ -84,9 +103,9 @@
               CountryCode = countryCode,
               Language = language.ConvertCultureToEnum()
           })
-        .ConfigureAwait(false)
-        .GetAwaiter()
-        .GetResult();
+            .ConfigureAwait(false)
+            .GetAwaiter()
+            .GetResult();
 
         public string GetOddsTypeName(string oddsTypeId, string language)
         => _betRefClient.GetOddsTypeName(new GetOddsTypeNameModel
@@ -111,7 +130,9 @@
         }
 
         public string GetParentIdByBetTypeId(string betTypeId)
-        => _betRefClient.GetParentIdByBetTypeId(new GetParentIdByBetTypeIdModel { BetTypeId = int.Parse(betTypeId) }).ToString();
+        => int.TryParse(betTypeId, out int id) ?
+        _betRefClient.GetParentIdByBetTypeId(new GetParentIdByBetTypeIdModel { BetTypeId = id }).ToString()
+        : DefaultValue;
 
         public string[] GetCombinationTypeCombo(
             string betTeam,
@@ -120,20 +141,24 @@
             int handicap2,
             string language)
         {
-            var list = _betRefClient.GetCombinationTypeCombo(new GetCombinationTypeComboModel
+            var list = new List<string>();
+            if (Enum.TryParse(betCheck, out BetCheckEnum id))
             {
-                BetCheck = (BetCheckEnum)Enum.Parse(typeof(BetCheckEnum), betCheck),
-                BetTeam = betTeam,
-                Hdp1 = handicap1,
-                Hdp2 = handicap2,
-                Language = language.ConvertCultureToEnum()
-            });
+                list = _betRefClient.GetCombinationTypeCombo(new GetCombinationTypeComboModel
+                {
+                    BetCheck = id,
+                    BetTeam = betTeam,
+                    Hdp1 = handicap1,
+                    Hdp2 = handicap2,
+                    Language = language.ConvertCultureToEnum()
+                }).ToList();
+            }
 
-            return list != null ? list.ToArray() : new string[] { };
+            return list.ToArray();
         }
+
         public string GetHorseTeamName(string codeId, string language)
         => codeId;
-        //  => RefData.GetHorseTeamName(codeId, language, DefaultValue);
 
         public string GetCasinoBetItem(string itemId, string language)
         => _betRefClient.GetCasinoBetItem(new GetCasinoBetItemModel { ItemId = itemId, Language = language.ConvertCultureToEnum() });
@@ -155,42 +180,55 @@
             int handicap1,
             int handicap2,
             string language)
-            => _refDataClient.GetFastMarketChoice(new GetFastMarketsChoiceModel
+        => int.TryParse(betTeam, out int betTeamId)
+        && int.TryParse(betTypeId, out int id)
+        && Enum.TryParse(handicap2.ToString(), out FastMarketBetOptionsEnum enumid) ?
+            _refDataClient.GetFastMarketChoice(new GetFastMarketsChoiceModel
             {
-                BetTeam = int.Parse(betTeam),
-                BetType = int.Parse(betTypeId),
+                BetTeam = betTeamId,
+                BetType = id,
                 Hour = handicap1,
-                FastMarketBetOptionsEnum = (FastMarketBetOptionsEnum)handicap2,
+                FastMarketBetOptionsEnum = enumid,
                 Language = language.ConvertCultureToEnum()
             })
-            .ConfigureAwait(false)
-            .GetAwaiter()
-            .GetResult();
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult()
+            : DefaultValue;
+
 
         public string GetFastMarketsResult(string resultId, string language)
         {
-            var list = _refDataClient.GetFastMarketBetOptionName(new GetFastMarketsResultModel
+            var list = new List<string>();
+            if (Enum.TryParse(resultId, out FastMarketBetOptionsEnum id))
             {
-                Language = language.ConvertCultureToEnum(),
-                FastMarketBetOptionsEnum = (FastMarketBetOptionsEnum)int.Parse(resultId)
-            })
+                list = _refDataClient.GetFastMarketBetOptionName(new GetFastMarketsResultModel
+                {
+                    Language = language.ConvertCultureToEnum(),
+                    FastMarketBetOptionsEnum = id
+                })
                     .ConfigureAwait(false)
                     .GetAwaiter()
                     .GetResult();
+            }
 
             return list.Any() ? list.FirstOrDefault() : resultId;
         }
 
         public string GetFastMarkets225Result(string resultId, string language)
         {
-            var list = _refDataClient.GetFastMarketBetOptionNameOfBetType225(new GetFastMarketsResultModel
+            var list = new List<string>();
+            if (Enum.TryParse(resultId, out FastMarketBetOptionsEnum id))
             {
-                Language = language.ConvertCultureToEnum(),
-                FastMarketBetOptionsEnum = (FastMarketBetOptionsEnum)int.Parse(resultId)
-            })
+                list = _refDataClient.GetFastMarketBetOptionNameOfBetType225(new GetFastMarketsResultModel
+                {
+                    Language = language.ConvertCultureToEnum(),
+                    FastMarketBetOptionsEnum = id
+                })
                     .ConfigureAwait(false)
                     .GetAwaiter()
                     .GetResult();
+            }
 
             return list.Any() ? list.FirstOrDefault() : resultId;
         }
@@ -210,13 +248,19 @@
         });
 
         public string GetBetRadarMatchCodeFormat(string matchCode, string language)
-        => _refDataClient.GetBetradarMatchCodeFormat(new GetBetradarMatchCodeFormatModel { MatchCode = matchCode, Language = language.ConvertCultureToEnum() })
+        => _refDataClient.GetBetradarMatchCodeFormat(new GetBetradarMatchCodeFormatModel
+        {
+            MatchCode = matchCode,
+            Language = language.ConvertCultureToEnum()
+        })
         .ConfigureAwait(false)
         .GetAwaiter()
         .GetResult();
 
         public string GetDisplayedTypeId(string betTypeId)
-        => _betRefClient.GetBetTypeOfDisplayTypeId(new GetBetTypeOfDisplayTypeIdModel { BetType = int.Parse(betTypeId) }).ToString();
+        => int.TryParse(betTypeId, out int id) ?
+        _betRefClient.GetBetTypeOfDisplayTypeId(new GetBetTypeOfDisplayTypeIdModel { BetType = id }).ToString()
+        : DefaultValue;
 
         public string GetBetBuilderSelectionName(int selectionId, string language)
         {
@@ -229,7 +273,7 @@
             .GetAwaiter()
             .GetResult();
 
-            return selectionNames.ContainsKey(selectionId) ? selectionNames[selectionId] : default;
+            return selectionNames.ContainsKey(selectionId) ? selectionNames[selectionId] : DefaultValue;
         }
 
         public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language)

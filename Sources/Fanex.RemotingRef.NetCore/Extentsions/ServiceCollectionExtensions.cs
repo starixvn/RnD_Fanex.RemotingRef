@@ -3,6 +3,7 @@ using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Extensions.Database;
 using Fanex.Logging.RabbitMQ;
+using Fanex.RemotingRef.NetCore.Utilities.RefData;
 
 namespace Fanex.RemotingRef.NetCore;
 
@@ -13,7 +14,7 @@ public static class ServiceCollectionExtensions
         var logEngines = new List<ILogEngine>
             {
                 new RabbitMQLogging(configuration["Fanex.Logging:RabbitMQConnectionStrings"])
-            };        
+            };
         LogManager
                 .SetDefaultLogCategory(configuration["Fanex.Logging:DefaultCategory"])
                 .Use(logEngines);
@@ -24,6 +25,14 @@ public static class ServiceCollectionExtensions
             .UseConfig(new LoggingConfiguration()
             .GetHttpHeaderInfo()
             .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo));
+
+        return services;
+    }
+
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IRefDataHelper, RefDataHelper>();
+        //services.AddSingleton<IBetRefClientService, BetRefClientService>();
 
         return services;
     }

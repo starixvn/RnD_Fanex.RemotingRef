@@ -37,11 +37,7 @@ public class ExceptionMiddleware
 
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         await _logger.ErrorAsync(await BuildError(context.Request, exception));
-        await context.Response.WriteAsync(new
-        {
-            context.Response.StatusCode,
-            exception.Message
-        }.ToString());
+        await context.Response.WriteAsync(exception.Message);
     }
 
     private static async Task<string> BuildError(HttpRequest request, Exception exception)
