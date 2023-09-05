@@ -4,9 +4,7 @@
     <thead>
         <tr>
             <td>@Model.First().DataType Id</td>
-            <td>ONElab.RemotingRef 1.0</td>
-            <td>ONElab.RemotingRef 2.0</td>
-            <td>Fanex.RemotingRef 2.0</td>
+            <td>Fanex.RemotingRef 4.0</td>
         </tr>
     </thead>
     <tbody>
@@ -15,8 +13,6 @@
 
         <tr class="@(viewModel.RefDataResult.IsDataMatched()? "text-success" : "text-danger")">
             <td>@viewModel.TypeId</td>
-            <td>@viewModel.RefDataResult.TaiwanRefOld</td>
-            <td>@viewModel.RefDataResult.TaiwanRefNew</td>
             <td>@viewModel.RefDataResult.FanexRefNew</td>
         </tr>
         }

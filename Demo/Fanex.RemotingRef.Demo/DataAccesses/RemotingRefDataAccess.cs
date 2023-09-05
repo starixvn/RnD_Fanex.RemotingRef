@@ -2,18 +2,15 @@
 {
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.Models;
-    using global::RemotingRef;
 
     public class RemotingRefDataAccess : IRemotingRefDataAccess
     {
         private const string DefaultValue = "No Data";
         private readonly IRemotingRefService _remotingRefService;
-        private readonly IRefData _taiwanRefNew;
 
-        public RemotingRefDataAccess(IRemotingRefService remotingRefService, IRefData taiwanRefNew)
+        public RemotingRefDataAccess(IRemotingRefService remotingRefService)
         {
             _remotingRefService = remotingRefService;
-            _taiwanRefNew = taiwanRefNew;
         }
 
         public RefDataResult GetBetTypeName(string betTypeId, long refNo = 0, string resourceId = Common.DefaultResourceId, string languageCode = Common.DefaultLanguage)
@@ -21,8 +18,6 @@
             return new RefDataResult
             {
                 FanexRefNew = GetBetTypeNameFanexRefNew(betTypeId, refNo, resourceId, languageCode),
-                TaiwanRefOld = GetBetTypeNameTWRefOld(betTypeId, refNo, resourceId, languageCode),
-                TaiwanRefNew = GetBetTypeNameTWRefNew(betTypeId, refNo, resourceId, languageCode)
             };
         }
 
@@ -50,56 +45,6 @@
             return betTypeName;
         }
 
-        private static string GetBetTypeNameTWRefOld(string typeId, long refNo, string resourceId, string languageCode)
-        {
-            var betTypeName = string.Empty;
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
-            if (refNo == 0 && resourceId == Common.DefaultResourceId)
-            {
-                betTypeName = RefData.GetBetTypeName(typeId, twLanguage);
-            }
-            else if (refNo != 0 && resourceId == Common.DefaultResourceId)
-            {
-                betTypeName = RefData.GetBetTypeName(typeId, twLanguage, refNo);
-            }
-            else if (refNo == 0 && resourceId != Common.DefaultResourceId)
-            {
-                betTypeName = RefData.GetBetTypeName(typeId, twLanguage, DefaultValue, resourceId);
-            }
-            else
-            {
-                betTypeName = RefData.GetBetTypeName(typeId, twLanguage, DefaultValue, resourceId, refNo);
-            }
-
-            return betTypeName;
-        }
-
-        private string GetBetTypeNameTWRefNew(string typeId, long refNo, string resourceId, string languageCode)
-        {
-            var betTypeName = string.Empty;
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
-            if (refNo == 0 && resourceId == Common.DefaultResourceId)
-            {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, string.Empty);
-            }
-            else if (refNo != 0 && resourceId == Common.DefaultResourceId)
-            {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, refNo, string.Empty);
-            }
-            else if (refNo == 0 && resourceId != Common.DefaultResourceId)
-            {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, DefaultValue, resourceId);
-            }
-            else
-            {
-                betTypeName = _taiwanRefNew.GetBetTypeName(typeId, twLanguage, DefaultValue, resourceId, refNo);
-            }
-
-            return betTypeName;
-        }
-
         public RefDataResult GetSportName(string sportTypeId, string languageCode = "en-US")
         {
             var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
@@ -107,8 +52,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetSportName(sportTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetSportName(sportTypeId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetSportName(sportTypeId, twLanguage, DefaultValue)
             };
         }
 
@@ -119,8 +62,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLeagueName(leagueId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetLeagueName(leagueId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetLeagueName(leagueId, twLanguage, DefaultValue)
             };
         }
 
@@ -131,8 +72,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLeagueName3rd(leagueId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetLeagueName3rd(leagueId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetLeagueName3rd(leagueId, twLanguage, DefaultValue)
             };
         }
 
@@ -143,8 +82,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTeamName(teamId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetTeamName(teamId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetTeamName(teamId, twLanguage, DefaultValue)
             };
         }
 
@@ -155,8 +92,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTeamName3rd(teamId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetTeamName3rd(teamId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetTeamName3rd(teamId, twLanguage, DefaultValue)
             };
         }
 
@@ -167,8 +102,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetResourceDataByRefIdAndResourceId(refId, resourceId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetResourceDataByRefIdAndResourceId(refId, resourceId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetResourceDataByRefIdAndResourceId(refId, resourceId, twLanguage, DefaultValue)
             };
         }
 
@@ -179,8 +112,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCountryName(countryId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetCountryName(countryId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetCountryName(countryId, twLanguage, DefaultValue)
             };
         }
 
@@ -191,8 +122,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetOddsTypeName(oddsTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetOddsTypeName(oddsTypeId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetOddsTypeName(oddsTypeId, twLanguage, DefaultValue)
             };
         }
 
@@ -201,8 +130,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetParentIdByBetTypeId(betTypeId, DefaultValue),
-                TaiwanRefOld = RefData.GetParentIdByBetTypeId(betTypeId, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetParentIdByBetTypeId(betTypeId, DefaultValue)
             };
         }
 
@@ -213,8 +140,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetHorseTeamName(codeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetHorseTeamName(codeId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetHorseTeamName(codeId, twLanguage, DefaultValue)
             };
         }
 
@@ -225,8 +150,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCasinoBetItem(itemId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetCasinoBetItem(itemId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetCasinoBetItem(itemId, twLanguage, DefaultValue)
             };
         }
 
@@ -237,8 +160,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetRouletteBetItem(itemId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetRouletteBetItem(itemId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetRouletteBetItem(itemId, twLanguage, DefaultValue)
             };
         }
 
@@ -249,8 +170,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetKenoBetType(kenoBetTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetKenoBettype(kenoBetTypeId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetKenoBettype(kenoBetTypeId, twLanguage, DefaultValue)
             };
         }
 
@@ -259,8 +178,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTableGamesBetType(tableGamesBetTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = string.Empty,
-                TaiwanRefNew = string.Empty
             };
         }
 
@@ -269,8 +186,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTableGamesBetChoice(tableGamesBetChoiceId, languageCode,out string DefaultValue),
-                TaiwanRefOld = string.Empty,
-                TaiwanRefNew = string.Empty
             };
         }
 
@@ -281,8 +196,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetFastMarketsChoice(betTypeId, betTeam, handicap1, handicap2, twLanguage),
-                TaiwanRefOld = RefData.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, twLanguage),
-                TaiwanRefNew = _taiwanRefNew.GetFastMarketsChoise(betTypeId, betTeam, handicap1, handicap2, twLanguage)
             };
         }
 
@@ -293,8 +206,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetFastMarketsResult(resultId, languageCode),
-                TaiwanRefOld = RefData.GetFastMarketsResult(resultId, twLanguage),
-                TaiwanRefNew = _taiwanRefNew.GetFastMarketsResult(resultId, twLanguage)
             };
         }
 
@@ -305,8 +216,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetFastMarkets225Result(resultId, languageCode),
-                TaiwanRefOld = RefData.GetFastMarkets225Result(resultId, twLanguage),
-                TaiwanRefNew = _taiwanRefNew.GetFastMarkets225Result(resultId, twLanguage)
             };
         }
 
@@ -317,8 +226,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLotteryBetType(betTypeId, languageCode, DefaultValue),
-                TaiwanRefOld = RefData.GetLotteryBettype(betTypeId, twLanguage, DefaultValue),
-                TaiwanRefNew = _taiwanRefNew.GetLotteryBettype(betTypeId, twLanguage, DefaultValue)
             };
         }
 
@@ -329,8 +236,6 @@
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetBetRadarMatchCodeFormat(matchCode, languageCode),
-                TaiwanRefOld = RefData.GetBetRadarMatchCodeFormat(matchCode, twLanguage),
-                TaiwanRefNew = _taiwanRefNew.GetBetRadarMatchCodeFormat(matchCode, twLanguage)
             };
         }
 
@@ -338,8 +243,6 @@
             => new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetDisplayedTypeId(betTypeId),
-                TaiwanRefOld = RefData.GetDisplayedTypeId(betTypeId),
-                TaiwanRefNew = _taiwanRefNew.GetDisplayedTypeId(betTypeId)
             };
     }
 }

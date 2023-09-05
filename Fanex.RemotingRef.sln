@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32413.511
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{09417347-4309-456D-92C2-B720C5BB02BA}"
 EndProject
@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Tests", "Tests\Fanex.RemotingRef.Tests\Fanex.RemotingRef.Tests.csproj", "{31ED8DF3-58AC-480E-9B7C-CD50FC937491}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Service.Tests", "Tests\Fanex.RemotingRef.Service.Tests\Fanex.RemotingRef.Service.Tests.csproj", "{E67A89A6-CD80-47A5-9CB7-E3762BFD5604}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Integration.Tests", "Tests\Fanex.RemotingRef.Integration.Tests\Fanex.RemotingRef.Integration.Tests.csproj", "{168B6C76-1135-4961-9DB2-0126AF91BED0}"
@@ -38,27 +36,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{C56E8B40-6415-4D28-BE88-65A07CBD76F2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedAssemblies", "SharedAssemblies", "{41F409AE-4FFF-48F5-A230-82B8F18B33AD}"
-	ProjectSection(SolutionItems) = preProject
-		SharedAssemblies\IBCFile.dll = SharedAssemblies\IBCFile.dll
-		SharedAssemblies\NLog.dll = SharedAssemblies\NLog.dll
-		SharedAssemblies\NLog.Targets.RabbitMQ.dll = SharedAssemblies\NLog.Targets.RabbitMQ.dll
-		SharedAssemblies\ONEbook.Common.Caching.dll = SharedAssemblies\ONEbook.Common.Caching.dll
-		SharedAssemblies\ONEbook.Common.Caching.Redis.dll = SharedAssemblies\ONEbook.Common.Caching.Redis.dll
-		SharedAssemblies\ONEbook.Common.Caching.RedisLib.dll = SharedAssemblies\ONEbook.Common.Caching.RedisLib.dll
-		SharedAssemblies\ONEbook.Common.DataPlus.dll = SharedAssemblies\ONEbook.Common.DataPlus.dll
-		SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll = SharedAssemblies\ONEbook.Product.Site.Common.LocalCache.dll
-		SharedAssemblies\RefDataModel.dll = SharedAssemblies\RefDataModel.dll
-		SharedAssemblies\RefNewData.dll = SharedAssemblies\RefNewData.dll
-		SharedAssemblies\RefRelayRemoteStation.dll = SharedAssemblies\RefRelayRemoteStation.dll
-		SharedAssemblies\RemotingRef.dll = SharedAssemblies\RemotingRef.dll
-		SharedAssemblies\SPSRemoting.dll = SharedAssemblies\SPSRemoting.dll
-		SharedAssemblies\StackExchange.Redis.dll = SharedAssemblies\StackExchange.Redis.dll
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRefNetCore", "Sources\Fanex.RemotingRef.NetCore\Fanex.RemotingRef.NetCore.csproj", "{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net5Demo", "Demo\Net5Demo\Net5Demo.csproj", "{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,10 +72,6 @@ Global
 		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,9 +82,7 @@ Global
 		{E67A89A6-CD80-47A5-9CB7-E3762BFD5604} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{168B6C76-1135-4961-9DB2-0126AF91BED0} = {7CB1ACB9-6877-40E1-B1E9-AC5D81A991C1}
 		{24180F1D-0405-4122-ADA1-02C09413DFA5} = {09417347-4309-456D-92C2-B720C5BB02BA}
-		{C56E8B40-6415-4D28-BE88-65A07CBD76F2} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 		{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC} = {09417347-4309-456D-92C2-B720C5BB02BA}
-		{1D90CF69-B06B-4F8B-9CC5-FE57F70072BF} = {869C7A7E-C637-4E3B-9EA3-FD2C2AB97434}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {949DBAC3-3A94-4139-814E-7FF3361D43A8}

@@ -11,9 +11,6 @@ namespace Fanex.RemotingRef.Demo
     using System.Web.Routing;
     using Fanex.RemotingRef.Demo.App_Start;
     using Fanex.RemotingRef.Demo.DataAccesses;
-    using global::RemotingRef;
-    using NLog;
-    using RefNewData;
     using SimpleInjector;
     using SimpleInjector.Integration.Web.Mvc;
 
@@ -34,7 +31,6 @@ namespace Fanex.RemotingRef.Demo
                 .FromApplication("Fanex.RemotingRef.Demo");
 
             container.Register<IRemotingRefService, RemotingRefService>(Lifestyle.Singleton);
-            container.Register<IRefData, RefNewDataHandler>(Lifestyle.Singleton);
             container.Register<IRemotingRefDataAccess, RemotingRefDataAccess>(Lifestyle.Singleton);
             container.Verify();
 
@@ -43,9 +39,6 @@ namespace Fanex.RemotingRef.Demo
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            var logger = LogManager.GetCurrentClassLogger();
-
-            logger.Error(CultureInfo.InvariantCulture, Server.GetLastError());
         }
 
 #pragma warning restore S2325 // Methods and properties that don't access instance data should be static
