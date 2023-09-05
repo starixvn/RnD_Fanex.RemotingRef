@@ -1,11 +1,9 @@
-﻿namespace Fanex.RemotingRef.Demo.Controllers
-{
-    using System.Web.Mvc;
-    using Fanex.RemotingRef.Demo.Filters;
-
-    [RefAuth]
+﻿using Microsoft.AspNetCore.Mvc;
+namespace Fanex.RemotingRef.Demo.Controllers
+{    
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index()
         {
             return View();

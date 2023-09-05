@@ -1,12 +1,12 @@
-﻿namespace Fanex.RemotingRef.Demo.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+namespace Fanex.RemotingRef.Demo.Controllers
 {
     using System.Collections.Generic;
-    using System.Web.Mvc;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
 
-    [Authorize]
     public class ParentBetTypeIdController : Controller
     {
         private readonly IRemotingRefDataAccess _remotingRefDataAccess;

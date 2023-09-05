@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Service", "Sources\Fanex.RemotingRef.Service\Fanex.RemotingRef.Service.csproj", "{24180F1D-0405-4122-ADA1-02C09413DFA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{C56E8B40-6415-4D28-BE88-65A07CBD76F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRef.Demo", "Demo\Fanex.RemotingRef.Demo\Fanex.RemotingRef.Demo.csproj", "{C56E8B40-6415-4D28-BE88-65A07CBD76F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.RemotingRefNetCore", "Sources\Fanex.RemotingRef.NetCore\Fanex.RemotingRef.NetCore.csproj", "{04E58C9B-A08F-41E8-AD7E-A4F9AB228ECC}"
 EndProject

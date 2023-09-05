@@ -21,6 +21,23 @@
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    {
+      "name": "RemotingRef.Demo",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/Demo/Fanex.RemotingRef.Demo/bin/Debug/net7.0/Fanex.RemotingRef.Demo.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/Demo/Fanex.RemotingRef.Demo",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   ],
   "compounds": [

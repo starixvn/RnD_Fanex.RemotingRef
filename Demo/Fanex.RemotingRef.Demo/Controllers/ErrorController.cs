@@ -1,6 +1,6 @@
-﻿namespace Fanex.RemotingRef.Demo.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Web.Mvc;
 
     public class ErrorController : Controller
     {
