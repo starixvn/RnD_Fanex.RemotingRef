@@ -48,6 +48,22 @@
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
         }
 
+        [HttpPost]
+        public ActionResult KenoBetChoice(string typeId, string language)
+        {
+            var viewModel = new RefDataViewModel
+            {
+                IsFirstLoad = false,
+                DataType = "Keno Bet Type",
+                TypeIdLabel = "Bet Type Id",
+                TypeId = typeId ?? "3",
+                Language = language,
+                RefDataResult = _remotingRefDataAccess.GetKenoBetChoice(typeId, language)
+            };
+
+            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
+        }
+
         [HttpGet]
         public ActionResult KenoBetTypeList()
         {
