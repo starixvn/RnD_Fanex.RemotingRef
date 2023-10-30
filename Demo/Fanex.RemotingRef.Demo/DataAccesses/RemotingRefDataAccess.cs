@@ -172,7 +172,15 @@
                 FanexRefNew = _remotingRefService.GetKenoBetType(kenoBetTypeId, languageCode, DefaultValue),
             };
         }
+        public RefDataResult GetKenoBetChoice(string kenoBetTypeId, string languageCode = "en-US")
+        {
+            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
 
+            return new RefDataResult
+            {
+                FanexRefNew = _remotingRefService.GetKenoBetChoice(kenoBetTypeId, languageCode, out string DefaultValue),
+            };
+        }
         public RefDataResult GetTableGamesBetType(string tableGamesBetTypeId, string languageCode = "en-US")
         {
             return new RefDataResult

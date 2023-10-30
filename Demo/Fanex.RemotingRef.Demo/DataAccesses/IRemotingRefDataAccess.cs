@@ -33,6 +33,8 @@
 
         RefDataResult GetKenoBetType(string kenoBetTypeId, string languageCode = Common.DefaultLanguage);
 
+        RefDataResult GetKenoBetChoice(string kenoBetTypeId, string languageCode = Common.DefaultLanguage);
+
         RefDataResult GetTableGamesBetType(string tableGamesBetTypeId, string languageCode = Common.DefaultLanguage);
 
         RefDataResult GetTableGamesBetChoice(string tableGamesBetChoiceId, string languageCode = Common.DefaultLanguage);
