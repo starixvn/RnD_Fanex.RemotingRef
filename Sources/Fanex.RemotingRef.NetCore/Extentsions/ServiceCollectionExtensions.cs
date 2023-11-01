@@ -19,7 +19,8 @@ public static class ServiceCollectionExtensions
                 .SetDefaultLogCategory(configuration["Fanex.Logging:DefaultCategory"])
                 .Use(logEngines);
 
-        services.AddSingleton(Logger.Log);
+        services.AddSingleton(Logger.Log)
+                .AddSingleton<ILoggerService, LoggerService>();
 
         ExceptionHandler
             .UseConfig(new LoggingConfiguration()
@@ -32,7 +33,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddSingleton<IRefDataHelper, RefDataHelper>();
-        //services.AddSingleton<IBetRefClientService, BetRefClientService>();
 
         return services;
     }

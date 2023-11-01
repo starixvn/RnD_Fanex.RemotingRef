@@ -8,19 +8,27 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder AddRefDataClient(this IApplicationBuilder app, IConfiguration configuration)
     {
         var redisList = configuration["TW.RemotingRef.Redis"].Split(',').ToList();
-        RefClientFactory.InitializeConfig(new ClientConfigModel
+        var service = app.ApplicationServices.GetService<ILoggerService>();
+        try
         {
-            RefDataWebApiUrl = new RefDataWebApiUrl
+            RefClientFactory.InitializeConfig(new ClientConfigModel
             {
-                Url = configuration["TW.RemotingRef.API"]
-            },
-            RefDataLocalRedisConfiguration = new RedisConfiguration
-            {
-                Host = redisList,
-                DatabaseId = 3,
-            }
-        });
-
+                RefDataWebApiUrl = new RefDataWebApiUrl
+                {
+                    Url = configuration["TW.RemotingRef.API"]
+                },
+                RefDataLocalRedisConfiguration = new RedisConfiguration
+                {
+                    Host = redisList,
+                    DatabaseId = 3,
+                }
+            });
+        }
+        catch(Exception ex)
+        {
+            service.Info(ex.Message);
+        }
+        
         return app;
     }
 }
