@@ -258,9 +258,15 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
         .GetResult();
 
         public string GetDisplayedTypeId(string betTypeId)
-        => int.TryParse(betTypeId, out int id) ?
-        _betRefClient.GetBetTypeOfDisplayTypeId(new GetBetTypeOfDisplayTypeIdModel { BetType = id }).ToString()
-        : DefaultValue;
+        {
+            if (int.TryParse(betTypeId, out int id))
+            {
+                var displayedId = _betRefClient.GetBetTypeOfDisplayTypeId(new GetBetTypeOfDisplayTypeIdModel { BetType = id });
+                return displayedId == 0 ? betTypeId : displayedId.ToString();
+            }
+
+            return betTypeId;
+        }
 
         public string GetBetBuilderSelectionName(int selectionId, string language)
         {
