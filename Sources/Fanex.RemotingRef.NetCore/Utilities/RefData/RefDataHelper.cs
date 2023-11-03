@@ -167,9 +167,13 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
         => _betRefClient.GetRouletteBetItem(new GetRouletteBetItemModel { ItemId = itemId, Language = language.ConvertCultureToEnum() });
 
 
-        public string GetKenoBetChoice(string kenoBetChoiceId, string language)
-        => _betRefClient.GetKenoBetChoice(new GetKenoBetChoiceModel { KenoBetChoiceId = kenoBetChoiceId }).GetName(language.ConvertCultureToEnum());
+        public string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId)
+        {
+            var model = _betRefClient.GetKenoBetChoice(new GetKenoBetChoiceModel { KenoBetChoiceId = kenoBetChoiceId });
+            kenoBetTypeId = model.Sort1.ToString();
 
+            return model.GetName(language.ConvertCultureToEnum());
+        }
 
         public string GetKenoBetType(string kenoBetTypeId, string language)
         => _betRefClient.GetKenoBetType(new GetKenoBetTypeModel { KenoBetTypeId = kenoBetTypeId, Language = language.ConvertCultureToEnum() });
@@ -233,12 +237,17 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             return list.Any() ? list.FirstOrDefault() : resultId;
         }
 
-        public string GetLotteryBetChoice(string lotteryBetChoiceId, string language)
-                => _refDataClient.GetLotteryBetChoice(new GetLotteryBetChoiceModel { LotteryBetChoiceId = lotteryBetChoiceId })
-                .ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult()
-                .GetName(language.ConvertCultureToEnum());
+        public string GetLotteryBetChoice(string lotteryBetChoiceId, string language, out string lotteryBetTypeId)
+        {
+            var model = _refDataClient.GetLotteryBetChoice(new GetLotteryBetChoiceModel { LotteryBetChoiceId = lotteryBetChoiceId })
+                            .ConfigureAwait(false)
+                            .GetAwaiter()
+                            .GetResult();
+
+            lotteryBetTypeId = model.Sort1.ToString();
+
+            return model.GetName(language.ConvertCultureToEnum());
+        }
 
         public string GetLotteryBetType(string lotteryBetTypeId, string language)
         => _betRefClient.GetLotteryBetType(new GetLotteryBetTypeModel
@@ -282,16 +291,20 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             return selectionNames.ContainsKey(selectionId) ? selectionNames[selectionId] : DefaultValue;
         }
 
-        public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language)
-        => _refDataClient.GetTableGameBetChoice(new GetTableGameBetChoiceModel
+        public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId)
         {
-            ChoiceId = tableGamesBetChoiceId,
-            Language = language.ConvertCultureToEnum()
-        })
-        .ConfigureAwait(false)
-        .GetAwaiter()
-        .GetResult()
-        .GetName(language.ConvertCultureToEnum());
+            var model = _refDataClient.GetTableGameBetChoice(new GetTableGameBetChoiceModel
+            {
+                ChoiceId = tableGamesBetChoiceId,
+                Language = language.ConvertCultureToEnum()
+            })
+            .ConfigureAwait(false)
+            .GetAwaiter()
+            .GetResult();
+            tableGamesBetTypeId = model.Sort1.ToString();
+
+            return model.GetName(language.ConvertCultureToEnum());
+        }
 
         public string GetTableGamesBetType(string tableGamesBetTypeId, string language)
         => _refDataClient.GetTableGameBetType(new GetTableGameBetTypeModel

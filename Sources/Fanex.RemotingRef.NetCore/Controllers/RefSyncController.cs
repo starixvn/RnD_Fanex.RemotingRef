@@ -135,13 +135,19 @@
         [HttpPost("KenoBetChoice")]
         public SyncedTranslationResultSet KenoBetChoice(RequestSyncFormData formData)
         {
-            string GetKenoBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
+            Tuple<string, string> GetKenoBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(
                     parameterSet.GetKenoBetChoiceId(),
-                    refLanguageCode);
+                    refLanguageCode,
+                    out string kenoBetTypeId);
 
-                return kenoBetChoice;
+                if (string.IsNullOrEmpty(kenoBetChoice) && string.IsNullOrEmpty(kenoBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
             }
 
             return GetSyncedTranslationResultSet(
@@ -187,14 +193,20 @@
         [HttpPost("LotteryBetChoice")]
         public SyncedTranslationResultSet LotteryBetChoice(RequestSyncFormData formData)
         {
-            string GetLotteryBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
+            Tuple<string, string> GetLotteryBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var lotteryBetChoiceId = parameterSet.GetLotteryBetChoiceId() ?? parameterSet.GetBetChoiceId();
                 var lotteryBetChoice = _refData.GetLotteryBetChoice(
                     lotteryBetChoiceId,
-                    refLanguageCode);
+                    refLanguageCode,
+                    out string lotteryBetTypeId);
 
-                return lotteryBetChoice;
+                if (string.IsNullOrEmpty(lotteryBetChoice) && string.IsNullOrEmpty(lotteryBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId);
             }
 
             return GetSyncedTranslationResultSet(
@@ -277,13 +289,19 @@
         [HttpPost("TableGamesBetChoice")]
         public SyncedTranslationResultSet TableGamesBetChoice(RequestSyncFormData formData)
         {
-            string GetTableGamesBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
+            Tuple<string, string> GetTableGamesBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var tableGamesBetChoice = _refData.GetTableGamesBetChoice(
                     parameterSet.GetTableGamesBetChoiceId(),
-                    refLanguageCode);
+                    refLanguageCode,
+                    out string tableGamesBetTypeId);
 
-                return tableGamesBetChoice;
+                if (string.IsNullOrEmpty(tableGamesBetChoice) && string.IsNullOrEmpty(tableGamesBetTypeId))
+                {
+                    return null;
+                }
+
+                return new Tuple<string, string>(tableGamesBetChoice, tableGamesBetTypeId);
             }
 
             return GetSyncedTranslationResultSet(
