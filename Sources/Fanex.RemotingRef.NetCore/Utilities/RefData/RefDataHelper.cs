@@ -4,6 +4,7 @@ using RefClient.Factory;
 using RefClient.Service;
 using PublicEnum.Language;
 using RefDataModelStandard.Enums;
+using RefDataModelStandard.DataModels;
 
 namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 {
@@ -293,27 +294,19 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 
         public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId)
         {
-            var model = _refDataClient.GetTableGameBetChoice(new GetTableGameBetChoiceModel
+            var model = _betRefClient.GetTableGameBetChoice(new GetTableGameBetChoiceModel { ChoiceId = tableGamesBetChoiceId });
+            if (model != null)
             {
-                ChoiceId = tableGamesBetChoiceId,
-                Language = language.ConvertCultureToEnum()
-            })
-            .ConfigureAwait(false)
-            .GetAwaiter()
-            .GetResult();
-            tableGamesBetTypeId = model.Sort1.ToString();
+                tableGamesBetTypeId = model.Sort1.ToString();
 
-            return model.GetName(language.ConvertCultureToEnum());
+                return model.GetName(language.ConvertCultureToEnum());
+            }
+
+            tableGamesBetTypeId = string.Empty;
+            return string.Empty;
         }
 
         public string GetTableGamesBetType(string tableGamesBetTypeId, string language)
-        => _refDataClient.GetTableGameBetType(new GetTableGameBetTypeModel
-        {
-            BetType = tableGamesBetTypeId,
-            Language = language.ConvertCultureToEnum()
-        })
-        .ConfigureAwait(false)
-        .GetAwaiter()
-        .GetResult();
+        => _betRefClient.GetTableGameBetType(new GetTableGameBetTypeModel { BetType = tableGamesBetTypeId, Language = language.ConvertCultureToEnum() });
     }
 }
