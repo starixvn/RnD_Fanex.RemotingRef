@@ -24,9 +24,9 @@ public class Startup
         services.AddMvc().AddMvcOptions(option =>
         {
             option.OutputFormatters.Clear();
-            option.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
+            option.OutputFormatters.Add(new MessagePackOutputFormatter(MessagePack.MessagePackSerializerOptions.Standard));
             option.InputFormatters.Clear();
-            option.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
+            option.InputFormatters.Add(new MessagePackInputFormatter(MessagePack.MessagePackSerializerOptions.Standard));
         });
     }
 

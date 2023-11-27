@@ -3,13 +3,13 @@
     using System.Collections.Generic;
     using MessagePack;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public sealed class RequestSyncFormData
     {
-        [Key(0)]
+        
         public IList<ParameterSet> ParameterSets { get; set; }
 
-        [Key(1)]
+        
         public string[] Languages { get; set; }
 
     }
