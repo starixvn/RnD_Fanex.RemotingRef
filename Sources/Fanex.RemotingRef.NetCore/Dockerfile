@@ -5,13 +5,11 @@ WORKDIR /Sources
 COPY Sources/Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj ./Fanex.RemotingRef.NetCore/
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 RUN dotnet nuget add source https://nuget2023.owgps.net/nuget/oneworks/v3/index.json
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore -r linux-x64 Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj
+RUN dotnet restore -r linux-x64 Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj
 
 COPY Sources/Fanex.RemotingRef.NetCore ./Fanex.RemotingRef.NetCore/
 WORKDIR /Sources/Fanex.RemotingRef.NetCore
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
+RUN dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine as base
 

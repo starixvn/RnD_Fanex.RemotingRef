@@ -1,5 +1,8 @@
+using PublicEnum.Language;
 using RefClient.Factory;
+using RefClient.Service.IService;
 using RefDataModelStandard.Models;
+using RefDataModelStandard.Models.Request;
 
 namespace Fanex.RemotingRef.NetCore;
 
@@ -20,9 +23,9 @@ public static class ApplicationBuilderExtensions
                 RefDataLocalRedisConfiguration = new RedisConfiguration
                 {
                     Host = redisList,
-                    DatabaseId = 3,
+                    DatabaseId = int.Parse(configuration["TW.RemotingRef.DatabaseId"]),
                 }
-            });
+            });           
         }
         catch(Exception ex)
         {
