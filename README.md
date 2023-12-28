@@ -116,7 +116,7 @@ NuGet package is available [here](http://nuget.nexdev.net/packages/Fanex.Remotin
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | ConnectTo(**Uri** remotingRefServiceUri)                                  | Connect to RemotingRef Service with Url                                                 |
 | FromApplication(**string** applicationName)                               | Provide an application name for statistics purpose                                      |
-| SupportMultiLanguages()                                                   | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-Hans) |
+| SupportMultiLanguages()                                                   | Supports 8 default languages (en-US, zh-TW, zh-CN, ja-JP, th-TH, ko-KR, vi-VN, zh-CHS) |
 | SupportOnlyDefaultLanguage()                                              | Only support English (en-US)                                                            |
 | RegisterSupportedLanguages(**params string[]** languageCodes)             | Support optional languages                                                              |
 | Register(**RefDataType** dataType, **RefDataTypeHandlerOptions** options) | Register caching data type with customized *RefDataTypeHandlerOptions*                  |

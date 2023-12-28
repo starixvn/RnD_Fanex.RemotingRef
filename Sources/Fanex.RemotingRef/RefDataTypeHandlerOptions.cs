@@ -18,7 +18,7 @@
             "th-TH",
             "ko-KR",
             "vi-VN",
-            "zh-Hans"
+            "zh-CHS"
         };
 
         private static string[] supportedLanguageCodes = DefaultSupportedLanguageCodes;

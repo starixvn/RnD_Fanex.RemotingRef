@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;net7.0</TargetFrameworks>
-        <Version>1.5.1-beta-03</Version>
-        <Description>RemotingRef client which works with service that wraps RemotingRef API 4.0.</Description>
+        <Version>1.5.2-beta-01</Version>
+        <Description>Support new Chinese Simplified (#197500)</Description>
         <PackageTags>fanex.remotingref;remotingref</PackageTags>
     </PropertyGroup>
     <ItemGroup>
