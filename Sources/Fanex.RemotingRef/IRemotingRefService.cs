@@ -37,6 +37,8 @@
 
         string GetTeamName3rd(string team3rdId, string languageCode, string defaultValue);
 
+        string GetLeagueName(string leagueId, string leagueGroupId, string languageCode, string defaultValue);
+
         string GetLeagueName(string leagueId, string languageCode);
 
         string GetLeagueName(string leagueId, string languageCode, string defaultValue);

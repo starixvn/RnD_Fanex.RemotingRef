@@ -16,7 +16,7 @@
                 case "th-TH": return "th"; // Thai
                 case "ko-KR": return "ko"; // Korean
                 case "vi-VN": return "vn"; // Vietnamese
-                case "zh-Hans": return "zhcn"; // New Simplified Chinese
+                case "zh-CHS": return "zhcn"; // New Simplified Chinese
                 default: return "en";
             }
         }

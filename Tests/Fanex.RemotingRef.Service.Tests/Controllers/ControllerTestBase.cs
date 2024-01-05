@@ -29,7 +29,7 @@
             "th-TH",
             "vi-VN",
             "zh-CN",
-            "zh-Hans",
+            "zh-CHS",
             "zh-TW"
         };
 
@@ -41,7 +41,7 @@
             ["th-TH"] = "th",
             ["vi-VN"] = "vn",
             ["zh-CN"] = "cs",
-            ["zh-Hans"] = "zhcn",
+            ["zh-CHS"] = "zhcn",
             ["zh-TW"] = "ch"
         };
 

@@ -7,6 +7,7 @@ namespace Fanex.RemotingRef
     using System.Linq;
     using System.Net.Http;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Fanex.RemotingRef.TranslationStorage;
     using Fanex.RemotingRef.Utilities.Serialization;
@@ -194,6 +195,23 @@ namespace Fanex.RemotingRef
                 languageCode);
 
             return teamName ?? defaultValue;
+        }
+
+        public string GetLeagueName(string leagueId, string leagueGroupId, string languageCode, string defaultValue)
+        {
+            var leagueName = GetLeagueName(leagueId, languageCode, defaultValue);
+            var leagueGroupIdsNeedRemoveText = new List<string> { "42", "74", "108", "113", "122", "151" };
+            if (leagueGroupIdsNeedRemoveText.Any(i => i == leagueGroupId))
+            {
+                var sabaWord = GetResourceDataByRefIdAndResourceId("Saba", "Saba", languageCode, "Saba");
+                var sabaWords = new List<string> { $" {sabaWord}", $"{sabaWord} ", sabaWord};
+                foreach (var word in sabaWords)
+                {
+                    leagueName = Regex.Replace(leagueName, word, string.Empty, RegexOptions.IgnoreCase);
+                }
+            }
+
+            return leagueName;
         }
 
         public string GetLeagueName(string leagueId, string languageCode)
