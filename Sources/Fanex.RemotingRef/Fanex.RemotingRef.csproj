@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;net7.0</TargetFrameworks>
-        <Version>1.5.2-beta-02</Version>
+        <Version>1.5.3-indo-01</Version>
+        <InfomationalVersion>1.5.3</InfomationalVersion>
         <Description> 
-        - Support new Chinese Simplified (#197500)
-
-        - Support Remove "Saba" text  with GetLeagueName(string leagueId, string leagueGroupId, string languageCode, string defaultValue)
+        - Support Indonesian language (#196246) with language code: id-ID
         </Description>
         <PackageTags>fanex.remotingref;remotingref</PackageTags>
     </PropertyGroup>
