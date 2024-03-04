@@ -15,10 +15,7 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
         private IBetRefClientService _betRefClient = RefClientFactory.GetBetRefClientService();
         private IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
         private IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
-
-        //public RefDataHelper(IBetRefClientService betRefClientService)
-        //=> (_betRefClient) = (betRefClientService);
-
+        
         public string GetBetTypeName(
             string betTypeId,
             string resourceId,

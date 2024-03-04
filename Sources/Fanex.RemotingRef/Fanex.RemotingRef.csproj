@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;net7.0</TargetFrameworks>
-        <Version>1.5.3-indo-01</Version>
-        <InfomationalVersion>1.5.3</InfomationalVersion>
-        <Description> 
-        - Support Indonesian language (#196246) with language code: id-ID
-        </Description>
+        <Version>1.5.4-vs-01</Version>
+        <InfomationalVersion>1.5.4</InfomationalVersion>
+        <PackageReleaseNotes> 
+        - Get Match Info of Virtual Sports (#198619)
+        </PackageReleaseNotes>
         <PackageTags>fanex.remotingref;remotingref</PackageTags>
     </PropertyGroup>
     <ItemGroup>

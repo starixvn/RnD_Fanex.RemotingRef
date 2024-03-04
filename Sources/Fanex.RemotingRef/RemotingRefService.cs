@@ -31,6 +31,29 @@ namespace Fanex.RemotingRef
             _serializer = serializer ?? new MessagePackSerializer();
         }
 
+        public string GetVirtualSportMatchCodeFormat(string matchCode, string refId, string languageCode)
+        {
+            if (string.IsNullOrEmpty(matchCode) || string.IsNullOrEmpty(refId))
+            {
+                return string.Empty;
+            }
+
+            var str1 = matchCode;
+            var chArray = new[] { '{' };
+            foreach (string str2 in str1.Split(chArray))
+            {
+                var length = str2.IndexOf('}');
+                if (length != -1)
+                {
+                    var resourceId = str2.Substring(0, length);
+                    var refIdAndResourceId = GetResourceDataByRefIdAndResourceId(refId, resourceId, languageCode, string.Empty);
+                    matchCode = matchCode.Replace("{" + resourceId + "}", refIdAndResourceId);
+                }
+            }
+
+            return matchCode;
+        }
+
         public string GetBetTypeName(string betTypeId, string languageCode)
             => GetBetTypeNameInternal(
                 betTypeId,
@@ -204,7 +227,7 @@ namespace Fanex.RemotingRef
             if (leagueGroupIdsNeedRemoveText.Any(i => i == leagueGroupId))
             {
                 var sabaWord = GetResourceDataByRefIdAndResourceId("Saba", "Saba", languageCode, "Saba");
-                var sabaWords = new List<string> { $" {sabaWord}", $"{sabaWord} ", sabaWord};
+                var sabaWords = new List<string> { $" {sabaWord}", $"{sabaWord} ", sabaWord };
                 foreach (var word in sabaWords)
                 {
                     leagueName = Regex.Replace(leagueName, word, string.Empty, RegexOptions.IgnoreCase);

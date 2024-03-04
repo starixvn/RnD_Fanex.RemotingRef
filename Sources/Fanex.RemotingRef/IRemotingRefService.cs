@@ -2,6 +2,8 @@
 {
     public interface IRemotingRefService
     {
+        string GetVirtualSportMatchCodeFormat(string matchCode, string refId, string languageCode);
+
         string GetBetTypeName(string betTypeId, string languageCode);
 
         string GetBetTypeName(string betTypeId, string languageCode, long refNo);
