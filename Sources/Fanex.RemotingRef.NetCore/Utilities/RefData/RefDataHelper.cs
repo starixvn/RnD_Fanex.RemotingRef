@@ -11,11 +11,12 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
     public class RefDataHelper : IRefDataHelper
     {
         private const string DefaultValue = null;
+        private readonly List<string> SpecialBetTypeForBaseball = new List<string> { "8810", "8811", "8812", "8813", "8823", "8824" };
 
         private IBetRefClientService _betRefClient = RefClientFactory.GetBetRefClientService();
         private IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
         private IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
-        
+
         public string GetBetTypeName(
             string betTypeId,
             string resourceId,
@@ -25,15 +26,32 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             var languageEnum = language.ConvertCultureToEnum();
             if (int.TryParse(betTypeId, out int id))
             {
-                var bettypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
-                var luckyVia = refNo.HasValue && refNo > 100000000000 ?
-                    _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
-                    string.Empty;
+                var betTypeName = SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language ?
+                GetBetTypeNameForBaseball() :
+                _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
 
-                return string.IsNullOrEmpty(luckyVia) ? bettypeName : $"{bettypeName} {luckyVia}";
+                var luckyVia = refNo.HasValue && refNo > 100000000000 ?
+                        _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
+                        string.Empty;
+                        
+                return string.IsNullOrEmpty(luckyVia) ? betTypeName : $"{betTypeName} {luckyVia}";
             }
 
             return DefaultValue;
+
+            string GetBetTypeNameForBaseball()
+            {
+                var replacedText = new List<string> { "X", "First", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th" };
+                var isNumber = int.TryParse(resourceId, out int resId);
+                if (isNumber)
+                {
+                    resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
+                }
+
+                var name = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, string.Empty));
+
+                return string.IsNullOrEmpty(resourceId) ? name : name.Replace("X ", $"{resourceId} ");
+            }
         }
 
         public string GetSportName(string sportTypeId, string language)

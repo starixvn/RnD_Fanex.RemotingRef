@@ -4,7 +4,7 @@ WORKDIR /Sources
 
 COPY Sources/Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj ./Fanex.RemotingRef.NetCore/
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
-RUN dotnet nuget add source https://nuget2023.owgps.net/nuget/oneworks/v3/index.json
+
 RUN dotnet restore -r linux-x64 Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj
 
 COPY Sources/Fanex.RemotingRef.NetCore ./Fanex.RemotingRef.NetCore/
