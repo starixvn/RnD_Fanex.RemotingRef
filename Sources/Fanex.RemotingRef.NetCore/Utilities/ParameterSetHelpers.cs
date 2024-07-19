@@ -9,8 +9,7 @@
         {
             const string parameterName = "betTypeId";
 
-            var a= parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName].ToString() : null;
-            return a;
+            return parameterSet.ContainsKey(parameterName) ? parameterSet[parameterName].ToString() : null;
         }
 
         public static string GetResourceId(this ParameterSet parameterSet)

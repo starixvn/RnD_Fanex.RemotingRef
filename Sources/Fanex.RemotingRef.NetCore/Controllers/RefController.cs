@@ -6,15 +6,18 @@
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
+    using Fanex.RemotingRef.NetCore.Services;
 
     [ApiController]
     [Route("/api/[controller]")]
     public class RefController : Controller
     {
         private readonly IRefDataHelper _refData;
+        private readonly ITeam3rdService _team3rdService;
+        private readonly ILeague3rdService _league3rdService;
 
-        public RefController(IRefDataHelper refData)
-        => _refData = refData;
+        public RefController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService)
+        => (_refData, _team3rdService, _league3rdService) = (refData, team3rdService, league3rdService);
 
         [HttpGet("BetTypeName")]
         public TranslationSet BetTypeName(
@@ -45,7 +48,7 @@
         [HttpGet("TeamName3rd")]
         public TranslationSet TeamName3rd(string team3rdId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetTeamName3rd(team3rdId, refLanguagCode),
+                refLanguagCode => _team3rdService.GetTeam3rdById(team3rdId, refLanguagCode),
                 languages);
 
         [HttpGet("LeagueName")]
@@ -57,7 +60,7 @@
         [HttpGet("LeagueName3rd")]
         public TranslationSet LeagueName3rd(string league3rdId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetLeagueName3rd(league3rdId, refLanguagCode),
+                refLanguagCode => _league3rdService.GetLeague3rdById(league3rdId, refLanguagCode),
                 languages);
 
         [HttpGet("CountryName")]
@@ -125,7 +128,7 @@
         [HttpGet("KenoBetChoice")]
         public TranslationSet KenoBetChoice(string kenoBetChoiceId = null, [FromQuery] string[] languages = null)
         {
-           Tuple<string, string> GetKenoBetChoiceAndType(string refLanguageCode)
+            Tuple<string, string> GetKenoBetChoiceAndType(string refLanguageCode)
             {
                 var kenoBetChoice = _refData.GetKenoBetChoice(
                     kenoBetChoiceId,
