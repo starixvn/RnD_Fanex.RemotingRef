@@ -7,6 +7,7 @@
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
+    using Fanex.RemotingRef.NetCore.Services;
 
     [ApiController]
     [Route("/api/[controller]")]
@@ -14,8 +15,11 @@
     {
         private readonly IRefDataHelper _refData;
 
-        public RefSyncController(IRefDataHelper refData)
-        => _refData = refData;
+        private readonly ITeam3rdService _team3rdService;
+        private readonly ILeague3rdService _league3rdService;
+
+        public RefSyncController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService)
+        => (_refData, _team3rdService, _league3rdService) = (refData, team3rdService, league3rdService);
 
         [HttpPost("BetTypeName")]
         public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)
@@ -47,7 +51,7 @@
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetTeamName3rd(parameterSet.GetTeam3rdId(), refLanguageCode));
+                (parameterSet, refLanguageCode) => _team3rdService.GetTeam3rdById(parameterSet.GetTeam3rdId(), refLanguageCode));
 
         [HttpPost("LeagueName")]
         public SyncedTranslationResultSet LeagueName(RequestSyncFormData formData)
@@ -61,7 +65,7 @@
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetLeagueName3rd(parameterSet.GetLeague3rdId(), refLanguageCode));
+                (parameterSet, refLanguageCode) => _league3rdService.GetLeague3rdById(parameterSet.GetLeague3rdId(), refLanguageCode));
 
         [HttpPost("CountryName")]
         public SyncedTranslationResultSet CountryName(RequestSyncFormData formData)

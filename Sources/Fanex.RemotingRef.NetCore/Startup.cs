@@ -1,5 +1,7 @@
 using MessagePack.Resolvers;
 using MessagePack.AspNetCoreMvcFormatter;
+using Fanex.RemotingRef.NetCore.Services;
+using Fanex.Data.Repository;
 
 namespace Fanex.RemotingRef.NetCore;
 
@@ -15,7 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddEndpointsApiExplorer()
-        .AddFanexLogging(Configuration)
+        .AddFanexLogging(Configuration)        
         .AddApplicationServices()
         .AddSwaggerGen()
         .AddControllers();
@@ -38,6 +40,7 @@ public class Startup
         app.UseRouting();
         app.UseCors("CorsPolicy");
         app.AddRefDataClient(Configuration);
+        app.UseFanexData(Configuration, env);
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseEndpoints(endpoints =>
        {

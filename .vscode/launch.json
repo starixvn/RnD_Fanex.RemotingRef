@@ -6,7 +6,7 @@
   "configurations": [    
 
     {
-      "name": "TW.RemotingRef.Api",
+      "name": "VN.RemotingRef.Api",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -43,7 +43,7 @@
   "compounds": [
     {
       "name": "All",
-      "configurations": ["Fanex.RemotingRef.NetCore"],
+      "configurations": ["VN.RemotingRef.Api"],
       "stopAll": true
     }
   ]

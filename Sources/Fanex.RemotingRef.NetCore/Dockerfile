@@ -2,7 +2,7 @@
 FROM hub.nexdev.net/base/dotnet/core/sdk:7.0 AS builder
 WORKDIR /Sources
 
-COPY Sources/Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj ./Fanex.RemotingRef.NetCore/
+COPY ./Sources/Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj ./Fanex.RemotingRef.NetCore/
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 
 RUN dotnet restore -r linux-x64 Fanex.RemotingRef.NetCore/Fanex.RemotingRef.NetCore.csproj

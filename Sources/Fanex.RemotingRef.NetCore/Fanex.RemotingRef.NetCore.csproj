@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Fanex.Caching" Version="2.2.4" />
+    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
     <PackageReference Include="Fanex.Logging" Version="2.0.1" />
     <PackageReference Include="Fanex.Logging.Extensions.AspnetCore" Version="1.0.0" />
     <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
@@ -15,5 +18,10 @@
     <PackageReference Include="nlog" Version="5.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="tw.RefClient" Version="4.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
