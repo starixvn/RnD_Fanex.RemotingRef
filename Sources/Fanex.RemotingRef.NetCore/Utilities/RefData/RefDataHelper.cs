@@ -26,9 +26,9 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             var languageEnum = language.ConvertCultureToEnum();
             if (int.TryParse(betTypeId, out int id))
             {
-                var betTypeName = SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language ?
-                GetBetTypeNameForBaseball() :
-                _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
+                //var betTypeName = SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language ?
+               // GetBetTypeNameForBaseball() :
+                var betTypeName =_betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
 
                 var luckyVia = refNo.HasValue && refNo > 100000000000 ?
                         _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
