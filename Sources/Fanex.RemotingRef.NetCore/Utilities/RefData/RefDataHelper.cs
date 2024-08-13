@@ -48,7 +48,7 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
                     resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
                 }
 
-                var name = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, string.Empty));
+                var name = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
 
                 return string.IsNullOrEmpty(resourceId) ? name : name.Replace("X ", $"{resourceId} ");
             }
