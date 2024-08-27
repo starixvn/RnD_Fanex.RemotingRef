@@ -26,31 +26,23 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             var languageEnum = language.ConvertCultureToEnum();
             if (int.TryParse(betTypeId, out int id))
             {
-                var betTypeName =_betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
+                var betTypeName = string.Empty;
                 var luckyVia = refNo.HasValue && refNo > 100000000000 ?
                         _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
                         string.Empty;
-                if(SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language)
+                if (SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language)
                 {
-                    betTypeName = GetBetTypeNameForBaseball(betTypeName);
+                    betTypeName = GetBetTypeNameForBaseball(id, language, resourceId);
+                }
+                else
+                {
+                    betTypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
                 }
 
                 return string.IsNullOrEmpty(luckyVia) ? betTypeName : $"{betTypeName} {luckyVia}";
             }
 
             return DefaultValue;
-
-            string GetBetTypeNameForBaseball(string name)
-            {
-                var replacedText = new List<string> { "X", "First", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th" };
-                var isNumber = int.TryParse(resourceId, out int resId);
-                if (isNumber)
-                {
-                    resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
-                }               
-
-                return string.IsNullOrEmpty(resourceId) ? name : name.Replace("X ", $"{resourceId} ");
-            }
         }
 
         public string GetSportName(string sportTypeId, string language)
@@ -322,5 +314,19 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 
         public string GetTableGamesBetType(string tableGamesBetTypeId, string language)
         => _betRefClient.GetTableGameBetType(new GetTableGameBetTypeModel { BetType = tableGamesBetTypeId, Language = language.ConvertCultureToEnum() });
+
+        private string GetBetTypeNameForBaseball(int id, string language, string resourceId)
+        {
+            var languageEnum = language.ConvertCultureToEnum();
+            var betTypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, string.Empty));
+            var replacedText = new List<string> { "X", "First", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th" };
+            var isNumber = int.TryParse(resourceId, out int resId);
+            if (isNumber)
+            {
+                resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
+            }
+
+            return string.IsNullOrEmpty(resourceId) ? betTypeName : betTypeName.Replace("X ", $"{resourceId} ");
+        }
     }
 }
