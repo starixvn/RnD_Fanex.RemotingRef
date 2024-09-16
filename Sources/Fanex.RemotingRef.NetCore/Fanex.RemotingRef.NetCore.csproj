@@ -17,7 +17,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="nlog" Version="5.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="tw.RefClient" Version="4.10.0" />
+    
+    <PackageReference Include="tw.RefClient" Version="4.16.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\**">
