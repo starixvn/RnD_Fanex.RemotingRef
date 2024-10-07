@@ -24,13 +24,14 @@ public class League3rdModel
     [PublicEnum.Language.Language(LanguageEnum.Ch)]
     public string LeagueNameTc { get; set; }
 
+    [PublicEnum.Language.Language(LanguageEnum.Sc2)]
+    public string LeagueNameSc2 => LeagueNameSc;
+
     [PublicEnum.Language.Language(LanguageEnum.Id)]
     public string LeagueNameIn { get; set; }
 
-
     [PublicEnum.Language.Language(LanguageEnum.Jp)]
     public string LeagueNameJp { get; set; }
-
 
     [PublicEnum.Language.Language(LanguageEnum.Ko)]
     public string LeagueNameKo { get; set; }
