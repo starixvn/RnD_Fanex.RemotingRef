@@ -20,6 +20,9 @@ public class Team3rdModel
     [PublicEnum.Language.Language(LanguageEnum.Ch)]
     public string TeamNameTc { get; set; }
 
+    [PublicEnum.Language.Language(LanguageEnum.Sc2)]
+    public string TeamNameSc2 => TeamNameSc;
+
     [PublicEnum.Language.Language(LanguageEnum.Id)]
     public string TeamNameIn { get; set; }
 
