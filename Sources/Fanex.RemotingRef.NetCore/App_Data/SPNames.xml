@@ -7,5 +7,20 @@
     <Setting Key="API_Ref_GetTeam3rd" SpName="API_Ref_GetTeam3rd" DbName="DBBOF.bodb02.wsv_hit" >
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
+
+    <Setting Key="Dot_Member_GetRef_Bettype" SpName="Dot_Member_GetRef_Bettype" DbName="DBBOF.bodb02.accteam" >        
+    </Setting>
+
+    <Setting Key="Dot_Member_GetRef_Sports" SpName="Dot_Member_GetRef_Sports" DbName="DBBOF.bodb02.accteam" />
+    <Setting Key="Dot_Member_GetRef_AllRefResourceData" SpName="Dot_Member_GetRef_AllRefResourceData" DbName="DBBOF.bodb02.accteam" >
+        <Mapping DataField="Resource_en" ObjectProperty="ResourceName"/>
+        <Mapping DataField="Resource_ch" ObjectProperty="ResourceCh"/>
+        <Mapping DataField="Resource_cs" ObjectProperty="ResourceCs"/>
+        <Mapping DataField="Resource_jp" ObjectProperty="ResourceJp"/>
+        <Mapping DataField="Resource_th" ObjectProperty="ResourceTh"/>
+        <Mapping DataField="Resource_ko" ObjectProperty="ResourceKo"/>
+        <Mapping DataField="Resource_vn" ObjectProperty="ResourceVn"/>
+        <Mapping DataField="Resource_id" ObjectProperty="ResourceIn"/>
+    </Setting>
   </Function>
 </Functions>

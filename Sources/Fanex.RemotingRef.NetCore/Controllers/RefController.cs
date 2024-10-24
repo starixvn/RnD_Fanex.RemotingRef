@@ -7,6 +7,8 @@
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Fanex.RemotingRef.NetCore.Services;
+    using PublicEnum.Language;
+    using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("/api/[controller]")]
@@ -16,8 +18,15 @@
         private readonly ITeam3rdService _team3rdService;
         private readonly ILeague3rdService _league3rdService;
 
-        public RefController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService)
-        => (_refData, _team3rdService, _league3rdService) = (refData, team3rdService, league3rdService);
+        private readonly IBettypeService _bettypeService;
+        private readonly ISportService _sportService;
+
+        private readonly IRefResourceService _refResourceService;
+
+        private readonly AppSettings _appSettings;
+
+        public RefController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService, IBettypeService bettypeService, ISportService sportService, IRefResourceService refResourceService, IOptions<AppSettings> appSettings)
+        => (_refData, _team3rdService, _league3rdService, _bettypeService, _sportService, _refResourceService, _appSettings) = (refData, team3rdService, league3rdService, bettypeService, sportService, refResourceService, appSettings.Value);
 
         [HttpGet("BetTypeName")]
         public TranslationSet BetTypeName(
@@ -26,17 +35,17 @@
             long? refNo = null,
             [FromQuery] string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetBetTypeName(
-                    betTypeId,
-                    resourceId,
-                    refNo,
-                    refLanguagCode),
+                refLanguagCode => _appSettings.UsingVNFunction ?
+                                            _bettypeService.GetBettypeById(betTypeId, resourceId, refNo, refLanguagCode) :
+                                            _refData.GetBetTypeName(betTypeId, resourceId, refNo, refLanguagCode),
                 languages);
 
         [HttpGet("SportName")]
         public TranslationSet SportName(string sportTypeId = null, [FromQuery] string[] languages = null)
                     => GetTranslationSet(
-                        refLanguagCode => _refData.GetSportName(sportTypeId, refLanguagCode),
+                        refLanguagCode => _appSettings.UsingVNFunction ?
+                                            _sportService.GetSportById(sportTypeId, refLanguagCode) :
+                                            _refData.GetSportName(sportTypeId, refLanguagCode),
                         languages);
 
         [HttpGet("TeamName")]
@@ -78,7 +87,9 @@
         [HttpGet("ResourceData")]
         public TranslationSet ResourceData(string refId = null, string resourceId = null, [FromQuery] string[] languages = null)
             => GetTranslationSet(
-                refLanguagCode => _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, refLanguagCode),
+                refLanguagCode => _appSettings.UsingVNFunction ?
+                                     _refResourceService.GetRefResourceById(refId, resourceId, refLanguagCode) :
+                                     _refData.GetResourceDataByRefIdAndResourceId(refId, resourceId, refLanguagCode),
                 languages);
 
         [HttpGet("ParentIdByBetTypeId")]
@@ -239,11 +250,9 @@
             var displayedBetTypeId = _refData.GetDisplayedTypeId(betTypeId);
 
             return GetTranslationSet(
-                refLanguagCode => _refData.GetBetTypeName(
-                    displayedBetTypeId,
-                    resourceId,
-                    refNo,
-                    refLanguagCode),
+                refLanguagCode => _appSettings.UsingVNFunction ?
+                                            _bettypeService.GetBettypeById(displayedBetTypeId, resourceId, refNo, refLanguagCode) :
+                                            _refData.GetBetTypeName(displayedBetTypeId, resourceId, refNo, refLanguagCode),
                 languages);
         }
 

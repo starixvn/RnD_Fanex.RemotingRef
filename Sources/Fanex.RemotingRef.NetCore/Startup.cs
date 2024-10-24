@@ -17,7 +17,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddEndpointsApiExplorer()
-        .AddFanexLogging(Configuration)        
+        .Configure<AppSettings>(Configuration)
+        .AddFanexLogging(Configuration)
         .AddApplicationServices()
         .AddSwaggerGen()
         .AddControllers();

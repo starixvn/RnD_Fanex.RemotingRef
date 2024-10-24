@@ -8,6 +8,7 @@
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Fanex.RemotingRef.NetCore.Services;
+    using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("/api/[controller]")]
@@ -17,27 +18,33 @@
 
         private readonly ITeam3rdService _team3rdService;
         private readonly ILeague3rdService _league3rdService;
+        private readonly IBettypeService _bettypeService;
+        private readonly ISportService _sportService;
 
-        public RefSyncController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService)
-        => (_refData, _team3rdService, _league3rdService) = (refData, team3rdService, league3rdService);
+        private readonly IRefResourceService _refResourceService;
+
+        private readonly AppSettings _appSettings;
+        public RefSyncController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService, IBettypeService bettypeService, ISportService sportService, IRefResourceService refResourceService, IOptions<AppSettings> appSettings)
+        => (_refData, _team3rdService, _league3rdService, _bettypeService, _sportService, _refResourceService, _appSettings) = (refData, team3rdService, league3rdService, bettypeService, sportService, refResourceService, appSettings.Value);
+
 
         [HttpPost("BetTypeName")]
         public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetBetTypeName(
-                    parameterSet.GetBetTypeId(),
-                    parameterSet.GetResourceId(),
-                    parameterSet.GetRefNo(),
-                    refLanguageCode));
+                (parameterSet, refLanguageCode) => _appSettings.UsingVNFunction ?
+                    _bettypeService.GetBettypeById(parameterSet.GetBetTypeId(), parameterSet.GetResourceId(), parameterSet.GetRefNo(), refLanguageCode) :
+                    _refData.GetBetTypeName(parameterSet.GetBetTypeId(), parameterSet.GetResourceId(), parameterSet.GetRefNo(), refLanguageCode));
 
         [HttpPost("SportName")]
         public SyncedTranslationResultSet SportName(RequestSyncFormData formData)
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetSportName(parameterSet.GetSportTypeId(), refLanguageCode));
+                (parameterSet, refLanguageCode) => _appSettings.UsingVNFunction ?
+                                            _sportService.GetSportById(parameterSet.GetSportTypeId(), refLanguageCode) :
+                                            _refData.GetSportName(parameterSet.GetSportTypeId(), refLanguageCode));
 
         [HttpPost("TeamName")]
         public SyncedTranslationResultSet TeamName(RequestSyncFormData formData)
@@ -86,10 +93,9 @@
             => GetSyncedTranslatedTextResultSet(
                 formData.ParameterSets,
                 formData.Languages,
-                (parameterSet, refLanguageCode) => _refData.GetResourceDataByRefIdAndResourceId(
-                    parameterSet.GetRefId(),
-                    parameterSet.GetResourceId(),
-                    refLanguageCode));
+                (parameterSet, refLanguageCode) => _appSettings.UsingVNFunction ?
+                    _refResourceService.GetRefResourceById(parameterSet.GetRefId(), parameterSet.GetResourceId(), refLanguageCode) :
+                    _refData.GetResourceDataByRefIdAndResourceId(parameterSet.GetRefId(), parameterSet.GetResourceId(), refLanguageCode));
 
         [HttpPost("ParentIdByBetTypeId")]
         public SyncedTranslationResultSet ParentIdByBetTypeId(RequestSyncFormData formData)
@@ -260,11 +266,9 @@
 
                 for (var counter = 0; counter < standardLanguageCodes.Length; counter++)
                 {
-                    var displayedBetTypeNameInSpecificLanguage = _refData.GetBetTypeName(
-                        displayedBetTypeId,
-                        resourceId,
-                        refNo,
-                        standardLanguageCodes[counter]);
+                    var displayedBetTypeNameInSpecificLanguage = _appSettings.UsingVNFunction ?
+                                _bettypeService.GetBettypeById(displayedBetTypeId, resourceId, refNo, standardLanguageCodes[counter]) :
+                                _refData.GetBetTypeName(displayedBetTypeId, resourceId, refNo, standardLanguageCodes[counter]);
 
                     if (!string.IsNullOrEmpty(displayedBetTypeNameInSpecificLanguage))
                     {
