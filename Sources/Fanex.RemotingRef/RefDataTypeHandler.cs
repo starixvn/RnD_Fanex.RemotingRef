@@ -1,151 +1,142 @@
-﻿namespace Fanex.RemotingRef
+﻿namespace Fanex.RemotingRef;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Fanex.RemotingRef.TranslationStorage;
+
+internal class RefDataTypeHandler(RefDataTypeHandlerOptions options, IStorage storage) : IRefDataTypeHandler
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Fanex.RemotingRef.TranslationStorage;
+    private readonly IStorage _localStorage = storage ?? throw new ArgumentNullException(nameof(storage));
 
-    internal class RefDataTypeHandler : IRefDataTypeHandler
+    public RefDataTypeHandlerOptions Options { get; } = options ?? throw new ArgumentNullException(nameof(options));
+
+    public object Get(KeySet keySet, string languageCode)
     {
-        private readonly IStorage _localStorage;
+        object result = null;
+        var key = keySet.BuildKey();
 
-        public RefDataTypeHandler(RefDataTypeHandlerOptions options, IStorage storage)
+        if (_localStorage.TryGet(key, out var cachedEntry))
         {
-            Options = options ?? throw new ArgumentNullException(nameof(options));
-            _localStorage = storage ?? throw new ArgumentNullException(nameof(storage));
+            result = GetTranslationInSpecificLanguage(cachedEntry.Value, languageCode);
+
+            if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
+            {
+                TriggerSyncDataProcess(cachedEntry);
+            }
+        }
+        else
+        {
+            var newTranslationSet = RetryGettingTranslationSet(keySet);
+
+            if (newTranslationSet != null)
+            {
+                var newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
+
+                _localStorage.Add(newEntry);
+                result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
+            }
         }
 
-        public RefDataTypeHandlerOptions Options { get; }
+        return result;
+    }
 
-        public object Get(KeySet keySet, string languageCode)
+    private static object GetTranslationInSpecificLanguage(TranslationSet translations, string languageCode)
+    {
+        var retrievingLanguageCode = string.IsNullOrEmpty(languageCode) ? RefDataTypeHandlerOptions.DefaultLanguage : languageCode;
+
+        if (translations.TryGetValue(retrievingLanguageCode, out var language))
         {
-            object result = null;
-            var key = keySet.BuildKey();
+            return language;
+        }
 
-            if (_localStorage.TryGet(key, out CacheEntry cachedEntry))
+        if (translations.TryGetValue(RefDataTypeHandlerOptions.DefaultLanguage, out var specificLanguage))
+        {
+            return specificLanguage;
+        }
+
+        return null;
+    }
+
+    private TranslationSet RetryGettingTranslationSet(KeySet keySet)
+    {
+        var retryCounter = 0;
+
+        while (retryCounter < Options.NumberOfRetries)
+        {
+            retryCounter++;
+
+            try
             {
-                result = GetTranslationInSpecificLanguage(cachedEntry.Value, languageCode);
+                var translationSet = Task.Run(() => Options.RequestHandler(keySet)).GetAwaiter().GetResult();
 
-                if (cachedEntry.NeedToRenew(_localStorage.Clock.UtcNow))
+                if (translationSet != null)
                 {
-                    TriggerSyncDataProcess(cachedEntry);
+                    return translationSet;
                 }
             }
-            else
+            catch
             {
-                var newTranslationSet = RetryGettingTranslationSet(keySet);
+                if (retryCounter == Options.NumberOfRetries)
+                {
+                    throw;
+                }
+            }
+        }
 
+        return default;
+    }
+
+    private void TriggerSyncDataProcess(CacheEntry rootEntry)
+        => Task.Run(() => SyncCachedDataAsync(rootEntry));
+
+    internal async Task SyncCachedDataAsync(CacheEntry rootEntry)
+    {
+        var batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
+
+        batch.Add(rootEntry);
+
+        var parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
+        var results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
+
+        if (results != null && results.Count > 0)
+        {
+            UpdateDataInStorage(batch, results);
+        }
+        else
+        {
+            ReleaseRenewingLocks(batch);
+        }
+    }
+
+    private void UpdateDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
+    {
+        foreach (var entry in existingEntries)
+        {
+            var key = entry.Key;
+
+            if (!_localStorage.IsExpired(entry) && newEntryMaps.TryGetValue(key, out var newTranslationSet))
+            {
                 if (newTranslationSet != null)
                 {
-                    var newEntry = _localStorage.CreateEntry(key, keySet, newTranslationSet);
+                    var updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newTranslationSet);
 
-                    _localStorage.Add(newEntry);
-                    result = GetTranslationInSpecificLanguage(newEntry.Value, languageCode);
+                    _localStorage.Add(updatedEntry);
                 }
-            }
-
-            return result;
-        }
-
-        private static object GetTranslationInSpecificLanguage(TranslationSet translations, string languageCode)
-        {
-            var retrievingLanguageCode = string.IsNullOrEmpty(languageCode) ? RefDataTypeHandlerOptions.DefaultLanguage : languageCode;
-
-            if (translations.ContainsKey(retrievingLanguageCode))
-            {
-                return translations[retrievingLanguageCode];
-            }
-
-            if (translations.ContainsKey(RefDataTypeHandlerOptions.DefaultLanguage))
-            {
-                return translations[RefDataTypeHandlerOptions.DefaultLanguage];
-            }
-
-            return null;
-        }
-
-        private TranslationSet RetryGettingTranslationSet(KeySet keySet)
-        {
-            var retryCounter = 0;
-
-            while (retryCounter < Options.NumberOfRetries)
-            {
-                retryCounter++;
-
-                try
-                {
-                    var translationSet = Task.Run(() => Options.RequestHandler(keySet)).GetAwaiter().GetResult();
-
-                    if (translationSet != null)
-                    {
-                        return translationSet;
-                    }
-                }
-                catch
-                {
-                    if (retryCounter == Options.NumberOfRetries)
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return default;
-        }
-
-        private void TriggerSyncDataProcess(CacheEntry rootEntry)
-            => Task.Run(() => SyncCachedDataAsync(rootEntry));
-
-        internal async Task SyncCachedDataAsync(CacheEntry rootEntry)
-        {
-            var batch = _localStorage.FilterOutOfDateEntries(Options.SyncBatchSize);
-
-            batch.Add(rootEntry);
-
-            var parameterSets = batch.Select(item => item.OriginalKeySet).ToList();
-            var results = await Options.SyncHandler(parameterSets).ConfigureAwait(false);
-
-            if (results != null && results.Count > 0)
-            {
-                UpdateDataInStorage(batch, results);
             }
             else
             {
-                ReleaseRenewingLocks(batch);
+                entry.ReleaseRenewingLock();
             }
         }
+    }
 
-        private void UpdateDataInStorage(IList<CacheEntry> existingEntries, IDictionary<string, TranslationSet> newEntryMaps)
+    private static void ReleaseRenewingLocks(IList<CacheEntry> lockedEntries)
+    {
+        foreach (var lockedEntry in lockedEntries)
         {
-            foreach (var entry in existingEntries)
-            {
-                var key = entry.Key;
-
-                if (!_localStorage.IsExpired(entry) && newEntryMaps.ContainsKey(key))
-                {
-                    var newTranslationSet = newEntryMaps[key];
-
-                    if (newTranslationSet != null)
-                    {
-                        var updatedEntry = _localStorage.CreateEntry(key, entry.OriginalKeySet, newTranslationSet);
-
-                        _localStorage.Add(updatedEntry);
-                    }
-                }
-                else
-                {
-                    entry.ReleaseRenewingLock();
-                }
-            }
-        }
-
-        private static void ReleaseRenewingLocks(IList<CacheEntry> lockedEntries)
-        {
-            foreach (var lockedEntry in lockedEntries)
-            {
-                lockedEntry.ReleaseRenewingLock();
-            }
+            lockedEntry.ReleaseRenewingLock();
         }
     }
 }

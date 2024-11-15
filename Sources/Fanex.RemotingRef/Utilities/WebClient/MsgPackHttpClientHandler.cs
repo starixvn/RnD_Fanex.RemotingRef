@@ -1,50 +1,49 @@
 ﻿#pragma warning disable S3994 // URI Parameters should not be strings
 #pragma warning disable S4005 // "System.Uri" arguments should be used instead of strings
 
-namespace Fanex.RemotingRef.Utilities.WebClient
+namespace Fanex.RemotingRef.Utilities.WebClient;
+
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
+internal class MsgPackHttpClientHandler : IHttpHandler
 {
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Threading.Tasks;
+    public const string MimeType = "application/x-msgpack";
 
-    internal class MsgPackHttpClientHandler : IHttpHandler
+    private static readonly object SyncRoot = new();
+    private static HttpClient _client;
+
+    public static HttpClient Client => GetHttpClient();
+
+    private static HttpClient GetHttpClient()
     {
-        public const string MimeType = "application/x-msgpack";
-
-        private static readonly object SyncRoot = new object();
-        private static HttpClient _client;
-
-        public static HttpClient Client => GetHttpClient();
-
-        private static HttpClient GetHttpClient()
+        if (_client == null)
         {
-            if (_client == null)
+            lock (SyncRoot)
             {
-                lock (SyncRoot)
+                if (_client == null)
                 {
-                    if (_client == null)
+                    _client = new HttpClient
                     {
-                        _client = new HttpClient
-                        {
-                            BaseAddress = RefDataTypeContainer.ServiceUri
-                        };
+                        BaseAddress = RefDataTypeContainer.ServiceUri
+                    };
 
-                        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
-                    }
+                    _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeType));
                 }
             }
-
-            return _client;
         }
 
-        public Task<HttpResponseMessage> GetAsync(string url)
-            => Client.GetAsync(url);
+        return _client;
+    }
 
-        public Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
-        {
-            content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
+    public Task<HttpResponseMessage> GetAsync(string url)
+        => Client.GetAsync(url);
 
-            return Client.PostAsync(url, content);
-        }
+    public Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
+    {
+        content.Headers.ContentType = new MediaTypeHeaderValue(MimeType);
+
+        return Client.PostAsync(url, content);
     }
 }

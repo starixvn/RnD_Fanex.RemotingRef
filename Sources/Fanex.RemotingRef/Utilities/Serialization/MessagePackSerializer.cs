@@ -1,18 +1,16 @@
-﻿namespace Fanex.RemotingRef.Utilities.Serialization
+﻿namespace Fanex.RemotingRef.Utilities.Serialization;
+
+using System.IO;
+using System.Threading.Tasks;
+
+public class MessagePackSerializer : ISerializer
 {
-    using System.IO;
-    using System.Threading.Tasks;
-    using MessagePack.Resolvers;
+    public byte[] Serialize<T>(T obj)
+        => MessagePack.MessagePackSerializer.Serialize(obj);
 
-    public class MessagePackSerializer : ISerializer
-    {
-        public byte[] Serialize<T>(T obj)
-            => MessagePack.MessagePackSerializer.Serialize<T>(obj);
+    public T Deserialize<T>(Stream readStream)
+        => MessagePack.MessagePackSerializer.Deserialize<T>(readStream);
 
-        public T Deserialize<T>(Stream readStream)
-            => MessagePack.MessagePackSerializer.Deserialize<T>(readStream);
-
-        public ValueTask<T> DeserializeAsync<T>(Stream readStream)
-            => MessagePack.MessagePackSerializer.DeserializeAsync<T>(readStream);
-    }
+    public ValueTask<T> DeserializeAsync<T>(Stream readStream)
+        => MessagePack.MessagePackSerializer.DeserializeAsync<T>(readStream);
 }

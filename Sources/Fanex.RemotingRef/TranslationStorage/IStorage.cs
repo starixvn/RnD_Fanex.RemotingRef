@@ -1,19 +1,18 @@
-﻿namespace Fanex.RemotingRef.TranslationStorage
+﻿namespace Fanex.RemotingRef.TranslationStorage;
+
+using System.Collections.Generic;
+
+internal interface IStorage
 {
-    using System.Collections.Generic;
+    ISystemClock Clock { get; }
 
-    internal interface IStorage
-    {
-        ISystemClock Clock { get; }
+    CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value);
 
-        CacheEntry CreateEntry(string key, KeySet keySet, TranslationSet value);
+    void Add(CacheEntry entry);
 
-        void Add(CacheEntry entry);
+    bool TryGet(string key, out CacheEntry result);
 
-        bool TryGet(string key, out CacheEntry result);
+    IList<CacheEntry> FilterOutOfDateEntries(int batchSize);
 
-        IList<CacheEntry> FilterOutOfDateEntries(int batchSize);
-
-        bool IsExpired(CacheEntry entry);
-    }
+    bool IsExpired(CacheEntry entry);
 }

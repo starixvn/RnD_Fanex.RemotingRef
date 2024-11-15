@@ -1,9 +1,8 @@
-﻿namespace Fanex.RemotingRef.TranslationStorage
-{
-    using System;
+﻿namespace Fanex.RemotingRef.TranslationStorage;
 
-    internal class SystemClock : ISystemClock
-    {
-        public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
-    }
+using System;
+
+internal class SystemClock : ISystemClock
+{
+    public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
 }

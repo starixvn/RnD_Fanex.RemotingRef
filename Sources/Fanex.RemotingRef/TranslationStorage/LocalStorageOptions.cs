@@ -1,85 +1,84 @@
-﻿namespace Fanex.RemotingRef.TranslationStorage
+﻿namespace Fanex.RemotingRef.TranslationStorage;
+
+using System;
+
+public class LocalStorageOptions
 {
-    using System;
+    private int _numberOfEntriesLimit = 1000;
+    private double _compactionPercentage = 0.1;
+    private TimeSpan _slidingTimeout = TimeSpan.FromMinutes(10);
+    private TimeSpan _renewalTime = TimeSpan.FromSeconds(40);
 
-    public class LocalStorageOptions
+    public TimeSpan SlidingTimeout
     {
-        private int _numberOfEntriesLimit = 1000;
-        private double _compactionPercentage = 0.1;
-        private TimeSpan _slidingTimeout = TimeSpan.FromMinutes(10);
-        private TimeSpan _renewalTime = TimeSpan.FromSeconds(40);
-
-        public TimeSpan SlidingTimeout
+        get => _slidingTimeout;
+        set
         {
-            get => _slidingTimeout;
-            set
+            if (value <= TimeSpan.Zero)
             {
-                if (value <= TimeSpan.Zero)
-                {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        value,
-                        "The sliding expiration value must be positive.");
-                }
-
-                _slidingTimeout = value;
+                throw new ArgumentOutOfRangeException(
+                    nameof(value),
+                    value,
+                    "The sliding expiration value must be positive.");
             }
+
+            _slidingTimeout = value;
         }
+    }
 
-        public TimeSpan RenewalTime
+    public TimeSpan RenewalTime
+    {
+        get => _renewalTime;
+        set
         {
-            get => _renewalTime;
-            set
+            if (value <= TimeSpan.Zero)
             {
-                if (value <= TimeSpan.Zero)
-                {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        value,
-                        "The recycling interval value must be positive.");
-                }
-
-                _renewalTime = value;
+                throw new ArgumentOutOfRangeException(
+                    nameof(value),
+                    value,
+                    "The recycling interval value must be positive.");
             }
+
+            _renewalTime = value;
         }
+    }
 
-        public int NumberOfEntriesLimit
+    public int NumberOfEntriesLimit
+    {
+        get => _numberOfEntriesLimit;
+        set
         {
-            get => _numberOfEntriesLimit;
-            set
+            if (value < 0)
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        value,
-                        "Number of entries of each data type must be positive.");
-                }
-
-                _numberOfEntriesLimit = value;
+                throw new ArgumentOutOfRangeException(
+                    nameof(value),
+                    value,
+                    "Number of entries of each data type must be positive.");
             }
+
+            _numberOfEntriesLimit = value;
         }
+    }
 
-        public bool CompactOnMemoryPressure { get; set; }
+    public bool CompactOnMemoryPressure { get; set; }
 
-        public TimeSpan ExpirationScanFrequency { get; set; }
-            = TimeSpan.FromMinutes(1);
+    public TimeSpan ExpirationScanFrequency { get; set; }
+        = TimeSpan.FromMinutes(1);
 
-        public double CompactionPercentage
+    public double CompactionPercentage
+    {
+        get => _compactionPercentage;
+        set
         {
-            get => _compactionPercentage;
-            set
+            if (value < 0 || value > 1)
             {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        value,
-                        "Compaction Percentage must be between 0 and 1 inclusive.");
-                }
-
-                _compactionPercentage = value;
+                throw new ArgumentOutOfRangeException(
+                    nameof(value),
+                    value,
+                    "Compaction Percentage must be between 0 and 1 inclusive.");
             }
+
+            _compactionPercentage = value;
         }
     }
 }

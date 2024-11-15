@@ -1,63 +1,52 @@
-﻿namespace Fanex.RemotingRef.TranslationStorage
+﻿namespace Fanex.RemotingRef.TranslationStorage;
+
+using System;
+
+internal class CacheEntry(
+    string key,
+    KeySet keySet,
+    TranslationSet value,
+    TimeSpan slidingTimeout,
+    TimeSpan renewalTime,
+    DateTimeOffset createdTime)
 {
-    using System;
+    private bool _isExpired;
+    private bool _isRenewing;
 
-    internal class CacheEntry
-    {
-        private bool _isExpired;
-        private bool _isRenewing;
+    public string Key { get; } = key ?? throw new ArgumentNullException(nameof(key));
 
-        public CacheEntry(
-            string key,
-            KeySet keySet,
-            TranslationSet value,
-            TimeSpan slidingTimeout,
-            TimeSpan renewalTime,
-            DateTimeOffset createdTime)
-        {
-            Key = key ?? throw new ArgumentNullException(nameof(key));
-            OriginalKeySet = keySet ?? throw new ArgumentNullException(nameof(keySet));
-            Value = value;
-            SlidingTimeout = slidingTimeout;
-            RenewalTime = renewalTime;
-            CreatedTime = createdTime;
-            LastAccess = createdTime;
-        }
+    public KeySet OriginalKeySet { get; } = keySet ?? throw new ArgumentNullException(nameof(keySet));
 
-        public string Key { get; }
+    public TranslationSet Value { get; } = value;
 
-        public KeySet OriginalKeySet { get; }
+    public TimeSpan SlidingTimeout { get; } = slidingTimeout;
 
-        public TranslationSet Value { get; }
+    public TimeSpan RenewalTime { get; } = renewalTime;
 
-        public TimeSpan SlidingTimeout { get; }
+    public DateTimeOffset CreatedTime { get; private set; } = createdTime;
 
-        public TimeSpan RenewalTime { get; }
-
-        public DateTimeOffset CreatedTime { get; private set; }
-
-        public DateTimeOffset LastAccess { get; private set; }
+    public DateTimeOffset LastAccess { get; private set; } = createdTime;
 
 #if DEBUG
 
-        /// <summary>
-        /// Gets or sets action which is invoked once the entry is expired. Being used for unit testing purpose.
-        /// </summary>
-        public Action PostEvictionCallback { get; set; }
+    /// <summary>
+    /// Gets or sets action which is invoked once the entry is expired. Being used for unit testing purpose.
+    /// </summary>
+    public Action PostEvictionCallback { get; set; }
 
 #endif
 
-        public void Touch(DateTimeOffset now)
-            => LastAccess = now;
+    public void Touch(DateTimeOffset now)
+        => LastAccess = now;
 
 #if DEBUG
 
-        public void Expire()
-        {
-            _isExpired = true;
+    public void Expire()
+    {
+        _isExpired = true;
 
-            PostEvictionCallback?.Invoke();
-        }
+        PostEvictionCallback?.Invoke();
+    }
 
 #else
 
@@ -66,37 +55,36 @@
 
 #endif
 
-        public bool IsExpired(DateTimeOffset now)
-            => _isExpired || MeetExpirationTime(now);
+    public bool IsExpired(DateTimeOffset now)
+        => _isExpired || MeetExpirationTime(now);
 
-        private bool MeetExpirationTime(DateTimeOffset now)
+    private bool MeetExpirationTime(DateTimeOffset now)
+    {
+        if (now - LastAccess > SlidingTimeout)
         {
-            if (now - LastAccess > SlidingTimeout)
-            {
-                Expire();
+            Expire();
 
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
-        public bool NeedToRenew(DateTimeOffset now)
-            => !_isRenewing && MeetRenewalTime(now);
-
-        private bool MeetRenewalTime(DateTimeOffset now)
-        {
-            if (now - CreatedTime > RenewalTime)
-            {
-                _isRenewing = true;
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool ReleaseRenewingLock()
-            => _isRenewing = false;
+        return false;
     }
+
+    public bool NeedToRenew(DateTimeOffset now)
+        => !_isRenewing && MeetRenewalTime(now);
+
+    private bool MeetRenewalTime(DateTimeOffset now)
+    {
+        if (now - CreatedTime > RenewalTime)
+        {
+            _isRenewing = true;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool ReleaseRenewingLock()
+        => _isRenewing = false;
 }

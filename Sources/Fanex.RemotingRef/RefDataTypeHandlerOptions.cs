@@ -1,48 +1,47 @@
-﻿namespace Fanex.RemotingRef
+﻿namespace Fanex.RemotingRef;
+
+using Fanex.RemotingRef.Delegates;
+using Fanex.RemotingRef.TranslationStorage;
+
+public class RefDataTypeHandlerOptions : LocalStorageOptions
 {
-    using Fanex.RemotingRef.Delegates;
-    using Fanex.RemotingRef.TranslationStorage;
+    public const int DefaultSyncBatchSize = 100;
+    public const int DefaultNumberOfRetries = 5;
+    public const string DefaultLanguage = "en-US";
 
-    public class RefDataTypeHandlerOptions : LocalStorageOptions
+    internal static readonly string[] DefaultSupportedLanguageCodes =
+    [
+        DefaultLanguage,
+        "zh-TW",
+        "zh-CN",
+        "ja-JP",
+        "th-TH",
+        "ko-KR",
+        "vi-VN",
+        "zh-CHS",
+        "id-ID"
+    ];
+
+    private static string[] supportedLanguageCodes = DefaultSupportedLanguageCodes;
+
+    public int SyncBatchSize { get; set; }
+        = DefaultSyncBatchSize;
+
+    public int NumberOfRetries { get; set; }
+        = DefaultNumberOfRetries;
+
+    internal static string ApplicationName { get; set; }
+
+    internal static string[] SupportedLanguageCodes
     {
-        public const int DefaultSyncBatchSize = 100;
-        public const int DefaultNumberOfRetries = 5;
-        public const string DefaultLanguage = "en-US";
-
-        internal static readonly string[] DefaultSupportedLanguageCodes =
-        {
-            DefaultLanguage,
-            "zh-TW",
-            "zh-CN",
-            "ja-JP",
-            "th-TH",
-            "ko-KR",
-            "vi-VN",
-            "zh-CHS",
-            "id-ID"
-        };
-
-        private static string[] supportedLanguageCodes = DefaultSupportedLanguageCodes;
-
-        public int SyncBatchSize { get; set; }
-            = DefaultSyncBatchSize;
-
-        public int NumberOfRetries { get; set; }
-            = DefaultNumberOfRetries;
-
-        internal static string ApplicationName { get; set; }
-
-        internal static string[] SupportedLanguageCodes
-        {
-            get => IsMultiLanguagesSupported ? supportedLanguageCodes : new[] { DefaultLanguage };
-            set => supportedLanguageCodes = value;
-        }
-
-        internal static bool IsMultiLanguagesSupported { get; set; }
-            = true;
-
-        internal RequestTranslationSetDelegate RequestHandler { get; set; }
-
-        internal SyncTranslationSetsDelegate SyncHandler { get; set; }
+        get => IsMultiLanguagesSupported ? supportedLanguageCodes : [DefaultLanguage];
+        set => supportedLanguageCodes = value;
     }
+
+    internal static bool IsMultiLanguagesSupported { get; set; }
+        = true;
+
+    internal RequestTranslationSetDelegate RequestHandler { get; set; }
+
+    internal SyncTranslationSetsDelegate SyncHandler { get; set; }
 }
