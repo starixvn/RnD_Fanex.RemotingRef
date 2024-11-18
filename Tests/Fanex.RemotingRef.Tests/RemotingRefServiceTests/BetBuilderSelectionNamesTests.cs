@@ -89,10 +89,10 @@
             Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
 
             // Act.
-            var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
+            var betBuilderSelectionNames = RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
-            Assert.Empty(actualSelectioNames);
+            Assert.Empty(betBuilderSelectionNames);
         }
 
         [Fact]

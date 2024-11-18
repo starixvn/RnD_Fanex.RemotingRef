@@ -1,11 +1,10 @@
-﻿namespace Fanex.RemotingRef
+﻿namespace Fanex.RemotingRef;
+
+using Fanex.RemotingRef.TranslationStorage;
+
+internal interface IRefDataTypeHandler
 {
-    using Fanex.RemotingRef.TranslationStorage;
+    RefDataTypeHandlerOptions Options { get; }
 
-    internal interface IRefDataTypeHandler
-    {
-        RefDataTypeHandlerOptions Options { get; }
-
-        object Get(KeySet keySet, string languageCode);
-    }
+    object Get(KeySet keySet, string languageCode);
 }

@@ -4,6 +4,7 @@
     using System.IO;
     using System.Net;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.Json;
     using AutoFixture;
     using Xunit;
 
@@ -58,26 +59,14 @@
             Assert.Equal(_failedReason, deserializedException.FailedReason);
         }
 
-        private static byte[] SerializeException(RemotingRefException ex)
+        private static string SerializeException(RemotingRefException ex)
         {
-            var binaryFormatter = new BinaryFormatter();
-
-            using (var memoryStream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(memoryStream, ex);
-
-                return memoryStream.ToArray();
-            }
+            return JsonSerializer.Serialize(ex);
         }
 
-        private static RemotingRefException DeserializeException(byte[] stream)
+        private static RemotingRefException DeserializeException(string json)
         {
-            var binaryFormatter = new BinaryFormatter();
-
-            using (var memoryStream = new MemoryStream(stream))
-            {
-                return binaryFormatter.Deserialize(memoryStream) as RemotingRefException;
-            }
+            return JsonSerializer.Deserialize<RemotingRefException>(json);
         }
     }
 }

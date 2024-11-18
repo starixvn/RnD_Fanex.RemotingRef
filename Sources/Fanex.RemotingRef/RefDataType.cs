@@ -1,33 +1,32 @@
-﻿namespace Fanex.RemotingRef
+﻿namespace Fanex.RemotingRef;
+
+public enum RefDataType
 {
-    public enum RefDataType
-    {
-        BetTypeName,
-        SportName,
-        TeamName,
-        TeamName3rd,
-        LeagueName,
-        LeagueName3rd,
-        CountryName,
-        OddsTypeName,
-        RefResource,
-        ParentBetTypeId,
-        CombinationTypeComboParlay,
-        HorseTeamName,
-        CasinoBetItem,
-        RouletteBetItem,
-        KenoBetChoice,
-        KenoBetType,
-        FastMarketsChoice,
-        FastMarketsResult,
-        FastMarkets225Result,
-        LotteryBetChoice,
-        LotteryBetType,
-        BetRadarMatchCodeFormat,
-        DisplayedTypeId,
-        DisplayedBetTypeName,
-        BetBuilderSelectionName,
-        TableGamesBetChoice,
-        TableGamesBetType
-    }
+    BetTypeName,
+    SportName,
+    TeamName,
+    TeamName3rd,
+    LeagueName,
+    LeagueName3rd,
+    CountryName,
+    OddsTypeName,
+    RefResource,
+    ParentBetTypeId,
+    CombinationTypeComboParlay,
+    HorseTeamName,
+    CasinoBetItem,
+    RouletteBetItem,
+    KenoBetChoice,
+    KenoBetType,
+    FastMarketsChoice,
+    FastMarketsResult,
+    FastMarkets225Result,
+    LotteryBetChoice,
+    LotteryBetType,
+    BetRadarMatchCodeFormat,
+    DisplayedTypeId,
+    DisplayedBetTypeName,
+    BetBuilderSelectionName,
+    TableGamesBetChoice,
+    TableGamesBetType
 }

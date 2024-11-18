@@ -1,16 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>net461;netstandard2.0;net7.0</TargetFrameworks>
-        <Version>1.5.4-vs-01</Version>
-        <InfomationalVersion>1.5.4</InfomationalVersion>
-        <PackageReleaseNotes> 
-        - Get Match Info of Virtual Sports (#198619)
-        </PackageReleaseNotes>
-        <PackageTags>fanex.remotingref;remotingref</PackageTags>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="MessagePack" Version="2.4.35" />
-      <PackageReference Include="System.Net.Http" Version="4.3.3" />
-      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net461;net6.0</TargetFrameworks>
+    <LangVersion>13.0</LangVersion>
+    <Version>1.5.5.1</Version>
+    <InfomationalVersion>1.5.5</InfomationalVersion>
+    <PackageReleaseNotes>
+      - Upgrade MessagePack and System.Net.Http to latest
+    </PackageReleaseNotes>
+    <PackageTags>fanex.remotingref;remotingref</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.5.192" />
+  </ItemGroup>
 </Project>
