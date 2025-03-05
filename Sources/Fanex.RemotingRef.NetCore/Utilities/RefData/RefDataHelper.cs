@@ -82,7 +82,7 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             : DefaultValue;
 
         public string GetLeagueName(string leagueId, string language)
-        => int.TryParse(leagueId, out int id) ?
+            => int.TryParse(leagueId, out int id) ?
             _refDataClient.GetLeagueName(new GetLeagueNameModel
             {
                 LeagueId = id,
@@ -92,7 +92,6 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
                 .GetAwaiter()
                 .GetResult()
             : DefaultValue;
-
 
         public string GetLeagueName3rd(string league3rdId, string language)
         => int.TryParse(league3rdId, out int id) ?

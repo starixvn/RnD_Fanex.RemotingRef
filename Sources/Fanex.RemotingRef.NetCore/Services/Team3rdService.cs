@@ -10,47 +10,52 @@ namespace Fanex.RemotingRef.NetCore.Services
     {
         string GetTeam3rdById(string team3rdId, string languageCode);
 
-        IEnumerable<Team3rdModel> GetTeams();
+        Dictionary<int, Team3rdModel> GetAllTeams();
     }
 
     public class Team3rdService : ITeam3rdService
     {
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly ICacheService _cacheService;
+        private const string CachedKey = "Fanex.RemotingRef.NetCode.Team3rd";
+
         public Team3rdService(IDynamicRepository repository, ICacheService cacheService)
         {
             _dynamicRepository = repository;
             _cacheService = cacheService;
         }
 
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly ICacheService _cacheService;
-        private const string CachedKey = "Fanex.RemotingRef.NetCode.Team3rd";
-
         public string GetTeam3rdById(string team3rdId, string languageCode)
         {
             if (int.TryParse(team3rdId, out var id))
             {
-                var teams = _cacheService.Get<IEnumerable<Team3rdModel>>(CachedKey);
+                var teams = _cacheService.Get<Dictionary<int, Team3rdModel>>(CachedKey);
                 if (teams == null)
                 {
-                    teams = GetTeams();
+                    teams = GetAllTeams();
                 }
-                var team = teams.SingleOrDefault(t => t.Team3rdId == id) ?? GetTeams().SingleOrDefault(t => t.Team3rdId == id);
-                return team?.GetName(languageCode.ConvertCultureToEnum()) ?? string.Empty;
+
+                if (!teams.TryGetValue(id, out var team))
+                {
+                    teams = GetAllTeams();
+                    if (!teams.TryGetValue(id, out team))
+                    {
+                        return string.Empty;
+                    }
+                }
+
+                var name = team.GetName(languageCode.ConvertCultureToEnum());
+
+                return name;
             }
 
             return string.Empty;
         }
 
-        public IEnumerable<Team3rdModel> GetTeams()
+        public Dictionary<int, Team3rdModel> GetAllTeams()
         {
-            var timeSpan = _cacheService.Get<long>($"{CachedKey}.TimeSpan");
-            var teams = _dynamicRepository.Fetch<Team3rdModel>(new GetTeam3rdCriteria(timeSpan));
-            _cacheService.Set<IEnumerable<Team3rdModel>>(CachedKey, teams);
-            if (teams != null)
-            {
-                var last = teams.LastOrDefault();
-                _cacheService.Set<long>($"{CachedKey}.TimeSpan", last != null ? last.TimeSpan : 0);
-            }
+            var teams = _dynamicRepository.Fetch<Team3rdModel>(new GetTeam3rdCriteria()).ToDictionary(i => i.Team3rdId);
+            _cacheService.Set<Dictionary<int, Team3rdModel>>(CachedKey, teams, new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
 
             return teams;
         }

@@ -1,20 +1,21 @@
-using Fanex.Data;
-using Fanex.Data.Repository;
-
-namespace Fanex.RemotingRef.NetCore.Criteria;
-
-public class GetTeam3rdCriteria : CriteriaBase
+namespace Fanex.RemotingRef.NetCore.Criteria
 {
-    public GetTeam3rdCriteria(long timestamp)
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+
+    public class GetTeam3rdCriteria : CriteriaBase
     {
-        Timestamp = timestamp;
+        public GetTeam3rdCriteria(long timestamp = 0)
+        {
+            Timestamp = timestamp;
+        }
+
+        [SpParam(SqlParamName = "MinTstamp")]
+        public long Timestamp { get; set; }
+
+        public override string GetSettingKey()
+        => "API_Ref_GetTeam3rd";
+
+        public override bool IsValid() => true;
     }
-
-    [SpParam(SqlParamName = "MinTstamp")]
-    public long Timestamp { get; set; }
-
-    public override string GetSettingKey()
-    => "API_Ref_GetTeam3rd";
-
-    public override bool IsValid() => true;
 }
