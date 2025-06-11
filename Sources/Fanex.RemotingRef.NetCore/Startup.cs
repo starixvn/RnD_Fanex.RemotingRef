@@ -17,8 +17,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddEndpointsApiExplorer()
-        .AddFanexLogging(Configuration)        
-        .AddApplicationServices()
+        //.AddFanexLogging(Configuration)        
+        //.AddApplicationServices()
         .AddSwaggerGen()
         .AddControllers();
 
@@ -39,9 +39,9 @@ public class Startup
         app.UseHttpLogging();
         app.UseRouting();
         app.UseCors("CorsPolicy");
-        app.AddRefDataClient(Configuration);
-        app.UseFanexData(Configuration, env);
-        app.UseMiddleware<ExceptionMiddleware>();
+        //app.AddRefDataClient(Configuration);
+        //app.UseFanexData(Configuration, env);
+        //app.UseMiddleware<ExceptionMiddleware>();
         app.UseEndpoints(endpoints =>
        {
            endpoints.MapDefaultControllerRoute();
