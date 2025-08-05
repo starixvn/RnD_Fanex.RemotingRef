@@ -1,12 +1,12 @@
 ﻿namespace Fanex.RemotingRef.NetCore.Controllers
 {
     using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
     using Fanex.RemotingRef.NetCore.Delegates;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
-    using Fanex.RemotingRef.NetCore.Services;
+    using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("/api/[controller]")]

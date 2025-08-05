@@ -6,18 +6,11 @@ namespace Fanex.RemotingRef.NetCore.Services
     using Fanex.RemotingRef.NetCore.Models;
     using PublicEnum.Language;
 
-    public interface ITeam3rdService
-    {
-        string GetTeam3rdById(string team3rdId, string languageCode);
-
-        Dictionary<int, Team3rdModel> GetAllTeams();
-    }
-
     public class Team3rdService : ITeam3rdService
     {
+        private const string CachedKey = "Fanex.RemotingRef.NetCode.Team3rd";
         private readonly IDynamicRepository _dynamicRepository;
         private readonly ICacheService _cacheService;
-        private const string CachedKey = "Fanex.RemotingRef.NetCode.Team3rd";
 
         public Team3rdService(IDynamicRepository repository, ICacheService cacheService)
         {

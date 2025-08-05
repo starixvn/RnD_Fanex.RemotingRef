@@ -6,11 +6,8 @@
     [MessagePackObject(keyAsPropertyName: true)]
     public sealed class RequestSyncFormData
     {
-        
         public IList<ParameterSet> ParameterSets { get; set; }
 
-        
         public string[] Languages { get; set; }
-
     }
 }

@@ -1,21 +1,20 @@
-﻿using RefClient.Service.IService;
-using RefDataModelStandard.Models.Request;
-using RefClient.Factory;
-using RefClient.Service;
-using PublicEnum.Language;
-using RefDataModelStandard.Enums;
-using RefDataModelStandard.DataModels;
-
-namespace Fanex.RemotingRef.NetCore.Utilities.RefData
+﻿namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 {
+    using PublicEnum.Language;
+    using RefClient.Factory;
+    using RefClient.Service;
+    using RefClient.Service.IService;
+    using RefDataModelStandard.Enums;
+    using RefDataModelStandard.Models.Request;
+
     public class RefDataHelper : IRefDataHelper
     {
         private const string DefaultValue = null;
-        private readonly List<string> SpecialBetTypeForBaseball = new List<string> { "8810", "8811", "8812", "8813", "8823", "8824" };
+        private readonly List<string> specialBetTypeForBaseball = new List<string> { "8810", "8811", "8812", "8813", "8823", "8824" };
 
-        private IBetRefClientService _betRefClient = RefClientFactory.GetBetRefClientService();
-        private IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
-        private IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
+        private readonly IBetRefClientService _betRefClient = RefClientFactory.GetBetRefClientService();
+        private readonly IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
+        private readonly IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
 
         public string GetBetTypeName(
             string betTypeId,
@@ -27,17 +26,13 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             if (int.TryParse(betTypeId, out int id))
             {
                 var betTypeName = string.Empty;
-                var luckyVia = refNo.HasValue && refNo > 100000000000 ?
+                var luckyVia = refNo.HasValue && refNo > 100_000_000_000 ?
                         _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
                         string.Empty;
-                if (SpecialBetTypeForBaseball.Any(id => id == betTypeId) && LanguageHelpers.DefaultLanguage == language)
-                {
-                    betTypeName = GetBetTypeNameForBaseball(id, language, resourceId);
-                }
-                else
-                {
-                    betTypeName = _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
-                }
+
+                betTypeName = language == LanguageHelpers.DefaultLanguage && specialBetTypeForBaseball.Any(id => id == betTypeId) ?
+                        GetBetTypeNameForBaseball(id, language, resourceId) :
+                        _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
 
                 return string.IsNullOrEmpty(luckyVia) ? betTypeName : $"{betTypeName} {luckyVia}";
             }
@@ -102,7 +97,6 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
              })
             : DefaultValue;
 
-
         public string GetCountryName(string countryCode, string language)
           => _refDataClient.GetCountryName(new GetCountryNameModel
           {
@@ -132,6 +126,7 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 
                 return resource.GetName(language.ConvertCultureToEnum());
             }
+
             return string.Empty;
         }
 
@@ -172,7 +167,6 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
         public string GetRouletteBetItem(string itemId, string language)
         => _betRefClient.GetRouletteBetItem(new GetRouletteBetItemModel { ItemId = itemId, Language = language.ConvertCultureToEnum() });
 
-
         public string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId)
         {
             var model = _betRefClient.GetKenoBetChoice(new GetKenoBetChoiceModel { KenoBetChoiceId = kenoBetChoiceId });
@@ -205,7 +199,6 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
                 .GetAwaiter()
                 .GetResult()
             : DefaultValue;
-
 
         public string GetFastMarketsResult(string resultId, string language)
         {
@@ -322,7 +315,7 @@ namespace Fanex.RemotingRef.NetCore.Utilities.RefData
             var isNumber = int.TryParse(resourceId, out int resId);
             if (isNumber)
             {
-                resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
+                resourceId = resId >= replacedText.Count ? resourceId : replacedText[resId];
             }
 
             return string.IsNullOrEmpty(resourceId) ? betTypeName : betTypeName.Replace("X ", $"{resourceId} ");

@@ -39,9 +39,7 @@
 
         string GetRouletteBetItem(string itemId, string language);
 
-
         string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId);
-
 
         string GetKenoBetType(string kenoBetTypeId, string language);
 
@@ -56,9 +54,7 @@
 
         string GetFastMarkets225Result(string resultId, string language);
 
-
         string GetLotteryBetChoice(string lotteryBetChoiceId, string language, out string lotteryBetTypeId);
-
 
         string GetLotteryBetType(string lotteryBetTypeId, string language);
 
@@ -68,9 +64,7 @@
 
         string GetBetBuilderSelectionName(int selectionId, string language);
 
-
         string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId);
-
 
         string GetTableGamesBetType(string tableGamesBetTypeId, string language);
     }
