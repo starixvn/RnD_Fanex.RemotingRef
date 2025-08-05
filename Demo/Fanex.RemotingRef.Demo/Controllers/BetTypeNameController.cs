@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Collections.Generic;
-    using System.Globalization;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
+    using System.Collections.Generic;
+    using System.Globalization;
 
     
-    public class BetTypeNameController : Controller
+    public class BetTypeNameController : BaseController
     {
-        private readonly IRemotingRefDataAccess _remotingRefDataAccess;
-
-        public BetTypeNameController(IRemotingRefDataAccess remotingRefDataAccess)
+        public BetTypeNameController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
         }
 
         [HttpGet]

@@ -11,7 +11,7 @@
         @foreach (var viewModel in Model)
         {
 
-        <tr class="@(viewModel.RefDataResult.IsDataMatched()? "text-success" : "text-danger")">
+        <tr class="@(viewModel.RefDataResult.IsDataMatched? "text-success" : "text-danger")">
             <td>@viewModel.TypeId</td>
             <td>@viewModel.RefDataResult.FanexRefNew</td>
         </tr>

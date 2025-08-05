@@ -1,20 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Collections.Generic;
-    using System.Globalization;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
 
-    public class TableGamesBetChoiceController : Controller
+    public class TableGamesBetChoiceController : BaseController
     {
-        private readonly IRemotingRefDataAccess _remotingRefDataAccess;
-
-        public TableGamesBetChoiceController(IRemotingRefDataAccess remotingRefDataAccess)
+        public TableGamesBetChoiceController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
         }
 
         [HttpGet]

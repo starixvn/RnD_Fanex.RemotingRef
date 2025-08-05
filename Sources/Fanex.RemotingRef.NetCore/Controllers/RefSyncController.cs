@@ -100,8 +100,8 @@
         [HttpPost("CombinationTypeComboParlay")]
         public SyncedTranslationResultSet CombinationTypeComboParlay(RequestSyncFormData formData)
         {
-            bool VerifyComboList(string[] combos)
-                => combos != null && combos.Any(combo => !string.IsNullOrEmpty(combo));
+            bool VerifyComboList(List<string> combos)
+                => combos != null && combos.Exists(combo => !string.IsNullOrEmpty(combo));
 
             return GetSyncedTranslationResultSet(
                 formData.ParameterSets,
@@ -141,17 +141,11 @@
         {
             Tuple<string, string> GetKenoBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(
+                var (name, id) = _refData.GetKenoBetChoice(
                     parameterSet.GetKenoBetChoiceId(),
-                    refLanguageCode,
-                    out string kenoBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(kenoBetChoice) && string.IsNullOrEmpty(kenoBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetSyncedTranslationResultSet(
@@ -200,17 +194,11 @@
             Tuple<string, string> GetLotteryBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
                 var lotteryBetChoiceId = parameterSet.GetLotteryBetChoiceId() ?? parameterSet.GetBetChoiceId();
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                var (name, id) = _refData.GetLotteryBetChoice(
                     lotteryBetChoiceId,
-                    refLanguageCode,
-                    out string lotteryBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(lotteryBetChoice) && string.IsNullOrEmpty(lotteryBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetSyncedTranslationResultSet(
@@ -295,17 +283,11 @@
         {
             Tuple<string, string> GetTableGamesBetChoiceAndType(ParameterSet parameterSet, string refLanguageCode)
             {
-                var tableGamesBetChoice = _refData.GetTableGamesBetChoice(
+                var (name, id) = _refData.GetTableGamesBetChoice(
                     parameterSet.GetTableGamesBetChoiceId(),
-                    refLanguageCode,
-                    out string tableGamesBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(tableGamesBetChoice) && string.IsNullOrEmpty(tableGamesBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(tableGamesBetChoice, tableGamesBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetSyncedTranslationResultSet(

@@ -135,7 +135,7 @@
         _betRefClient.GetParentIdByBetTypeId(new GetParentIdByBetTypeIdModel { BetTypeId = id }).ToString()
         : DefaultValue;
 
-        public string[] GetCombinationTypeCombo(
+        public List<string> GetCombinationTypeCombo(
             string betTeam,
             string betCheck,
             int handicap1,
@@ -155,7 +155,7 @@
                 }).ToList();
             }
 
-            return list.ToArray();
+            return list;
         }
 
         public string GetHorseTeamName(string codeId, string language)
@@ -167,12 +167,11 @@
         public string GetRouletteBetItem(string itemId, string language)
         => _betRefClient.GetRouletteBetItem(new GetRouletteBetItemModel { ItemId = itemId, Language = language.ConvertCultureToEnum() });
 
-        public string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId)
+        public (string name, string id) GetKenoBetChoice(string kenoBetChoiceId, string language)
         {
             var model = _betRefClient.GetKenoBetChoice(new GetKenoBetChoiceModel { KenoBetChoiceId = kenoBetChoiceId });
-            kenoBetTypeId = model.Sort1.ToString();
 
-            return model.GetName(language.ConvertCultureToEnum());
+            return (model.GetName(language.ConvertCultureToEnum()), model.Sort1.ToString());
         }
 
         public string GetKenoBetType(string kenoBetTypeId, string language)
@@ -236,16 +235,14 @@
             return list.Any() ? list.FirstOrDefault() : resultId;
         }
 
-        public string GetLotteryBetChoice(string lotteryBetChoiceId, string language, out string lotteryBetTypeId)
+        public (string name, string id) GetLotteryBetChoice(string lotteryBetChoiceId, string language)
         {
             var model = _refDataClient.GetLotteryBetChoice(new GetLotteryBetChoiceModel { LotteryBetChoiceId = lotteryBetChoiceId })
                             .ConfigureAwait(false)
                             .GetAwaiter()
                             .GetResult();
 
-            lotteryBetTypeId = model.Sort1.ToString();
-
-            return model.GetName(language.ConvertCultureToEnum());
+            return (model.GetName(language.ConvertCultureToEnum()), model.Sort1.ToString());
         }
 
         public string GetLotteryBetType(string lotteryBetTypeId, string language)
@@ -290,18 +287,15 @@
             return selectionNames.ContainsKey(selectionId) ? selectionNames[selectionId] : DefaultValue;
         }
 
-        public string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId)
+        public (string name, string id) GetTableGamesBetChoice(string tableGamesBetChoiceId, string language)
         {
             var model = _betRefClient.GetTableGameBetChoice(new GetTableGameBetChoiceModel { ChoiceId = tableGamesBetChoiceId });
             if (model != null)
             {
-                tableGamesBetTypeId = model.Sort1.ToString();
-
-                return model.GetName(language.ConvertCultureToEnum());
+                return (model.GetName(language.ConvertCultureToEnum()), model.Sort1.ToString());
             }
 
-            tableGamesBetTypeId = string.Empty;
-            return string.Empty;
+            return (string.Empty, string.Empty);
         }
 
         public string GetTableGamesBetType(string tableGamesBetTypeId, string language)

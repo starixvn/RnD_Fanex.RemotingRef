@@ -47,8 +47,6 @@
 
         public RefDataResult GetSportName(string sportTypeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetSportName(sportTypeId, languageCode, DefaultValue),
@@ -57,8 +55,6 @@
 
         public RefDataResult GetLeagueName(string leagueId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLeagueName(leagueId, languageCode, DefaultValue),
@@ -67,8 +63,6 @@
 
         public RefDataResult GetLeagueName3rd(string leagueId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLeagueName3rd(leagueId, languageCode, DefaultValue),
@@ -77,8 +71,6 @@
 
         public RefDataResult GetTeamName(string teamId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTeamName(teamId, languageCode, DefaultValue),
@@ -87,8 +79,6 @@
 
         public RefDataResult GetTeamName3rd(string teamId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetTeamName3rd(teamId, languageCode, DefaultValue),
@@ -97,8 +87,6 @@
 
         public RefDataResult GetResourceData(string refId, string resourceId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetResourceDataByRefIdAndResourceId(refId, resourceId, languageCode, DefaultValue),
@@ -107,8 +95,6 @@
 
         public RefDataResult GetCountryName(string countryId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCountryName(countryId, languageCode, DefaultValue),
@@ -117,8 +103,6 @@
 
         public RefDataResult GetOddsTypeName(string oddsTypeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetOddsTypeName(oddsTypeId, languageCode, DefaultValue),
@@ -135,8 +119,6 @@
 
         public RefDataResult GetHorseTeamName(string codeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetHorseTeamName(codeId, languageCode, DefaultValue),
@@ -145,8 +127,6 @@
 
         public RefDataResult GetCasinoBetItem(string itemId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetCasinoBetItem(itemId, languageCode, DefaultValue),
@@ -155,8 +135,6 @@
 
         public RefDataResult GetRouletteBetItem(string itemId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetRouletteBetItem(itemId, languageCode, DefaultValue),
@@ -165,8 +143,6 @@
 
         public RefDataResult GetKenoBetType(string kenoBetTypeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetKenoBetType(kenoBetTypeId, languageCode, DefaultValue),
@@ -174,11 +150,9 @@
         }
         public RefDataResult GetKenoBetChoice(string kenoBetTypeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetKenoBetChoice(kenoBetTypeId, languageCode, out string DefaultValue),
+                FanexRefNew = _remotingRefService.GetKenoBetChoice(kenoBetTypeId, languageCode, out _),
             };
         }
         public RefDataResult GetTableGamesBetType(string tableGamesBetTypeId, string languageCode = "en-US")
@@ -193,7 +167,7 @@
         {
             return new RefDataResult
             {
-                FanexRefNew = _remotingRefService.GetTableGamesBetChoice(tableGamesBetChoiceId, languageCode,out string DefaultValue),
+                FanexRefNew = _remotingRefService.GetTableGamesBetChoice(tableGamesBetChoiceId, languageCode, out _),
             };
         }
 
@@ -209,8 +183,6 @@
 
         public RefDataResult GetFastMarketsResult(string resultId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetFastMarketsResult(resultId, languageCode),
@@ -219,8 +191,6 @@
 
         public RefDataResult GetFastMarkets225Result(string resultId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetFastMarkets225Result(resultId, languageCode),
@@ -229,8 +199,6 @@
 
         public RefDataResult GetLotteryBetType(string betTypeId, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetLotteryBetType(betTypeId, languageCode, DefaultValue),
@@ -239,8 +207,6 @@
 
         public RefDataResult GetBetRadarMatchCodeFormat(string matchCode, string languageCode = "en-US")
         {
-            var twLanguage = Common.GenerateTaiwanLanguage(languageCode);
-
             return new RefDataResult
             {
                 FanexRefNew = _remotingRefService.GetBetRadarMatchCodeFormat(matchCode, languageCode),

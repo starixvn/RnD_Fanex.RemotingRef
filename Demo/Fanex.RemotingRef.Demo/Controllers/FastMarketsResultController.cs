@@ -1,18 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
 
-    public class FastMarketsResultController : Controller
+    public class FastMarketsResultController : BaseController
     {
-        private readonly IRemotingRefDataAccess _remotingRefDataAccess;
-
-        public FastMarketsResultController(IRemotingRefDataAccess remotingRefDataAccess)
+        public FastMarketsResultController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
         }
 
         [HttpGet]

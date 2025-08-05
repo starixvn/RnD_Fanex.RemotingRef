@@ -23,10 +23,7 @@ namespace Fanex.RemotingRef.NetCore.Services
             if (int.TryParse(team3rdId, out var id))
             {
                 var teams = _cacheService.Get<Dictionary<int, Team3rdModel>>(CachedKey);
-                if (teams == null)
-                {
-                    teams = GetAllTeams();
-                }
+                teams ??= GetAllTeams();
 
                 if (!teams.TryGetValue(id, out var team))
                 {

@@ -1,19 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Collections.Generic;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
+    using System.Collections.Generic;
 
-    public class DisplayedTypeIdController : Controller
+    public class DisplayedTypeIdController : BaseController
     {
-        private readonly IRemotingRefDataAccess _remotingRefDataAccess;
 
-        public DisplayedTypeIdController(IRemotingRefDataAccess remotingRefDataAccess)
+        public DisplayedTypeIdController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
         }
 
         [HttpGet]

@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using System.Collections.Generic;
-    using System.Globalization;
     using Fanex.RemotingRef.Demo.Constants;
     using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
+    using System.Collections.Generic;
+    using System.Globalization;
 
-    public class TeamName3rdController : Controller
+    public class TeamName3rdController : BaseController
     {
-        private readonly IRemotingRefDataAccess _remotingRefDataAccess;
-
-        public TeamName3rdController(IRemotingRefDataAccess remotingRefDataAccess)
+        public TeamName3rdController(IRemotingRefDataAccess remotingRefDataAccess): base(remotingRefDataAccess)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
         }
 
         [HttpGet]

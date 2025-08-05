@@ -10,7 +10,7 @@ COPY Demo/Fanex.RemotingRef.Demo ./Fanex.RemotingRef.Demo/
 WORKDIR /Sources/Fanex.RemotingRef.Demo
 RUN dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine as base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
 
 # Don’t run as root
 RUN adduser --disabled-password \

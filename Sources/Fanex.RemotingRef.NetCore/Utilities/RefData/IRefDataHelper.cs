@@ -26,7 +26,7 @@
 
         string GetParentIdByBetTypeId(string betTypeId);
 
-        string[] GetCombinationTypeCombo(
+        List<string> GetCombinationTypeCombo(
             string betTeam,
             string betCheck,
             int handicap1,
@@ -39,7 +39,7 @@
 
         string GetRouletteBetItem(string itemId, string language);
 
-        string GetKenoBetChoice(string kenoBetChoiceId, string language, out string kenoBetTypeId);
+        (string name, string id) GetKenoBetChoice(string kenoBetChoiceId, string language);
 
         string GetKenoBetType(string kenoBetTypeId, string language);
 
@@ -54,7 +54,7 @@
 
         string GetFastMarkets225Result(string resultId, string language);
 
-        string GetLotteryBetChoice(string lotteryBetChoiceId, string language, out string lotteryBetTypeId);
+        (string name, string id) GetLotteryBetChoice(string lotteryBetChoiceId, string language);
 
         string GetLotteryBetType(string lotteryBetTypeId, string language);
 
@@ -64,7 +64,7 @@
 
         string GetBetBuilderSelectionName(int selectionId, string language);
 
-        string GetTableGamesBetChoice(string tableGamesBetChoiceId, string language, out string tableGamesBetTypeId);
+        (string name, string id) GetTableGamesBetChoice(string tableGamesBetChoiceId, string language);
 
         string GetTableGamesBetType(string tableGamesBetTypeId, string language);
     }

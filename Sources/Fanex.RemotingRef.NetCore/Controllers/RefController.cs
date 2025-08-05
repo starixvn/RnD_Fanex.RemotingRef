@@ -93,8 +93,8 @@
             int handicap2 = 0,
             [FromQuery] string[] languages = null)
         {
-            bool VerifyComboList(string[] combos)
-                => combos != null && combos.Any(combo => !string.IsNullOrEmpty(combo));
+            bool VerifyComboList(List<string> combos)
+                => combos != null && combos.Exists(combo => !string.IsNullOrEmpty(combo));
 
             return GetTranslationSet(
                 refLanguageCode => _refData.GetCombinationTypeCombo(
@@ -130,17 +130,11 @@
         {
             Tuple<string, string> GetKenoBetChoiceAndType(string refLanguageCode)
             {
-                var kenoBetChoice = _refData.GetKenoBetChoice(
+                var (name, id) = _refData.GetKenoBetChoice(
                     kenoBetChoiceId,
-                    refLanguageCode,
-                    out string kenoBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(kenoBetChoice) && string.IsNullOrEmpty(kenoBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(kenoBetChoice, kenoBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetTranslationSet(
@@ -191,17 +185,11 @@
         {
             Tuple<string, string> GetLotteryBetChoiceAndType(string refLanguageCode)
             {
-                var lotteryBetChoice = _refData.GetLotteryBetChoice(
+                var (name, id) = _refData.GetLotteryBetChoice(
                     lotteryBetChoiceId ?? betChoiceId,
-                    refLanguageCode,
-                    out string lotteryBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(lotteryBetChoice) && string.IsNullOrEmpty(lotteryBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(lotteryBetChoice, lotteryBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetTranslationSet(
@@ -260,17 +248,11 @@
         {
             Tuple<string, string> GetTableGamesBetChoiceAndType(string refLanguageCode)
             {
-                var tableGamesBetChoice = _refData.GetTableGamesBetChoice(
+                var (name, id) = _refData.GetTableGamesBetChoice(
                     tableGamesBetChoiceId,
-                    refLanguageCode,
-                    out string tableGamesBetTypeId);
+                    refLanguageCode);
 
-                if (string.IsNullOrEmpty(tableGamesBetChoice) && string.IsNullOrEmpty(tableGamesBetTypeId))
-                {
-                    return null;
-                }
-
-                return new Tuple<string, string>(tableGamesBetChoice, tableGamesBetTypeId);
+                return new Tuple<string, string>(name, id);
             }
 
             return GetTranslationSet(
@@ -297,7 +279,7 @@
                 };
             }
 
-            return default;
+            return new TranslationSet();
         }
 
         private static TranslationSet GetTranslationSet(GetTranslationDelegate<string> translatedTextGetter, string[] standardLanguageCodes)
@@ -323,7 +305,7 @@
                 }
             }
 
-            return translationSet.Count > 0 ? translationSet : null;
+            return translationSet;
         }
     }
 }
