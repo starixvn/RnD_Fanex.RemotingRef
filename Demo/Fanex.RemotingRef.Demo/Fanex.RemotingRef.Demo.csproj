@@ -19,4 +19,8 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(SkipTests)' == 'true'">
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
 </Project>
