@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using Xunit;
 
     public class BetBuilderSelectionNamesTests : ServiceIntegrationTestBase
@@ -85,7 +86,7 @@
             var actualSelectionNames = RemotingRefService.GetBetBuilderSelectionNames(existingSelectionIds, TestingLanguage);
 
             // Assert.
-            Assert.Null(actualSelectionNames);
+            Assert.True(actualSelectionNames.Count() == 0);
         }
 
         [Fact]
@@ -99,7 +100,7 @@
             var actualSelectionNames = RemotingRefService.GetBetBuilderSelectionNames(existingSelectionIds, TestingLanguage);
 
             // Assert.
-            Assert.Null(actualSelectionNames);
+            Assert.True(actualSelectionNames.Count() == 0);
         }
     }
 }

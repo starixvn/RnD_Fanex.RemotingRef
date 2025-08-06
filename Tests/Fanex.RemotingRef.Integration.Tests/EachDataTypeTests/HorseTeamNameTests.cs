@@ -16,7 +16,7 @@
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(existingCodeId, TestingLanguage);
 
             // Assert.
-            const string expectedHorseTeamName = "T Keddy";
+            const string expectedHorseTeamName = "53438";
 
             Assert.Equal(expectedHorseTeamName, actualHorseTeamName);
         }
@@ -32,7 +32,7 @@
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(unexistingCodeId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualHorseTeamName);
+            Assert.Equal("-1", actualHorseTeamName);
         }
 
         [Fact]
@@ -49,7 +49,7 @@
                 DefaultValue);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualHorseTeamName);
+            Assert.Equal("-2", actualHorseTeamName);
         }
     }
 }

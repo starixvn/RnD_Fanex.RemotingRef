@@ -13,9 +13,9 @@ internal class CacheEntry(
     private bool _isExpired;
     private bool _isRenewing;
 
-    public string Key { get; private set; }
+    public string Key { get; private set; } = key;
 
-    public KeySet OriginalKeySet { get; }
+    public KeySet OriginalKeySet { get; } = keySet;
 
     public TranslationSet Value { get; } = value;
 

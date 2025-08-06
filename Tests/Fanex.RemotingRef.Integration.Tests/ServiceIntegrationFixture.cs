@@ -5,14 +5,12 @@
 
     public class ServiceIntegrationFixture
     {
-        public static readonly string RemotingRefServiceUrl = ConfigurationManager.AppSettings["RemotingRefServiceTest"];
-
 #pragma warning disable S1118 // Utility classes should not have public constructors
 
         public ServiceIntegrationFixture()
         {
             RefDataTypeContainer
-                .ConnectTo(new Uri(RemotingRefServiceUrl))
+                .ConnectTo(new Uri("https://remotingref-api-core.nexdev.net/"))
                 .FromApplication("UnitTest_AppName")
                 .SupportOnlyDefaultLanguage();
         }

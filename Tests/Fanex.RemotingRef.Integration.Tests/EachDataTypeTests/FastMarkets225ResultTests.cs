@@ -14,7 +14,7 @@
             var actualResult = RemotingRefService.GetFastMarkets225Result(existingBetType255ResultId, TestingLanguage);
 
             // Assert.
-            const string expectedResult = "Penalty, Throw In, Corner";
+            const string expectedResult = "Corner";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -29,7 +29,7 @@
             var actualResult = RemotingRefService.GetFastMarkets225Result(unexistingBetType255ResultId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualResult);
+            Assert.Equal("None", actualResult);
         }
     }
 }

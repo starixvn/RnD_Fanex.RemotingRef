@@ -39,7 +39,7 @@
 
         string GetRouletteBetItem(string itemId, string language);
 
-        (string name, string id) GetKenoBetChoice(string kenoBetChoiceId, string language);
+        (string betChoiceName, string bettypeId) GetKenoBetChoice(string kenoBetChoiceId, string language);
 
         string GetKenoBetType(string kenoBetTypeId, string language);
 

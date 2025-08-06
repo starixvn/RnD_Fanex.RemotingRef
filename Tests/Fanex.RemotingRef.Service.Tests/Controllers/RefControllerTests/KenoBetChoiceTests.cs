@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AutoFixture;
     using NSubstitute;
     using Xunit;
@@ -76,13 +77,13 @@
             // Act.
             var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
-            // Assert.
-            Assert.Equal(expectedKenoBetChoicesAndBetTypes, actualResult.Values);
+            // Assert
+            Assert.Equal(expectedKenoBetChoicesAndBetTypes.Values, actualResult.Values);
         }
 
-        private List<Tuple<string, string>> FakeKenoBetChoices()
+        private Dictionary<string, object> FakeKenoBetChoices()
         {
-            var expectedKenoBetChoicesAndBetTypes = new List<Tuple<string, string>>();
+            var expectedKenoBetChoicesAndBetTypes = new Dictionary<string, object>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -95,8 +96,7 @@
                         Arg.Is(standardLanguageCode))
                     .Returns((kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
 
-                expectedKenoBetChoicesAndBetTypes.Add(
-                    new Tuple<string, string>(kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
+                expectedKenoBetChoicesAndBetTypes.Add(standardLanguageCode, (kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
             }
 
             return expectedKenoBetChoicesAndBetTypes;

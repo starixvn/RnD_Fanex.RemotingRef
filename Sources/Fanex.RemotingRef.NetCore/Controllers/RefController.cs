@@ -127,19 +127,13 @@
         [HttpGet("KenoBetChoice")]
         public TranslationSet KenoBetChoice(string kenoBetChoiceId = null, [FromQuery] string[] languages = null)
         {
-            Tuple<string, string> GetKenoBetChoiceAndType(string refLanguageCode)
-            {
-                var (name, id) = _refData.GetKenoBetChoice(
-                    kenoBetChoiceId,
-                    refLanguageCode);
-
-                return new Tuple<string, string>(name, id);
-            }
+            (string betchoiceName, string bettypeId) GetKenoBetChoiceAndType(string refLanguageCode)
+                => _refData.GetKenoBetChoice(kenoBetChoiceId, refLanguageCode);
 
             return GetTranslationSet(
                 GetKenoBetChoiceAndType,
                 languages,
-                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item2));
+                result => !string.IsNullOrEmpty(result.betchoiceName));
         }
 
         [HttpGet("KenoBetType")]
@@ -182,19 +176,13 @@
             string betChoiceId = null,
             [FromQuery] string[] languages = null)
         {
-            Tuple<string, string> GetLotteryBetChoiceAndType(string refLanguageCode)
-            {
-                var (name, id) = _refData.GetLotteryBetChoice(
-                    lotteryBetChoiceId ?? betChoiceId,
-                    refLanguageCode);
-
-                return new Tuple<string, string>(name, id);
-            }
+            (string betchoiceName, string lotteryBettypeId) GetLotteryBetChoiceAndType(string refLanguageCode)
+                => _refData.GetLotteryBetChoice(lotteryBetChoiceId ?? betChoiceId, refLanguageCode);
 
             return GetTranslationSet(
                 GetLotteryBetChoiceAndType,
                 languages,
-                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item2));
+                result => !string.IsNullOrEmpty(result.betchoiceName));
         }
 
         [HttpGet("LotteryBetType")]
@@ -245,19 +233,13 @@
         [HttpGet("TableGamesBetChoice")]
         public TranslationSet TableGamesBetChoice(string tableGamesBetChoiceId = null, [FromQuery] string[] languages = null)
         {
-            Tuple<string, string> GetTableGamesBetChoiceAndType(string refLanguageCode)
-            {
-                var (name, id) = _refData.GetTableGamesBetChoice(
-                    tableGamesBetChoiceId,
-                    refLanguageCode);
-
-                return new Tuple<string, string>(name, id);
-            }
+            (string betchoiceName, string tableGamesBettypeId) GetTableGamesBetChoiceAndType(string refLanguageCode)
+            => _refData.GetTableGamesBetChoice(tableGamesBetChoiceId, refLanguageCode);
 
             return GetTranslationSet(
                 GetTableGamesBetChoiceAndType,
                 languages,
-                choiceAndTypePair => choiceAndTypePair != null);
+                result => !string.IsNullOrEmpty(result.betchoiceName));
         }
 
         [HttpGet("TableGamesBetType")]

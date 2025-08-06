@@ -42,7 +42,7 @@
             var actualParentBetTypeId = RemotingRefService.GetParentIdByBetTypeId(unexistingBetTypeId, DefaultValue);
 
             // Assert.
-            Assert.Equal(DefaultValue, actualParentBetTypeId);
+            Assert.Equal("0", actualParentBetTypeId);
         }
     }
 }

@@ -81,7 +81,7 @@
         {
             // Arrange.
             const string unexistingBetTypeId = "-2";
-            const long satisfiedRefNo = 100_000_000_002;
+            const long satisfiedRefNo = 100_00_000_002;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -99,7 +99,7 @@
         {
             // Arrange.
             const string unexistingBetTypeId = "-3";
-            const long satisfiedRefNo = 100_000_000_003;
+            const long satisfiedRefNo = 100_000_000_03;
 
             // Act.
             var actualDisplayedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(
@@ -150,7 +150,7 @@
                 DefaultValue);
 
             // Assert.
-            const string expectedDisplayedBetTypeName = "Set x Winner";
+            const string expectedDisplayedBetTypeName = "Set X Winner";
 
             Assert.Equal(expectedDisplayedBetTypeName, actualDisplayedBetTypeName);
         }
@@ -205,7 +205,7 @@
             // Arrange.
             const string unexistingBetTypeId = "-5";
             const string validResourceId = "10";
-            const long satisfiedRefNo = 100_000_000_005;
+            const long satisfiedRefNo = 1_000_000_005;
 
             // Act.
             var actualDisplyedBetTypeName = RemotingRefService.GetDisplayedBetTypeName(

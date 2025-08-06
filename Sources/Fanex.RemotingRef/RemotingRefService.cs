@@ -939,6 +939,10 @@ public class RemotingRefService : IRemotingRefService
     public string[] GetBetBuilderSelectionNames(int[] selectionIds, string languageCode)
     {
         var betBuilderSelectionNames = new List<string>();
+        if (selectionIds == null || selectionIds.Length == 0)
+        {
+            return [.. betBuilderSelectionNames];
+        }
 
         foreach (var selectionId in selectionIds)
         {
@@ -950,7 +954,7 @@ public class RemotingRefService : IRemotingRefService
             }
         }
 
-        return betBuilderSelectionNames.ToArray();
+        return [.. betBuilderSelectionNames];
     }
 
     private string GetBetBuilderSelectionNameInternal(int selectionId, string languageCode)

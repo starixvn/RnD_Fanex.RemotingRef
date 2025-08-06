@@ -167,7 +167,7 @@
         public string GetRouletteBetItem(string itemId, string language)
         => _betRefClient.GetRouletteBetItem(new GetRouletteBetItemModel { ItemId = itemId, Language = language.ConvertCultureToEnum() });
 
-        public (string name, string id) GetKenoBetChoice(string kenoBetChoiceId, string language)
+        public (string betChoiceName, string bettypeId) GetKenoBetChoice(string kenoBetChoiceId, string language)
         {
             var model = _betRefClient.GetKenoBetChoice(new GetKenoBetChoiceModel { KenoBetChoiceId = kenoBetChoiceId });
 

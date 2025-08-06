@@ -107,12 +107,12 @@
             var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
-            Assert.Equal(expectedLotteryBetChoicesAndBetTypes, actualResult.Values);
+            Assert.Equal(expectedLotteryBetChoicesAndBetTypes.Values, actualResult.Values);
         }
 
-        private List<Tuple<string, string>> FakeLotteryBetChoices()
+        private Dictionary<string, object> FakeLotteryBetChoices()
         {
-            var expectedLotteryBetChoicesAndBetTypes = new List<Tuple<string, string>>();
+            var expectedLotteryBetChoicesAndBetTypes = new Dictionary<string, object>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -125,8 +125,7 @@
                         Arg.Is(standardLanguageCode))
                     .Returns((lotteryBetChoiceInSpecificLanguage, lotteryBetTypeInSpecificLanguage));
 
-                expectedLotteryBetChoicesAndBetTypes.Add(
-                    new Tuple<string, string>(lotteryBetChoiceInSpecificLanguage, lotteryBetTypeInSpecificLanguage));
+                expectedLotteryBetChoicesAndBetTypes.Add(standardLanguageCode, (lotteryBetChoiceInSpecificLanguage, lotteryBetTypeInSpecificLanguage));
             }
 
             return expectedLotteryBetChoicesAndBetTypes;

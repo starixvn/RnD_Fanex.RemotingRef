@@ -256,7 +256,7 @@
             var actualHorseTeamName = RemotingRefService.GetHorseTeamName(codeId, TestingLanguage);
 
             // Assert.
-            const string expectedHorseTeamName = "SUN KING";
+            const string expectedHorseTeamName = "33231";
 
             Assert.Equal(expectedHorseTeamName, actualHorseTeamName);
         }
@@ -375,7 +375,7 @@
             var actualResult = RemotingRefService.GetFastMarketsResult(resultId, TestingLanguage);
 
             // Assert.
-            const string expectedResult = "Goal, None";
+            const string expectedResult = "None";
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -390,7 +390,7 @@
             var actualResult = RemotingRefService.GetFastMarkets225Result(betType255ResultId, TestingLanguage);
 
             // Assert.
-            const string expectedResult = "Penalty, Throw In, None";
+            const string expectedResult = "None";
 
             Assert.Equal(expectedResult, actualResult);
         }

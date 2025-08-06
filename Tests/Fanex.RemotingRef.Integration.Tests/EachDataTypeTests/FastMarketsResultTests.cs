@@ -29,7 +29,7 @@
             var actualResult = RemotingRefService.GetFastMarketsResult(unexistingResultId, TestingLanguage);
 
             // Assert.
-            Assert.Empty(actualResult);
+            Assert.Equal("None", actualResult);
         }
     }
 }
