@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -80,7 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetRouletteBetItem(Arg.Is(itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetRouletteBetItem(Arg.Is(itemId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -147,7 +147,7 @@
                     var betItemInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetRouletteBetItem(Arg.Is(itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetRouletteBetItem(Arg.Is(itemId), Arg.Is(standardLanguageCode))
                         .Returns(betItemInSpecificLanguage);
 
                     betItemInMultilanguages.Add(standardLanguageCode, betItemInSpecificLanguage);

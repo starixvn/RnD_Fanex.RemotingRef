@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var betRadarMatchCodeFormatInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(standardLanguageCode))
                     .Returns(betRadarMatchCodeFormatInSpecificLanguage);
 
                 expectedBetRadarMatchCodeFormats.Add(betRadarMatchCodeFormatInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeBetRadarMatchCodeFormatsWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.BetRadarMatchCodeFormat(_matchCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeBetRadarMatchCodeFormatsWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.BetRadarMatchCodeFormat(_matchCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeBetRadarMatchCodeFormatsWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetBetRadarMatchCodeFormat(Arg.Is(_matchCode), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -143,7 +143,7 @@
                             Arg.Is(displayedBetTypeId),
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                            Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -215,7 +215,7 @@
                             Arg.Is(displayedBetTypeId),
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                            Arg.Is(standardLanguageCode))
                         .Returns(displayedBetTypeNameInSpecificLanguage);
 
                     displayedBetTypeNameInMultilanguages.Add(standardLanguageCode, displayedBetTypeNameInSpecificLanguage);

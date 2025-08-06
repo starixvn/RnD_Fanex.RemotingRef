@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -48,9 +48,9 @@
             RefSyncController.LeagueName3rd(_formData);
 
             // Assert.
-            RefData
+            League3rdService
                 .Received()
-                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetLeague3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -62,9 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData
+            League3rdService
                 .Received(expectedNumberOfCalls)
-                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetLeague3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -78,9 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData
+                    League3rdService
                         .Received()
-                        .GetLeagueName3rd(Arg.Is(league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetLeague3rdById(Arg.Is(league3rdId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -146,8 +146,8 @@
                 {
                     var leagueNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
-                    RefData
-                        .GetLeagueName3rd(Arg.Is(league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    League3rdService
+                        .GetLeague3rdById(Arg.Is(league3rdId), Arg.Is(standardLanguageCode))
                         .Returns(leagueNameInSpecificLanguage);
 
                     leagueNameInMultilanguages.Add(standardLanguageCode, leagueNameInSpecificLanguage);

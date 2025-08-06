@@ -19,9 +19,9 @@
             RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData
+            League3rdService
                 .Received()
-                .GetLeagueName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetLeague3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -31,9 +31,9 @@
             RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData
+            League3rdService
                 .Received(StandardLanguageCodes.Length)
-                .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Any<string>());
+                .GetLeague3rdById(Arg.Is(_league3rdId), Arg.Any<string>());
         }
 
         [Fact]
@@ -45,9 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData
+                League3rdService
                     .Received()
-                    .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetLeague3rdById(Arg.Is(_league3rdId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -85,8 +85,8 @@
             {
                 var leagueNameInSpecificLanguage = Fixture.Create<string>();
 
-                RefData
-                    .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                League3rdService
+                    .GetLeague3rdById(Arg.Is(_league3rdId), Arg.Is(standardLanguageCode))
                     .Returns(leagueNameInSpecificLanguage);
 
                 expectedLeagueNames.Add(leagueNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             Fake3rdLeagueNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             Fake3rdLeagueNamesWithSpecialValue(string.Empty);
@@ -118,15 +118,15 @@
             var actualResult = RefController.LeagueName3rd(_league3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void Fake3rdLeagueNamesWithSpecialValue(string specialValue)
         {
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData
-                    .GetLeagueName3rd(Arg.Is(_league3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                League3rdService
+                    .GetLeague3rdById(Arg.Is(_league3rdId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -51,7 +51,7 @@
             // Assert.
             RefData
                 .Received()
-                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -67,8 +67,7 @@
                 .Received(expectedNumberOfCalls)
                 .GetKenoBetChoice(
                     Arg.Any<string>(),
-                    Arg.Any<string>(),
-                    out _);
+                    Arg.Any<string>());
         }
 
         [Fact]
@@ -86,8 +85,7 @@
                         .Received()
                         .GetKenoBetChoice(
                             Arg.Is(kenoBetChoiceId),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                            out _);
+                            Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -157,14 +155,8 @@
                     RefData
                         .GetKenoBetChoice(
                             Arg.Is(kenoBetChoiceId),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                            out _)
-                        .Returns(parameters =>
-                        {
-                            parameters[2] = kenoBetTypeId;
-
-                            return kenoBetChoiceNameInSpecificLanguage;
-                        });
+                            Arg.Is(standardLanguageCode))
+                        .Returns((kenoBetChoiceNameInSpecificLanguage, kenoBetTypeId));
 
                     kenoBetTypeAndChoiceInMultilanguages.Add(
                         standardLanguageCode,

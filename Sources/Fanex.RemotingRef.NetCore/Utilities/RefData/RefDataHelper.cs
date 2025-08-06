@@ -30,7 +30,7 @@
                         _betRefClient.GetComboParlayLuckyBet(new GetComboParlayLuckyBetModel { Language = languageEnum }) :
                         string.Empty;
 
-                betTypeName = language == LanguageHelpers.DefaultLanguage && specialBetTypeForBaseball.Any(id => id == betTypeId) ?
+                betTypeName = language == LanguageHelpers.DefaultLanguage && specialBetTypeForBaseball.Exists(id => id == betTypeId) ?
                         GetBetTypeNameForBaseball(id, language, resourceId) :
                         _betRefClient.GetBetTypeName(GetBetTypeNameModel.CreateModel(id, languageEnum, resourceId));
 

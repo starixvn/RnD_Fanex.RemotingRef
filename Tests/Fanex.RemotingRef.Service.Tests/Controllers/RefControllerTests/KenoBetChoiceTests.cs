@@ -22,7 +22,7 @@
             // Assert.
             RefData
                 .Received()
-                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+                .GetKenoBetChoice(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -34,7 +34,7 @@
             // Assert.
             RefData
                 .Received(StandardLanguageCodes.Length)
-                .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Any<string>(), out _);
+                .GetKenoBetChoice(Arg.Is(_kenoBetChoiceId), Arg.Any<string>());
         }
 
         [Fact]
@@ -50,8 +50,7 @@
                     .Received()
                     .GetKenoBetChoice(
                         Arg.Is(_kenoBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _);
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -93,14 +92,8 @@
                 RefData
                     .GetKenoBetChoice(
                         Arg.Is(_kenoBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _)
-                    .Returns(parameters =>
-                    {
-                        parameters[2] = kenoBetTypeInSpecificLanguage;
-
-                        return kenoBetChoiceInSpecificLanguage;
-                    });
+                        Arg.Is(standardLanguageCode))
+                    .Returns((kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
 
                 expectedKenoBetChoicesAndBetTypes.Add(
                     new Tuple<string, string>(kenoBetChoiceInSpecificLanguage, kenoBetTypeInSpecificLanguage));
@@ -110,7 +103,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeKenoBetChoicesWithSpecialValue(null);
@@ -119,11 +112,11 @@
             var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeKenoBetChoicesWithSpecialValue(string.Empty);
@@ -132,7 +125,7 @@
             var actualResult = RefController.KenoBetChoice(_kenoBetChoiceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeKenoBetChoicesWithSpecialValue(string specialValue)
@@ -142,14 +135,8 @@
                 RefData
                     .GetKenoBetChoice(
                         Arg.Is(_kenoBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _)
-                    .Returns(parameters =>
-                    {
-                        parameters[2] = specialValue;
-
-                        return specialValue;
-                    });
+                        Arg.Is(standardLanguageCode))
+                    .Returns(("", specialValue));
             }
         }
     }

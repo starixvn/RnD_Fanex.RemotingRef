@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetTeamName(Arg.Is(_teamId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetTeamName(Arg.Is(_teamId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var teamNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetTeamName(Arg.Is(_teamId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetTeamName(Arg.Is(_teamId), Arg.Is(standardLanguageCode))
                     .Returns(teamNameInSpecificLanguage);
 
                 expectedTeamNames.Add(teamNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeTeamNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.TeamName(_teamId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeTeamNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.TeamName(_teamId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeTeamNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetTeamName(Arg.Is(_teamId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetTeamName(Arg.Is(_teamId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

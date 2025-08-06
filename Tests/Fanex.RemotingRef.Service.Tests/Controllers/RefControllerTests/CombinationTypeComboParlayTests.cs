@@ -85,7 +85,7 @@
                     Arg.Is(_betCheck),
                     Arg.Is(_handicap1),
                     Arg.Is(_handicap2),
-                    Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    Arg.Is(standardLanguageCode));
             }
         }
 
@@ -125,13 +125,13 @@
             Assert.Equal(expectedCombinationTypeCombos, actualResult.Values);
         }
 
-        private List<string[]> FakeCombinationTypeCombos()
+        private List<List<string>> FakeCombinationTypeCombos()
         {
-            var expectedCombinationTypeCombos = new List<string[]>();
+            var expectedCombinationTypeCombos = new List<List<string>>();
 
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                var comboInSpecificLanguage = Fixture.Create<string[]>();
+                var comboInSpecificLanguage = Fixture.Create<List<string>>();
 
                 RefData
                     .GetCombinationTypeCombo(
@@ -139,7 +139,7 @@
                         Arg.Is(_betCheck),
                         Arg.Is(_handicap1),
                         Arg.Is(_handicap2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(comboInSpecificLanguage);
 
                 expectedCombinationTypeCombos.Add(comboInSpecificLanguage);
@@ -149,7 +149,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeCombinationTypeComboParlaysWithSpecialValue(null);
@@ -163,14 +163,14 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultAreAllArraysOfEmptyStrings()
+        public void ReturnEmptyIfResultAreAllArraysOfEmptyStrings()
         {
             // Arrange.
-            FakeCombinationTypeComboParlaysWithSpecialValue(new[] { string.Empty });
+            FakeCombinationTypeComboParlaysWithSpecialValue(new List<string> { string.Empty });
 
             // Act.
             var actualResult = RefController.CombinationTypeComboParlay(
@@ -181,14 +181,14 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultAreAllArraysOfNullValues()
+        public void ReturnEmptyIfResultAreAllArraysOfNullValues()
         {
             // Arrange.
-            FakeCombinationTypeComboParlaysWithSpecialValue(new string[] { null });
+            FakeCombinationTypeComboParlaysWithSpecialValue(new List<string> { null });
 
             // Act.
             var actualResult = RefController.CombinationTypeComboParlay(
@@ -199,10 +199,10 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
-        private void FakeCombinationTypeComboParlaysWithSpecialValue(string[] specialValue)
+        private void FakeCombinationTypeComboParlaysWithSpecialValue(List<string> specialValue)
         {
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
@@ -212,7 +212,7 @@
                         Arg.Is(_betCheck),
                         Arg.Is(_handicap1),
                         Arg.Is(_handicap2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var leagueNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(standardLanguageCode))
                     .Returns(leagueNameInSpecificLanguage);
 
                 expectedLeagueNames.Add(leagueNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeLeagueNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.LeagueName(_leagueId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeLeagueNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.LeagueName(_leagueId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeLeagueNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetLeagueName(Arg.Is(_leagueId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

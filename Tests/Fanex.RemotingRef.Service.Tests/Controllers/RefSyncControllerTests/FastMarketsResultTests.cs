@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -80,7 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -147,7 +147,7 @@
                     var fastMarketsResultInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetFastMarketsResult(Arg.Is(resultId), Arg.Is(standardLanguageCode))
                         .Returns(fastMarketsResultInSpecificLanguage);
 
                     fastMarketsResultInMultilanguages.Add(standardLanguageCode, fastMarketsResultInSpecificLanguage);

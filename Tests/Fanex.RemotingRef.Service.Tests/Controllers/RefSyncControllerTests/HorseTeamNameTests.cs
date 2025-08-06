@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -80,7 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetHorseTeamName(Arg.Is(codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetHorseTeamName(Arg.Is(codeId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -147,7 +147,7 @@
                     var horseTeamNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetHorseTeamName(Arg.Is(codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetHorseTeamName(Arg.Is(codeId), Arg.Is(standardLanguageCode))
                         .Returns(horseTeamNameInSpecificLanguage);
 
                     horseTeamNameInMultilanguages.Add(standardLanguageCode, horseTeamNameInSpecificLanguage);

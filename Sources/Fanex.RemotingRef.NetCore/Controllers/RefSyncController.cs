@@ -1,13 +1,12 @@
 ﻿namespace Fanex.RemotingRef.NetCore
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.RemotingRef.NetCore.Delegates;
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Services;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
 
     [ApiController]
     [Route("/api/[controller]")]
@@ -152,7 +151,7 @@
                 formData.ParameterSets,
                 formData.Languages,
                 GetKenoBetChoiceAndType,
-                choiceAndTypePair => choiceAndTypePair != null);
+                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item2));
         }
 
         [HttpPost("KenoBetType")]
@@ -205,7 +204,7 @@
                 formData.ParameterSets,
                 formData.Languages,
                 GetLotteryBetChoiceAndType,
-                choiceAndTypePair => choiceAndTypePair != null);
+                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item1));
         }
 
         [HttpPost("LotteryBetType")]

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -79,7 +79,7 @@
                 {
                     RefData
                         .Received()
-                        .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -111,7 +111,7 @@
                     var matchFormatInSpecificLanguage = Fixture.Create<string>();
 
                     RefData
-                        .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetBetRadarMatchCodeFormat(Arg.Is(matchCode), Arg.Is(standardLanguageCode))
                         .Returns(matchFormatInSpecificLanguage);
 
                     matchFormatInMultilanguages.Add(standardLanguageCode, matchFormatInSpecificLanguage);

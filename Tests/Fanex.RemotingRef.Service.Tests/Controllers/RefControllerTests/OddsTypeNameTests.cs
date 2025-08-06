@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var oddsTypeNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(standardLanguageCode))
                     .Returns(oddsTypeNameInSpecificLanguage);
 
                 expectedOddsTypeNames.Add(oddsTypeNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeOddsTypeNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeOddsTypeNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.OddsTypeName(_oddsTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeOddsTypeNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetOddsTypeName(Arg.Is(_oddsTypeId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

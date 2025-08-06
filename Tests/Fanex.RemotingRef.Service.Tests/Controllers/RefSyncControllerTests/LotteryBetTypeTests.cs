@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -130,7 +130,7 @@
                 {
                     RefData
                         .Received()
-                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -197,7 +197,7 @@
                     var lotteryBetTypeNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetLotteryBetType(Arg.Is(lotteryBetTypeId), Arg.Is(standardLanguageCode))
                         .Returns(lotteryBetTypeNameInSpecificLanguage);
 
                     lotteryBetTypeNameInMultilanguages.Add(standardLanguageCode, lotteryBetTypeNameInSpecificLanguage);

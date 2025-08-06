@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
-    using Fanex.RemotingRef.Service.Utilities;
-    using Fanex.RemotingRef.Service.Utilities.RefData;
+    using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services;
+    using Fanex.RemotingRef.NetCore.Utilities;
+    using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using NSubstitute;
 
     public abstract class ControllerTestBase : IDisposable
@@ -33,19 +34,11 @@
             "zh-TW"
         };
 
-        public static Dictionary<string, string> MappedRemotingRefLanguageCodes => new Dictionary<string, string>
-        {
-            [DefaultLanguageCode] = "en",
-            ["ja-JP"] = "jp",
-            ["ko-KR"] = "ko",
-            ["th-TH"] = "th",
-            ["vi-VN"] = "vn",
-            ["zh-CN"] = "cs",
-            ["zh-CHS"] = "zhcn",
-            ["zh-TW"] = "ch"
-        };
-
         public IRefDataHelper RefData { get; }
+
+        public ITeam3rdService Team3rdService { get; } = Substitute.For<ITeam3rdService>();
+
+        public ILeague3rdService League3rdService { get; } = Substitute.For<ILeague3rdService>();
 
         public Fixture Fixture { get; }
 
@@ -66,6 +59,7 @@
                 _disposed = true;
             }
         }
+
 
         public void Dispose()
         {

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -48,9 +48,9 @@
             RefSyncController.TeamName3rd(_formData);
 
             // Assert.
-            RefData
+            Team3rdService
                 .Received()
-                .GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetTeam3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -62,9 +62,9 @@
             // Assert.
             var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
 
-            RefData
+            Team3rdService
                 .Received(expectedNumberOfCalls)
-                .GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetTeam3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -78,9 +78,9 @@
             {
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    RefData
+                    Team3rdService
                         .Received()
-                        .GetTeamName3rd(Arg.Is(team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetTeam3rdById(Arg.Is(team3rdId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -146,8 +146,8 @@
                 {
                     var teamNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
-                    RefData
-                        .GetTeamName3rd(Arg.Is(team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    Team3rdService
+                        .GetTeam3rdById(Arg.Is(team3rdId), Arg.Is(standardLanguageCode))
                         .Returns(teamNameInSpecificLanguage);
 
                     teamNameInMultilanguages.Add(standardLanguageCode, teamNameInSpecificLanguage);

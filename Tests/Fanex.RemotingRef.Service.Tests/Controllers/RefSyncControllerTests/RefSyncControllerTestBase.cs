@@ -1,11 +1,11 @@
 ﻿namespace Fanex.RemotingRef.Service.Tests.Controllers.RefSyncControllerTests
 {
-    using Fanex.RemotingRef.Service.Controllers;
+    using Fanex.RemotingRef.NetCore;
 
     public class RefSyncControllerTestBase : ControllerTestBase
     {
         protected RefSyncControllerTestBase()
-            => RefSyncController = new RefSyncController(RefData);
+            => RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService);
 
         protected RefSyncController RefSyncController { get; }
 

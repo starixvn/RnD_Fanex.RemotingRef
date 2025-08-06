@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -105,7 +105,7 @@
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(parameterSetsValue.Item4),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                            Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -177,7 +177,7 @@
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(parameterSetsValue.Item4),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                            Arg.Is(standardLanguageCode))
                         .Returns(choiceNameInSpecificLanguage);
 
                     choiceNameInMultilanguages.Add(standardLanguageCode, choiceNameInSpecificLanguage);

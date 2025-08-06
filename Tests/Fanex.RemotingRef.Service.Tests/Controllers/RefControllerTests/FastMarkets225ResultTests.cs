@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var fastMarkets225ResultInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(standardLanguageCode))
                     .Returns(fastMarkets225ResultInSpecificLanguage);
 
                 expectedFastMarkets225Results.Add(fastMarkets225ResultInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeFastMarkets225ResultsWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeFastMarkets225ResultsWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.FastMarkets225Result(_betType255ResultId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeFastMarkets225ResultsWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarkets225Result(Arg.Is(_betType255ResultId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

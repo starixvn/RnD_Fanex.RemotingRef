@@ -115,7 +115,7 @@
                         Arg.Is(_displayedBetTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -184,8 +184,8 @@
                     .GetBetTypeName(
                         Arg.Is(_betTypeId),
                         Arg.Is(_resourceId),
-                        Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(_refNo), 
+                        Arg.Is(standardLanguageCode))
                     .Returns(originalBetTypeNameInSpecificLanguage);
 
                 originalBetTypeNames.Add(originalBetTypeNameInSpecificLanguage);
@@ -207,7 +207,7 @@
                         Arg.Is(_displayedBetTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(displayedBetTypeNameInSpecificLanguage);
 
                 expectedDisplayedBetTypeNames.Add(displayedBetTypeNameInSpecificLanguage);
@@ -217,7 +217,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeDisplayedBetTypeNamesWithSpecialValue(null);
@@ -230,11 +230,11 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeDisplayedBetTypeNamesWithSpecialValue(string.Empty);
@@ -247,7 +247,7 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeDisplayedBetTypeNamesWithSpecialValue(string specialValue)
@@ -259,7 +259,7 @@
                         Arg.Is(_displayedBetTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var casinoBetItemInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode))
                     .Returns(casinoBetItemInSpecificLanguage);
 
                 expectedCasinoBetItems.Add(casinoBetItemInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeCasinoBetItemsWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeCasinoBetItemsWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.CasinoBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeCasinoBetItemsWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetCasinoBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

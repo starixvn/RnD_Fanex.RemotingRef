@@ -77,7 +77,7 @@
             {
                 RefData
                     .Received()
-                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -116,7 +116,7 @@
                 var lotteryBetTypeInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(standardLanguageCode))
                     .Returns(lotteryBetTypeInSpecificLanguage);
 
                 expectedLotteryBetTypes.Add(lotteryBetTypeInSpecificLanguage);
@@ -126,7 +126,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeLotteryBetTypesWithSpecialValue(null);
@@ -135,11 +135,11 @@
             var actualResult = RefController.LotteryBetType(_lotteryBetTypeId, languages: StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeLotteryBetTypesWithSpecialValue(string.Empty);
@@ -148,7 +148,7 @@
             var actualResult = RefController.LotteryBetType(_lotteryBetTypeId, languages: StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeLotteryBetTypesWithSpecialValue(string specialValue)
@@ -156,7 +156,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetLotteryBetType(Arg.Is(_lotteryBetTypeId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

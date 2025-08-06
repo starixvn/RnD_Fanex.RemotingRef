@@ -77,7 +77,7 @@
                         Arg.Is(_betTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -128,7 +128,7 @@
                         Arg.Is(_betTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(betTypeNameInSpecificLanguage);
 
                 expectedBetTypeNames.Add(betTypeNameInSpecificLanguage);
@@ -138,7 +138,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeBetTypeNamesWithSpecialValue(null);
@@ -151,11 +151,11 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeBetTypeNamesWithSpecialValue(string.Empty);
@@ -168,7 +168,7 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeBetTypeNamesWithSpecialValue(string specialValue)
@@ -180,7 +180,7 @@
                         Arg.Is(_betTypeId),
                         Arg.Is(_resourceId),
                         Arg.Is(_refNo),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

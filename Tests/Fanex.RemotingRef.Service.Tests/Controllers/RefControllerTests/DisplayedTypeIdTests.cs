@@ -89,7 +89,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultIsNullValue()
+        public void ReturnEmptylIfResultIsNullValue()
         {
             // Arrange.
             RefData
@@ -100,11 +100,11 @@
             var actualResult = RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultIsEmptyString()
+        public void ReturnEmptyIfResultIsEmptyString()
         {
             // Arrange.
             RefData
@@ -115,7 +115,7 @@
             var actualResult = RefController.DisplayedTypeId(_betTypeId);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
     }
 }

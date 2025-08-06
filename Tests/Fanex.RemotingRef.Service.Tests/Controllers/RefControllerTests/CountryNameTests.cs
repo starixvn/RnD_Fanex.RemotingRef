@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var countryNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(standardLanguageCode))
                     .Returns(countryNameInSpecificLanguage);
 
                 expectedCountryNames.Add(countryNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeCountryNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeCountryNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.CountryName(_countryCode, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeCountryNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetCountryName(Arg.Is(_countryCode), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

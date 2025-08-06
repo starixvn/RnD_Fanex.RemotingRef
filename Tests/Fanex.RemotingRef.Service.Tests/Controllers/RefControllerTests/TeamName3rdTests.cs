@@ -19,9 +19,9 @@
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData
+            Team3rdService
                 .Received()
-                .GetTeamName3rd(Arg.Any<string>(), Arg.Any<string>());
+                .GetTeam3rdById(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -31,9 +31,9 @@
             RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            RefData
+            Team3rdService
                 .Received(StandardLanguageCodes.Length)
-                .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Any<string>());
+                .GetTeam3rdById(Arg.Is(_team3rdId), Arg.Any<string>());
         }
 
         [Fact]
@@ -45,9 +45,9 @@
             // Assert.
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData
+                Team3rdService
                     .Received()
-                    .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetTeam3rdById(Arg.Is(_team3rdId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -85,8 +85,8 @@
             {
                 var teamNameInSpecificLanguage = Fixture.Create<string>();
 
-                RefData
-                    .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                Team3rdService
+                    .GetTeam3rdById(Arg.Is(_team3rdId), Arg.Is( standardLanguageCode))
                     .Returns(teamNameInSpecificLanguage);
 
                 expectedTeamNames.Add(teamNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             Fake3rdTeamNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             Fake3rdTeamNamesWithSpecialValue(string.Empty);
@@ -118,15 +118,15 @@
             var actualResult = RefController.TeamName3rd(_team3rdId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void Fake3rdTeamNamesWithSpecialValue(string specialValue)
         {
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
-                RefData
-                    .GetTeamName3rd(Arg.Is(_team3rdId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                Team3rdService
+                    .GetTeam3rdById(Arg.Is(_team3rdId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -85,7 +85,7 @@
                         Arg.Is(_betTeam),
                         Arg.Is(_handicap1),
                         Arg.Is(_handicap2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -139,7 +139,7 @@
                         Arg.Is(_betTeam),
                         Arg.Is(_handicap1),
                         Arg.Is(_handicap2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(fastMarketsChoiceInSpecificLanguage);
 
                 expectedFastMarketsChoices.Add(fastMarketsChoiceInSpecificLanguage);
@@ -149,7 +149,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeFastMarketsChoicesWithSpecialValue(null);
@@ -163,11 +163,11 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeFastMarketsChoicesWithSpecialValue(string.Empty);
@@ -181,7 +181,7 @@
                 StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeFastMarketsChoicesWithSpecialValue(string specialValue)
@@ -194,7 +194,7 @@
                         Arg.Is(_betTeam),
                         Arg.Is(_handicap1),
                         Arg.Is(_handicap2),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

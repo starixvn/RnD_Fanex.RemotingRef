@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var kenoBetTypeInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(standardLanguageCode))
                     .Returns(kenoBetTypeInSpecificLanguage);
 
                 expectedKenoBetTypes.Add(kenoBetTypeInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeKenoBetTypesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.KenoBetType(_kenoBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeKenoBetTypesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.KenoBetType(_kenoBetTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeKenoBetTypesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetKenoBetType(Arg.Is(_kenoBetTypeId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -1,6 +1,5 @@
 ﻿namespace Fanex.RemotingRef.NetCore.Controllers
 {
-    using System.Linq;
     using Fanex.RemotingRef.NetCore.Delegates;
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Services;
@@ -140,7 +139,7 @@
             return GetTranslationSet(
                 GetKenoBetChoiceAndType,
                 languages,
-                choiceAndTypePair => choiceAndTypePair != null);
+                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item2));
         }
 
         [HttpGet("KenoBetType")]
@@ -195,7 +194,7 @@
             return GetTranslationSet(
                 GetLotteryBetChoiceAndType,
                 languages,
-                choiceAndTypePair => choiceAndTypePair != null);
+                choiceAndTypePair => !string.IsNullOrEmpty(choiceAndTypePair.Item2));
         }
 
         [HttpGet("LotteryBetType")]

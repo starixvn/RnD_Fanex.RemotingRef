@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var rouletteBetItemInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode))
                     .Returns(rouletteBetItemInSpecificLanguage);
 
                 expectedRouletteBetItems.Add(rouletteBetItemInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeRouletteBetItemsWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeRouletteBetItemsWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.RouletteBetItem(_itemId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeRouletteBetItemsWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetRouletteBetItem(Arg.Is(_itemId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

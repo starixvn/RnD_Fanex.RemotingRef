@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var sportNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(standardLanguageCode))
                     .Returns(sportNameInSpecificLanguage);
 
                 expectedSportNames.Add(sportNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeSportNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeSportNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.SportName(_sportTypeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeSportNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetSportName(Arg.Is(_sportTypeId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

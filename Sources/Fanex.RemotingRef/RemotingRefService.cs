@@ -224,7 +224,7 @@ public class RemotingRefService : IRemotingRefService
     {
         var leagueName = GetLeagueName(leagueId, languageCode, defaultValue);
         var leagueGroupIdsNeedRemoveText = new List<string> { "42", "74", "108", "113", "122", "151" };
-        if (leagueGroupIdsNeedRemoveText.Any(i => i == leagueGroupId))
+        if (leagueGroupIdsNeedRemoveText.Exists(i => i == leagueGroupId))
         {
             var sabaWord = GetResourceDataByRefIdAndResourceId("Saba", "Saba", languageCode, "Saba");
             var sabaWords = new List<string> { $" {sabaWord}", $"{sabaWord} ", sabaWord };

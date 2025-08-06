@@ -25,7 +25,7 @@
             // Assert.
             RefData
                 .Received()
-                .GetLotteryBetChoice(Arg.Is(betChoiceId), Arg.Any<string>(), out _);
+                .GetLotteryBetChoice(Arg.Is(betChoiceId), Arg.Any<string>());
         }
 
         [Fact]
@@ -40,7 +40,7 @@
             // Assert.
             RefData
                 .Received()
-                .GetLotteryBetChoice(Arg.Is(_lotteryBetChoiceId), Arg.Any<string>(), out _);
+                .GetLotteryBetChoice(Arg.Is(_lotteryBetChoiceId), Arg.Any<string>());
         }
 
         [Fact]
@@ -52,7 +52,7 @@
             // Assert.
             RefData
                 .Received()
-                .GetLotteryBetChoice(Arg.Any<string>(), Arg.Any<string>(), out _);
+                .GetLotteryBetChoice(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -64,7 +64,7 @@
             // Assert.
             RefData
                 .Received(StandardLanguageCodes.Length)
-                .GetLotteryBetChoice(Arg.Is(_lotteryBetChoiceId), Arg.Any<string>(), out _);
+                .GetLotteryBetChoice(Arg.Is(_lotteryBetChoiceId), Arg.Any<string>());
         }
 
         [Fact]
@@ -80,8 +80,7 @@
                     .Received()
                     .GetLotteryBetChoice(
                         Arg.Is(_lotteryBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _);
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -123,14 +122,8 @@
                 RefData
                     .GetLotteryBetChoice(
                         Arg.Is(_lotteryBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _)
-                    .Returns(parameters =>
-                    {
-                        parameters[2] = lotteryBetTypeInSpecificLanguage;
-
-                        return lotteryBetChoiceInSpecificLanguage;
-                    });
+                        Arg.Is(standardLanguageCode))
+                    .Returns((lotteryBetChoiceInSpecificLanguage, lotteryBetTypeInSpecificLanguage));
 
                 expectedLotteryBetChoicesAndBetTypes.Add(
                     new Tuple<string, string>(lotteryBetChoiceInSpecificLanguage, lotteryBetTypeInSpecificLanguage));
@@ -140,7 +133,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeLotteryBetChoicesWithSpecialValue(null);
@@ -149,11 +142,11 @@
             var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeLotteryBetChoicesWithSpecialValue(string.Empty);
@@ -162,7 +155,7 @@
             var actualResult = RefController.LotteryBetChoice(_lotteryBetChoiceId, languages: StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeLotteryBetChoicesWithSpecialValue(string specialValue)
@@ -172,14 +165,8 @@
                 RefData
                     .GetLotteryBetChoice(
                         Arg.Is(_lotteryBetChoiceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]),
-                        out _)
-                    .Returns(parameters =>
-                    {
-                        parameters[2] = specialValue;
-
-                        return specialValue;
-                    });
+                        Arg.Is(standardLanguageCode))
+                    .Returns((specialValue, specialValue));
             }
         }
     }

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -80,7 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -147,7 +147,7 @@
                     var kenoBetTypeNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetKenoBetType(Arg.Is(kenoBetTypeId), Arg.Is(standardLanguageCode))
                         .Returns(kenoBetTypeNameInSpecificLanguage);
 
                     kenoBetTypeNameInMultilanguages.Add(standardLanguageCode, kenoBetTypeNameInSpecificLanguage);

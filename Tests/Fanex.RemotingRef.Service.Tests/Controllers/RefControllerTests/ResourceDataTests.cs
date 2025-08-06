@@ -54,7 +54,7 @@
                     .GetResourceDataByRefIdAndResourceId(
                         Arg.Is(_refId),
                         Arg.Is(_resourceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        Arg.Is(standardLanguageCode));
             }
         }
 
@@ -96,7 +96,7 @@
                     .GetResourceDataByRefIdAndResourceId(
                         Arg.Is(_refId),
                         Arg.Is(_resourceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(resourceInSpecificLanguage);
 
                 expectedResourceData.Add(resourceInSpecificLanguage);
@@ -106,7 +106,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeResourcesWithSpecialValue(null);
@@ -115,11 +115,11 @@
             var actualResult = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeResourcesWithSpecialValue(string.Empty);
@@ -128,7 +128,7 @@
             var actualResult = RefController.ResourceData(_refId, _resourceId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0 );
         }
 
         private void FakeResourcesWithSpecialValue(string specialValue)
@@ -139,7 +139,7 @@
                     .GetResourceDataByRefIdAndResourceId(
                         Arg.Is(_refId),
                         Arg.Is(_resourceId),
-                        Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

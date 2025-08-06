@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -106,7 +106,7 @@
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(parameterSetsValue.Item4),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                            Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -141,7 +141,7 @@
         public void EmptyArrayIsNotIncludedInResult()
         {
             // Arrange.
-            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, Array.Empty<string>());
+            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, new List<string>());
 
             // Act.
             var actualResult = RefSyncController.CombinationTypeComboParlay(_formData);
@@ -154,7 +154,7 @@
         public void ArrayOfEmptyStringsIsNotIncludedInResult()
         {
             // Arrange.
-            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, new[] { string.Empty });
+            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, new List<string>());
 
             // Act.
             var actualResult = RefSyncController.CombinationTypeComboParlay(_formData);
@@ -167,7 +167,7 @@
         public void ArrayOfNullsIsNotIncludedInResult()
         {
             // Arrange.
-            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, new string[] { null });
+            var expectedResult = FakeSyncedCombinationTypeComboParlays(true, new List<string>());
 
             // Act.
             var actualResult = RefSyncController.CombinationTypeComboParlay(_formData);
@@ -179,7 +179,7 @@
         private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays()
             => FakeSyncedCombinationTypeComboParlays(false, null);
 
-        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays(bool requireSpecialValue, string[] specialValue)
+        private SyncedTranslationResultSet FakeSyncedCombinationTypeComboParlays(bool requireSpecialValue, List<string> specialValue)
         {
             var expectedSyncedComboNames = new SyncedTranslationResultSet();
             var specialIndex = -1;
@@ -196,7 +196,7 @@
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    var comboNamesInSpecificLanguage = specialIndex == counter ? specialValue : new[] { Fixture.Create<string>() };
+                    var comboNamesInSpecificLanguage = specialIndex == counter ? specialValue : new List<string> { Fixture.Create<string>() };
 
                     RefData
                         .GetCombinationTypeCombo(
@@ -204,7 +204,7 @@
                             Arg.Is(parameterSetsValue.Item2),
                             Arg.Is(parameterSetsValue.Item3),
                             Arg.Is(parameterSetsValue.Item4),
-                            Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                            Arg.Is(standardLanguageCode))
                         .Returns(comboNamesInSpecificLanguage);
 
                     comboNamesInMultilanguages.Add(standardLanguageCode, comboNamesInSpecificLanguage);
@@ -220,6 +220,6 @@
         }
 
         private static bool DoesNotContainNullOrEmptyArray(TranslationSet comboNamesInMultilanguages)
-            => comboNamesInMultilanguages.Any(pair => (pair.Value is string[] combos) && combos.Any(name => !string.IsNullOrEmpty(name)));
+            => comboNamesInMultilanguages.Any(pair => (pair.Value is List<string> combos) && combos.Exists(name => !string.IsNullOrEmpty(name)));
     }
 }

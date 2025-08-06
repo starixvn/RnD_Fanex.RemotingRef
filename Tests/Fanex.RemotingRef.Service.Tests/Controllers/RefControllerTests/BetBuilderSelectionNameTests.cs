@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var selectionNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(standardLanguageCode))
                     .Returns(selectionNameInSpecificLanguage);
 
                 expectedSelectionNames.Add(selectionNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeBetBuilderSelectionNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.BetBuilderSelectionName(_selectionId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeBetBuilderSelectionNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.BetBuilderSelectionName(_selectionId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeBetBuilderSelectionNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetBetBuilderSelectionName(Arg.Is(_selectionId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

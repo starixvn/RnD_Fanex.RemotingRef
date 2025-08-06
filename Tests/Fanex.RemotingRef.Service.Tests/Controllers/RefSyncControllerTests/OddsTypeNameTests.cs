@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
-    using Fanex.RemotingRef.Service.Models;
+    using Fanex.RemotingRef.NetCore.Models;
     using NSubstitute;
     using Xunit;
 
@@ -80,7 +80,7 @@
                 {
                     RefData
                         .Received()
-                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(standardLanguageCode));
                 }
             }
         }
@@ -147,7 +147,7 @@
                     var oddsNameInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
-                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                        .GetOddsTypeName(Arg.Is(oddsTypeId), Arg.Is(standardLanguageCode))
                         .Returns(oddsNameInSpecificLanguage);
 
                     oddsNameInMultilanguages.Add(standardLanguageCode, oddsNameInSpecificLanguage);

@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var horseTeamNameInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(standardLanguageCode))
                     .Returns(horseTeamNameInSpecificLanguage);
 
                 expectedHorseTeamNames.Add(horseTeamNameInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeHorseTeamNamesWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeHorseTeamNamesWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.HorseTeamName(_codeId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeHorseTeamNamesWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetHorseTeamName(Arg.Is(_codeId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }

@@ -47,7 +47,7 @@
             {
                 RefData
                     .Received()
-                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]));
+                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(standardLanguageCode));
             }
         }
 
@@ -86,7 +86,7 @@
                 var fastMarketsResultInSpecificLanguage = Fixture.Create<string>();
 
                 RefData
-                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(standardLanguageCode))
                     .Returns(fastMarketsResultInSpecificLanguage);
 
                 expectedFastMarketsResults.Add(fastMarketsResultInSpecificLanguage);
@@ -96,7 +96,7 @@
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllNullValues()
+        public void ReturnEmptyIfResultContainsAllNullValues()
         {
             // Arrange.
             FakeFastMarketsResultsWithSpecialValue(null);
@@ -105,11 +105,11 @@
             var actualResult = RefController.FastMarketsResult(_resultId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         [Fact]
-        public void ReturnNullIfResultContainsAllEmptyStrings()
+        public void ReturnEmptyIfResultContainsAllEmptyStrings()
         {
             // Arrange.
             FakeFastMarketsResultsWithSpecialValue(string.Empty);
@@ -118,7 +118,7 @@
             var actualResult = RefController.FastMarketsResult(_resultId, StandardLanguageCodes);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count == 0);
         }
 
         private void FakeFastMarketsResultsWithSpecialValue(string specialValue)
@@ -126,7 +126,7 @@
             foreach (var standardLanguageCode in StandardLanguageCodes)
             {
                 RefData
-                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(MappedRemotingRefLanguageCodes[standardLanguageCode]))
+                    .GetFastMarketsResult(Arg.Is(_resultId), Arg.Is(standardLanguageCode))
                     .Returns(specialValue);
             }
         }
