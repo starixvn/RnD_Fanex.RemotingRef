@@ -172,12 +172,9 @@ internal sealed class LocalStorage : IStorage, IDisposable
     {
         var now = storage.Clock.UtcNow;
 
-        foreach (var entry in storage._entries.Values)
+        foreach (var entry in storage._entries.Values.Where(i => i.IsExpired(now)))
         {
-            if (entry.IsExpired(now))
-            {
-                storage.RemoveEntry(entry);
-            }
+            storage.RemoveEntry(entry);
         }
     }
 

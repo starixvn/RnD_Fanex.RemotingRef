@@ -17,6 +17,16 @@ public class RemotingRefService : IRemotingRefService
 {
     private const string RefController = "api/ref/";
     private const string RefSyncController = "api/refsync/";
+
+    private static readonly HashSet<string> LeagueGroupIdsNeedRemoveText =
+    [
+        "42", "74", "108", "113", "122", "151"
+    ];
+
+    private const int RegexTimeoutMilliseconds = 1000;
+
+    private const string SabaRefId = "Saba";
+
     private readonly IHttpHandler _client;
     private readonly ISerializer _serializer;
 
@@ -223,12 +233,48 @@ public class RemotingRefService : IRemotingRefService
     public string GetLeagueName(string leagueId, string leagueGroupId, string languageCode, string defaultValue)
     {
         var leagueName = GetLeagueName(leagueId, languageCode, defaultValue);
-        var leagueGroupIdsNeedRemoveText = new List<string> { "42", "74", "108", "113", "122", "151" };
-        if (leagueGroupIdsNeedRemoveText.Exists(i => i == leagueGroupId))
+
+        if (LeagueGroupIdsNeedRemoveText.Contains(leagueGroupId))
         {
-            var sabaWord = GetResourceDataByRefIdAndResourceId("Saba", "Saba", languageCode, "Saba");
-            var sabaWords = new List<string> { $" {sabaWord}", $"{sabaWord} ", sabaWord };
-            leagueName = sabaWords.Aggregate(leagueName, (current, word) => Regex.Replace(current, word, string.Empty, RegexOptions.IgnoreCase));
+            try
+            {
+#pragma warning disable S4142 // Duplicate values should not be passed as arguments
+                var sabaWord = GetResourceDataByRefIdAndResourceId(SabaRefId, SabaRefId, languageCode, SabaRefId);
+#pragma warning restore S4142 // Duplicate values should not be passed as arguments
+                if (!string.IsNullOrEmpty(sabaWord))
+                {
+                    var sabaWords = new[] { $" {sabaWord}", $"{sabaWord} ", sabaWord };
+                    leagueName = RemoveSabaWordsWithTimeout(leagueName, sabaWords);
+                }
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return leagueName;
+            }
+        }
+
+        return leagueName;
+    }
+
+    private static string RemoveSabaWordsWithTimeout(string leagueName, string[] sabaWords)
+    {
+        foreach (var word in sabaWords)
+        {
+            try
+            {
+                leagueName = Regex.Replace(
+                    leagueName, 
+                    Regex.Escape(word),
+                    string.Empty, 
+                    RegexOptions.IgnoreCase,
+                    TimeSpan.FromMilliseconds(RegexTimeoutMilliseconds));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+#pragma warning disable S3626 // Jump statements should not be redundant
+                continue;
+#pragma warning restore S3626 // Jump statements should not be redundant
+            }
         }
 
         return leagueName;
@@ -892,11 +938,6 @@ public class RemotingRefService : IRemotingRefService
 
     public string[] GetBetBuilderSelectionNames(int[] selectionIds, string languageCode)
     {
-        if (selectionIds == null || selectionIds.Length == 0)
-        {
-            return default;
-        }
-
         var betBuilderSelectionNames = new List<string>();
 
         foreach (var selectionId in selectionIds)
@@ -994,7 +1035,7 @@ public class RemotingRefService : IRemotingRefService
 
         if (response.IsSuccessStatusCode)
         {
-            var responseResult = await response.Content?.ReadAsStreamAsync();
+            var responseResult = await response.Content.ReadAsStreamAsync();
             var result = await _serializer.DeserializeAsync<Dictionary<string, T>>(responseResult);
 
             return TranslationSet.FromDictionary(result);
