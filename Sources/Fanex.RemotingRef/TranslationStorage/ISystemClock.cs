@@ -2,7 +2,7 @@
 
 using System;
 
-internal interface ISystemClock
+public interface ISystemClock
 {
     DateTimeOffset UtcNow { get; }
 }

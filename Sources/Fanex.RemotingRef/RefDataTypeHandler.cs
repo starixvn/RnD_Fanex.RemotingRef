@@ -8,9 +8,9 @@ using Fanex.RemotingRef.TranslationStorage;
 
 internal class RefDataTypeHandler(RefDataTypeHandlerOptions options, IStorage storage) : IRefDataTypeHandler
 {
-    private readonly IStorage _localStorage = storage ?? throw new ArgumentNullException(nameof(storage));
+    private readonly IStorage _localStorage = storage;
 
-    public RefDataTypeHandlerOptions Options { get; } = options ?? throw new ArgumentNullException(nameof(options));
+    public RefDataTypeHandlerOptions Options { get; } = options;
 
     public object Get(KeySet keySet, string languageCode)
     {
@@ -85,7 +85,7 @@ internal class RefDataTypeHandler(RefDataTypeHandlerOptions options, IStorage st
             }
         }
 
-        return default;
+        return new TranslationSet(0, null);
     }
 
     private void TriggerSyncDataProcess(CacheEntry rootEntry)

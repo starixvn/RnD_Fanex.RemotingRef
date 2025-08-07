@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-internal sealed class LocalStorage : IStorage, IDisposable
+public sealed class LocalStorage : IStorage, IDisposable
 {
     private readonly ConcurrentDictionary<string, CacheEntry> _entries;
     private readonly LocalStorageOptions _options;

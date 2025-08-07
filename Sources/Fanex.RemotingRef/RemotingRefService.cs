@@ -230,6 +230,31 @@ public class RemotingRefService : IRemotingRefService
         return teamName ?? defaultValue;
     }
 
+    public string GetLeagueName(string leagueId, string languageCode)
+        => GetLeagueName(leagueId, languageCode, string.Empty);
+
+    public string GetLeagueName(string leagueId, string languageCode, string defaultValue)
+    {
+        if (IsUnacceptableNumericId(leagueId))
+        {
+            return defaultValue;
+        }
+
+        const string actionName = "LeagueName";
+
+        var keySet = new KeySet
+        {
+            [nameof(leagueId)] = leagueId
+        };
+        var leagueName = GetTranslationText(
+            RefDataType.LeagueName,
+            actionName,
+            keySet,
+            languageCode);
+
+        return leagueName ?? defaultValue;
+    }
+
     public string GetLeagueName(string leagueId, string leagueGroupId, string languageCode, string defaultValue)
     {
         var leagueName = GetLeagueName(leagueId, languageCode, defaultValue);
@@ -254,55 +279,6 @@ public class RemotingRefService : IRemotingRefService
         }
 
         return leagueName;
-    }
-
-    private static string RemoveSabaWordsWithTimeout(string leagueName, string[] sabaWords)
-    {
-        foreach (var word in sabaWords)
-        {
-            try
-            {
-                leagueName = Regex.Replace(
-                    leagueName, 
-                    Regex.Escape(word),
-                    string.Empty, 
-                    RegexOptions.IgnoreCase,
-                    TimeSpan.FromMilliseconds(RegexTimeoutMilliseconds));
-            }
-            catch (RegexMatchTimeoutException)
-            {
-#pragma warning disable S3626 // Jump statements should not be redundant
-                continue;
-#pragma warning restore S3626 // Jump statements should not be redundant
-            }
-        }
-
-        return leagueName;
-    }
-
-    public string GetLeagueName(string leagueId, string languageCode)
-        => GetLeagueName(leagueId, languageCode, string.Empty);
-
-    public string GetLeagueName(string leagueId, string languageCode, string defaultValue)
-    {
-        if (IsUnacceptableNumericId(leagueId))
-        {
-            return defaultValue;
-        }
-
-        const string actionName = "LeagueName";
-
-        var keySet = new KeySet
-        {
-            [nameof(leagueId)] = leagueId
-        };
-        var leagueName = GetTranslationText(
-            RefDataType.LeagueName,
-            actionName,
-            keySet,
-            languageCode);
-
-        return leagueName ?? defaultValue;
     }
 
     public string GetLeagueName3rd(string league3rdId, string languageCode)
@@ -1072,6 +1048,30 @@ public class RemotingRefService : IRemotingRefService
         }
 
         return null;
+    }
+
+    private static string RemoveSabaWordsWithTimeout(string leagueName, string[] sabaWords)
+    {
+        foreach (var word in sabaWords)
+        {
+            try
+            {
+                leagueName = Regex.Replace(
+                    leagueName, 
+                    Regex.Escape(word),
+                    string.Empty, 
+                    RegexOptions.IgnoreCase,
+                    TimeSpan.FromMilliseconds(RegexTimeoutMilliseconds));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+#pragma warning disable S3626 // Jump statements should not be redundant
+                continue;
+#pragma warning restore S3626 // Jump statements should not be redundant
+            }
+        }
+
+        return leagueName;
     }
 
 #pragma warning restore S3216 // "ConfigureAwait(false)" should be used

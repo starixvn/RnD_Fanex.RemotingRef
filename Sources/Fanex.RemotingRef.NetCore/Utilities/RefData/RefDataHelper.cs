@@ -1,7 +1,6 @@
 ﻿namespace Fanex.RemotingRef.NetCore.Utilities.RefData
 {
     using PublicEnum.Language;
-    using RefClient.Factory;
     using RefClient.Service;
     using RefClient.Service.IService;
     using RefDataModelStandard.Enums;

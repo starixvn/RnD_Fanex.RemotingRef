@@ -17,7 +17,7 @@
             var actualResult = TranslationSet.FromDictionary(dictionary);
 
             // Assert.
-            Assert.Null(actualResult);
+            Assert.True(actualResult.Count() == 0);
         }
 
         [Fact]

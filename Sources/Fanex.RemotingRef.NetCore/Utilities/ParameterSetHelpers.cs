@@ -3,7 +3,7 @@
     using System;
     using Fanex.RemotingRef.NetCore.Models;
 
-    internal static class ParameterSetHelpers
+    public static class ParameterSetHelpers
     {
         public static string GetBetTypeId(this ParameterSet parameterSet)
         {

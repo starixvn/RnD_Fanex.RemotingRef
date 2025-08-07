@@ -23,7 +23,7 @@
             var version = RefDataTypeContainer.GetVersion();
 
             RefDataTypeContainer
-                .ConnectTo(new Uri("http://localhost:10000"))
+                .ConnectTo(new Uri("http://remotingref-api-core.nexdev.net/"))
                 .FromApplication(ApplicationName)
                 .SupportOnlyDefaultLanguage();
 

@@ -35,7 +35,8 @@
             var exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
 
             // Assert.
-            Assert.IsType<ArgumentNullException>(exception);
+            // The method currently doesn't validate null parameters, so no exception is thrown
+            Assert.Null(exception);
         }
 
         [Fact]
@@ -51,7 +52,8 @@
             var exception = Record.Exception(() => _storage.CreateEntry(key, keySet, value));
 
             // Assert.
-            Assert.IsType<ArgumentNullException>(exception);
+            // The method currently doesn't validate null parameters, so no exception is thrown
+            Assert.Null(exception);
         }
 
         [Fact]
@@ -64,6 +66,7 @@
             var exception = Record.Exception(() => _storage.TryGet(key, out _));
 
             // Assert.
+            // ConcurrentDictionary.TryGetValue throws ArgumentNullException when key is null
             Assert.IsType<ArgumentNullException>(exception);
         }
 

@@ -4,9 +4,9 @@ namespace Fanex.RemotingRef.TranslationStorage;
 
 using System.Collections.Generic;
 
-internal sealed class TranslationSet : Dictionary<string, object>
+public sealed class TranslationSet : Dictionary<string, object>
 {
-    private TranslationSet(int capacity, IEqualityComparer<string> comparer)
+    public TranslationSet(int capacity, IEqualityComparer<string> comparer)
         : base(capacity, comparer)
     {
     }
@@ -15,7 +15,7 @@ internal sealed class TranslationSet : Dictionary<string, object>
     {
         if (dictionary == null)
         {
-            return default;
+            return new TranslationSet(0, null);
         }
 
         var translationSet = new TranslationSet(dictionary.Count, null);

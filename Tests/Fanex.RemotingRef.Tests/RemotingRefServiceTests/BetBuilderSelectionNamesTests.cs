@@ -1,5 +1,6 @@
 ﻿namespace Fanex.RemotingRef.Tests.RemotingRefServiceTests
 {
+    using System.Linq;
     using System.Net.Http;
     using AutoFixture;
     using NSubstitute;
@@ -14,30 +15,53 @@
         public BetBuilderSelectionNamesTests()
         {
             _selectionIds = Fixture.Create<int[]>();
-
-            HttpClient
-                .GetAsync(Arg.Is<string>(requestRelativePath => requestRelativePath.Contains(RelativePath)))
-                .Returns(Response);
         }
 
         [Fact]
         public void SendRequestForEachSelectionId()
         {
             // Arrange.
-            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+            // Setup response for each selectionId
+            for (var index = 0; index < _selectionIds.Length; index++)
+            {
+                var response = new HttpResponseMessage();
+                response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + _selectionIds[index]);
+                HttpClient
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                    .Returns(response);
+            }
 
             // Act.
             RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
 
             // Assert.
-            HttpClient.Received(_selectionIds.Length);
+            foreach (var selectionId in _selectionIds)
+            {
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + selectionId);
+
+                HttpClient
+                    .Received()
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath));
+            }
         }
 
         [Fact]
         public void SendRequestWithCorrectParametersForEachSelectionId()
         {
             // Arrange.
-            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+            // Setup response for each selectionId
+            for (var index = 0; index < _selectionIds.Length; index++)
+            {
+                var response = new HttpResponseMessage();
+                response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + _selectionIds[index]);
+                HttpClient
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                    .Returns(response);
+            }
 
             // Act.
             RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
@@ -86,7 +110,17 @@
         public void ReturnEmptyWhenServiceReturnsNull()
         {
             // Arrange.
-            Response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
+            // Setup response for each selectionId
+            for (var index = 0; index < _selectionIds.Length; index++)
+            {
+                var response = new HttpResponseMessage();
+                response.Content = FakeResponseContent(SerializeTranslationSet<object>(null));
+
+                ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + _selectionIds[index]);
+                HttpClient
+                    .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                    .Returns(response);
+            }
 
             // Act.
             var betBuilderSelectionNames = RemotingRefService.GetBetBuilderSelectionNames(_selectionIds, TestingLanguageCode);
@@ -104,13 +138,19 @@
             var validSelectionId = Fixture.Create<int>();
             var selectionIds = new[] { validSelectionId, invalidSelectionId };
 
-            Response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+            // Setup response only for valid selectionId
+            var response = new HttpResponseMessage();
+            response.Content = FakeResponseContent(SerializeTranslationSet(Fixture.Create<string>()));
+
+            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + validSelectionId);
+            HttpClient
+                .GetAsync(Arg.Is(ExpectedRequestRelativePath))
+                .Returns(response);
 
             // Act.
             RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
 
             // Assert.
-            ExpectedRequestRelativePath = string.Format(RequestRelativePathPattern, RelativePath + validSelectionId);
             HttpClient
                 .Received(1)
                 .GetAsync(Arg.Is(ExpectedRequestRelativePath));
@@ -125,7 +165,7 @@
             var actualSelectioNames = RemotingRefService.GetBetBuilderSelectionNames(selectionIds, TestingLanguageCode);
 
             // Assert.
-            Assert.Null(actualSelectioNames);
+            Assert.Empty(actualSelectioNames);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 using System;
 
-internal class GcNotification
+public class GcNotification
 {
     private const int GenerationWhenInvokingCallback = 2;
 

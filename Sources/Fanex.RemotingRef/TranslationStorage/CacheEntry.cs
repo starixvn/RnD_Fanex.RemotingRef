@@ -2,7 +2,7 @@
 
 using System;
 
-internal class CacheEntry(
+public class CacheEntry(
     string key,
     KeySet keySet,
     TranslationSet value,

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-internal sealed class KeySet : Dictionary<string, object>
+public sealed class KeySet : Dictionary<string, object>
 {
     public string BuildKey()
         => this.Aggregate(

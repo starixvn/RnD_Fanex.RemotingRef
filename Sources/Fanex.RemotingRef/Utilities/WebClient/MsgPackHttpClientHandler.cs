@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-internal class MsgPackHttpClientHandler : IHttpHandler
+public class MsgPackHttpClientHandler : IHttpHandler
 {
     public const string MimeType = "application/x-msgpack";
 
