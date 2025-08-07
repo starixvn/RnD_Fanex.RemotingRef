@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer()
     .AddApplicationServices()
     .AddSwaggerGen()
     .AddControllers();
+    
 builder.Services.AddHealthChecks();
 builder.Services.AddMvc().AddMvcOptions(option =>
 {
@@ -25,8 +26,8 @@ builder.Services.AddMvc().AddMvcOptions(option =>
 
 var app = builder.Build();
 app.UseSwagger();
-app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "RemotingRef API v1"));
-app.UseHttpLogging();
+app.UseSwaggerUI();
+//app.UseHttpLogging();
 app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseMiddleware<ExceptionMiddleware>();
@@ -35,11 +36,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapDefaultControllerRoute();
     endpoints.MapHealthChecks("/health").AllowAnonymous();
 });
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHsts();
-    builder.WebHost.UseUrls("http://0.0.0.0:5000");
-}
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseHsts();
+    
+//}
 
 app.Run();

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Functions>  
   <Function Name="3rd">
-    <Setting Key="API_Ref_GetLeague3rd" SpName="API_Ref_GetLeague3rd" DbName="DBBOF.bodb02.wsv_hit">        
+    <Setting Key="API_Ref_GetLeague3rd" SpName="API_Ref_GetLeague3rd" DbName="DBBOF.BODB02.wsv_hit">        
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
-    <Setting Key="API_Ref_GetTeam3rd" SpName="API_Ref_GetTeam3rd" DbName="DBBOF.bodb02.wsv_hit" >
+    <Setting Key="API_Ref_GetTeam3rd" SpName="API_Ref_GetTeam3rd" DbName="DBBOF.BODB02.wsv_hit" >
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
   </Function>

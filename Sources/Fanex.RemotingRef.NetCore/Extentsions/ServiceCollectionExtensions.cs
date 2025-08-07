@@ -47,7 +47,7 @@ namespace Fanex.RemotingRef.NetCore
                     .Use(logEngines);
 
             services.AddSingleton(Logger.Log)
-                    .AddSingleton<ILoggerService, ILoggerService>();
+                    .AddSingleton<ILoggerService, LoggerServiceImpl>();
 
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration()
@@ -68,8 +68,8 @@ namespace Fanex.RemotingRef.NetCore
 
             services.AddSingleton<IRefDataHelper, RefDataHelper>();
             services.AddSingleton<ICacheService, CacheService>();
-            services.AddSingleton<ITeam3rdService, ITeam3rdService>();
-            services.AddSingleton<ILeague3rdService, ILeague3rdService>();
+            services.AddSingleton<ITeam3rdService, Team3rdService>();
+            services.AddSingleton<ILeague3rdService, League3rdService>();
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
 
             return services;
