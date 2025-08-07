@@ -11,6 +11,8 @@ namespace Fanex.RemotingRef.NetCore
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using RefClient.Factory;
+    using RefClient.Service;
+    using RefClient.Service.IService;
     using RefDataModelStandard.Models;
 
     public static class ServiceCollectionExtensions
@@ -57,6 +59,13 @@ namespace Fanex.RemotingRef.NetCore
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddSingleton<IBetRefClientService>(serviceProvider =>
+                RefClientFactory.GetBetRefClientService());
+            services.AddSingleton<IRefDataClient>(serviceProvider =>
+                RefClientFactory.GetRefDataClient());
+            services.AddSingleton<IThirdPartyRefClientService>(serviceProvider =>
+                RefClientFactory.GetThirdPartyRefClientService());
+
             services.AddSingleton<IRefDataHelper, RefDataHelper>();
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<ITeam3rdService, ITeam3rdService>();

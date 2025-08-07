@@ -7,14 +7,14 @@
     using RefDataModelStandard.Enums;
     using RefDataModelStandard.Models.Request;
 
-    public class RefDataHelper : IRefDataHelper
+    public class RefDataHelper(IBetRefClientService betRefClient, IRefDataClient refDataClient, IThirdPartyRefClientService thirdPartyRefClientService) : IRefDataHelper
     {
         private const string DefaultValue = null;
         private readonly List<string> specialBetTypeForBaseball = new List<string> { "8810", "8811", "8812", "8813", "8823", "8824" };
 
-        private readonly IBetRefClientService _betRefClient = RefClientFactory.GetBetRefClientService();
-        private readonly IRefDataClient _refDataClient = RefClientFactory.GetRefDataClient();
-        private readonly IThirdPartyRefClientService _thirdPartyRefClientService = RefClientFactory.GetThirdPartyRefClientService();
+        private readonly IBetRefClientService _betRefClient = betRefClient;
+        private readonly IRefDataClient _refDataClient = refDataClient;
+        private readonly IThirdPartyRefClientService _thirdPartyRefClientService = thirdPartyRefClientService;
 
         public string GetBetTypeName(
             string betTypeId,
