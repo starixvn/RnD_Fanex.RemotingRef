@@ -2,8 +2,6 @@
 using Fanex.Data.SqlServer;
 using Fanex.RemotingRef.NetCore;
 using MessagePack.AspNetCoreMvcFormatter;
-using MessagePack.AspNetCoreMvcFormatter;
-using System.Configuration;
 
 ThreadPool.SetMinThreads(100, 100);
 
@@ -16,26 +14,6 @@ builder.Services.AddEndpointsApiExplorer()
     .AddApplicationServices()
     .AddSwaggerGen()
     .AddControllers();
-    
-builder.Services.AddHealthChecks();
-builder.Services.AddMvc().AddMvcOptions(option =>
-//        {
-//            webBuilder.UseStartup<Startup>();
-//            if (!app.Environment.IsDevelopment())
-//            {
-//                builder.WebHost.UseUrls("http://0.0.0.0:5000");
-//            }
-//            webBuilder.UseUrls("http://0.0.0.0:5000");
-//        });
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddEndpointsApiExplorer()
-       .Configure<AppSettings>(builder.Configuration)
-       .AddFanexLogging(builder.Configuration)
-       .AddApplicationServices()
-       .AddSwaggerGen()
-       .AddControllers();
 
 builder.Services.AddHealthChecks();
 builder.Services.AddMvc().AddMvcOptions(option =>
@@ -49,7 +27,6 @@ builder.Services.AddMvc().AddMvcOptions(option =>
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
-//app.UseHttpLogging();
 app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseMiddleware<ExceptionMiddleware>();
@@ -59,24 +36,4 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHealthChecks("/health").AllowAnonymous();
 });
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseHsts();
-    
-//}
-
-app.Run();
-app.UseFanexData(builder.Configuration, app.Environment);
-app.UseMiddleware<ExceptionMiddleware>();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapDefaultControllerRoute();
-    endpoints.MapHealthChecks("/health").AllowAnonymous();
-});
-
-if (!app.Environment.IsDevelopment())
-{
-    builder.WebHost.UseUrls("http://0.0.0.0:5000");
-}
-
 app.Run();

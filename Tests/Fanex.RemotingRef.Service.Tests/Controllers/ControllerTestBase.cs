@@ -1,14 +1,14 @@
 ﻿namespace Fanex.RemotingRef.Service.Tests.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AutoFixture;
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Services;
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using NSubstitute;
+    using System;
+    using System.Linq;
 
     public abstract class ControllerTestBase : IDisposable
     {
@@ -39,6 +39,14 @@
         public ITeam3rdService Team3rdService { get; } = Substitute.For<ITeam3rdService>();
 
         public ILeague3rdService League3rdService { get; } = Substitute.For<ILeague3rdService>();
+
+        public IBettypeService BettypeService { get; } = Substitute.For<IBettypeService>();
+
+        public ISportService SportService { get; } = Substitute.For<ISportService>();
+
+        public IRefResourceService RefResourceService { get; } = Substitute.For<IRefResourceService>();
+
+        public AppSettings AppSettings { get; } = Substitute.For<AppSettings>();
 
         public Fixture Fixture { get; }
 

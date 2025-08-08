@@ -4,6 +4,7 @@ namespace Fanex.RemotingRef.NetCore.Services
     using Fanex.Data.Repository;
     using Fanex.RemotingRef.NetCore.Criteria;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using PublicEnum.Language;
 
     public class League3rdService(IDynamicRepository repository, ICacheService cacheService) : ILeague3rdService

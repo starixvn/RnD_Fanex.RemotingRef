@@ -1,4 +1,4 @@
-namespace Fanex.RemotingRef.NetCore.Services
+namespace Fanex.RemotingRef.NetCore.Services.Interface
 {
     using Fanex.RemotingRef.NetCore.Models;
 

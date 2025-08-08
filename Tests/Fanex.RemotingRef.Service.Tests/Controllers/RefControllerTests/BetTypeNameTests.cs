@@ -16,6 +16,7 @@
             _betTypeId = Fixture.Create<string>();
             _resourceId = Fixture.Create<string>();
             _refNo = Fixture.Create<long>();
+            AppSettings.UsingVNFunction = false;
         }
 
         [Fact]

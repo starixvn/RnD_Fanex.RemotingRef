@@ -4,24 +4,14 @@ namespace Fanex.RemotingRef.NetCore.Services
     using Fanex.Data.Repository;
     using Fanex.RemotingRef.NetCore.Criteria;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using PublicEnum.Language;
 
-    public interface IRefResourceService
+    public class RefResourceService(IDynamicRepository repository, ICacheService cacheService) : IRefResourceService
     {
-        string GetRefResourceById(string refId, string resourceId, string languageCode);
-    }
-
-    public class RefResourceService : IRefResourceService
-    {
-        public RefResourceService(IDynamicRepository repository, ICacheService cacheService)
-        {
-            _dynamicRepository = repository;
-            _cacheService = cacheService;
-        }
-
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly ICacheService _cacheService;
         private const string CachedKey = "Fanex.RemotingRef.NetCode.RefResource";
+        private readonly IDynamicRepository _dynamicRepository = repository;
+        private readonly ICacheService _cacheService = cacheService;
 
         public string GetRefResourceById(string refId, string resourceId, string languageCode)
         {

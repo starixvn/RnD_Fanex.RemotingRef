@@ -22,7 +22,7 @@
                 ParameterSets = _parameterSets,
                 Languages = StandardLanguageCodes
             };
-
+            AppSettings.UsingVNFunction = false;
             PrepareFormData();
         }
 

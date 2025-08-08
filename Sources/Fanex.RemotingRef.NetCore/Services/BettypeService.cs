@@ -4,45 +4,32 @@ namespace Fanex.RemotingRef.NetCore.Services
     using Fanex.Data.Repository;
     using Fanex.RemotingRef.NetCore.Criteria;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
-    using Newtonsoft.Json.Converters;
     using PublicEnum.Language;
-    using RefDataModelStandard.DataModels;
     using RefDataModelStandard.Utils;
 
-    public interface IBettypeService
+
+
+    public class BettypeService(IDynamicRepository repository, ICacheService cacheService, IRefResourceService refResourceService) : IBettypeService
     {
-        string GetBettypeById(string bettypeId, string languageCode);
+        private readonly List<int> specialBetTypeForBaseball = [8810, 8811, 8812, 8813, 8823, 8824];
+        private const string cachedKey = "Fanex.RemotingRef.NetCode.Bettype";
 
-        string GetBettypeById(string bettypeId, string resourceId, long? refNo, string languageCode);
-    }
-
-    public class BettypeService : IBettypeService
-    {
-        private readonly List<int> SpecialBetTypeForBaseball = new List<int> { 8810, 8811, 8812, 8813, 8823, 8824 };
-
-        public BettypeService(IDynamicRepository repository, ICacheService cacheService, IRefResourceService refResourceService)
-        {
-            _dynamicRepository = repository;
-            _cacheService = cacheService;
-            _refResourceService = refResourceService;
-        }
-
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly ICacheService _cacheService;
-        private readonly IRefResourceService _refResourceService;
-
-        private const string CachedKey = "Fanex.RemotingRef.NetCode.Bettype";
+        private readonly IDynamicRepository _dynamicRepository = repository;
+        private readonly ICacheService _cacheService = cacheService;
+        private readonly IRefResourceService _refResourceService = refResourceService;
 
         public string GetBettypeById(string bettypeId, string languageCode)
         {
             if (int.TryParse(bettypeId, out int id))
             {
-                var bettypes = _cacheService.GetOrSet(CachedKey, () => _dynamicRepository.Fetch<BetTypeModel>(new GetBettypeCriteria()));
+                var bettypes = _cacheService.GetOrSet(cachedKey, () => _dynamicRepository.Fetch<BetTypeModel>(new GetBettypeCriteria()));
                 var bettype = bettypes.SingleOrDefault(t => t.TypeId == id);
 
                 return bettype?.GetName(languageCode.ConvertCultureToEnum()) ?? string.Empty;
             }
+
             return string.Empty;
         }
 
@@ -51,17 +38,13 @@ namespace Fanex.RemotingRef.NetCore.Services
             if (int.TryParse(bettypeId, out int id))
             {
                 var betTypeName = string.Empty;
-                var luckyVia = refNo.HasValue && refNo > 100000000000 ?
+                var luckyVia = refNo.HasValue && refNo > 100_000_000_000 ?
                             _refResourceService.GetRefResourceById("ComboParlay", "LuckyBet", languageCode) :
                             string.Empty;
-                if (SpecialBetTypeForBaseball.Any(i => i == id) && LanguageHelpers.DefaultLanguage == languageCode)
-                {
-                    betTypeName = GetBetTypeNameForBaseball(bettypeId, languageCode, resourceId);
-                }
-                else
-                {
-                    betTypeName = GetBetTypeNameWithReplaceText(id, resourceId, languageCode);
-                }
+
+                betTypeName = specialBetTypeForBaseball.Exists(i => i == id) && languageCode == LanguageHelpers.DefaultLanguage
+                    ? GetBetTypeNameForBaseball(bettypeId, languageCode, resourceId)
+                    : GetBetTypeNameWithReplaceText(id, resourceId, languageCode);
 
                 return string.IsNullOrEmpty(luckyVia) ? betTypeName : $"{betTypeName} {luckyVia}";
             }
@@ -76,7 +59,7 @@ namespace Fanex.RemotingRef.NetCore.Services
             var isNumber = int.TryParse(resourceId, out int resId);
             if (isNumber)
             {
-                resourceId = resId >= replacedText.Count() ? resourceId : replacedText[resId];
+                resourceId = resId >= replacedText.Count ? resourceId : replacedText[resId];
             }
 
             return string.IsNullOrEmpty(resourceId) ? betTypeName : betTypeName.Replace("X ", $"{resourceId} ");
@@ -88,9 +71,11 @@ namespace Fanex.RemotingRef.NetCore.Services
             var replaceSymbolModel = new ResourceIdParser().Parse(id, resourceId);
 
             if (replaceSymbolModel == null)
+            {
                 return betTypeName;
+            }
 
-            void ReplacePlaceholder(ref string name, string placeholder, int? value)
+            static void ReplacePlaceholder(ref string name, string placeholder, int? value)
             {
                 if (value.HasValue)
                 {

@@ -5,7 +5,7 @@
     public class RefSyncControllerTestBase : ControllerTestBase
     {
         protected RefSyncControllerTestBase()
-            => RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService);
+            => RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
 
         protected RefSyncController RefSyncController { get; }
 

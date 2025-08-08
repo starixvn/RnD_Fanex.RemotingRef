@@ -10,7 +10,10 @@
         private readonly string _sportTypeId;
 
         public SportNameTests()
-            => _sportTypeId = Fixture.Create<string>();
+        {
+            _sportTypeId = Fixture.Create<string>();
+            AppSettings.UsingVNFunction = false;
+        }
 
         [Fact]
         public void AlwaysCallGetSportNameOfRefDataHelper()

@@ -14,6 +14,7 @@
         {
             _refId = Fixture.Create<string>();
             _resourceId = Fixture.Create<string>();
+            AppSettings.UsingVNFunction = false;
         }
 
         [Fact]

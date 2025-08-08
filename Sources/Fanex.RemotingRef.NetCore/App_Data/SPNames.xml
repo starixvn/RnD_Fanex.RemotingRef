@@ -8,11 +8,11 @@
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
 
-    <Setting Key="Dot_Member_GetRef_Bettype" SpName="Dot_Member_GetRef_Bettype" DbName="DBBOF.bodb02.accteam" >        
+    <Setting Key="Dot_Member_GetRef_Bettype" SpName="Dot_Member_GetRef_Bettype" DbName="DBPRO.BODB02.wsv_hit" >        
     </Setting>
 
-    <Setting Key="Dot_Member_GetRef_Sports" SpName="Dot_Member_GetRef_Sports" DbName="DBBOF.bodb02.accteam" />
-    <Setting Key="Dot_Member_GetRef_AllRefResourceData" SpName="Dot_Member_GetRef_AllRefResourceData" DbName="DBBOF.bodb02.accteam" >
+    <Setting Key="Dot_Member_GetRef_Sports" SpName="Dot_Member_GetRef_Sports" DbName="DBPRO.BODB02.wsv_hit" />
+    <Setting Key="Dot_Member_GetRef_AllRefResourceData" SpName="Dot_Member_GetRef_AllRefResourceData" DbName="DBPRO.BODB02.wsv_hit" >
         <Mapping DataField="Resource_en" ObjectProperty="ResourceName"/>
         <Mapping DataField="Resource_ch" ObjectProperty="ResourceCh"/>
         <Mapping DataField="Resource_cs" ObjectProperty="ResourceCs"/>

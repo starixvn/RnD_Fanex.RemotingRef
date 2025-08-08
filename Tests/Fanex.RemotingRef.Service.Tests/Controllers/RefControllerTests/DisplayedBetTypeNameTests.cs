@@ -18,7 +18,7 @@
             _displayedBetTypeId = Fixture.Create<string>();
             _resourceId = Fixture.Create<string>();
             _refNo = Fixture.Create<long>();
-
+            AppSettings.UsingVNFunction = false;
             RefData
                 .GetDisplayedTypeId(Arg.Is(_betTypeId))
                 .Returns(_displayedBetTypeId);

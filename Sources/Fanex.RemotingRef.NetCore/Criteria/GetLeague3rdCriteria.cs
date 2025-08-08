@@ -2,14 +2,8 @@ namespace Fanex.RemotingRef.NetCore.Criteria
 {
     using Fanex.Data;
     using Fanex.Data.Repository;
-
-    public class GetLeague3rdCriteria : CriteriaBase
+    public class GetLeague3rdCriteria(long timestamp = 0) : CriteriaBase
     {
-        public GetLeague3rdCriteria(long timestamp = 0)
-        {
-            Timestamp = timestamp;
-        }
-
         [SpParam(SqlParamName = "MinTstamp")]
         public long Timestamp { get; set; }
 

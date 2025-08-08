@@ -16,7 +16,10 @@
         private List<Tuple<string, string>> _refIdAndResourceIdPairs;
 
         public ResourceDataTests()
-            => PrepareFormData();
+        {
+            AppSettings.UsingVNFunction = false;
+            PrepareFormData();
+        }
 
         private void PrepareFormData()
         {

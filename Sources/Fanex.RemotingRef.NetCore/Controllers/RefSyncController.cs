@@ -3,28 +3,30 @@
     using Fanex.RemotingRef.NetCore.Delegates;
     using Fanex.RemotingRef.NetCore.Models;
     using Fanex.RemotingRef.NetCore.Services;
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("/api/[controller]")]
-    public class RefSyncController : Controller
+    public class RefSyncController(
+            IRefDataHelper refData,
+            ITeam3rdService team3rdService,
+            ILeague3rdService league3rdService,
+            IBettypeService bettypeService,
+            ISportService sportService,
+            IRefResourceService refResourceService,
+            AppSettings appSettings) : Controller
     {
-        private readonly IRefDataHelper _refData;
+        private readonly IRefDataHelper _refData = refData;
 
-        private readonly ITeam3rdService _team3rdService;
-        private readonly ILeague3rdService _league3rdService;
-        private readonly IBettypeService _bettypeService;
-        private readonly ISportService _sportService;
-
-        private readonly IRefResourceService _refResourceService;
-
-        private readonly AppSettings _appSettings;
-        public RefSyncController(IRefDataHelper refData, ITeam3rdService team3rdService, ILeague3rdService league3rdService, IBettypeService bettypeService, ISportService sportService, IRefResourceService refResourceService, IOptions<AppSettings> appSettings)
-        => (_refData, _team3rdService, _league3rdService, _bettypeService, _sportService, _refResourceService, _appSettings) = (refData, team3rdService, league3rdService, bettypeService, sportService, refResourceService, appSettings.Value);
-
+        private readonly ITeam3rdService _team3rdService = team3rdService;
+        private readonly ILeague3rdService _league3rdService = league3rdService;
+        private readonly IBettypeService _bettypeService = bettypeService;
+        private readonly ISportService _sportService = sportService;
+        private readonly IRefResourceService _refResourceService = refResourceService;
+        private readonly AppSettings _appSettings = appSettings;
 
         [HttpPost("BetTypeName")]
         public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)

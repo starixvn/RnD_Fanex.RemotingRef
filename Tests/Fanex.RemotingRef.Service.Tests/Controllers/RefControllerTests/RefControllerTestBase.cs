@@ -5,7 +5,7 @@
     public class RefControllerTestBase : ControllerTestBase
     {
         protected RefControllerTestBase()
-            => RefController = new RefController(RefData, Team3rdService, League3rdService);
+            => RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
 
         protected RefController RefController { get; }
 

@@ -16,7 +16,10 @@
         private List<string> _sportTypeIds;
 
         public SportNameTests()
-            => PrepareFormData();
+        {
+            AppSettings.UsingVNFunction = false;
+            PrepareFormData();
+        }
 
         private void PrepareFormData()
         {
