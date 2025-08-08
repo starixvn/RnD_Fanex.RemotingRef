@@ -70,6 +70,9 @@ namespace Fanex.RemotingRef.NetCore
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<ITeam3rdService, Team3rdService>();
             services.AddSingleton<ILeague3rdService, League3rdService>();
+        services.AddSingleton<IBettypeService, BettypeService>();
+        services.AddSingleton<ISportService, SportService>();
+        services.AddSingleton<IRefResourceService, RefResourceService>();
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
 
             return services;
