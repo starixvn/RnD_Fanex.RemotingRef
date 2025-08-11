@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class FastMarketsChoiceController : BaseController
     {
-        public FastMarketsChoiceController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public FastMarketsChoiceController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -24,7 +23,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 Handicap1 = 1,
                 Handicap2 = 2,
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/FastMarkets/FastMarketsChoice.cshtml", viewModel);
@@ -42,7 +41,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 Handicap1 = handicap1,
                 Handicap2 = handicap2,
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetFastMarketsChoice(typeId, betTeam, handicap1, handicap2, language)
+                OurData = _remotingRefService.GetFastMarketsChoice(typeId, betTeam, handicap1, handicap2, language)
             };
 
             return View("~/Views/Ref/FastMarkets/FastMarketsChoice.cshtml", viewModel);
@@ -63,12 +62,13 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "FastMarketsChoice",
                     TypeId = betTypeInputData[i].ToString(CultureInfo.InvariantCulture),
-                    RefDataResult =
-                        _remotingRefDataAccess.GetFastMarketsChoice(
+                    OurData =
+                        _remotingRefService.GetFastMarketsChoice(
                             betTypeInputData[i].ToString(CultureInfo.InvariantCulture),
                             betTeamInputData[i].ToString(CultureInfo.InvariantCulture),
                             handicap1InputData[i],
-                            handicap2InputData[i])
+                            handicap2InputData[i],
+                            "en-US")
                 };
 
                 viewModel.Add(betTypeViewModel);

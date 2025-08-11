@@ -6,7 +6,8 @@ namespace Fanex.RemotingRef.Demo.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            // Redirect về BetTypeName controller và action
+            return RedirectToAction("BetTypeName", "BetTypeName");
         }
     }
 }

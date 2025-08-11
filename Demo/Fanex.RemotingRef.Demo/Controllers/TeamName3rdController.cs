@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class TeamName3rdController : BaseController
     {
-        public TeamName3rdController(IRemotingRefDataAccess remotingRefDataAccess): base(remotingRefDataAccess)
+        public TeamName3rdController(IRemotingRefService remotingRefDataAccess): base(remotingRefDataAccess)
         {
         }
 
@@ -22,7 +21,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Team Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,7 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Team Id",
                 TypeId = typeId ?? "1",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetTeamName3rd(typeId, language)
+                OurData = _remotingRefService.GetTeamName3rd(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -56,7 +55,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "Team3rd",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetTeamName3rd(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetTeamName3rd(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);

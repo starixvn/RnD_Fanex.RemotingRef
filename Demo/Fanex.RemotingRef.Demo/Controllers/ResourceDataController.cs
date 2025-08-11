@@ -2,13 +2,12 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
 
     public class ResourceDataController : BaseController
     {
-        public ResourceDataController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public ResourceDataController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -21,7 +20,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeId = "AG_Baccarat",
                 ResourceId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/ResourceData/ResourceData.cshtml", viewModel);
@@ -37,7 +36,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeId = typeId ?? "AG_Baccarat",
                 ResourceId = resourceId ?? "1",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetResourceData(typeId, resourceId, language)
+                OurData = _remotingRefService.GetResourceDataByRefIdAndResourceId(typeId, resourceId, language, string.Empty)
             };
 
             return View("~/Views/Ref/ResourceData/ResourceData.cshtml", viewModel);
@@ -66,7 +65,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                     DataType = "Ref",
                     TypeId = input.RefId,
                     ResourceId = input.ResourceId,
-                    RefDataResult = _remotingRefDataAccess.GetResourceData(input.RefId, input.ResourceId)
+                    OurData = _remotingRefService.GetResourceDataByRefIdAndResourceId(input.RefId, input.ResourceId, "en-US", string.Empty)
                 };
 
                 viewModels.Add(viewModel);

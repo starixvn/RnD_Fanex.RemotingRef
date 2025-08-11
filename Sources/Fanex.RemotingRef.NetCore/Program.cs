@@ -7,6 +7,7 @@ using MessagePack.AspNetCoreMvcFormatter;
 ThreadPool.SetMinThreads(100, 100);
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseKestrel();
 var configuration = builder.Configuration;
 builder.Services.AddEndpointsApiExplorer()
     .Configure<AppSettings>(configuration)
@@ -37,5 +38,5 @@ app.UseEndpoints(endpoints =>
     endpoints.MapDefaultControllerRoute();
     endpoints.MapHealthChecks("/health").AllowAnonymous();
 });
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
 app.Run();

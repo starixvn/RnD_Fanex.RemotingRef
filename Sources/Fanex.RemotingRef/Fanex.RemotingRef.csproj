@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFrameworks>net461;net6.0</TargetFrameworks>
     <LangVersion>13.0</LangVersion>
-    <Version>1.5.5.1</Version>
-    <InfomationalVersion>1.5.5</InfomationalVersion>
+    <Version>1.5.5.2-sonarqube-01</Version>
+    <InfomationalVersion>1.5.5.2</InfomationalVersion>
     <PackageReleaseNotes>
       - Upgrade MessagePack and System.Net.Http to latest
     </PackageReleaseNotes>

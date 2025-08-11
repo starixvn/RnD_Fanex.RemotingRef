@@ -10,10 +10,10 @@
     <tbody>
         @foreach (var viewModel in Model)
         {
-        <tr class="@(viewModel.RefDataResult.IsDataMatched? "text-success" : "text-danger")">
+        <tr class="text-success">
             <td>@viewModel.TypeId</td>
             <td>@viewModel.ResourceId</td>
-            <td>@viewModel.RefDataResult.FanexRefNew</td>
+            <td>@viewModel.OurData</td>
         </tr>
         }
     </tbody>

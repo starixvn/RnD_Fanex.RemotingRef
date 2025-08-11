@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Functions>  
   <Function Name="3rd">
-    <Setting Key="API_Ref_GetLeague3rd" SpName="API_Ref_GetLeague3rd" DbName="DBBOF.BODB02.wsv_hit">        
+    <Setting Key="API_Ref_GetLeague3rd" SpName="API_Ref_GetLeague3rd" DbName="DBBOF.BODB02.asv_hit">        
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
-    <Setting Key="API_Ref_GetTeam3rd" SpName="API_Ref_GetTeam3rd" DbName="DBBOF.BODB02.wsv_hit" >
+    <Setting Key="API_Ref_GetTeam3rd" SpName="API_Ref_GetTeam3rd" DbName="DBBOF.BODB02.asv_hit" >
         <Mapping DataField="Tstamp" ObjectProperty="TimeSpan"/>
     </Setting>
 
-    <Setting Key="Dot_Member_GetRef_Bettype" SpName="Dot_Member_GetRef_Bettype" DbName="DBPRO.BODB02.wsv_hit" >        
+    <Setting Key="Dot_Member_GetRef_Bettype" SpName="API_Ref_GetBettype" DbName="DBBOF.BODB02.asv_hit" >        
     </Setting>
 
-    <Setting Key="Dot_Member_GetRef_Sports" SpName="Dot_Member_GetRef_Sports" DbName="DBPRO.BODB02.wsv_hit" />
-    <Setting Key="Dot_Member_GetRef_AllRefResourceData" SpName="Dot_Member_GetRef_AllRefResourceData" DbName="DBPRO.BODB02.wsv_hit" >
+    <Setting Key="Dot_Member_GetRef_Sports" SpName="API_Ref_GetSport" DbName="DBBOF.BODB02.asv_hit" />
+    <Setting Key="Dot_Member_GetRef_AllRefResourceData" SpName="API_Ref_GetRefResourceData" DbName="DBBOF.BODB02.asv_hit" >
         <Mapping DataField="Resource_en" ObjectProperty="ResourceName"/>
         <Mapping DataField="Resource_ch" ObjectProperty="ResourceCh"/>
         <Mapping DataField="Resource_cs" ObjectProperty="ResourceCs"/>

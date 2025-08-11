@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class BetRadarMatchCodeFormatController : BaseController
     {
-        public BetRadarMatchCodeFormatController(IRemotingRefDataAccess remotingRefDataAccess)
+        public BetRadarMatchCodeFormatController(IRemotingRefService remotingRefDataAccess)
             : base(remotingRefDataAccess)
         {
         }
@@ -23,7 +22,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Match Code",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -39,7 +38,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Match Code",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetBetRadarMatchCodeFormat(typeId, language)
+                OurData = _remotingRefService.GetBetRadarMatchCodeFormat(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -57,7 +56,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "Bet Radar Match Code Format",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetBetRadarMatchCodeFormat(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetBetRadarMatchCodeFormat(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);

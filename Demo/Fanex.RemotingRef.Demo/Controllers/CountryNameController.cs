@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class CountryNameController : BaseController
     {
-        public CountryNameController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public CountryNameController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -22,7 +21,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeId = "3",
                 TypeIdLabel = "Country Code",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,7 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Country Code",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetCountryName(typeId, language)
+                OurData = _remotingRefService.GetCountryName(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -56,7 +55,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "Country",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetCountryName(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetCountryName(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);

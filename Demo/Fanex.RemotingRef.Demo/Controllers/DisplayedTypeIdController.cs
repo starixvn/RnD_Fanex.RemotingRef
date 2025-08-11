@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
 
     public class DisplayedTypeIdController : BaseController
     {
 
-        public DisplayedTypeIdController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public DisplayedTypeIdController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -22,7 +21,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,7 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "1",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetDisplayedTypeId(typeId)
+                OurData = _remotingRefService.GetDisplayedTypeId(typeId)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -56,7 +55,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "Displayed Type",
                     TypeId = typeId,
-                    RefDataResult = _remotingRefDataAccess.GetDisplayedTypeId(typeId)
+                    OurData = _remotingRefService.GetDisplayedTypeId(typeId)
                 };
 
                 viewModels.Add(refDataViewModel);

@@ -1,16 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RefClient.Factory;
+using RefClient.Service.IService;
+
 namespace Fanex.RemotingRef.Demo.Controllers
 {
-    using Fanex.RemotingRef.Demo.DataAccesses;
-
-
     public class BaseController : Controller
     {
-        protected readonly IRemotingRefDataAccess _remotingRefDataAccess;
+        protected readonly IRemotingRefService _remotingRefService;
+        protected readonly IBetRefClientService twRemotingRefService = RefClientFactory.GetBetRefClientService();
 
-        public BaseController(IRemotingRefDataAccess remotingRefDataAccess)
+        public BaseController(IRemotingRefService service)
         {
-            _remotingRefDataAccess = remotingRefDataAccess;
+            _remotingRefService = service;
+        }
+
+        protected T SafeExecute<T>(Func<T> action, string operationName, T defaultValue = default(T))
+        {
+            return action();
         }
     }
 }

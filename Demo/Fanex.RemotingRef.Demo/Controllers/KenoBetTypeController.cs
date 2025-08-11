@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class KenoBetTypeController : BaseController
     {
-        public KenoBetTypeController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public KenoBetTypeController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -22,7 +21,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,23 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetKenoBetType(typeId, language)
-            };
-
-            return View("~/Views/Ref/Common/Index.cshtml", viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult KenoBetChoice(string typeId, string language)
-        {
-            var viewModel = new RefDataViewModel
-            {
-                IsFirstLoad = false,
-                DataType = "Keno Bet Type",
-                TypeIdLabel = "Bet Type Id",
-                TypeId = typeId ?? "3",
-                Language = language,
-                RefDataResult = _remotingRefDataAccess.GetKenoBetChoice(typeId, language)
+                OurData = _remotingRefService.GetKenoBetType(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -72,7 +55,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "KenoBetType",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetKenoBetType(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetKenoBetType(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);

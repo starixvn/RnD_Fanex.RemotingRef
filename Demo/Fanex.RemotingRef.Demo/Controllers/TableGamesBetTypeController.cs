@@ -2,14 +2,13 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class TableGamesBetTypeController : BaseController
     {
-        public TableGamesBetTypeController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public TableGamesBetTypeController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -22,7 +21,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,7 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetTableGamesBetType(typeId, language)
+                OurData = _remotingRefService.GetTableGamesBetType(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -56,7 +55,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 {
                     DataType = "TableGamesBetType",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetTableGamesBetType(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetTableGamesBetType(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);

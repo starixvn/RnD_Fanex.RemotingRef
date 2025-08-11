@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/microsoft-dotnet
-FROM hub.nexdev.net/base/dotnet/core/sdk:7.0 AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine-25h2 AS builder
 WORKDIR /Sources
 
 COPY Demo/Fanex.RemotingRef.Demo/Fanex.RemotingRef.Demo.csproj ./Fanex.RemotingRef.Demo/
@@ -10,7 +10,7 @@ COPY Demo/Fanex.RemotingRef.Demo ./Fanex.RemotingRef.Demo/
 WORKDIR /Sources/Fanex.RemotingRef.Demo
 RUN dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine AS base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine-25h2 AS base
 
 # Don’t run as root
 RUN adduser --disabled-password \

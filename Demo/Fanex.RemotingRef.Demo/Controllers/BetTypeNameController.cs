@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-namespace Fanex.RemotingRef.Demo.Controllers
+﻿namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
-    using System.Collections.Generic;
-    using System.Globalization;
+    using Microsoft.AspNetCore.Mvc;
+    using PublicEnum.Language;
+    using RefDataModelStandard.Models.Request;
 
-    
     public class BetTypeNameController : BaseController
     {
-        public BetTypeNameController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public BetTypeNameController(IRemotingRefService remotingRefDataAccess)
+            : base(remotingRefDataAccess)
         {
         }
 
@@ -24,7 +23,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 Language = Common.DefaultLanguage,
                 RefNo = 0,
                 ResourceId = Common.DefaultResourceId,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/BetTypeName/BetTypeName.cshtml", viewModel);
@@ -41,31 +40,14 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 Language = language,
                 RefNo = refNo,
                 ResourceId = resourceId ?? string.Empty,
-                RefDataResult = _remotingRefDataAccess.GetBetTypeName(typeId, refNo, resourceId, language)
+                OurData = _remotingRefService.GetBetTypeName(typeId, language, string.Empty, resourceId, refNo),
+                TWData = twRemotingRefService.GetBetTypeName(GetBetTypeNameModel.CreateModel(
+                    int.Parse(typeId),
+                    language.ConvertCultureToEnum(),
+                    resourceId))
             };
 
             return View("~/Views/Ref/BetTypeName/BetTypeName.cshtml", viewModel);
-        }
-
-        [HttpGet]
-        public ActionResult BetTypeNameList()
-        {
-            var betTypeInputData = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var betTypeViewModels = new List<BetTypeNameViewModel>();
-
-            foreach (var betType in betTypeInputData)
-            {
-                var betTypeViewModel = new BetTypeNameViewModel
-                {
-                    DataType = "Bet Type",
-                    TypeId = betType.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetBetTypeName(betType.ToString(CultureInfo.InvariantCulture))
-                };
-
-                betTypeViewModels.Add(betTypeViewModel);
-            }
-
-            return PartialView("~/Views/Ref/_Share/RefResultList.cshtml", betTypeViewModels);
         }
     }
 }

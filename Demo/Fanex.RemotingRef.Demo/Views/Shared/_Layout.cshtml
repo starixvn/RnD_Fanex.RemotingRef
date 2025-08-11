@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Fanex.RemotingRef.Demo</title>
 
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/assets/bundles/Site.css" />
+    <link rel="stylesheet" href="~/assets/styles/site.css" />
 </head>
 <body>
     <div class="body-content">
@@ -17,28 +17,27 @@
             </button>
             <ul class="dropdown-menu">
                 <li selected><a href="@Url.Action("BetTypeName", "BetTypeName")">Bet Type Name</a></li>
-                <li><a href="@Url.Action("TableGamesBetType", "TableGamesBetType")">Table Games</a></li>
                 <li><a href="@Url.Action("SportName", "SportName")">Sport Name</a></li>
                 <li><a href="@Url.Action("TeamName", "TeamName")">Team Name</a></li>
                 <li><a href="@Url.Action("TeamName3rd", "TeamName3rd")">Team Name 3rd</a></li>
                 <li><a href="@Url.Action("LeagueName", "LeagueName")">League Name</a></li>
                 <li><a href="@Url.Action("LeagueName3rd", "LeagueName3rd")">League Name 3rd</a></li>
                 <li><a href="@Url.Action("ResourceData", "ResourceData")">Ref Resource Data</a></li>
-                <li><a href="@Url.Action("CountryName", "CountryName")">Country Name</a></li>
                 <li><a href="@Url.Action("OddsTypeName", "OddsTypeName")">Odds Type Name</a></li>
                 <li><a href="@Url.Action("ParentBetTypeId", "ParentBetTypeId")">Parent Bet Type Id</a></li>
                 <li><a href="@Url.Action("KenoBetType", "KenoBetType")">Keno Bet Type Name</a></li>
-                <li><a href="@Url.Action("KenoBetChoice", "KenoBetType")">Keno Bet Choice</a></li>
+                <li><a href="@Url.Action("KenoBetChoice", "KenoBetChoice")">Keno Bet Choice</a></li>
                 <li><a href="@Url.Action("LotteryBetType", "LotteryBetType")">Lottery Bet Type Name</a></li>
+                <li><a href="@Url.Action("LotteryBetChoice", "LotteryBetChoice")">Lottery Bet Choice Name</a></li>
+                <li><a href="@Url.Action("TableGamesBetType", "TableGamesBetType")">Table Games Bet Type</a></li>
+                <li><a href="@Url.Action("TableGamesBetChoice", "TableGamesBetChoice")">Table Games Bet Choice</a></li>
                 <li><a href="@Url.Action("RouletteBetItem", "RouletteBetItem")">Roulette Bet Item</a></li>
                 <li><a href="@Url.Action("CasinoBetItem", "CasinoBetItem")">Casino Bet Item</a></li>
                 <li><a href="@Url.Action("FastMarketsChoice", "FastMarketsChoice")">Fast Markets Choice</a></li>
                 <li><a href="@Url.Action("FastMarketsResult", "FastMarketsResult")">Fast Markets Result</a></li>
                 <li><a href="@Url.Action("FastMarkets225Result", "FastMarkets225Result")">Fast Markets 225 Result</a></li>
-                <li><a href="@Url.Action("LotteryBetType", "LotteryBetType")">Lottery Bet Type</a></li>
                 <li><a href="@Url.Action("BetRadarMatchCodeFormat", "BetRadarMatchCodeFormat")">Bet Radar Match Code Format</a></li>
                 <li><a href="@Url.Action("DisplayedTypeId", "DisplayedTypeId")">Get Displayed Type Id</a></li>
-                <li><a href="@Url.Action("HorseTeamName", "HorseTeamName")">Horse Team Name</a></li>
             </ul>
         </div>
         @RenderBody()

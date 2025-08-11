@@ -2,12 +2,11 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
 
     public class TableGamesBetChoiceController : BaseController
     {
-        public TableGamesBetChoiceController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public TableGamesBetChoiceController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -20,7 +19,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -36,7 +35,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Bet Type Id",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetTableGamesBetChoice(typeId, language)
+                OurData = $"Name: {_remotingRefService.GetTableGamesBetChoice(typeId, language, out string id)} - id: {id}"
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);

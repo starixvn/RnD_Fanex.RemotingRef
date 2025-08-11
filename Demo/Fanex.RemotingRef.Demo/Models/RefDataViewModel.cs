@@ -8,7 +8,9 @@
 
         public string Language { get; set; } = "en-US";
 
-        public RefDataResult RefDataResult { get; set; }
+        public string OurData { get; set; }
+
+        public string TWData { get; set; }
 
         public string DataType { get; set; }
 
@@ -23,7 +25,7 @@
             "th-TH",
             "ko-KR",
             "vi-VN",
-            "zh-CHS"
+            "id-ID"
         };
     }
 }

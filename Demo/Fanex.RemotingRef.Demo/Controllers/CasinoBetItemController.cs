@@ -2,7 +2,6 @@
 namespace Fanex.RemotingRef.Demo.Controllers
 {
     using Fanex.RemotingRef.Demo.Constants;
-    using Fanex.RemotingRef.Demo.DataAccesses;
     using Fanex.RemotingRef.Demo.Models;
     using System.Collections.Generic;
     using System.Globalization;
@@ -10,7 +9,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
     public class CasinoBetItemController : BaseController
     {
 
-        public CasinoBetItemController(IRemotingRefDataAccess remotingRefDataAccess) : base(remotingRefDataAccess)
+        public CasinoBetItemController(IRemotingRefService remotingRefDataAccess) : base(remotingRefDataAccess)
         {
         }
 
@@ -23,7 +22,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Item Id",
                 TypeId = "1",
                 Language = Common.DefaultLanguage,
-                RefDataResult = new RefDataResult()
+                OurData = string.Empty
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -38,7 +37,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                 TypeIdLabel = "Item Id",
                 TypeId = typeId ?? "3",
                 Language = language,
-                RefDataResult = _remotingRefDataAccess.GetCasinoBetItem(typeId, language)
+                OurData = _remotingRefService.GetCasinoBetItem(typeId, language)
             };
 
             return View("~/Views/Ref/Common/Index.cshtml", viewModel);
@@ -57,7 +56,7 @@ namespace Fanex.RemotingRef.Demo.Controllers
                     DataType = "Casino Bet Item",
                     TypeIdLabel = "Item Id",
                     TypeId = typeId.ToString(CultureInfo.InvariantCulture),
-                    RefDataResult = _remotingRefDataAccess.GetCasinoBetItem(typeId.ToString(CultureInfo.InvariantCulture))
+                    OurData = _remotingRefService.GetCasinoBetItem(typeId.ToString(CultureInfo.InvariantCulture), "en-US")
                 };
 
                 viewModels.Add(refDataViewModel);
