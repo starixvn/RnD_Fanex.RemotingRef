@@ -5,32 +5,31 @@ public class SportModel
 {
     public int SportType { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.En)]
+    [Language(LanguageEnum.En)]
     public string SportName { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Th)]
+    [Language(LanguageEnum.Th)]
     public string SportNameTh { get; set; }
 
 
-    [PublicEnum.Language.Language(LanguageEnum.Vn)]
-    public string SportNameVn { get; set; }
+    [Language(LanguageEnum.Vn)]
+    public string SportNameVN { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Cn)]
+    [Language(LanguageEnum.Cn)]
     public string SportNameCs { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Ch)]
+    [Language(LanguageEnum.Ch)]
     public string SportNameCh { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Sc2)]
+    [Language(LanguageEnum.Sc2)]
     public string SportNameSc2 => SportNameCs;
 
-    [PublicEnum.Language.Language(LanguageEnum.Id)]
-    public string SportNameId { get; set; }
+    [Language(LanguageEnum.Id)]
+    public string SportNameID { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Jp)]
+    [Language(LanguageEnum.Jp)]
     public string SportNameJp { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Ko)]
+    [Language(LanguageEnum.Ko)]
     public string SportNameKo { get; set; }
 }

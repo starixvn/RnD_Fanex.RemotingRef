@@ -7,34 +7,31 @@ public class RefResourceModel
 
     public string ResourceId { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.En)]
+    [Language(LanguageEnum.En)]
     public string ResourceName { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Th)]
+    [Language(LanguageEnum.Th)]
     public string ResourceTh { get; set; }
 
 
-    [PublicEnum.Language.Language(LanguageEnum.Vn)]
+    [Language(LanguageEnum.Vn)]
     public string ResourceVn { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Cn)]
+    [Language(LanguageEnum.Cn)]
     public string ResourceCs { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Ch)]
+    [Language(LanguageEnum.Ch)]
     public string ResourceCh { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Sc2)]
+    [Language(LanguageEnum.Sc2)]
     public string ResourceSc2 => ResourceCs;
 
-    [PublicEnum.Language.Language(LanguageEnum.Id)]
+    [Language(LanguageEnum.Id)]
     public string ResourceIn { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Jp)]
+    [Language(LanguageEnum.Jp)]
     public string ResourceJp { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Ko)]
+    [Language(LanguageEnum.Ko)]
     public string ResourceKo { get; set; }
 }

@@ -5,36 +5,32 @@ public class BetTypeModel
 {
     public int TypeId { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.En)]
+    [Language(LanguageEnum.En)]
     public string TypeName { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Th)]
+    [Language(LanguageEnum.Th)]
     public string TYpeNameTh { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Vn)]
+    [Language(LanguageEnum.Vn)]
     public string TypeNameVn { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Cn)]
+    [Language(LanguageEnum.Cn)]
     public string TypeNameCn { get; set; }
 
-
-    [PublicEnum.Language.Language(LanguageEnum.Ch)]
+    [Language(LanguageEnum.Ch)]
     public string TypeNameC { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Sc2)]
+    [Language(LanguageEnum.Sc2)]
     public string TypeNameSc2 => TypeNameCn;
 
-    [PublicEnum.Language.Language(LanguageEnum.Id)]
+    [Language(LanguageEnum.Id)]
     public string TypeNameID { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Jp)]
-    public string TypeNameJp { get; set; }
+    [Language(LanguageEnum.Jp)]
+    public string TypeNameJ { get; set; }
 
-    [PublicEnum.Language.Language(LanguageEnum.Ko)]
-    public string LeagueNameKo { get; set; }
+    [Language(LanguageEnum.Ko)]
+    public string TypeNameKo { get; set; }
 
     public long TimeSpan { get; set; }
 }
