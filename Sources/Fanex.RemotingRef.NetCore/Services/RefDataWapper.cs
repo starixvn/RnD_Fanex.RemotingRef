@@ -1,12 +1,15 @@
-﻿namespace Fanex.RemotingRef.NetCore.Utilities.RefData
+﻿using Fanex.RemotingRef.NetCore.Utilities;
+
+namespace Fanex.RemotingRef.NetCore.Services
 {
+    using Fanex.RemotingRef.NetCore.Services.Interface;
     using PublicEnum.Language;
     using RefClient.Service;
     using RefClient.Service.IService;
     using RefDataModelStandard.Enums;
     using RefDataModelStandard.Models.Request;
 
-    public class RefDataHelper(IBetRefClientService betRefClient, IRefDataClient refDataClient, IThirdPartyRefClientService thirdPartyRefClientService) : IRefDataHelper
+    public class RefDataWapper(IBetRefClientService betRefClient, IRefDataClient refDataClient, IThirdPartyRefClientService thirdPartyRefClientService) : IRefDataWapper
     {
         private const string DefaultValue = null;
         private readonly List<string> specialBetTypeForBaseball = new List<string> { "8810", "8811", "8812", "8813", "8823", "8824" };

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
-using Fanex.RemotingRef.NetCore.Utilities.RefData;
+using Fanex.RemotingRef.NetCore.Services;
 using NSubstitute;
 using PublicEnum.Language;
 using RefClient.Factory;
@@ -22,7 +22,7 @@ namespace Fanex.RemotingRef.Service.Tests.Utilities.RefData
         private readonly IBetRefClientService _mockBetRefClient;
         private readonly IRefDataClient _mockRefDataClient;
         private readonly IThirdPartyRefClientService _mockThirdPartyRefClientService;
-        private readonly RefDataHelper _refDataHelper;
+        private readonly RefDataWapper _refDataHelper;
 
         public RefDataHelperTests()
         {
@@ -33,7 +33,7 @@ namespace Fanex.RemotingRef.Service.Tests.Utilities.RefData
             _mockRefDataClient = Substitute.For<IRefDataClient>();
             _mockThirdPartyRefClientService = Substitute.For<IThirdPartyRefClientService>();
 
-            _refDataHelper = new RefDataHelper(_mockBetRefClient, _mockRefDataClient, _mockThirdPartyRefClientService);
+            _refDataHelper = new RefDataWapper(_mockBetRefClient, _mockRefDataClient, _mockThirdPartyRefClientService);
         }
 
         [Fact]

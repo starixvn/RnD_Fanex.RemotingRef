@@ -5,14 +5,13 @@
     using Fanex.RemotingRef.NetCore.Services;
     using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
-    using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("/api/[controller]")]
     public class RefSyncController(
-            IRefDataHelper refData,
+            IRefDataWapper refData,
             ITeam3rdService team3rdService,
             ILeague3rdService league3rdService,
             IBettypeService bettypeService,
@@ -20,7 +19,7 @@
             IRefResourceService refResourceService,
             IOptions<AppSettings> appSettings) : Controller
     {
-        private readonly IRefDataHelper _refData = refData;
+        private readonly IRefDataWapper _refData = refData;
 
         private readonly ITeam3rdService _team3rdService = team3rdService;
         private readonly ILeague3rdService _league3rdService = league3rdService;

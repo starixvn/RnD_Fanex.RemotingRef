@@ -5,7 +5,6 @@
     using Fanex.RemotingRef.NetCore.Services;
     using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
-    using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Microsoft.Extensions.Options;
     using NSubstitute;
     using System;
@@ -19,7 +18,7 @@
 
         protected ControllerTestBase()
         {
-            RefData = Substitute.For<IRefDataHelper>();
+            RefData = Substitute.For<IRefDataWapper>();
             Fixture = new Fixture();
         }
 
@@ -35,7 +34,7 @@
             "zh-TW"
         };
 
-        public IRefDataHelper RefData { get; }
+        public IRefDataWapper RefData { get; }
 
         public ITeam3rdService Team3rdService { get; } = Substitute.For<ITeam3rdService>();
 

@@ -1,6 +1,6 @@
-﻿namespace Fanex.RemotingRef.NetCore.Utilities.RefData
+﻿namespace Fanex.RemotingRef.NetCore.Services.Interface
 {
-    public interface IRefDataHelper
+    public interface IRefDataWapper
     {
         string GetBetTypeName(
             string betTypeId,

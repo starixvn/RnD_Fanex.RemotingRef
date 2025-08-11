@@ -9,7 +9,6 @@ namespace Fanex.RemotingRef.NetCore
     using Fanex.Logging.RabbitMQ;
     using Fanex.RemotingRef.NetCore.Services;
     using Fanex.RemotingRef.NetCore.Services.Interface;
-    using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using RefClient.Factory;
     using RefClient.Service;
     using RefClient.Service.IService;
@@ -63,7 +62,7 @@ namespace Fanex.RemotingRef.NetCore
             services.AddSingleton<IThirdPartyRefClientService>(serviceProvider =>
                 RefClientFactory.GetThirdPartyRefClientService());
 
-            services.AddSingleton<IRefDataHelper, RefDataHelper>();
+            services.AddSingleton<IRefDataWapper, RefDataWapper>();
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<ITeam3rdService, Team3rdService>();
             services.AddSingleton<ILeague3rdService, League3rdService>();
