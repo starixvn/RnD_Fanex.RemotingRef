@@ -7,6 +7,7 @@
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("/api/[controller]")]
@@ -17,7 +18,7 @@
             IBettypeService bettypeService,
             ISportService sportService,
             IRefResourceService refResourceService,
-            AppSettings appSettings) : Controller
+            IOptions<AppSettings> appSettings) : Controller
     {
         private readonly IRefDataHelper _refData = refData;
 
@@ -26,7 +27,7 @@
         private readonly IBettypeService _bettypeService = bettypeService;
         private readonly ISportService _sportService = sportService;
         private readonly IRefResourceService _refResourceService = refResourceService;
-        private readonly AppSettings _appSettings = appSettings;
+        private readonly AppSettings _appSettings = appSettings.Value;
 
         [HttpPost("BetTypeName")]
         public SyncedTranslationResultSet BetTypeName(RequestSyncFormData formData)

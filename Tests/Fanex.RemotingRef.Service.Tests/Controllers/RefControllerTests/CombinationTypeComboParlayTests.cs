@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore.Controllers;
     using NSubstitute;
     using Xunit;
 
@@ -18,6 +19,7 @@
             _betCheck = Fixture.Create<string>();
             _handicap1 = Fixture.Create<int>();
             _handicap2 = Fixture.Create<int>();
+            RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
         }
 
         [Fact]

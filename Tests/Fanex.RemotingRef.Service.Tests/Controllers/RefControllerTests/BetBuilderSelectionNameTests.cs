@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore.Controllers;
     using NSubstitute;
     using Xunit;
 
@@ -10,7 +11,10 @@
         private readonly int _selectionId;
 
         public BetBuilderSelectionNameTests()
-            => _selectionId = Fixture.Create<int>();
+        {
+            _selectionId = Fixture.Create<int>();
+            RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+        }
 
         [Fact]
         public void AlwaysCallGetBetBuilderSelectionNameOfRefDataHelper()

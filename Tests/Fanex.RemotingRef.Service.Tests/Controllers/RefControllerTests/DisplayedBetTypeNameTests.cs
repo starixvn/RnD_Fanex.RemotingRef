@@ -2,6 +2,9 @@
 {
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore.Controllers;
+    using Fanex.RemotingRef.NetCore.Services;
+    using Microsoft.Extensions.Options;
     using NSubstitute;
     using Xunit;
 
@@ -18,10 +21,17 @@
             _displayedBetTypeId = Fixture.Create<string>();
             _resourceId = Fixture.Create<string>();
             _refNo = Fixture.Create<long>();
-            AppSettings.UsingVNFunction = false;
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = false
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+
             RefData
                 .GetDisplayedTypeId(Arg.Is(_betTypeId))
                 .Returns(_displayedBetTypeId);
+
+            RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
         }
 
         [Fact]

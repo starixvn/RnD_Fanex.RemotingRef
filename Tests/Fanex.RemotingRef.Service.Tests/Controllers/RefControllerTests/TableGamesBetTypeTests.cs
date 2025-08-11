@@ -4,6 +4,7 @@ namespace Fanex.RemotingRef.Service.Tests.Controllers.RefControllerTests
     using System.Collections.Generic;
     using System.Linq;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore.Controllers;
     using NSubstitute;
     using Xunit;
 
@@ -12,7 +13,10 @@ namespace Fanex.RemotingRef.Service.Tests.Controllers.RefControllerTests
         private readonly string _tableGamesBetTypeId;
 
         public TableGamesBetTypeTests()
-            => _tableGamesBetTypeId = Fixture.Create<string>();
+        {
+            _tableGamesBetTypeId = Fixture.Create<string>();
+            RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+        }
 
         [Fact]
         public void AlwaysCallGetTableGamesBetTypeOfRefDataHelper()

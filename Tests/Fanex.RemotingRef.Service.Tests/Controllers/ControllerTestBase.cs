@@ -6,6 +6,7 @@
     using Fanex.RemotingRef.NetCore.Services.Interface;
     using Fanex.RemotingRef.NetCore.Utilities;
     using Fanex.RemotingRef.NetCore.Utilities.RefData;
+    using Microsoft.Extensions.Options;
     using NSubstitute;
     using System;
     using System.Linq;
@@ -46,7 +47,7 @@
 
         public IRefResourceService RefResourceService { get; } = Substitute.For<IRefResourceService>();
 
-        public AppSettings AppSettings { get; } = Substitute.For<AppSettings>();
+        public IOptions<AppSettings> AppSettings { get; } = Substitute.For<IOptions<AppSettings>>();
 
         public Fixture Fixture { get; }
 

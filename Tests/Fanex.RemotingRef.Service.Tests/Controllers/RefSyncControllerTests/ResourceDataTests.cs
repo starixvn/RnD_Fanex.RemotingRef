@@ -3,7 +3,11 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services;
+    using Fanex.RemotingRef.NetCore.Utilities;
+    using Microsoft.Extensions.Options;
     using NSubstitute;
     using Xunit;
 
@@ -17,7 +21,11 @@
 
         public ResourceDataTests()
         {
-            AppSettings.UsingVNFunction = false;
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = false
+            };
+            Options.Create(fakeAppSettings);
             PrepareFormData();
         }
 
@@ -44,6 +52,13 @@
                 ParameterSets = _parameterSets,
                 Languages = StandardLanguageCodes
             };
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = false
+            };
+
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
         }
 
         [Fact]
@@ -151,34 +166,250 @@
                 specialIndex = new Random().Next(0, _parameterSets.Count - 1);
             }
 
-            for (var counter = 1; counter < _parameterSets.Count; counter++)
+            for (var counter = 0; counter < _parameterSets.Count; counter++)
             {
-                var resourceInMultilanguages = new TranslationSet();
+                var resourceDataInMultilanguages = new TranslationSet();
                 var refIdAndResourceIdPair = _refIdAndResourceIdPairs[counter];
-                var refId = refIdAndResourceIdPair.Item1;
-                var resourceId = refIdAndResourceIdPair.Item2;
 
                 foreach (var standardLanguageCode in StandardLanguageCodes)
                 {
-                    var resourceInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
+                    var resourceDataInSpecificLanguage = counter == specialIndex ? specialValue : Fixture.Create<string>();
 
                     RefData
                         .GetResourceDataByRefIdAndResourceId(
-                            Arg.Is(refId),
-                            Arg.Is(resourceId),
+                            Arg.Is(refIdAndResourceIdPair.Item1),
+                            Arg.Is(refIdAndResourceIdPair.Item2),
                             Arg.Is(standardLanguageCode))
-                        .Returns(resourceInSpecificLanguage);
+                        .Returns(resourceDataInSpecificLanguage);
 
-                    resourceInMultilanguages.Add(standardLanguageCode, resourceInSpecificLanguage);
+                    resourceDataInMultilanguages.Add(standardLanguageCode, resourceDataInSpecificLanguage);
                 }
 
-                if (ValidateTextSet(resourceInMultilanguages))
+                // Only add parameter sets that have at least one non-empty value
+                // This matches the controller's filtering logic
+                if (ValidateTextSet(resourceDataInMultilanguages))
                 {
-                    expectedSyncedResourceData.Add(_parameterSets[counter], resourceInMultilanguages);
+                    expectedSyncedResourceData.Add(_parameterSets[counter], resourceDataInMultilanguages);
                 }
             }
 
             return expectedSyncedResourceData;
+        }
+
+        // Test cases for UsingVNFunction = true
+        [Fact]
+        public void WhenUsingVNFunctionTrue_AlwaysCallGetRefResourceByIdOfRefResourceService()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+
+            // Act
+            RefSyncController.ResourceData(_formData);
+
+            // Assert
+            RefResourceService
+                .Received()
+                .GetRefResourceById(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>());
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_CallRefResourceServiceOncePerLanguageForEachPairOfRefIdAndResourceId()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+
+            // Act
+            RefSyncController.ResourceData(_formData);
+
+            // Assert
+            var expectedNumberOfCalls = _parameterSets.Count * StandardLanguageCodes.Length;
+
+            RefResourceService
+                .Received(expectedNumberOfCalls)
+                .GetRefResourceById(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>());
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_SendCorrectArgumentsToRefResourceService()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+
+            // Act
+            RefSyncController.ResourceData(_formData);
+
+            // Assert
+            foreach (var refIdAndResourceIdPair in _refIdAndResourceIdPairs)
+            {
+                foreach (var standardLanguageCode in StandardLanguageCodes)
+                {
+                    RefResourceService
+                        .Received()
+                        .GetRefResourceById(
+                            Arg.Is(refIdAndResourceIdPair.Item1), // refId
+                            Arg.Is(refIdAndResourceIdPair.Item2), // resourceId
+                            Arg.Is(standardLanguageCode));
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_ReturnDataGotFromRefResourceService()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+            var expectedResult = FakeSyncedResourceDataFromService();
+
+            // Act
+            var actualResult = RefSyncController.ResourceData(_formData);
+
+            // Assert
+            Assert.Equal(expectedResult.Count, actualResult.Count);
+            foreach (var kvp in expectedResult)
+            {
+                Assert.True(actualResult.ContainsKey(kvp.Key));
+                Assert.Equal(kvp.Value, actualResult[kvp.Key]);
+            }
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_NullIsNotIncludedInResult()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+            FakeSyncedResourceDataFromService(true, null);
+
+            // Act
+            var actualResult = RefSyncController.ResourceData(_formData);
+
+            // Assert
+            foreach (var kvp in actualResult)
+            {
+                Assert.True(kvp.Value.Count == 0);
+            }
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_EmptyStringIsNotIncludedInResult()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+            FakeSyncedResourceDataFromService(true, string.Empty);
+
+            // Act
+            var actualResult = RefSyncController.ResourceData(_formData);
+
+            // Assert
+            foreach (var kvp in actualResult)
+            {
+                Assert.True(kvp.Value.Count == 0);
+            }
+        }
+
+        [Fact]
+        public void WhenUsingVNFunctionTrue_DoNotCallRefDataHelper()
+        {
+            // Arrange
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = true
+            };
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+
+            // Act
+            RefSyncController.ResourceData(_formData);
+
+            // Assert
+            RefData
+                .DidNotReceive()
+                .GetResourceDataByRefIdAndResourceId(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>());
+        }
+
+        private SyncedTranslationResultSet FakeSyncedResourceDataFromService()
+        {
+            var result = new SyncedTranslationResultSet();
+            foreach (var parameterSet in _parameterSets)
+            {
+                var translations = new TranslationSet();
+                var refId = parameterSet["refId"]?.ToString();
+                var resourceId = parameterSet["resourceId"]?.ToString();
+                
+                foreach (var languageCode in StandardLanguageCodes)
+                {
+                    var value = Fixture.Create<string>();
+                    translations[languageCode] = value;
+
+                    // Mock the service call
+                    RefResourceService
+                        .GetRefResourceById(
+                            Arg.Is(refId),
+                            Arg.Is(resourceId),
+                            Arg.Is(languageCode))
+                        .Returns(value);
+                }
+                result.Add(parameterSet, translations);
+            }
+            return result;
+        }
+
+        private void FakeSyncedResourceDataFromService(bool requireSpecialValue, string specialValue)
+        {
+            foreach (var parameterSet in _parameterSets)
+            {
+                var refId = parameterSet["refId"]?.ToString();
+                var resourceId = parameterSet["resourceId"]?.ToString();
+                
+                foreach (var languageCode in StandardLanguageCodes)
+                {
+                    // Mock the service call
+                    RefResourceService
+                        .GetRefResourceById(
+                            Arg.Is(refId),
+                            Arg.Is(resourceId),
+                            Arg.Is(languageCode))
+                        .Returns(specialValue);
+                }
+            }
         }
     }
 }

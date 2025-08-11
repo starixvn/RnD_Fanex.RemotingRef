@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore;
     using Fanex.RemotingRef.NetCore.Models;
+    using Fanex.RemotingRef.NetCore.Services;
     using NSubstitute;
     using Xunit;
 
@@ -49,6 +51,13 @@
                 ParameterSets = _parameterSets,
                 Languages = StandardLanguageCodes
             };
+            var fakeAppSettings = new AppSettings
+            {
+                UsingVNFunction = false
+            };
+
+            AppSettings.Value.Returns(fakeAppSettings);
+            RefSyncController = new RefSyncController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
         }
 
         [Fact]

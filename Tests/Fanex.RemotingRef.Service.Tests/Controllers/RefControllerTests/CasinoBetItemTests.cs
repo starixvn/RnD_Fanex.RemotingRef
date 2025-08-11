@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using AutoFixture;
+    using Fanex.RemotingRef.NetCore.Controllers;
     using NSubstitute;
     using Xunit;
 
@@ -10,7 +11,10 @@
         private readonly string _itemId;
 
         public CasinoBetItemTests()
-            => _itemId = Fixture.Create<string>();
+        {
+            _itemId = Fixture.Create<string>();
+            RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
+        }
 
         [Fact]
         public void AlwaysCallGetCasinoBetItemOfRefDataHelper()

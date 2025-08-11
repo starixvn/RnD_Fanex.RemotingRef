@@ -4,10 +4,7 @@
 
     public class RefControllerTestBase : ControllerTestBase
     {
-        protected RefControllerTestBase()
-            => RefController = new RefController(RefData, Team3rdService, League3rdService, BettypeService, SportService, RefResourceService, AppSettings);
-
-        protected RefController RefController { get; }
+        protected RefController RefController { get; set; }
 
         protected override void DisposeController()
             => RefController.Dispose();
