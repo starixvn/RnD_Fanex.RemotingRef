@@ -15,6 +15,7 @@
     <PackageReference Include="LigerShark.WebOptimizer.Sass" Version="3.0.99" />
     <PackageReference Include="NLog" Version="6.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="TW.Castle.DynamicProxy.CacheInterceptor" Version="1.1.5" />
     <PackageReference Include="TW.LanguageEnum" Version="1.6.0" />
     <PackageReference Include="TW.RefClient" Version="4.17.0" />

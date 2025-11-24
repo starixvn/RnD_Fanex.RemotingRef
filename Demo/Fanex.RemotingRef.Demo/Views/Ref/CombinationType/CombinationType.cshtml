@@ -1,0 +1,49 @@
+﻿@model Fanex.RemotingRef.Demo.Models.CombinationTypeViewModel
+@{
+    ViewData["Title"] = "Combination Type";
+}
+
+@using (Html.BeginForm("CombinationType", "CombinationType", FormMethod.Post))
+{
+    <section id="filter-bar">
+        <div class="filter-form">
+            <div class="filter-row">
+                <div class="lbl-field width-80">
+                    @Html.LabelFor(m => m.BetTeam, "Bet Team")
+                </div>
+                <div class="edit-field width-120">
+                    @Html.TextBoxFor(m => m.BetTeam)
+                </div>
+                <div class="lbl-field width-60">
+                    @Html.LabelFor(m => m.BetCheck, "Bet Check")
+                </div>
+                <div class="edit-field width-120">
+                    @Html.TextBoxFor(m => m.BetCheck)
+                </div>
+                <div class="lbl-field width-80">
+                    @Html.LabelFor(m => m.Hdp1, "Hdp1")
+                </div>
+                <div class="edit-field width-120">
+                    @Html.TextBoxFor(m => m.Hdp1)
+                </div>
+                <div class="lbl-field width-60">
+                    @Html.LabelFor(m => m.Hdp2, "Hdp2")
+                </div>
+                <div class="edit-field width-120">
+                    @Html.TextBoxFor(m => m.Hdp2)
+                </div>
+                <div class="lbl-field width-60">
+                    @Html.LabelFor(m => m.Language)
+                </div>
+                <div class="edit-field width-120">
+                    @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages))
+                </div>
+                <div class="lbl-field width-60 submit">
+                    <input type="submit" name="resourceId" id="submit" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+    @Html.Partial("~/Views/Ref/_Share/RefResult.cshtml", Model)
